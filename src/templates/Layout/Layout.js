@@ -1,11 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import LoginButton from '../../components/LoginButton/LoginButton';
 
 const Header = styled.div`
   width: 100%;
   height: 5%;
-  text-align: center;
+  display: grid;
+  grid-template-rows: 100%;
+  grid-template-columns: 20% auto 10% 10%;
+`;
+
+const LogoPlaceholder = styled.h1`
+  grid-column-start: 2;
+  grid-column-end: auto;
+  place-self: center;
 `;
 
 const Main = styled.main`
@@ -26,7 +35,9 @@ const Layout = (props) => {
   return (
     <Main>
       <Header>
-        <h1>TODOIST!</h1>
+        <LogoPlaceholder>TODOIST!</LogoPlaceholder>
+        <LoginButton login>Login</LoginButton>
+        <LoginButton>Signup</LoginButton>
       </Header>
       {props.children}
     </Main>
@@ -34,7 +45,7 @@ const Layout = (props) => {
 };
 
 Layout.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element.isRequired
 };
 
 export default Layout;

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from '../../components/Button/Button';
 
 const Wrapper = styled.div`
   width: 80%;
@@ -8,13 +7,15 @@ const Wrapper = styled.div`
   color: black;
   border-radius: 15px;
   padding: 1%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Landing = () => {
   return (
     <Wrapper>
-      <h2>Welcomse to TODOIST!</h2>
-      <Button>LOGIN</Button>
+      <h2>Welcome to TODOIST!</h2>
     </Wrapper>
   );
 };

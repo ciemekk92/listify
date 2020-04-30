@@ -1,11 +1,14 @@
 # TODOIST
 
 Practical to-do list made with React
-Author: Przemysław Reducha
+
+### Author: Przemysław Reducha
 
 ## TECH STACK
 
 - React
+- React Router
+- Styled Components
 
 ## COLOUR PALETTE
 
