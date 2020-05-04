@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 const Landing = () => {
   return (
     <Wrapper>
-      <h2>Welcome to TODOIST!</h2>
+      <h2>Welcome to Listify!</h2>
     </Wrapper>
   );
 };

@@ -1,51 +1,56 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import { auth } from '../../firebase/firebase';
+import { Header, LogoPlaceholder, Main } from './Layout.styled';
 import PropTypes from 'prop-types';
 import LoginButton from '../../components/LoginButton/LoginButton';
-
-const Header = styled.div`
-  width: 100%;
-  height: 5%;
-  display: grid;
-  grid-template-rows: 100%;
-  grid-template-columns: 20% auto 10% 10%;
-`;
-
-const LogoPlaceholder = styled.h1`
-  grid-column-start: 2;
-  grid-column-end: auto;
-  place-self: center;
-`;
-
-const Main = styled.main`
-  min-height: 100vh;
-  background: rgb(240, 138, 93);
-  background: radial-gradient(
-    circle,
-    rgba(240, 138, 93, 1) 0%,
-    rgba(249, 237, 105, 1) 100%
-  );
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
-`;
+import Modal from '../../components/Modal/Modal';
+import Login from '../../views/Login/Login';
 
 const Layout = (props) => {
-  return (
-    <Main>
-      <Header>
-        <LogoPlaceholder>TODOIST!</LogoPlaceholder>
-        <LoginButton login>Login</LoginButton>
-        <LoginButton>Signup</LoginButton>
-      </Header>
-      {props.children}
-    </Main>
-  );
+    const [openModal, setOpenModal] = useState(false);
+    const [authType, setAuthType] = useState('login');
+
+    const openLogin = () => {
+        setOpenModal(true);
+        setAuthType('login');
+    };
+
+    const openSignup = () => {
+        setOpenModal(true);
+        setAuthType('signup');
+    };
+
+    const closeLogin = () => {
+        setOpenModal(false);
+    };
+
+    const handleSignOut = () => auth.signOut();
+
+    return (
+        <Main>
+            <Modal open={openModal} modalClosed={closeLogin}>
+                <Login type={authType} modalClosed={closeLogin} />
+            </Modal>
+            <Header>
+                <LogoPlaceholder>Listify</LogoPlaceholder>
+                {props.user ? (
+                    <LoginButton clicked={handleSignOut}>Log out</LoginButton>
+                ) : (
+                    <>
+                        <LoginButton login clicked={openLogin}>
+                            Login
+                        </LoginButton>
+                        <LoginButton clicked={openSignup}>Signup</LoginButton>
+                    </>
+                )}
+            </Header>
+            {props.children}
+        </Main>
+    );
 };
 
 Layout.propTypes = {
-  children: PropTypes.element.isRequired
+    children: PropTypes.element.isRequired
 };
 
 export default Layout;

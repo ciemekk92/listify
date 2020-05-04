@@ -6,9 +6,17 @@ Practical to-do list made with React
 
 ## TECH STACK
 
-- React
-- React Router
-- Styled Components
+-   React
+-   React Router
+-   Redux
+-   Styled Components
+-   Firebase
+
+## TODO
+
+-   List
+-   Finish implementing Redux
+-   Styling overhaul
 
 ## COLOUR PALETTE
 
