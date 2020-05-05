@@ -17,4 +17,4 @@ const ListInput = (props) => {
     );
 };
 
-export default ListInput;
+export default React.memo(ListInput);
