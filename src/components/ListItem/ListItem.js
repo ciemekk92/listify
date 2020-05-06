@@ -1,12 +1,8 @@
 import React from 'react';
-import { Item, Paragraph } from './ListItem.styled';
+import { Item } from './ListItem.styled';
 
 const ListItem = (props) => {
-    return (
-        <Item>
-            <Paragraph>{props.name}</Paragraph>
-        </Item>
-    );
+    return <Item onClick={props.clicked}>{props.name}</Item>;
 };
 
 export default React.memo(ListItem);

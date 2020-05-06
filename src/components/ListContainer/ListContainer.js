@@ -5,4 +5,4 @@ const ListContainer = (props) => {
     return <Container>{props.children}</Container>;
 };
 
-export default ListContainer;
+export default React.memo(ListContainer);

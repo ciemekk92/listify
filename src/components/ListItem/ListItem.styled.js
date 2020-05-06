@@ -9,10 +9,4 @@ export const Item = styled.div`
     color: black;
     margin: 1% 0 0 0;
     border-radius: 5px;
-    vertical-align: middle;
-    transition: all 0.2s ease-in;
-`;
-
-export const Paragraph = styled.p`
-    margin: 0.5% 0 0 0;
 `;
