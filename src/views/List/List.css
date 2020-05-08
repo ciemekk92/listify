@@ -17,9 +17,11 @@
 
 .move-exit {
     opacity: 1;
+    transform: translate(0, 0);
 }
 
 .move-exit-active {
     opacity: 0;
+    transform: translate(0, -40px);
     transition: all 500ms ease-in;
 }

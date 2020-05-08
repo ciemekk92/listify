@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 import userReducer from './store/reducers/user';
 import appReducer from './store/reducers/app';
 
+// noinspection PointlessBooleanExpressionJS
 const composeEnhancers =
     process.env.NODE_ENV === 'development'
         ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

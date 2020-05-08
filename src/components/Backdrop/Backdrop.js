@@ -13,7 +13,7 @@ const View = styled.div`
 
 const Backdrop = (props) => {
     const { show, clicked } = props;
-    return show ? <View onClick={clicked}></View> : null;
+    return show ? <View onClick={clicked} /> : null;
 };
 
 export default Backdrop;
