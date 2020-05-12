@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import firebase from 'firebase/app';
+import { firestore } from '../../firebase/firebase';
+import { connect } from 'react-redux';
+import { updateObject } from '../../shared/utility';
 import { Wrapper } from './List.styled';
 import ListInput from '../../components/ListInput/ListInput';
 import ListButton from '../../components/ListButton/ListButton';
@@ -7,50 +11,131 @@ import ListContainer from '../../components/ListContainer/ListContainer';
 import ListItem from '../../components/ListItem/ListItem';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import './List.css';
+import * as actions from '../../store/actions';
 
-const List = () => {
+const List = forwardRef((props, ref) => {
+    const { onGettingUserInfo, loading, items } = props;
     const [inputItem, setInputItem] = useState({
-        id: uuidv4(),
-        value: ''
+        value: '',
+        id: null,
+        date: null
     });
-    const [listItems, setListItems] = useState([]);
+
+    const [editing, setEditing] = useState(false);
 
     const inputChangedHandler = (event) => {
-        setInputItem({ id: uuidv4(), value: event.target.value });
+        const updatedData = updateObject(inputItem, {
+            value: event.target.value,
+            id: uuidv4()
+        });
+        setInputItem(updatedData);
+        setEditing(true);
     };
 
-    const addNewItem = (newItem) => {
-        setListItems((items) => [...items, newItem]);
+    const clearInput = () => {
+        setInputItem(
+            updateObject(inputItem, {
+                value: ''
+            })
+        );
+    };
+
+    const saveNewItem = async (newItem) => {
+        const uid = localStorage.getItem('currentUser');
+        const docRef = await firestore.collection('users').doc(uid);
+        try {
+            await docRef
+                .update({
+                    listItems: firebase.firestore.FieldValue.arrayUnion(newItem)
+                })
+                .catch((error) => console.log(error));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const deleteItem = async (id) => {
+        const uid = localStorage.getItem('currentUser');
+        const docRef = await firestore.collection('users').doc(uid);
+        const itemToRemove = items.filter((item) => item.id === id);
+        try {
+            await docRef
+                .update({
+                    listItems: firebase.firestore.FieldValue.arrayRemove(
+                        itemToRemove[0]
+                    )
+                })
+                .catch((error) => console.log(error));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const listUpdateHandler = () => {
+        onGettingUserInfo();
+        clearInput();
+        setEditing(false);
     };
 
     return (
         <Wrapper>
-            <ListInput changed={inputChangedHandler} value={inputItem.value} />
+            <ListInput
+                ref={ref}
+                submit={() => {
+                    saveNewItem(inputItem).then((response) =>
+                        listUpdateHandler()
+                    );
+                }}
+                changed={inputChangedHandler}
+                value={inputItem.value}
+                editing={editing}
+            />
             <ListButton
                 clicked={() => {
-                    addNewItem(inputItem);
+                    saveNewItem(inputItem).then((response) =>
+                        listUpdateHandler()
+                    );
                 }}
             >
                 Add new list item
             </ListButton>
             <ListContainer>
                 <TransitionGroup className={'list'}>
-                    {listItems.map(({ id, value }) => (
-                        <CSSTransition key={id} timeout={500} classNames="move">
-                            <ListItem
-                                name={value}
-                                clicked={() =>
-                                    setListItems((items) =>
-                                        items.filter((item) => item.id !== id)
-                                    )
-                                }
-                            />
-                        </CSSTransition>
-                    ))}
+                    {items
+                        ? items.map(({ id, value }) => (
+                              <CSSTransition
+                                  key={id}
+                                  timeout={500}
+                                  classNames="move"
+                              >
+                                  <ListItem
+                                      name={value}
+                                      clicked={() =>
+                                          deleteItem(id).then((response) =>
+                                              listUpdateHandler()
+                                          )
+                                      }
+                                  />
+                              </CSSTransition>
+                          ))
+                        : null}
                 </TransitionGroup>
             </ListContainer>
         </Wrapper>
     );
+});
+
+const mapStateToProps = (state) => {
+    return {
+        loading: state.user.loading,
+        items: state.user.userInfo.listItems
+    };
 };
 
-export default React.memo(List);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onGettingUserInfo: () => dispatch(actions.initUserInfo())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(List));

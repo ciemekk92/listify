@@ -27,6 +27,7 @@ const Login = (props) => {
         });
         setAuthData(updatedData);
     };
+
     const history = useHistory();
 
     const handleSignIn = (event, email, password) => {
@@ -47,6 +48,7 @@ const Login = (props) => {
     };
 
     const handleSignUp = async (event, email, password) => {
+        setLoading(true);
         event.preventDefault();
         const { user } = await auth
             .createUserWithEmailAndPassword(email, password)
@@ -55,7 +57,11 @@ const Login = (props) => {
                     `Your email or password is incorrect, please check your data, ${error}`
                 );
             });
-        await createUserDoc(user, email);
+        await createUserDoc(user, email).then((e) => {
+            setLoading(false);
+            handleCancel();
+            history.push('/list');
+        });
     };
 
     const handleCancel = () => {

@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import userReducer from './store/reducers/user';
-import appReducer from './store/reducers/app';
+import listReducer from './store/reducers/list';
 
 // noinspection PointlessBooleanExpressionJS
 const composeEnhancers =
@@ -15,7 +15,7 @@ const composeEnhancers =
         ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
         : null || compose;
 
-const rootReducer = combineReducers({ user: userReducer, app: appReducer });
+const rootReducer = combineReducers({ user: userReducer, list: listReducer });
 
 const store = createStore(
     rootReducer,
