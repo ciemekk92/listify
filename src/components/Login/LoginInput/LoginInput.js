@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextInput } from './LoginInput.styled';
-import { capitalizeFirstLetter } from '../../shared/utility';
+import { capitalizeFirstLetter } from '../../../shared/utility';
 
 const LoginInput = (props) => {
     return (

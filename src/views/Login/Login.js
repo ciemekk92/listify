@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { auth, createUserDoc } from '../../firebase/firebase';
-import LoginInput from '../../components/LoginInput/LoginInput';
-import ModalButton from '../../components/ModalButton/ModalButton';
-import Spinner from '../../components/Spinner/Spinner';
+import LoginInput from '../../components/Login/LoginInput/LoginInput';
+import ModalButton from '../../components/UI/ModalButton/ModalButton';
+import Spinner from '../../components/UI/Spinner/Spinner';
 import { updateObject } from '../../shared/utility';
 
 const Wrapper = styled.div`

@@ -5,13 +5,14 @@ import { firestore } from '../../firebase/firebase';
 import { connect } from 'react-redux';
 import { updateObject } from '../../shared/utility';
 import { Wrapper } from './List.styled';
-import ListInput from '../../components/ListInput/ListInput';
-import ListButton from '../../components/ListButton/ListButton';
-import ListContainer from '../../components/ListContainer/ListContainer';
-import ListItem from '../../components/ListItem/ListItem';
+import ListInput from '../../components/List/ListInput/ListInput';
+import ListButton from '../../components/List/ListButton/ListButton';
+import ListContainer from '../../components/List/ListContainer/ListContainer';
+import ListItem from '../../components/List/ListItem/ListItem';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import './List.css';
 import * as actions from '../../store/actions';
+import DatePicker from '../../containers/DatePicker/DatePicker';
 
 const List = forwardRef((props, ref) => {
     const { onGettingUserInfo, loading, items } = props;
@@ -99,6 +100,7 @@ const List = forwardRef((props, ref) => {
             >
                 Add new list item
             </ListButton>
+            <DatePicker />
             <ListContainer>
                 <TransitionGroup className={'list'}>
                     {items

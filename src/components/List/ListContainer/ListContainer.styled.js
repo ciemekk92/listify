@@ -9,7 +9,7 @@ export const Container = styled.div`
     border-radius: 10px;
     background-color: #eee;
     color: black;
-    grid-row-start: 3;
+    grid-row-start: 4;
     grid-row-end: auto;
     justify-self: center;
     transition: all 0.2s ease-in;

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { auth } from '../../firebase/firebase';
 import { Header, LogoPlaceholder, Main } from './Layout.styled';
 import PropTypes from 'prop-types';
-import LoginButton from '../../components/LoginButton/LoginButton';
-import Modal from '../../components/Modal/Modal';
+import LoginButton from '../../components/Login/LoginButton/LoginButton';
+import Modal from '../../components/UI/Modal/Modal';
 import Login from '../../views/Login/Login';
 
 const Layout = (props) => {

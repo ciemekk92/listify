@@ -1,0 +1,22 @@
+.cell {
+    border: 1px solid black;
+    border-radius: 3px;
+    height: 30px;
+    font-family: arial, helvetica, sans-serif;
+    font-size: 16px;
+}
+.cell:hover {
+    background-color: #fc3;
+    border-color: #800;
+}
+.cell.active {
+    background-color: #fc3;
+    border-color: #800;
+}
+
+.table {
+    background-color: #ddd;
+    border-radius: 0 0 10px 10px;
+    border: 1px solid black;
+    border-spacing: 5px;
+}
