@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions/index';
 import { format } from 'date-fns';
 import Picker from '../../components/UI/DatePicker/Picker';
 import Calendar from '../../components/UI/DatePicker/Calendar';
 import { Wrapper } from './DatePicker.styled';
 
 const DatePicker = (props) => {
+    const { onSettingDate } = props;
     const [showDatepicker, setShowDatePicker] = useState(true);
     const [showCalendar, setShowCalendar] = useState(false);
     const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
@@ -23,6 +26,10 @@ const DatePicker = (props) => {
         setShowCalendar(false);
     };
 
+    useEffect(() => {
+        onSettingDate(date);
+    }, [date]);
+
     return (
         <Wrapper>
             {showDatepicker && (
@@ -39,4 +46,10 @@ const DatePicker = (props) => {
     );
 };
 
-export default DatePicker;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSettingDate: (date) => dispatch(actions.setSelectedDate(date))
+    };
+};
+
+export default connect(null, mapDispatchToProps)(React.memo(DatePicker));

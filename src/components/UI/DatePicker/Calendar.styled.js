@@ -24,7 +24,7 @@ export const IconContainer = styled.div`
 `;
 export const Month = styled.div`
     padding: 0 15px;
-    background-color: white;
+    background-color: #00b5ad;
 `;
 export const Header = styled.th`
     height: 30px;

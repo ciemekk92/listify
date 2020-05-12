@@ -15,7 +15,7 @@ import * as actions from '../../store/actions';
 import DatePicker from '../../containers/DatePicker/DatePicker';
 
 const List = forwardRef((props, ref) => {
-    const { onGettingUserInfo, loading, items } = props;
+    const { onGettingUserInfo, loading, items, date } = props;
     const [inputItem, setInputItem] = useState({
         value: '',
         id: null,
@@ -44,10 +44,15 @@ const List = forwardRef((props, ref) => {
     const saveNewItem = async (newItem) => {
         const uid = localStorage.getItem('currentUser');
         const docRef = await firestore.collection('users').doc(uid);
+        const newItemWithDate = updateObject(newItem, {
+            date: date
+        });
         try {
             await docRef
                 .update({
-                    listItems: firebase.firestore.FieldValue.arrayUnion(newItem)
+                    listItems: firebase.firestore.FieldValue.arrayUnion(
+                        newItemWithDate
+                    )
                 })
                 .catch((error) => console.log(error));
         } catch (error) {
@@ -130,7 +135,8 @@ const List = forwardRef((props, ref) => {
 const mapStateToProps = (state) => {
     return {
         loading: state.user.loading,
-        items: state.user.userInfo.listItems
+        items: state.user.userInfo.listItems,
+        date: state.list.date
     };
 };
 
