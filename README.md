@@ -9,6 +9,7 @@ Practical to-do list made with React
 -   React
 -   React Router
 -   Redux
+- React Transition Group
 -   Styled Components
 -   Firebase
 
