@@ -1,8 +1,14 @@
 import React from 'react';
-import { Item } from './ListItem.styled';
+import { Item, Date, Name } from './ListItem.styled';
 
 const ListItem = (props) => {
-    return <Item onClick={props.clicked}>{props.name}</Item>;
+    const { clicked, name, date } = props;
+    return (
+        <Item onClick={clicked}>
+            <Name>{name}</Name>
+            <Date>{date}</Date>
+        </Item>
+    );
 };
 
 export default React.memo(ListItem);

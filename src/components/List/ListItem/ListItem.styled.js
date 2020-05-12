@@ -9,4 +9,14 @@ export const Item = styled.div`
     color: black;
     margin: 1% 0 0 0;
     border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+`;
+
+export const Date = styled.div`
+    width: 70%;
+`;
+export const Name = styled.div`
+    width: 30%;
 `;

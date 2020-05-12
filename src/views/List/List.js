@@ -109,7 +109,7 @@ const List = forwardRef((props, ref) => {
             <ListContainer>
                 <TransitionGroup className={'list'}>
                     {items
-                        ? items.map(({ id, value }) => (
+                        ? items.map(({ id, value, date }) => (
                               <CSSTransition
                                   key={id}
                                   timeout={500}
@@ -117,6 +117,7 @@ const List = forwardRef((props, ref) => {
                               >
                                   <ListItem
                                       name={value}
+                                      date={date}
                                       clicked={() =>
                                           deleteItem(id).then((response) =>
                                               listUpdateHandler()
