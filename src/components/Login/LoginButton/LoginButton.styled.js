@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-export const StyledButton = styled.button`
+export const Button = styled.button`
     width: 80%;
     height: 30px;
     background-color: transparent;
     border: 2px solid #b83b5e;
     border-radius: 5px;
     margin: 0;
-    box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.25);
     color: purple;
     outline: none;
     font-family: 'Open Sans Condensed';

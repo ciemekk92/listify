@@ -38,7 +38,8 @@ export const createUserDoc = async (user, userName) => {
                 uid,
                 email,
                 createdAt,
-                userName: userName
+                userName: userName,
+                listItems: []
             });
         } catch (error) {
             console.log(error);

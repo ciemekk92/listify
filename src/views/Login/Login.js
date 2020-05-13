@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { auth, createUserDoc } from '../../firebase/firebase';
-import LoginInput from '../../components/LoginInput/LoginInput';
-import ModalButton from '../../components/ModalButton/ModalButton';
+import LoginInput from '../../components/Login/LoginInput/LoginInput';
+import ModalButton from '../../components/UI/ModalButton/ModalButton';
+import Spinner from '../../components/UI/Spinner/Spinner';
 import { updateObject } from '../../shared/utility';
 
 const Wrapper = styled.div`
@@ -16,6 +18,7 @@ const Login = (props) => {
         email: '',
         password: ''
     });
+    const [loading, setLoading] = useState(false);
     const { type } = props;
 
     const inputChangedHandler = (event) => {
@@ -25,16 +28,27 @@ const Login = (props) => {
         setAuthData(updatedData);
     };
 
+    const history = useHistory();
+
     const handleSignIn = (event, email, password) => {
+        setLoading(true);
         event.preventDefault();
-        auth.signInWithEmailAndPassword(email, password).catch((error) => {
-            alert(
-                `Your email or password is incorrect, please check your data, ${error}`
-            );
-        });
+        auth.signInWithEmailAndPassword(email, password)
+            .then(() => {
+                setLoading(false);
+                handleCancel();
+                history.push('/list');
+            })
+            .catch((error) => {
+                setLoading(false);
+                alert(
+                    `Your email or password is incorrect, please check your data, ${error}`
+                );
+            });
     };
 
     const handleSignUp = async (event, email, password) => {
+        setLoading(true);
         event.preventDefault();
         const { user } = await auth
             .createUserWithEmailAndPassword(email, password)
@@ -43,14 +57,20 @@ const Login = (props) => {
                     `Your email or password is incorrect, please check your data, ${error}`
                 );
             });
-        await createUserDoc(user, email);
+        await createUserDoc(user, email).then((e) => {
+            setLoading(false);
+            handleCancel();
+            history.push('/list');
+        });
     };
 
     const handleCancel = () => {
         props.modalClosed();
     };
 
-    return (
+    return loading ? (
+        <Spinner />
+    ) : (
         <>
             <LoginInput
                 name="email"
