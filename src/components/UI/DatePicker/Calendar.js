@@ -23,7 +23,7 @@ import {
     faAngleDoubleLeft,
     faAngleDoubleRight,
     faAngleLeft,
-    faAngleRight
+    faAngleRight,
 } from '@fortawesome/free-solid-svg-icons';
 import {
     Header,

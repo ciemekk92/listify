@@ -1,13 +1,13 @@
 import React from 'react';
-import { Button } from './ListButton.styled';
+import { Button } from './SubmitButton.styled';
 import PropTypes from 'prop-types';
 
-const ListButton = (props) => {
+const SubmitButton = (props) => {
     return <Button onClick={props.clicked}>{props.children}</Button>;
 };
 
-ListButton.propTypes = {
+SubmitButton.propTypes = {
     children: PropTypes.string.isRequired
 };
 
-export default ListButton;
+export default SubmitButton;

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import { routes } from '../../routes/routes';
 import Layout from '../../templates/Layout/Layout';
-import './App.css';
 import { auth } from '../../firebase/firebase';
 
 const Landing = lazy(() => import('../Landing/Landing'));
@@ -27,8 +26,10 @@ const App = (props) => {
     }, []);
 
     useEffect(() => {
-        onGettingUserInfo();
-    }, [onGettingUserInfo]);
+        if (currentUser) {
+            onGettingUserInfo();
+        }
+    }, [onGettingUserInfo, currentUser]);
 
     const { landing, list } = routes;
     return (

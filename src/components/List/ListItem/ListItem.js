@@ -1,12 +1,15 @@
 import React from 'react';
 import { Item, Date, Name } from './ListItem.styled';
+import ListItemButton from '../ListItemButton/ListItemButton';
 
 const ListItem = (props) => {
-    const { clicked, name, date } = props;
+    const { clickedComplete, clickedDelete, completed, name, date } = props;
     return (
-        <Item onClick={clicked}>
+        <Item completed={completed}>
             <Name>{name}</Name>
             <Date>{date}</Date>
+            {!completed ? <ListItemButton complete completed={completed} clicked={clickedComplete}/> : null}
+            <ListItemButton completed={completed} delete clicked={clickedDelete}/>
         </Item>
     );
 };

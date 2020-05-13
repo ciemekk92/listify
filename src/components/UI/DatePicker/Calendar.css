@@ -1,3 +1,4 @@
+/*noinspection ALL*/
 .cell {
     border: 1px solid black;
     border-radius: 3px;
@@ -5,10 +6,14 @@
     font-family: arial, helvetica, sans-serif;
     font-size: 16px;
 }
+
+/*noinspection ALL*/
 .cell:hover {
     background-color: #fc3;
     border-color: #800;
 }
+
+/*noinspection ALL*/
 .cell.active {
     background-color: #fc3;
     border-color: #800;

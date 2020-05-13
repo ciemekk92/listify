@@ -6,7 +6,7 @@ const ListInput = (props) => {
 
     useEffect(() => {
         ref.current.focus();
-    }, [props.editing]);
+    }, [props.editing, ref]);
 
     return (
         <Input

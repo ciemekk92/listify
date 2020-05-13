@@ -19,8 +19,8 @@ export const Main = styled.main`
     background: rgb(240, 138, 93);
     background: radial-gradient(
         circle,
-        rgba(240, 138, 93, 1) 0%,
-        rgba(249, 237, 105, 1) 100%
+        rgba(255, 211, 182, 1) 0%,
+        rgba(255, 170, 165, 1) 100%
     );
     display: flex;
     flex-direction: column;

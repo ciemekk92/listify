@@ -8,6 +8,7 @@ Practical to-do list made with React
 
 -   React
 -   React Router
+- React Transition Group
 -   Redux
 -   Styled Components
 -   Firebase
@@ -20,7 +21,7 @@ Practical to-do list made with React
 
 ## COLOUR PALETTE
 
-f9ed69 - yellow
-f08a5d - orange/salmon
-b83b5e - magenta
-6a2c70 - purple
+- a8e6cf - turquoise
+- fdffab - light yellow
+- ffd3b6 - light pink
+- ffaaa5 - salmon

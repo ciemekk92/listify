@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { updateObject } from '../../shared/utility';
 import { Wrapper } from './List.styled';
 import ListInput from '../../components/List/ListInput/ListInput';
-import ListButton from '../../components/List/ListButton/ListButton';
+import SubmitButton from '../../components/List/SubmitButton/SubmitButton';
 import ListContainer from '../../components/List/ListContainer/ListContainer';
 import ListItem from '../../components/List/ListItem/ListItem';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
@@ -14,12 +14,14 @@ import './List.css';
 import * as actions from '../../store/actions';
 import DatePicker from '../../containers/DatePicker/DatePicker';
 
+
 const List = forwardRef((props, ref) => {
     const { onGettingUserInfo, loading, items, date } = props;
     const [inputItem, setInputItem] = useState({
         value: '',
         id: null,
-        date: null
+        date: null,
+        completed: false
     });
 
     const [editing, setEditing] = useState(false);
@@ -77,6 +79,34 @@ const List = forwardRef((props, ref) => {
         }
     };
 
+    const completeItem = async (id) => {
+        const uid = localStorage.getItem('currentUser');
+        const docRef = await firestore.collection('users').doc(uid);
+        const itemToRemove = items.filter((item) => item.id === id);
+        try {
+            await docRef
+                .update({
+                    listItems: firebase.firestore.FieldValue.arrayRemove(
+                        itemToRemove[0]
+                    )
+                })
+                    const updatedItem = updateObject(itemToRemove[0], {
+                        completed: true
+                    })
+                    await docRef.update({
+                        listItems: firebase.firestore.FieldValue.arrayUnion(
+                            updatedItem
+                        )
+                    })
+                        .catch(error => console.log(error))
+
+                .then(response => listUpdateHandler())
+                .catch((error) => console.log(error));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const listUpdateHandler = () => {
         onGettingUserInfo();
         clearInput();
@@ -96,7 +126,7 @@ const List = forwardRef((props, ref) => {
                 value={inputItem.value}
                 editing={editing}
             />
-            <ListButton
+            <SubmitButton
                 clicked={() => {
                     saveNewItem(inputItem).then((response) =>
                         listUpdateHandler()
@@ -104,12 +134,12 @@ const List = forwardRef((props, ref) => {
                 }}
             >
                 Add new list item
-            </ListButton>
+            </SubmitButton>
             <DatePicker />
             <ListContainer>
                 <TransitionGroup className={'list'}>
                     {items
-                        ? items.map(({ id, value, date }) => (
+                        ? items.map(({ id, value, date, completed }) => (
                               <CSSTransition
                                   key={id}
                                   timeout={500}
@@ -118,7 +148,9 @@ const List = forwardRef((props, ref) => {
                                   <ListItem
                                       name={value}
                                       date={date}
-                                      clicked={() =>
+                                      completed={completed}
+                                      clickedComplete={() => completeItem(id)}
+                                      clickedDelete={() =>
                                           deleteItem(id).then((response) =>
                                               listUpdateHandler()
                                           )

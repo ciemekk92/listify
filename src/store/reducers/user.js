@@ -2,7 +2,13 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
-    userInfo: {},
+    userInfo: {
+        uid: '',
+        createdAt: {},
+        email: '',
+        userName: '',
+        listItems: []
+    },
     error: null,
     loaded: false,
     loading: true

@@ -28,7 +28,7 @@ const DatePicker = (props) => {
 
     useEffect(() => {
         onSettingDate(date);
-    }, [date]);
+    }, [date, onSettingDate]);
 
     return (
         <Wrapper>

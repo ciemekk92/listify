@@ -7,7 +7,6 @@ export const Container = styled.div`
     flex-direction: column;
     align-items: center;
     border-radius: 10px;
-    background-color: #eee;
     color: black;
     grid-row-start: 4;
     grid-row-end: auto;
