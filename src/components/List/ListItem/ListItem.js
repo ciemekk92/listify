@@ -8,8 +8,18 @@ const ListItem = (props) => {
         <Item completed={completed}>
             <Name>{name}</Name>
             <Date>{date}</Date>
-            {!completed ? <ListItemButton complete completed={completed} clicked={clickedComplete}/> : null}
-            <ListItemButton completed={completed} delete clicked={clickedDelete}/>
+            {!completed ? (
+                <ListItemButton
+                    complete
+                    completed={completed}
+                    clicked={clickedComplete}
+                />
+            ) : null}
+            <ListItemButton
+                completed={completed}
+                delete
+                clicked={clickedDelete}
+            />
         </Item>
     );
 };

@@ -1,29 +1,61 @@
 import styled from 'styled-components';
 
+export const Wrapper = styled.div`
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+`;
+
 export const Header = styled.div`
     width: 100%;
-    height: 5%;
+    grid-area: header;
     display: grid;
     grid-template-rows: 100%;
     grid-template-columns: 20% auto 10% 10%;
 `;
 
-export const LogoPlaceholder = styled.h1`
-    grid-column-start: 2;
-    grid-column-end: auto;
-    place-self: center;
-`;
+export const MainNotLoggedIn = styled.main``;
 
-export const Main = styled.main`
+export const MainLoggedIn = styled.main`
     min-height: 100vh;
+    width: 85%;
+    margin-left: 15%;
     background: rgb(240, 138, 93);
     background: radial-gradient(
         circle,
         rgba(255, 211, 182, 1) 0%,
         rgba(255, 170, 165, 1) 100%
     );
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
+    display: grid;
+    grid-template-columns: 1.2fr 1.2fr;
+    grid-template-rows: 0.4fr 1.6fr 1fr;
+    gap: 1px 1px;
+    grid-template-areas: 'header header' 'main-left main-right' 'main-left main-right';
+`;
+
+export const MainLeft = styled.div`
+    grid-area: main-left;
+`;
+
+export const MainRight = styled.div`
+    grid-area: main-right;
+`;
+
+export const Sidebar = styled.div`
+    position: fixed;
+    width: 15%;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 10% 90%;
+    box-shadow: 0 0 5px 5px rgba(255, 255, 255, 1);
+`;
+
+export const LogoPlaceholder = styled.h1`
+    grid-row-start: 1;
+    grid-row-end: auto;
+    place-self: center;
 `;

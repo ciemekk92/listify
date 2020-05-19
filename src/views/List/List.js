@@ -14,7 +14,6 @@ import './List.css';
 import * as actions from '../../store/actions';
 import DatePicker from '../../containers/DatePicker/DatePicker';
 
-
 const List = forwardRef((props, ref) => {
     const { onGettingUserInfo, loading, items, date } = props;
     const [inputItem, setInputItem] = useState({
@@ -84,28 +83,28 @@ const List = forwardRef((props, ref) => {
         const docRef = await firestore.collection('users').doc(uid);
         const itemToRemove = items.filter((item) => item.id === id);
         try {
+            await docRef.update({
+                listItems: firebase.firestore.FieldValue.arrayRemove(
+                    itemToRemove[0]
+                )
+            });
+            const updatedItem = updateObject(itemToRemove[0], {
+                completed: true
+            });
             await docRef
                 .update({
-                    listItems: firebase.firestore.FieldValue.arrayRemove(
-                        itemToRemove[0]
+                    listItems: firebase.firestore.FieldValue.arrayUnion(
+                        updatedItem
                     )
                 })
-                    const updatedItem = updateObject(itemToRemove[0], {
-                        completed: true
-                    })
-                    await docRef.update({
-                        listItems: firebase.firestore.FieldValue.arrayUnion(
-                            updatedItem
-                        )
-                    })
-                        .catch(error => console.log(error))
+                .catch((error) => console.log(error))
 
-                .then(response => listUpdateHandler())
+                .then((response) => listUpdateHandler())
                 .catch((error) => console.log(error));
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     const listUpdateHandler = () => {
         onGettingUserInfo();

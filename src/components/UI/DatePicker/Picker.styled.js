@@ -13,7 +13,8 @@ export const Wrapper = styled.div`
 
     & > div:nth-child(1) {
         border-right: 1px solid black;
-        background-color: #00b5ad;
+        background-color: #ffaaa5;
         color: #000000;
+        border-radius: 5px;
     }
 `;

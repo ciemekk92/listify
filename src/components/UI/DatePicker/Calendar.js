@@ -23,9 +23,10 @@ import {
     faAngleDoubleLeft,
     faAngleDoubleRight,
     faAngleLeft,
-    faAngleRight,
+    faAngleRight
 } from '@fortawesome/free-solid-svg-icons';
 import {
+    Abbreviation,
     Header,
     IconContainer,
     Icons,
@@ -216,25 +217,25 @@ const Calendar = (props) => {
                 <thead>
                     <tr role="row">
                         <Header role="columnheader" aria-label="Sunday">
-                            <abbr title="Sunday">Su</abbr>
+                            <Abbreviation title="Sunday">Su</Abbreviation>
                         </Header>
                         <Header role="columnheader" aria-label="Monday">
-                            <abbr title="Monday">Mo</abbr>
+                            <Abbreviation title="Monday">Mo</Abbreviation>
                         </Header>
                         <Header role="columnheader" aria-label="Tuesday">
-                            <abbr title="Tuesday">Tu</abbr>
+                            <Abbreviation title="Tuesday">Tu</Abbreviation>
                         </Header>
                         <Header role="columnheader" aria-label="Wednesday">
-                            <abbr title="Wednesday">We</abbr>
+                            <Abbreviation title="Wednesday">We</Abbreviation>
                         </Header>
                         <Header role="columnheader" aria-label="Thursday">
-                            <abbr title="Thursday">Th</abbr>
+                            <Abbreviation title="Thursday">Th</Abbreviation>
                         </Header>
                         <Header role="columnheader" aria-label="Friday">
-                            <abbr title="Friday">Fr</abbr>
+                            <Abbreviation title="Friday">Fr</Abbreviation>
                         </Header>
                         <Header role="columnheader" aria-label="Saturday">
-                            <abbr title="Saturday">Sa</abbr>
+                            <Abbreviation title="Saturday">Sa</Abbreviation>
                         </Header>
                     </tr>
                 </thead>

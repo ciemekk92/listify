@@ -10,7 +10,7 @@ export const Title = styled.div`
     flex-direction: row;
     justify-content: space-between;
     font-size: 16px;
-    background-color: #00b5ad;
+    background-color: #ffaaa5;
     padding: 10px 0;
     border-radius: 10px 10px 0 0;
 `;
@@ -24,8 +24,12 @@ export const IconContainer = styled.div`
 `;
 export const Month = styled.div`
     padding: 0 15px;
-    background-color: #00b5ad;
+    background-color: #ffaaa5;
 `;
 export const Header = styled.th`
     height: 30px;
+`;
+
+export const Abbreviation = styled.abbr`
+    text-decoration: none;
 `;
