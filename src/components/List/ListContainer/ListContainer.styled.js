@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    width: 80%;
-    height: 90%;
+    width: 85%;
+    min-height: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,5 +11,9 @@ export const Container = styled.div`
     grid-row-start: 4;
     grid-row-end: auto;
     justify-self: center;
-    transition: all 0.2s ease-in;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 `;
