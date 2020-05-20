@@ -9,7 +9,8 @@ const firebaseConfig = {
     projectId: 'listify-react',
     storageBucket: 'listify-react.appspot.com',
     messagingSenderId: `${process.env.REACT_APP_MESSAGING_SENDER_ID}`,
-    appId: `${process.env.REACT_APP_APP_ID}`
+    appId: `${process.env.REACT_APP_APP_ID}`,
+    measurementId: `${process.env.REACT_APP_MEASUREMENT_ID}`
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -39,7 +40,7 @@ export const createUserDoc = async (user, userName) => {
                 email,
                 createdAt,
                 userName: userName,
-                listItems: []
+                lists: {}
             });
         } catch (error) {
             console.log(error);

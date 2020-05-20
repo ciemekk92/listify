@@ -40,22 +40,3 @@ export const MainLeft = styled.div`
 export const MainRight = styled.div`
     grid-area: main-right;
 `;
-
-export const Sidebar = styled.div`
-    position: fixed;
-    width: 15%;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    background-color: rgba(255, 255, 255, 0.7);
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 10% 90%;
-    box-shadow: 0 0 5px 5px rgba(255, 255, 255, 1);
-`;
-
-export const LogoPlaceholder = styled.h1`
-    grid-row-start: 1;
-    grid-row-end: auto;
-    place-self: center;
-`;

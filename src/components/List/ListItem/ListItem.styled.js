@@ -5,7 +5,7 @@ export const Item = styled.div`
     height: 35px;
     background-color: ${(props) => (props.completed ? '#a8e6cf' : '#fdffab')};
     text-align: center;
-    font-family: 'Open Sans Condensed';
+    font-family: 'Open Sans Condensed', sans-serif;
     color: black;
     margin: 1% 0;
     border-radius: 5px;

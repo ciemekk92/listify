@@ -1,11 +1,11 @@
 import React from 'react';
 import { NewList } from './AddNewList.styled';
-import { ReactComponent as Plus } from '../../../../assets/add-outline.svg';
+import Plus from '../../../Icons/Plus';
 
 const AddNewList = (props) => {
     return (
-        <NewList>
-            <Plus title={'Add new list'} style={{ width: '30px' }} />
+        <NewList onClick={props.clicked}>
+            <Plus title={'Add new list'} color={'#fff'} size={30} />
         </NewList>
     );
 };

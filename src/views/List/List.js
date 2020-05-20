@@ -16,14 +16,15 @@ import DatePicker from '../../containers/DatePicker/DatePicker';
 
 const List = forwardRef((props, ref) => {
     const { onGettingUserInfo, loading, items, date } = props;
+
+    const [editing, setEditing] = useState(false);
+    const [currentList, setCurrentList] = useState('');
     const [inputItem, setInputItem] = useState({
         value: '',
         id: null,
         date: null,
         completed: false
     });
-
-    const [editing, setEditing] = useState(false);
 
     const inputChangedHandler = (event) => {
         const updatedData = updateObject(inputItem, {
@@ -112,6 +113,9 @@ const List = forwardRef((props, ref) => {
         setEditing(false);
     };
 
+    //TODO finish adding lists/list items
+    //TODO implement completed/ongoing/all sorting, current list view
+
     return (
         <Wrapper>
             <ListInput
@@ -137,12 +141,19 @@ const List = forwardRef((props, ref) => {
             <DatePicker />
             <ListContainer>
                 <TransitionGroup className={'list'}>
-                    {items
+                    {/*{items
                         ? items.map(({ id, value, date, completed }) => (
                               <CSSTransition
                                   key={id}
                                   timeout={500}
                                   classNames="move"
+                                  addEndListener={(node, done) => {
+                                      node.addEventListener(
+                                          'transitionend',
+                                          done,
+                                          false
+                                      );
+                                  }}
                               >
                                   <ListItem
                                       name={value}
@@ -157,7 +168,7 @@ const List = forwardRef((props, ref) => {
                                   />
                               </CSSTransition>
                           ))
-                        : null}
+                        : null}*/}
                 </TransitionGroup>
             </ListContainer>
         </Wrapper>
@@ -167,7 +178,7 @@ const List = forwardRef((props, ref) => {
 const mapStateToProps = (state) => {
     return {
         loading: state.user.loading,
-        items: state.user.userInfo.listItems,
+        items: state.user.userInfo.lists,
         date: state.list.date
     };
 };
