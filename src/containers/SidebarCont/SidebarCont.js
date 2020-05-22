@@ -16,24 +16,26 @@ const SidebarCont = (props) => {
     });
 
     const newListHandler = async (list) => {
-        const uid = localStorage.getItem('currentUser');
-        const docRef = await firestore.collection('users').doc(uid);
-        const listWithTimestamp = updateObject(list, {
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        let key = `lists.${list.name}`;
-        const obj = {
-            [key]: [list]
-        };
-        try {
-            await docRef
-                .update({
-                    [key]: listWithTimestamp
-                })
-                .then((response) => props.onGettingUserInfo())
-                .catch((error) => console.log(error));
-        } catch (error) {
-            console.log(error);
+        if (newList.name !== '') {
+            const uid = localStorage.getItem('currentUser');
+            const docRef = await firestore.collection('users').doc(uid);
+            const listWithTimestamp = updateObject(list, {
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            let key = `lists.${list.name}`;
+            const obj = {
+                [key]: [list]
+            };
+            try {
+                await docRef
+                    .update({
+                        [key]: listWithTimestamp
+                    })
+                    .then((response) => props.onGettingUserInfo())
+                    .catch((error) => console.log(error));
+            } catch (error) {
+                console.log(error);
+            }
         }
     };
 

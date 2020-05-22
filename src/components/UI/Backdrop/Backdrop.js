@@ -5,15 +5,17 @@ const View = styled.div`
     width: 100%;
     height: 100%;
     position: fixed;
-    z-index: 100;
+    z-index: 200;
     left: 0;
     top: 0;
     background-color: rgba(0, 0, 0, 0.5);
+    opacity: ${(props) => (props.show ? 1 : 0)};
+    transition: all 0.4s ease-out;
 `;
 
 const Backdrop = (props) => {
     const { show, clicked } = props;
-    return show ? <View onClick={clicked} /> : null;
+    return show ? <View show onClick={clicked} /> : null;
 };
 
 export default Backdrop;

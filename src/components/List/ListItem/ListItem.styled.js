@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Item = styled.div`
     width: 90%;
-    height: 35px;
+    height: 2rem;
     background-color: ${(props) => (props.completed ? '#a8e6cf' : '#fdffab')};
     text-align: center;
     font-family: 'Open Sans Condensed', sans-serif;

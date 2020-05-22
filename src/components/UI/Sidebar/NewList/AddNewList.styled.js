@@ -4,7 +4,7 @@ export const NewList = styled.div`
     width: 100%;
     background-color: #ffd3b6;
     height: 100%;
-    grid-row-start: 4;
+    grid-row-start: 3;
     grid-row-end: auto;
     grid-column-start: 1;
     grid-column-end: auto;

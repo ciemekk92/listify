@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import { Bar } from './Sidebar.styled';
 import { LogoPlaceholder } from './Sidebar.styled';
-import Divider from '../Divider/Divider';
 import AddNewList from '../NewList/AddNewList';
 import NewListInput from '../NewList/NewListInput/NewListInput';
 import PanelContainer from '../PanelContainer/PanelContainer';
+import ListPanel from '../ListPanel/ListPanel';
+import SidebarModal from '../SidebarModal/SidebarModal';
 
 const Sidebar = (props) => {
+    const { lists } = props;
     const [addingList, setAddingList] = useState(false);
 
     const addNewListHandler = () => {
@@ -21,11 +24,19 @@ const Sidebar = (props) => {
 
     //TODO map Lists to sidebar
 
+    let listsArray = Object.keys(lists);
+
     return (
         <Bar>
+            <SidebarModal open={addingList} modalClosed={toggleAdding} />
             <LogoPlaceholder>Listify</LogoPlaceholder>
-            <Divider />
-            <PanelContainer />
+            <PanelContainer>
+                {lists
+                    ? listsArray.map((element) => (
+                          <ListPanel name={element} key={uuidv4()} />
+                      ))
+                    : null}
+            </PanelContainer>
             {addingList ? (
                 <NewListInput
                     changed={props.inputChanged}

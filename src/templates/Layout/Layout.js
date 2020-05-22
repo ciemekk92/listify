@@ -36,10 +36,10 @@ const Layout = (props) => {
     return (
         <Wrapper>
             <SidebarCont />
+            <Modal open={openModal} modalClosed={closeLogin}>
+                <Login type={authType} modalClosed={closeLogin} />
+            </Modal>
             <MainLoggedIn>
-                <Modal open={openModal} modalClosed={closeLogin}>
-                    <Login type={authType} modalClosed={closeLogin} />
-                </Modal>
                 <Header>
                     {props.user ? (
                         <LoginButton clicked={handleSignOut}>
