@@ -26,9 +26,16 @@ const App = (props) => {
     }, []);
 
     useEffect(() => {
-        if (currentUser) {
-            onGettingUserInfo();
-        }
+        const fetchInfo = async () => {
+            try {
+                if (currentUser) {
+                    await onGettingUserInfo();
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchInfo();
     }, [onGettingUserInfo, currentUser]);
 
     const { landing, list } = routes;

@@ -68,11 +68,11 @@ const Calendar = (props) => {
         const endWeekday = getDay(endOfMonth(selectedDate));
         return chunk(
             [
-                ...Array.from({ length: startWeekday }).fill(null),
+                ...Array.from({ length: startWeekday - 1 }).fill(null),
                 ...Array.from({ length: daysInMonth }, (_, i) =>
                     setDate(selectedDate, i + 1)
                 ),
-                ...Array.from({ length: 6 - endWeekday }).fill(null)
+                ...Array.from({ length: 5 - endWeekday }).fill(null)
             ],
             7
         );
@@ -216,9 +216,6 @@ const Calendar = (props) => {
             >
                 <thead>
                     <tr role="row">
-                        <Header role="columnheader" aria-label="Sunday">
-                            <Abbreviation title="Sunday">Su</Abbreviation>
-                        </Header>
                         <Header role="columnheader" aria-label="Monday">
                             <Abbreviation title="Monday">Mo</Abbreviation>
                         </Header>
@@ -236,6 +233,9 @@ const Calendar = (props) => {
                         </Header>
                         <Header role="columnheader" aria-label="Saturday">
                             <Abbreviation title="Saturday">Sa</Abbreviation>
+                        </Header>
+                        <Header role="columnheader" aria-label="Sunday">
+                            <Abbreviation title="Sunday">Su</Abbreviation>
                         </Header>
                     </tr>
                 </thead>
