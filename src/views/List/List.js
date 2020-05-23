@@ -66,7 +66,7 @@ const List = forwardRef((props, ref) => {
     const deleteItem = async (id) => {
         const uid = localStorage.getItem('currentUser');
         const docRef = await firestore.collection('users').doc(uid);
-        const itemToRemove = lists[currentList].filter(
+        const itemToRemove = lists[currentList].listItems.filter(
             (item) => item.id === id
         );
         try {
@@ -85,7 +85,7 @@ const List = forwardRef((props, ref) => {
     const completeItem = async (id) => {
         const uid = localStorage.getItem('currentUser');
         const docRef = await firestore.collection('users').doc(uid);
-        const itemToRemove = lists[currentList].filter(
+        const itemToRemove = lists[currentList].listItems.filter(
             (item) => item.id === id
         );
         try {
@@ -115,7 +115,6 @@ const List = forwardRef((props, ref) => {
         setEditing(false);
     };
 
-    //TODO finish adding lists/list items
     //TODO implement completed/ongoing/all sorting, current list view
 
     return (
@@ -145,8 +144,12 @@ const List = forwardRef((props, ref) => {
             <ListContainer>
                 <TransitionGroup className={'list'}>
                     {lists[currentList]
-                        ? lists[currentList].listItems.map(
-                              ({ id, value, date, completed }) => (
+                        ? lists[currentList].listItems
+                              .slice()
+                              .sort(
+                                  (a, b) => new Date(b.date) - new Date(a.date)
+                              )
+                              .map(({ id, value, date, completed }) => (
                                   <CSSTransition
                                       key={id}
                                       timeout={500}
@@ -173,8 +176,7 @@ const List = forwardRef((props, ref) => {
                                           }
                                       />
                                   </CSSTransition>
-                              )
-                          )
+                              ))
                         : null}
                 </TransitionGroup>
             </ListContainer>

@@ -14,7 +14,6 @@ import SidebarModal from '../SidebarModal/SidebarModal';
 const Sidebar = (props) => {
     const { lists, selectedCurrentList, onSettingCurrentList } = props;
     const [addingList, setAddingList] = useState(false);
-    const [currentList, setCurrentList] = useState(null);
 
     const addNewListHandler = () => {
         setAddingList(false);
@@ -26,7 +25,6 @@ const Sidebar = (props) => {
     };
 
     const currentListHandler = (list) => {
-        setCurrentList(list);
         if (list) {
             onSettingCurrentList(list);
         }
@@ -36,7 +34,7 @@ const Sidebar = (props) => {
 
     useDidMountEffect(() => {
         onSettingCurrentList(listsArray[0]);
-    }, [lists]);
+    }, [listsArray.length]);
 
     return (
         <Bar>

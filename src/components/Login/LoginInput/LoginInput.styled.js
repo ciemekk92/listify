@@ -5,7 +5,7 @@ export const TextInput = styled.input`
     height: 30px;
     outline: none;
     border-radius: 5px;
-    font-family: 'Open Sans Condensed';
+    font-family: 'Open Sans Condensed', sans-serif;
     font-size: 16px;
     text-align: center;
     margin: 0 auto 1% auto;

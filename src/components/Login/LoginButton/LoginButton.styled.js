@@ -10,7 +10,7 @@ export const Button = styled.button`
     box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.25);
     color: purple;
     outline: none;
-    font-family: 'Open Sans Condensed';
+    font-family: 'Open Sans Condensed', sans-serif;
     font-size: 16px;
     grid-column-start: ${(props) => (props.login ? '3' : '4')};
     grid-column-end: auto;

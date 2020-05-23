@@ -23,9 +23,7 @@ const SidebarCont = (props) => {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
             let key = `lists.${list.name}`;
-            const obj = {
-                [key]: [list]
-            };
+
             try {
                 await docRef
                     .update({
