@@ -15,10 +15,9 @@ import * as actions from '../../store/actions';
 import DatePicker from '../../containers/DatePicker/DatePicker';
 
 const List = forwardRef((props, ref) => {
-    const { onGettingUserInfo, loading, items, date } = props;
+    const { onGettingUserInfo, loading, lists, date, currentList } = props;
 
     const [editing, setEditing] = useState(false);
-    const [currentList, setCurrentList] = useState('');
     const [inputItem, setInputItem] = useState({
         value: '',
         id: null,
@@ -43,6 +42,8 @@ const List = forwardRef((props, ref) => {
         );
     };
 
+    let key = `lists.${currentList}.listItems`;
+
     const saveNewItem = async (newItem) => {
         const uid = localStorage.getItem('currentUser');
         const docRef = await firestore.collection('users').doc(uid);
@@ -52,7 +53,7 @@ const List = forwardRef((props, ref) => {
         try {
             await docRef
                 .update({
-                    listItems: firebase.firestore.FieldValue.arrayUnion(
+                    [key]: firebase.firestore.FieldValue.arrayUnion(
                         newItemWithDate
                     )
                 })
@@ -65,11 +66,13 @@ const List = forwardRef((props, ref) => {
     const deleteItem = async (id) => {
         const uid = localStorage.getItem('currentUser');
         const docRef = await firestore.collection('users').doc(uid);
-        const itemToRemove = items.filter((item) => item.id === id);
+        const itemToRemove = lists[currentList].filter(
+            (item) => item.id === id
+        );
         try {
             await docRef
                 .update({
-                    listItems: firebase.firestore.FieldValue.arrayRemove(
+                    [key]: firebase.firestore.FieldValue.arrayRemove(
                         itemToRemove[0]
                     )
                 })
@@ -82,10 +85,12 @@ const List = forwardRef((props, ref) => {
     const completeItem = async (id) => {
         const uid = localStorage.getItem('currentUser');
         const docRef = await firestore.collection('users').doc(uid);
-        const itemToRemove = items.filter((item) => item.id === id);
+        const itemToRemove = lists[currentList].filter(
+            (item) => item.id === id
+        );
         try {
             await docRef.update({
-                listItems: firebase.firestore.FieldValue.arrayRemove(
+                [key]: firebase.firestore.FieldValue.arrayRemove(
                     itemToRemove[0]
                 )
             });
@@ -94,12 +99,9 @@ const List = forwardRef((props, ref) => {
             });
             await docRef
                 .update({
-                    listItems: firebase.firestore.FieldValue.arrayUnion(
-                        updatedItem
-                    )
+                    [key]: firebase.firestore.FieldValue.arrayUnion(updatedItem)
                 })
                 .catch((error) => console.log(error))
-
                 .then((response) => listUpdateHandler())
                 .catch((error) => console.log(error));
         } catch (error) {
@@ -129,6 +131,7 @@ const List = forwardRef((props, ref) => {
                 value={inputItem.value}
                 editing={editing}
             />
+
             <SubmitButton
                 clicked={() => {
                     saveNewItem(inputItem).then((response) =>
@@ -141,34 +144,38 @@ const List = forwardRef((props, ref) => {
             <DatePicker />
             <ListContainer>
                 <TransitionGroup className={'list'}>
-                    {/*{items
-                        ? items.map(({ id, value, date, completed }) => (
-                              <CSSTransition
-                                  key={id}
-                                  timeout={500}
-                                  classNames="move"
-                                  addEndListener={(node, done) => {
-                                      node.addEventListener(
-                                          'transitionend',
-                                          done,
-                                          false
-                                      );
-                                  }}
-                              >
-                                  <ListItem
-                                      name={value}
-                                      date={date}
-                                      completed={completed}
-                                      clickedComplete={() => completeItem(id)}
-                                      clickedDelete={() =>
-                                          deleteItem(id).then((response) =>
-                                              listUpdateHandler()
-                                          )
-                                      }
-                                  />
-                              </CSSTransition>
-                          ))
-                        : null}*/}
+                    {lists[currentList]
+                        ? lists[currentList].listItems.map(
+                              ({ id, value, date, completed }) => (
+                                  <CSSTransition
+                                      key={id}
+                                      timeout={500}
+                                      classNames="move"
+                                      addEndListener={(node, done) => {
+                                          node.addEventListener(
+                                              'transitionend',
+                                              done,
+                                              false
+                                          );
+                                      }}
+                                  >
+                                      <ListItem
+                                          name={value}
+                                          date={date}
+                                          completed={completed}
+                                          clickedComplete={() =>
+                                              completeItem(id)
+                                          }
+                                          clickedDelete={() =>
+                                              deleteItem(id).then((response) =>
+                                                  listUpdateHandler()
+                                              )
+                                          }
+                                      />
+                                  </CSSTransition>
+                              )
+                          )
+                        : null}
                 </TransitionGroup>
             </ListContainer>
         </Wrapper>
@@ -178,7 +185,8 @@ const List = forwardRef((props, ref) => {
 const mapStateToProps = (state) => {
     return {
         loading: state.user.loading,
-        items: state.user.userInfo.lists,
+        lists: state.user.userInfo.lists,
+        currentList: state.list.currentList,
         date: state.list.date
     };
 };

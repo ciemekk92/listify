@@ -16,5 +16,6 @@ export const Wrapper = styled.div`
         background-color: #ffaaa5;
         color: #000000;
         border-radius: 5px;
+        z-index: 10;
     }
 `;

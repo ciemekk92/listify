@@ -11,6 +11,7 @@ export const Bar = styled.div`
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 10% 85% 5%;
+    z-index: 100;
 `;
 
 export const LogoPlaceholder = styled.h1`

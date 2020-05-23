@@ -13,4 +13,5 @@ export const Wrapper = styled.div`
     align-items: center;
     overflow: hidden;
     box-shadow: 0 0 5px 5px rgba(255, 242, 233, 1);
+    z-index: 0;
 `;

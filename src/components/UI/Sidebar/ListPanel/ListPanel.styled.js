@@ -6,7 +6,7 @@ export const Panel = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fff;
+    background-color: ${(props) => (props.active ? '#fdffab' : '#fff')};
     padding: 1% 0;
     cursor: pointer;
     transition: all 0.6s ease;

@@ -6,3 +6,10 @@ export const setSelectedDate = (date) => {
         date: date
     };
 };
+
+export const setCurrentList = (list) => {
+    return {
+        type: actionTypes.SET_CURRENT_LIST,
+        currentList: list
+    };
+};

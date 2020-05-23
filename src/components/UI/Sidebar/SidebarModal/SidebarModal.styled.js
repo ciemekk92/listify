@@ -8,12 +8,13 @@ export const Area = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    z-index: 500;
+    align-items: center;
+    z-index: 1000;
     color: black;
     border: 1px solid #ccc;
     border-radius: 10px;
-    box-shadow: 1px 1px 1px black;
-    padding: 16px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+    padding: 8px;
     left: 0.5%;
     top: 78%;
     box-sizing: border-box;
