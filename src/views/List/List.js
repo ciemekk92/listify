@@ -15,7 +15,14 @@ import * as actions from '../../store/actions';
 import DatePicker from '../../containers/DatePicker/DatePicker';
 
 const List = forwardRef((props, ref) => {
-    const { onGettingUserInfo, loading, lists, date, currentList } = props;
+    const {
+        onGettingUserInfo,
+        loading,
+        lists,
+        date,
+        currentList,
+        hidden
+    } = props;
 
     const [editing, setEditing] = useState(false);
     const [inputItem, setInputItem] = useState({
@@ -143,8 +150,11 @@ const List = forwardRef((props, ref) => {
             <DatePicker />
             <ListContainer>
                 <TransitionGroup className={'list'}>
-                    {lists[currentList]
-                        ? lists[currentList].listItems
+                    {!lists[currentList]
+                        ? null
+                        : hidden
+                        ? null
+                        : lists[currentList].listItems
                               .slice()
                               .sort(
                                   (a, b) => new Date(b.date) - new Date(a.date)
@@ -152,7 +162,7 @@ const List = forwardRef((props, ref) => {
                               .map(({ id, value, date, completed }) => (
                                   <CSSTransition
                                       key={id}
-                                      timeout={500}
+                                      timeout={1000}
                                       classNames="move"
                                       addEndListener={(node, done) => {
                                           node.addEventListener(
@@ -176,8 +186,7 @@ const List = forwardRef((props, ref) => {
                                           }
                                       />
                                   </CSSTransition>
-                              ))
-                        : null}
+                              ))}
                 </TransitionGroup>
             </ListContainer>
         </Wrapper>
@@ -189,7 +198,8 @@ const mapStateToProps = (state) => {
         loading: state.user.loading,
         lists: state.user.userInfo.lists,
         currentList: state.list.currentList,
-        date: state.list.date
+        date: state.list.date,
+        hidden: state.list.hidden
     };
 };
 

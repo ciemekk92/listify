@@ -19,12 +19,10 @@
 
 .move-exit {
     opacity: 1;
-    transform: translate(0, 0);
 }
 
 /*noinspection CssUnusedSymbol*/
 .move-exit-active {
     opacity: 0;
-    transform: translate(0, 20px);
     transition: all 500ms ease-out;
 }

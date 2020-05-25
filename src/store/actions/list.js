@@ -13,3 +13,10 @@ export const setCurrentList = (list) => {
         currentList: list
     };
 };
+
+export const setHidden = (hidden) => {
+    return {
+        type: actionTypes.SET_HIDDEN,
+        hidden: hidden
+    };
+};

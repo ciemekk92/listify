@@ -12,7 +12,12 @@ import ListPanel from '../ListPanel/ListPanel';
 import SidebarModal from '../SidebarModal/SidebarModal';
 
 const Sidebar = (props) => {
-    const { lists, selectedCurrentList, onSettingCurrentList } = props;
+    const {
+        lists,
+        selectedCurrentList,
+        onSettingCurrentList,
+        onSettingHidden
+    } = props;
     const [addingList, setAddingList] = useState(false);
 
     const addNewListHandler = () => {
@@ -25,8 +30,12 @@ const Sidebar = (props) => {
     };
 
     const currentListHandler = (list) => {
-        if (list) {
+        if (list !== selectedCurrentList) {
+            onSettingHidden(true);
             onSettingCurrentList(list);
+            setTimeout(() => {
+                onSettingHidden(false);
+            }, 500);
         }
     };
 
@@ -74,7 +83,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSettingCurrentList: (list) => dispatch(actions.setCurrentList(list))
+        onSettingCurrentList: (list) => dispatch(actions.setCurrentList(list)),
+        onSettingHidden: (hidden) => dispatch(actions.setHidden(hidden))
     };
 };
 
