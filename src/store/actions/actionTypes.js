@@ -7,3 +7,4 @@ export const SET_SELECTED_DATE = 'SET_SELECTED_DATE';
 export const SET_CURRENT_LIST = 'SET_CURRENT_LIST';
 
 export const SET_HIDDEN = 'SET_HIDDEN';
+export const SET_SELECTED_ITEM = 'SET_SELECTED_ITEM';

@@ -4,7 +4,13 @@ import { updateObject } from '../../shared/utility';
 const initialState = {
     date: null,
     currentList: null,
-    hidden: false
+    hidden: false,
+    selectedItem: {
+        id: null,
+        value: '',
+        date: null,
+        completed: false
+    }
 };
 
 const setSelectedDate = (state, action) => {
@@ -25,6 +31,12 @@ const setHidden = (state, action) => {
     });
 };
 
+const setSelectedItem = (state, action) => {
+    return updateObject(state, {
+        selectedItem: action.selectedItem
+    });
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_SELECTED_DATE:
@@ -33,6 +45,8 @@ const reducer = (state = initialState, action) => {
             return setCurrentList(state, action);
         case actionTypes.SET_HIDDEN:
             return setHidden(state, action);
+        case actionTypes.SET_SELECTED_ITEM:
+            return setSelectedItem(state, action);
         default:
             return state;
     }

@@ -5,12 +5,13 @@ import * as actions from '../../store/actions/index';
 import { routes } from '../../routes/routes';
 import Layout from '../../templates/Layout/Layout';
 import { auth } from '../../firebase/firebase';
+import Details from '../../views/Details/Details';
 
 const Landing = lazy(() => import('../Landing/Landing'));
 const List = lazy(() => import('../List/List'));
 
 const App = (props) => {
-    const { onGettingUserInfo, loading } = props;
+    const { onGettingUserInfo } = props;
     const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
@@ -41,7 +42,7 @@ const App = (props) => {
     const { landing, list } = routes;
     return (
         <Router>
-            <Layout user={currentUser}>
+            <Layout user={currentUser} right={<Details />}>
                 <Suspense fallback={'Loading...'}>
                     <Switch>
                         <Route exact path={landing} component={Landing} />
@@ -53,16 +54,10 @@ const App = (props) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        loading: state.user.loading
-    };
-};
-
 const mapDispatchToProps = (dispatch) => {
     return {
         onGettingUserInfo: () => dispatch(actions.initUserInfo())
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(React.memo(App));
+export default connect(null, mapDispatchToProps)(React.memo(App));

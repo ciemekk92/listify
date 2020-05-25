@@ -17,11 +17,12 @@ import DatePicker from '../../containers/DatePicker/DatePicker';
 const List = forwardRef((props, ref) => {
     const {
         onGettingUserInfo,
-        loading,
+        onSelectingItem,
         lists,
         date,
         currentList,
-        hidden
+        hidden,
+        selectedItem
     } = props;
 
     const [editing, setEditing] = useState(false);
@@ -122,7 +123,11 @@ const List = forwardRef((props, ref) => {
         setEditing(false);
     };
 
-    //TODO implement completed/ongoing/all sorting, current list view
+    const selectItemHandler = (item) => {
+        if (item.id !== selectedItem.id) {
+            onSelectingItem(item);
+        }
+    };
 
     return (
         <Wrapper>
@@ -137,7 +142,6 @@ const List = forwardRef((props, ref) => {
                 value={inputItem.value}
                 editing={editing}
             />
-
             <SubmitButton
                 clicked={() => {
                     saveNewItem(inputItem).then((response) =>
@@ -176,6 +180,14 @@ const List = forwardRef((props, ref) => {
                                           name={value}
                                           date={date}
                                           completed={completed}
+                                          clicked={() =>
+                                              selectItemHandler({
+                                                  id: id,
+                                                  value: value,
+                                                  date: date,
+                                                  completed: completed
+                                              })
+                                          }
                                           clickedComplete={() =>
                                               completeItem(id)
                                           }
@@ -195,17 +207,18 @@ const List = forwardRef((props, ref) => {
 
 const mapStateToProps = (state) => {
     return {
-        loading: state.user.loading,
         lists: state.user.userInfo.lists,
         currentList: state.list.currentList,
         date: state.list.date,
-        hidden: state.list.hidden
+        hidden: state.list.hidden,
+        selectedItem: state.list.selectedItem
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGettingUserInfo: () => dispatch(actions.initUserInfo())
+        onGettingUserInfo: () => dispatch(actions.initUserInfo()),
+        onSelectingItem: (id) => dispatch(actions.setSelectedItem(id))
     };
 };
 

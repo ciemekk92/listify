@@ -57,7 +57,7 @@ const Layout = (props) => {
                     )}
                 </Header>
                 <MainLeft>{props.children}</MainLeft>
-                <MainRight>Editing screen will go HERE</MainRight>
+                <MainRight>{props.right}</MainRight>
             </MainLoggedIn>
         </Wrapper>
     );

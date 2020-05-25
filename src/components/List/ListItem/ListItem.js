@@ -3,22 +3,40 @@ import { Item, Date, Name } from './ListItem.styled';
 import ListItemButton from '../ListItemButton/ListItemButton';
 
 const ListItem = (props) => {
-    const { clickedComplete, clickedDelete, completed, name, date } = props;
+    const {
+        clicked,
+        clickedComplete,
+        clickedDelete,
+        completed,
+        name,
+        date
+    } = props;
+
+    const completeHandler = (event) => {
+        event.stopPropagation();
+        clickedComplete();
+    };
+
+    const deleteHandler = (event) => {
+        event.stopPropagation();
+        clickedDelete();
+    };
+
     return (
-        <Item completed={completed}>
+        <Item completed={completed} onClick={clicked}>
             <Name>{name}</Name>
             <Date>{date}</Date>
             {!completed ? (
                 <ListItemButton
                     complete
                     completed={completed}
-                    clicked={clickedComplete}
+                    clicked={completeHandler}
                 />
             ) : null}
             <ListItemButton
                 completed={completed}
                 delete
-                clicked={clickedDelete}
+                clicked={deleteHandler}
             />
         </Item>
     );

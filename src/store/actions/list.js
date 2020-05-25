@@ -20,3 +20,10 @@ export const setHidden = (hidden) => {
         hidden: hidden
     };
 };
+
+export const setSelectedItem = (item) => {
+    return {
+        type: actionTypes.SET_SELECTED_ITEM,
+        selectedItem: item
+    };
+};
