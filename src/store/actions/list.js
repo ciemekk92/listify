@@ -14,13 +14,6 @@ export const setCurrentList = (list) => {
     };
 };
 
-export const setHidden = (hidden) => {
-    return {
-        type: actionTypes.SET_HIDDEN,
-        hidden: hidden
-    };
-};
-
 export const setSelectedItem = (item) => {
     return {
         type: actionTypes.SET_SELECTED_ITEM,

@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
 import { auth } from '../../firebase/firebase';
-import {
-    Header,
-    MainLoggedIn,
-    MainLeft,
-    MainRight,
-    Wrapper
-} from './Layout.styled';
+import { Header, MainLoggedIn, Wrapper } from './Layout.styled';
 import PropTypes from 'prop-types';
 import LoginButton from '../../components/Login/LoginButton/LoginButton';
 import Modal from '../../components/UI/Modal/Modal';
 import Login from '../../views/Login/Login';
-import SidebarCont from '../../containers/SidebarCont/SidebarCont';
 
 const Layout = (props) => {
     const [openModal, setOpenModal] = useState(false);
@@ -35,7 +28,6 @@ const Layout = (props) => {
 
     return (
         <Wrapper>
-            <SidebarCont />
             <Modal open={openModal} modalClosed={closeLogin}>
                 <Login type={authType} modalClosed={closeLogin} />
             </Modal>
@@ -56,8 +48,7 @@ const Layout = (props) => {
                         </>
                     )}
                 </Header>
-                <MainLeft>{props.children}</MainLeft>
-                <MainRight>{props.right}</MainRight>
+                {props.children}
             </MainLoggedIn>
         </Wrapper>
     );
