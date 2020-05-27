@@ -5,7 +5,6 @@ import * as actions from '../../store/actions/index';
 import { routes } from '../../routes/routes';
 import Layout from '../../templates/Layout/Layout';
 import { auth } from '../../firebase/firebase';
-import Details from '../../views/Details/Details';
 
 const Landing = lazy(() => import('../Landing/Landing'));
 const List = lazy(() => import('../List/List'));
@@ -42,7 +41,7 @@ const App = (props) => {
     const { landing, list } = routes;
     return (
         <Router>
-            <Layout user={currentUser} right={<Details />}>
+            <Layout user={currentUser}>
                 <Suspense fallback={'Loading...'}>
                     <Switch>
                         <Route exact path={landing} component={Landing} />

@@ -3,7 +3,6 @@ import Sidebar from '../../containers/Sidebar/Sidebar';
 import ListLayout from '../../containers/ListLayout/ListLayout';
 import ListDetails from '../../containers/ListDetails/ListDetails';
 import { hiddenListContext } from '../../context/hiddenListContext';
-
 const { Provider } = hiddenListContext;
 
 const List = (props) => {
