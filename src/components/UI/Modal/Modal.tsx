@@ -2,7 +2,12 @@ import React from 'react';
 import { Area } from './Modal.styled';
 import Backdrop from '../Backdrop/Backdrop';
 
-const Modal = (props) => {
+type ModalProps = {
+    open: boolean;
+    modalClosed(): void;
+};
+
+const Modal: React.FC<ModalProps> = (props) => {
     return (
         <>
             <Backdrop show={props.open} clicked={props.modalClosed} />

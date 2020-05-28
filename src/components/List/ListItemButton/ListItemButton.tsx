@@ -4,7 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import './ListItemButton.css';
 
-const ListItemButton = (props) => {
+const ListItemButton = (props: {
+    clicked(event: React.SyntheticEvent): void;
+    complete: boolean;
+    completed: boolean;
+    delete: boolean;
+}) => {
     const { clicked, complete } = props;
     return (
         <Button type={complete ? 'complete' : 'delete'} onClick={clicked}>

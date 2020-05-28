@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const Button = styled.div`
+interface ButtonProps {
+    readonly type: string;
+}
+
+export const Button = styled.div<ButtonProps>`
     min-width: 24px;
     min-height: 24px;
     border-radius: 50%;

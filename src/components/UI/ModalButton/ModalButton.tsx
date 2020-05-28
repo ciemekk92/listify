@@ -1,7 +1,11 @@
 import React from 'react';
 import { Button } from './ModalButton.styled';
 
-const ModalButton = (props) => {
+type ButtonProps = {
+    clicked(): void;
+};
+
+const ModalButton: React.FC<ButtonProps> = (props) => {
     return <Button onClick={props.clicked}>{props.children}</Button>;
 };
 

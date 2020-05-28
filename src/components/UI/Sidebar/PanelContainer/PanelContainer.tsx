@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from './PanelContainer.styled';
 
-const PanelContainer = (props) => {
+const PanelContainer: React.FC = (props) => {
     return <Container>{props.children}</Container>;
 };
 

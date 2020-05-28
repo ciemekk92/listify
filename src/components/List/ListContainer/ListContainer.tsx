@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { Container } from './ListContainer.styled';
 
-const ListContainer = (props) => {
+const ListContainer: FunctionComponent = (props) => {
     return <Container>{props.children}</Container>;
 };
 

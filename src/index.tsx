@@ -9,16 +9,22 @@ import thunk from 'redux-thunk';
 import userReducer from './store/reducers/user';
 import listReducer from './store/reducers/list';
 
+declare global {
+    interface Window {
+        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+    }
+}
+
 const composeEnhancers =
     process.env.NODE_ENV === 'development'
         ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-        : null || compose;
+        : compose;
 
 const rootReducer = combineReducers({ user: userReducer, list: listReducer });
 
 const store = createStore(
     rootReducer,
-    composeEnhancers(applyMiddleware(thunk))
+    composeEnhancers?.(applyMiddleware(thunk))
 );
 
 const app = (

@@ -2,11 +2,15 @@ import React from 'react';
 import { TextInput } from './LoginInput.styled';
 import { capitalizeFirstLetter } from '../../../shared/utility';
 
-const LoginInput = (props) => {
+const LoginInput = (props: {
+    name: string;
+    changed(): void;
+    type: string;
+    value: string;
+}) => {
     return (
         <TextInput
             name={props.name}
-            label={`${props.type}`}
             onChange={props.changed}
             placeholder={`${capitalizeFirstLetter(props.type)}`}
             value={props.value}

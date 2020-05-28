@@ -1,7 +1,13 @@
 import React from 'react';
 import { Panel } from './ListPanel.styled';
 
-const ListPanel = (props) => {
+type PanelProps = {
+    active: boolean;
+    clicked(): void;
+    name: string;
+};
+
+const ListPanel: React.FC<PanelProps> = (props) => {
     return (
         <Panel active={props.active} onClick={props.clicked}>
             {props.name}

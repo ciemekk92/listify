@@ -2,7 +2,12 @@ import React from 'react';
 import { Area } from './SidebarModal.styled';
 import Backdrop from '../../Backdrop/Backdrop';
 
-const SidebarModal = (props) => {
+type ModalProps = {
+    open: boolean;
+    modalClosed(): void;
+};
+
+const SidebarModal: React.FC<ModalProps> = (props) => {
     const { open, modalClosed } = props;
     return (
         <>

@@ -1,10 +1,9 @@
 import React from 'react';
 import { Input } from './NewListInput.styled';
 
-const NewListInput = (props) => {
+const NewListInput = (props: { changed(): void; submit(): void }) => {
     return (
         <Input
-            label={'Add new list'}
             onChange={props.changed}
             placeholder={'New list name'}
             onKeyDown={(event) => {

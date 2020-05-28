@@ -17,7 +17,7 @@ import {
     subDays,
     addDays
 } from 'date-fns';
-import { chunk } from 'lodash';
+import { chunk, reduce } from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faAngleDoubleLeft,
@@ -36,7 +36,11 @@ import {
 } from './Calendar.styled';
 import './Calendar.css';
 
-const Calendar = (props) => {
+const Calendar = (props: {
+    date: string;
+    handleSelectDate(date: Date | string): void;
+    closeCalendar(): void;
+}) => {
     const { date, handleSelectDate, closeCalendar } = props;
     const [selectedDate, setSelectedDate] = useState(new Date(date));
     const setPreviousMonth = () => {
@@ -55,14 +59,14 @@ const Calendar = (props) => {
         const nextYear = addYears(selectedDate, 1);
         setSelectedDate(startOfMonth(nextYear));
     };
-    const handleKeyPress = (e, cb) => {
+    const handleKeyPress = (e: React.KeyboardEvent, cb: () => void) => {
         const charCode = e.charCode;
         if (charCode === 13 || charCode === 32) {
             cb();
         }
     };
 
-    const generateMonth = () => {
+    const generateMonth: () => any[][] = () => {
         const daysInMonth = getDaysInMonth(selectedDate);
         const startWeekday = getDay(startOfMonth(selectedDate));
         const endWeekday = getDay(endOfMonth(selectedDate));
@@ -112,7 +116,7 @@ const Calendar = (props) => {
     const setMonthEnd = () => {
         setSelectedDate(endOfMonth(selectedDate));
     };
-    const handleTableKeyPress = (e) => {
+    const handleTableKeyPress = (e: React.KeyboardEvent) => {
         const keyCode = e.keyCode;
 
         const control = e.shiftKey;
@@ -154,7 +158,7 @@ const Calendar = (props) => {
                 return;
         }
     };
-    const handleDateSelection = (date) => {
+    const handleDateSelection = (date: Date) => {
         const dateString = format(date, 'yyyy-MM-dd');
         handleSelectDate(dateString);
     };
@@ -164,7 +168,7 @@ const Calendar = (props) => {
             <Title>
                 <Icons>
                     <IconContainer
-                        tabIndex="0"
+                        tabIndex={0}
                         onClick={setPreviousYear}
                         onKeyPress={(e) => handleKeyPress(e, setPreviousYear)}
                         role="button"
@@ -173,7 +177,7 @@ const Calendar = (props) => {
                         <FontAwesomeIcon icon={faAngleDoubleLeft} />
                     </IconContainer>
                     <IconContainer
-                        tabIndex="0"
+                        tabIndex={0}
                         onClick={setPreviousMonth}
                         onKeyPress={(e) => handleKeyPress(e, setPreviousMonth)}
                         role="button"
@@ -187,7 +191,7 @@ const Calendar = (props) => {
                 </Month>
                 <Icons>
                     <IconContainer
-                        tabIndex="0"
+                        tabIndex={0}
                         onClick={setNextMonth}
                         onKeyPress={(e) => handleKeyPress(e, setNextMonth)}
                         role="button"
@@ -196,7 +200,7 @@ const Calendar = (props) => {
                         <FontAwesomeIcon icon={faAngleRight} />
                     </IconContainer>
                     <IconContainer
-                        tabIndex="0"
+                        tabIndex={0}
                         onClick={setNextYear}
                         onKeyPress={(e) => handleKeyPress(e, setNextYear)}
                         role="button"
@@ -209,7 +213,7 @@ const Calendar = (props) => {
             <table
                 className={'table'}
                 id="grid"
-                tabIndex="0"
+                tabIndex={0}
                 role="grid"
                 aria-label="Month"
                 onKeyDown={handleTableKeyPress}
@@ -240,9 +244,9 @@ const Calendar = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {generateMonth().map((week, i) => (
+                    {generateMonth().map((week: Date[], i: number) => (
                         <tr className="week" key={`week-${i}`} role="row">
-                            {week.map((day, i) =>
+                            {week.map((day: Date, i: number) =>
                                 day ? (
                                     <td
                                         className={`cell${

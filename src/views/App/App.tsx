@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import { routes } from '../../routes/routes';
 import Layout from '../../templates/Layout/Layout';
@@ -9,13 +9,14 @@ import { auth } from '../../firebase/firebase';
 const Landing = lazy(() => import('../Landing/Landing'));
 const List = lazy(() => import('../List/List'));
 
-const App = (props) => {
+const App = (props: PropsFromRedux) => {
     const { onGettingUserInfo } = props;
     const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {
+                // @ts-ignore
                 setCurrentUser(user);
                 localStorage.setItem('currentUser', user.uid);
             } else {
@@ -53,10 +54,11 @@ const App = (props) => {
     );
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onGettingUserInfo: () => dispatch(actions.initUserInfo())
-    };
+const mapDispatchToProps = {
+    onGettingUserInfo: () => actions.initUserInfo()
 };
 
-export default connect(null, mapDispatchToProps)(React.memo(App));
+const connector = connect(null, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(React.memo(App));

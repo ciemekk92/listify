@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { auth } from '../../firebase/firebase';
 import { Header, MainLoggedIn, Wrapper } from './Layout.styled';
-import PropTypes from 'prop-types';
 import LoginButton from '../../components/Login/LoginButton/LoginButton';
 import Modal from '../../components/UI/Modal/Modal';
 import Login from '../../views/Login/Login';
@@ -52,10 +51,6 @@ const Layout = (props) => {
             </MainLoggedIn>
         </Wrapper>
     );
-};
-
-Layout.propTypes = {
-    children: PropTypes.element.isRequired
 };
 
 export default Layout;

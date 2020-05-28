@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import { format } from 'date-fns';
 import Picker from '../../components/UI/DatePicker/Picker';
 import Calendar from '../../components/UI/DatePicker/Calendar';
 import { Wrapper } from './DatePicker.styled';
 
-const DatePicker = (props) => {
+const DatePicker = (props: PropsFromRedux) => {
     const { onSettingDate } = props;
     const [showDatepicker, setShowDatePicker] = useState(true);
     const [showCalendar, setShowCalendar] = useState(false);
-    const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
+    const [date, setDate]: any = useState(format(new Date(), 'yyyy-MM-dd'));
 
-    const toggleCalendar = (e) => {
+    const toggleCalendar = () => {
         setShowDatePicker(false);
         setShowCalendar(true);
     };
-    const handleSelectDate = (date) => {
+    const handleSelectDate = (date: Date) => {
         setDate(date);
         setShowDatePicker(true);
         setShowCalendar(false);
@@ -46,10 +46,11 @@ const DatePicker = (props) => {
     );
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onSettingDate: (date) => dispatch(actions.setSelectedDate(date))
-    };
+const mapDispatchToProps = {
+    onSettingDate: (date: string) => actions.setSelectedDate(date)
 };
 
-export default connect(null, mapDispatchToProps)(React.memo(DatePicker));
+const connector = connect(null, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(React.memo(DatePicker));

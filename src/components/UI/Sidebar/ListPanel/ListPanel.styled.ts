@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const Panel = styled.div`
+interface PanelProps {
+    readonly active: boolean;
+}
+
+export const Panel = styled.div<PanelProps>`
     width: 100%;
     height: 2rem;
     display: flex;

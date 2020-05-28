@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const Button = styled.button`
+interface ButtonProps {
+    readonly login: boolean;
+}
+
+export const Button = styled.button<ButtonProps>`
     width: 80%;
     height: 30px;
     background-color: transparent;

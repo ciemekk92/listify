@@ -1,7 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const View = styled.div`
+interface BackdropProps {
+    readonly show: boolean;
+}
+
+const View = styled.div<BackdropProps>`
     width: 100%;
     height: 100%;
     position: fixed;
@@ -13,7 +17,7 @@ const View = styled.div`
     transition: all 0.4s ease-out;
 `;
 
-const Backdrop = (props) => {
+const Backdrop = (props: { show: boolean; clicked(): void }) => {
     const { show, clicked } = props;
     return show ? <View show onClick={clicked} /> : null;
 };

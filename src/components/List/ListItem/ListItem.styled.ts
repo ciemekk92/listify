@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const Item = styled.div`
+interface ItemProps {
+    readonly completed: boolean;
+}
+
+export const Item = styled.div<ItemProps>`
     width: 90%;
     height: 2rem;
     background-color: ${(props) => (props.completed ? '#a8e6cf' : '#fdffab')};
@@ -15,6 +19,12 @@ export const Item = styled.div`
     cursor: default;
     box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.75);
     z-index: 0;
+    transition: all 0.4s ease;
+
+    &:hover {
+        background-color: ${(props) =>
+            props.completed ? '#73d7b2' : '#fcff78'};
+    }
 `;
 
 export const Date = styled.div`

@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const Area = styled.div`
+interface ModalProps {
+    readonly slide: boolean;
+}
+
+export const Area = styled.div<ModalProps>`
     width: 14%;
     height: 16%;
     background-color: #fff;

@@ -1,17 +1,24 @@
 import React, { useEffect } from 'react';
 import { Input } from './ListInput.styled';
 
-const ListInput = (props) => {
-    const ref = React.createRef();
+const ListInput = (props: {
+    editing: boolean;
+    changed(): void;
+    value: string;
+    submit(): void;
+}) => {
+    const ref = React.createRef<HTMLInputElement>();
+    const node = ref.current;
 
     useEffect(() => {
-        ref.current.focus();
+        if (node) {
+            node.focus();
+        }
     }, [props.editing, ref]);
 
     return (
         <Input
             ref={ref}
-            label={'Add new list item'}
             onChange={props.changed}
             placeholder={'Type in the task you want to add to your list!'}
             value={props.value}
