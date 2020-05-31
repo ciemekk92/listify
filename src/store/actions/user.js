@@ -37,6 +37,8 @@ export const initUserInfo = () => {
             })
             .catch((error) => {
                 dispatch(fetchUserInfoFailed(error));
+                console.log(error);
+                dispatch(disableLoading());
             });
     };
 };

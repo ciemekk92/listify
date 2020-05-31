@@ -7,7 +7,7 @@ const initialState = {
         createdAt: {},
         email: '',
         userName: '',
-        listItems: []
+        lists: {}
     },
     error: null,
     loaded: false,

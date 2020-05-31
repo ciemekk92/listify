@@ -1,0 +1,152 @@
+import React, { useState, useContext } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import firebase from 'firebase/app';
+import { firestore } from '../../firebase/firebase';
+import { v4 as uuidv4 } from 'uuid';
+import { hiddenListContext } from '../../context/hiddenListContext';
+import { updateObject } from '../../shared/utility';
+import * as actions from '../../store/actions';
+import useDidMountEffect from '../../hooks/useDidMountEffect';
+import { Bar, LogoPlaceholder } from './Sidebar.styled';
+import SidebarModal from '../../components/UI/Sidebar/SidebarModal/SidebarModal';
+import NewListInput from '../../components/UI/Sidebar/NewList/NewListInput/NewListInput';
+import PanelContainer from '../../components/UI/Sidebar/PanelContainer/PanelContainer';
+import ListPanel from '../../components/UI/Sidebar/ListPanel/ListPanel';
+import AddNewList from '../../components/UI/Sidebar/NewList/AddNewList';
+
+type List = {
+    name: string;
+    id: string;
+    timestamp: number;
+    listItems: { value: string; id: string; date: Date; completed: boolean }[];
+};
+
+const Sidebar = (props: PropsFromRedux) => {
+    const {
+        lists,
+        selectedCurrentList,
+        onSettingCurrentList,
+        onGettingUserInfo
+    } = props;
+
+    const [newList, setNewList] = useState({
+        name: '',
+        id: '',
+        timestamp: 0,
+        listItems: []
+    });
+
+    const { handleClick } = useContext(hiddenListContext);
+
+    const [addingList, setAddingList] = useState(false);
+
+    const newListHandler = async (list: List) => {
+        setAddingList(false);
+        if (newList.name !== '') {
+            const uid: any = localStorage.getItem('currentUser');
+            const docRef = await firestore.collection('users').doc(uid);
+            const listWithTimestamp = updateObject(list, {
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            let key = `lists.${list.name}`;
+
+            try {
+                await docRef
+                    .update({
+                        [key]: listWithTimestamp
+                    })
+                    .then((response) => onGettingUserInfo())
+                    .catch((error) => console.log(error));
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    const inputChangedHandler = (event: React.ChangeEvent) => {
+        const target = event.target as HTMLInputElement;
+        const updatedData = updateObject(newList, {
+            name: target.value,
+            id: uuidv4()
+        });
+        setNewList(updatedData);
+    };
+
+    const toggleAdding = () => {
+        setAddingList(!addingList);
+    };
+
+    const currentListHandler = (list: string) => {
+        if (list !== selectedCurrentList) {
+            handleClick(true);
+            onSettingCurrentList(list);
+            setTimeout(() => {
+                handleClick(false);
+            }, 500);
+        }
+    };
+
+    // TODO Implement constant sorting of lists
+
+    let listsArray = Object.keys(lists);
+
+    useDidMountEffect(() => {
+        onSettingCurrentList(listsArray[0]);
+    }, [listsArray.length]);
+
+    return (
+        <Bar>
+            <SidebarModal open={addingList} modalClosed={toggleAdding}>
+                <NewListInput
+                    changed={inputChangedHandler}
+                    value={newList.name}
+                    submit={() => newListHandler(newList)}
+                />
+            </SidebarModal>
+            <LogoPlaceholder>Listify</LogoPlaceholder>
+            <PanelContainer>
+                {lists
+                    ? listsArray.map((element) => (
+                          <ListPanel
+                              active={selectedCurrentList === element}
+                              name={element}
+                              key={uuidv4()}
+                              clicked={() => currentListHandler(element)}
+                          />
+                      ))
+                    : null}
+            </PanelContainer>
+            <AddNewList
+                clicked={
+                    !addingList ? toggleAdding : () => newListHandler(newList)
+                }
+            />
+        </Bar>
+    );
+};
+
+const mapStateToProps = (state: {
+    user: {
+        userInfo: {
+            lists: any;
+        };
+    };
+    list: {
+        currentList: any;
+    };
+}) => {
+    return {
+        lists: state.user.userInfo.lists,
+        selectedCurrentList: state.list.currentList
+    };
+};
+
+const mapDispatchToProps = {
+    onGettingUserInfo: () => actions.initUserInfo(),
+    onSettingCurrentList: (list: string) => actions.setCurrentList(list)
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(React.memo(Sidebar));
