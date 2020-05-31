@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from './ModalButton.styled';
 
 type ButtonProps = {
-    clicked(): void;
+    clicked(event: React.SyntheticEvent): void;
 };
 
 const ModalButton: React.FC<ButtonProps> = (props) => {

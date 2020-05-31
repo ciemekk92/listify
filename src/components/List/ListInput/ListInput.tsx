@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Input } from './ListInput.styled';
 
 const ListInput = (props: {
     editing: boolean;
-    changed(): void;
+    changed(event: React.ChangeEvent): void;
     value: string;
     submit(): void;
+    ref: React.Ref<HTMLInputElement>;
 }) => {
-    const ref = React.createRef<HTMLInputElement>();
+    const ref = useRef<HTMLInputElement>(null);
     const node = ref.current;
 
     useEffect(() => {

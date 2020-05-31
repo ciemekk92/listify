@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import firebase from 'firebase/app';
 import { firestore } from '../../firebase/firebase';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,7 +14,14 @@ import PanelContainer from '../../components/UI/Sidebar/PanelContainer/PanelCont
 import ListPanel from '../../components/UI/Sidebar/ListPanel/ListPanel';
 import AddNewList from '../../components/UI/Sidebar/NewList/AddNewList';
 
-const Sidebar = (props) => {
+type List = {
+    name: string;
+    id: string;
+    timestamp: number;
+    listItems: { value: string; id: string; date: Date; completed: boolean }[];
+};
+
+const Sidebar = (props: PropsFromRedux) => {
     const {
         lists,
         selectedCurrentList,
@@ -24,8 +31,8 @@ const Sidebar = (props) => {
 
     const [newList, setNewList] = useState({
         name: '',
-        id: null,
-        timestamp: null,
+        id: '',
+        timestamp: 0,
         listItems: []
     });
 
@@ -33,10 +40,10 @@ const Sidebar = (props) => {
 
     const [addingList, setAddingList] = useState(false);
 
-    const newListHandler = async (list) => {
+    const newListHandler = async (list: List) => {
         setAddingList(false);
         if (newList.name !== '') {
-            const uid = localStorage.getItem('currentUser');
+            const uid: any = localStorage.getItem('currentUser');
             const docRef = await firestore.collection('users').doc(uid);
             const listWithTimestamp = updateObject(list, {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -56,9 +63,10 @@ const Sidebar = (props) => {
         }
     };
 
-    const inputChangedHandler = (event) => {
+    const inputChangedHandler = (event: React.ChangeEvent) => {
+        const target = event.target as HTMLInputElement;
         const updatedData = updateObject(newList, {
-            name: event.target.value,
+            name: target.value,
             id: uuidv4()
         });
         setNewList(updatedData);
@@ -68,7 +76,7 @@ const Sidebar = (props) => {
         setAddingList(!addingList);
     };
 
-    const currentListHandler = (list) => {
+    const currentListHandler = (list: string) => {
         if (list !== selectedCurrentList) {
             handleClick(true);
             onSettingCurrentList(list);
@@ -77,6 +85,8 @@ const Sidebar = (props) => {
             }, 500);
         }
     };
+
+    // TODO Implement constant sorting of lists
 
     let listsArray = Object.keys(lists);
 
@@ -106,26 +116,37 @@ const Sidebar = (props) => {
                       ))
                     : null}
             </PanelContainer>
-            <AddNewList clicked={!addingList ? toggleAdding : newListHandler} />
+            <AddNewList
+                clicked={
+                    !addingList ? toggleAdding : () => newListHandler(newList)
+                }
+            />
         </Bar>
     );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: {
+    user: {
+        userInfo: {
+            lists: any;
+        };
+    };
+    list: {
+        currentList: any;
+    };
+}) => {
     return {
         lists: state.user.userInfo.lists,
         selectedCurrentList: state.list.currentList
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onGettingUserInfo: () => dispatch(actions.initUserInfo()),
-        onSettingCurrentList: (list) => dispatch(actions.setCurrentList(list))
-    };
+const mapDispatchToProps = {
+    onGettingUserInfo: () => actions.initUserInfo(),
+    onSettingCurrentList: (list: string) => actions.setCurrentList(list)
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(React.memo(Sidebar));
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(React.memo(Sidebar));

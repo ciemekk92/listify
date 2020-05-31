@@ -4,7 +4,7 @@ import { capitalizeFirstLetter } from '../../../shared/utility';
 
 const LoginInput = (props: {
     name: string;
-    changed(): void;
+    changed(event: React.ChangeEvent): void;
     type: string;
     value: string;
 }) => {

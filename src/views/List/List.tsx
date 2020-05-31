@@ -5,9 +5,9 @@ import ListDetails from '../../containers/ListDetails/ListDetails';
 import { hiddenListContext } from '../../context/hiddenListContext';
 const { Provider } = hiddenListContext;
 
-const List = (props) => {
+const List = () => {
     const [hidden, setHidden] = useState(false);
-    const handleClick = (value) => {
+    const handleClick = (value: boolean) => {
         setHidden(value);
     };
     return (

@@ -13,7 +13,7 @@ const Wrapper = styled.div`
     justify-content: center;
 `;
 
-const Login = (props) => {
+const Login = (props: { type: string; modalClosed(): void }) => {
     const [authData, setAuthData] = useState({
         email: '',
         password: ''
@@ -21,16 +21,21 @@ const Login = (props) => {
     const [loading, setLoading] = useState(false);
     const { type } = props;
 
-    const inputChangedHandler = (event) => {
+    const inputChangedHandler = (event: React.ChangeEvent) => {
+        const target = event.target as HTMLInputElement;
         const updatedData = updateObject(authData, {
-            [event.target.name]: event.target.value
+            [target.name]: target.value
         });
         setAuthData(updatedData);
     };
 
     const history = useHistory();
 
-    const handleSignIn = (event, email, password) => {
+    const handleSignIn = (
+        event: React.SyntheticEvent,
+        email: string,
+        password: string
+    ) => {
         setLoading(true);
         event.preventDefault();
         auth.signInWithEmailAndPassword(email, password)
@@ -47,10 +52,14 @@ const Login = (props) => {
             });
     };
 
-    const handleSignUp = async (event, email, password) => {
+    const handleSignUp = async (
+        event: React.SyntheticEvent,
+        email: string,
+        password: string
+    ) => {
         setLoading(true);
         event.preventDefault();
-        const { user } = await auth
+        const { user }: any = await auth
             .createUserWithEmailAndPassword(email, password)
             .catch((error) => {
                 alert(
@@ -75,26 +84,30 @@ const Login = (props) => {
             <LoginInput
                 name="email"
                 type="email"
-                changed={(event) => inputChangedHandler(event)}
+                changed={(event: React.ChangeEvent) =>
+                    inputChangedHandler(event)
+                }
                 value={authData.email}
             />
             <LoginInput
                 name="password"
                 type="password"
-                changed={(event) => inputChangedHandler(event)}
+                changed={(event: React.ChangeEvent) =>
+                    inputChangedHandler(event)
+                }
                 value={authData.password}
             />
             <Wrapper>
                 <ModalButton
                     clicked={
                         type === 'login'
-                            ? (event) =>
+                            ? (event: React.SyntheticEvent) =>
                                   handleSignIn(
                                       event,
                                       authData.email,
                                       authData.password
                                   )
-                            : (event) =>
+                            : (event: React.SyntheticEvent) =>
                                   handleSignUp(
                                       event,
                                       authData.email,

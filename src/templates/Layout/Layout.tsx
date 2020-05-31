@@ -5,7 +5,11 @@ import LoginButton from '../../components/Login/LoginButton/LoginButton';
 import Modal from '../../components/UI/Modal/Modal';
 import Login from '../../views/Login/Login';
 
-const Layout = (props) => {
+type LayoutProps = {
+    user: any;
+};
+
+const Layout: React.FC<LayoutProps> = (props) => {
     const [openModal, setOpenModal] = useState(false);
     const [authType, setAuthType] = useState('login');
 
@@ -33,7 +37,7 @@ const Layout = (props) => {
             <MainLoggedIn>
                 <Header>
                     {props.user ? (
-                        <LoginButton clicked={handleSignOut}>
+                        <LoginButton login={false} clicked={handleSignOut}>
                             Logout
                         </LoginButton>
                     ) : (
@@ -41,7 +45,7 @@ const Layout = (props) => {
                             <LoginButton login clicked={openLogin}>
                                 Login
                             </LoginButton>
-                            <LoginButton clicked={openSignUp}>
+                            <LoginButton login={false} clicked={openSignUp}>
                                 Sign up
                             </LoginButton>
                         </>

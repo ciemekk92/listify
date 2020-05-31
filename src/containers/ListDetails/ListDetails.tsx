@@ -7,6 +7,8 @@ const Details = (props: { selectedItem: { value: string } }) => {
     const { selectedItem } = props;
     const [item, setItem] = useState();
 
+    // TODO Fully implement list details
+
     return (
         <Wrapper>
             <Name>{selectedItem.value}</Name>
