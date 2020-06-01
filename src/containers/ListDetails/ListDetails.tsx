@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Wrapper } from './ListDetails.styled';
 import Name from '../../components/Details/Name/Name';
+import { Item } from '../../types/Item'
 
 const Details = (props: { selectedItem: { value: string } }) => {
     const { selectedItem } = props;
@@ -18,9 +19,7 @@ const Details = (props: { selectedItem: { value: string } }) => {
 
 const mapStateToProps = (state: {
     list: {
-        selectedItem: {
-            value: string;
-        };
+        selectedItem: Item
     };
 }) => {
     return {

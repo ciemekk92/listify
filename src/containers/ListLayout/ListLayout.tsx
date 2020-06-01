@@ -13,13 +13,7 @@ import { firestore } from '../../firebase/firebase';
 import firebase from 'firebase';
 import * as actions from '../../store/actions';
 import './ListLayout.css';
-
-type Item = {
-    value: string;
-    id: string;
-    date: Date;
-    completed: boolean;
-};
+import { Item } from '../../types/Item'
 
 const ListLayout = forwardRef(
     (props: PropsFromRedux, ref: React.Ref<HTMLInputElement>) => {

@@ -13,13 +13,7 @@ import NewListInput from '../../components/UI/Sidebar/NewList/NewListInput/NewLi
 import PanelContainer from '../../components/UI/Sidebar/PanelContainer/PanelContainer';
 import ListPanel from '../../components/UI/Sidebar/ListPanel/ListPanel';
 import AddNewList from '../../components/UI/Sidebar/NewList/AddNewList';
-
-type List = {
-    name: string;
-    id: string;
-    timestamp: number;
-    listItems: { value: string; id: string; date: Date; completed: boolean }[];
-};
+import { List } from '../../types/List'
 
 const Sidebar = (props: PropsFromRedux) => {
     const {
