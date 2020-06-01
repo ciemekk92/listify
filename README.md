@@ -12,9 +12,14 @@ Practical to-do list made with React
 -   Redux
 -   Styled Components
 -   Firebase
+-   Typescript
 
 ## TODO
 
+-   List Item Details - specific components
+-   List deleting
+-   Transitions
+-   Login input validation
 -   Styling overhaul
 
 ## COLOUR PALETTE

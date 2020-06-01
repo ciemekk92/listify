@@ -176,13 +176,6 @@ const ListLayout = forwardRef(
                                           key={element.id}
                                           timeout={1000}
                                           classNames="move"
-                                          addEndListener={(node, done) => {
-                                              node.addEventListener(
-                                                  'transitionend',
-                                                  done,
-                                                  false
-                                              );
-                                          }}
                                       >
                                           <ListItem
                                               name={element.value}
