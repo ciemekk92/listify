@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
     width: 90%;
     margin: 0 auto;
-    min-height: 85%;
-    max-height: 85%;
+    height: 90%;
+    place-self: center;
     background-color: #fff2e9;
     border-radius: 15px;
     color: black;

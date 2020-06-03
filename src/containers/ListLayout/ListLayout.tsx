@@ -13,7 +13,7 @@ import { firestore } from '../../firebase/firebase';
 import firebase from 'firebase';
 import * as actions from '../../store/actions';
 import './ListLayout.css';
-import { Item } from '../../types/Item'
+import { Item } from '../../types/Item';
 
 const ListLayout = forwardRef(
     (props: PropsFromRedux, ref: React.Ref<HTMLInputElement>) => {
@@ -109,6 +109,9 @@ const ListLayout = forwardRef(
                 const updatedItem = updateObject(itemToRemove[0], {
                     completed: true
                 });
+                if (selectedItem.id) {
+                    onSelectingItem(updatedItem);
+                }
                 await docRef
                     .update({
                         [key]: firebase.firestore.FieldValue.arrayUnion(
@@ -174,8 +177,10 @@ const ListLayout = forwardRef(
                                   .map((element: Item) => (
                                       <CSSTransition
                                           key={element.id}
-                                          timeout={1000}
+                                          timeout={500}
                                           classNames="move"
+                                          mountOnEnter
+                                          unmountOnExit
                                       >
                                           <ListItem
                                               name={element.value}
@@ -212,7 +217,7 @@ const ListLayout = forwardRef(
 
 const mapStateToProps = (state: {
     user: { userInfo: { lists: any } };
-    list: { currentList: any; date: any; selectedItem: any };
+    list: { currentList: any; date: any; selectedItem: Item };
 }) => {
     return {
         lists: state.user.userInfo.lists,

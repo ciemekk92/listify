@@ -28,9 +28,9 @@ export const MainLoggedIn = styled.main`
     );
     display: grid;
     grid-template-columns: 1.2fr 1.2fr;
-    grid-template-rows: 0.4fr 1.6fr 1fr;
+    grid-template-rows: 0.05fr 0.95fr;
     gap: 1px 1px;
-    grid-template-areas: 'header header' 'main-left main-right' 'main-left main-right';
+    grid-template-areas: 'header header' 'main-left main-right';
 `;
 
 export const MainLeft = styled.div`
