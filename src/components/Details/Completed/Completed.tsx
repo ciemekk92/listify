@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Wrapper } from './Completed.styled';
 import EditButton from '../EditButton/EditButton';
 import * as actions from '../../../store/actions/index';
@@ -16,41 +16,43 @@ const Completed: React.FC<PropsFromRedux> = (props) => {
         onGettingUserInfo,
         onSelectingItem
     } = props;
-    const [completed, setCompleted] = useState(props.children);
 
-    let key = `lists.${currentList}.listItems`;
+    let keyCompleted = `lists.${currentList}.listItems.completed`;
+    let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
 
-    const editHandler = async (id: string) => {
+    const editHandler = async (id: string, completed: boolean) => {
         const uid: any = localStorage.getItem('currentUser');
         const docRef = await firestore.collection('users').doc(uid);
-        const itemToRemove = lists[currentList].listItems.filter(
-            (item: Item) => item.id === id
-        );
+        const itemToRemove = lists[currentList].listItems[
+            `${completed ? 'completed' : 'notCompleted'}`
+        ].filter((item: Item) => item.id === id);
+
+        const editedCompletion = updateObject(selectedItem, {
+            completed: !selectedItem.completed
+        });
+
         try {
             await docRef.update({
-                [key]: firebase.firestore.FieldValue.arrayRemove(
-                    itemToRemove[0]
-                )
+                [`${
+                    completed ? keyCompleted : keyNotCompleted
+                }`]: firebase.firestore.FieldValue.arrayRemove(itemToRemove[0])
             });
-            const editedCompletion = updateObject(selectedItem, {
-                completed: !completed
-            });
-            setCompleted(!completed);
             await docRef
                 .update({
-                    [key]: firebase.firestore.FieldValue.arrayUnion(
+                    [`${
+                        completed ? keyNotCompleted : keyCompleted
+                    }`]: firebase.firestore.FieldValue.arrayUnion(
                         editedCompletion
                     )
                 })
-                .catch((error) => console.log(error))
-                .then((response) => updateHandler(editedCompletion))
+                .then((response) => {
+                    updateHandler(editedCompletion);
+                })
                 .catch((error) => console.log(error));
         } catch (error) {
             console.log(error);
         }
     };
-
-    // TODO fix not always changing completed/not completed
 
     const updateHandler = (item: Item) => {
         onGettingUserInfo();
@@ -61,7 +63,9 @@ const Completed: React.FC<PropsFromRedux> = (props) => {
         <Wrapper>
             {props.children ? 'Completed' : 'Not completed'}
             <EditButton
-                clicked={() => editHandler(selectedItem.id)}
+                clicked={() =>
+                    editHandler(selectedItem.id, selectedItem.completed)
+                }
                 title={'Toggle completion'}
             />
         </Wrapper>

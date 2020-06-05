@@ -38,7 +38,7 @@ const ListItem = (props: {
                     complete={true}
                     completed={completed}
                     delete={false}
-                    clicked={completeHandler}
+                    clicked={(event) => completeHandler(event)}
                 />
             ) : null}
             <ListItemButton

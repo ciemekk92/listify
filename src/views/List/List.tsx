@@ -4,7 +4,7 @@ import ListLayout from '../../containers/ListLayout/ListLayout';
 import ListDetails from '../../containers/ListDetails/ListDetails';
 import { hiddenListContext } from '../../context/hiddenListContext';
 import { connect, ConnectedProps } from 'react-redux';
-import { Item } from '../../types/Item'
+import { Item } from '../../types/Item';
 
 const { Provider } = hiddenListContext;
 const List: React.FC<PropsFromRedux> = (props) => {
@@ -18,20 +18,19 @@ const List: React.FC<PropsFromRedux> = (props) => {
             <Sidebar />
             <ListLayout />
             {selectedItem.id ? <ListDetails /> : null}
-
         </Provider>
     );
 };
 
 const mapStateToProps = (state: {
     list: {
-        selectedItem: Item
-    }
+        selectedItem: Item;
+    };
 }) => {
     return {
         selectedItem: state.list.selectedItem
-    }
-}
+    };
+};
 
 const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;

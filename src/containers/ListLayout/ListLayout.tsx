@@ -54,7 +54,8 @@ const ListLayout = forwardRef(
             );
         };
 
-        let key = `lists.${currentList}.listItems`;
+        let keyCompleted = `lists.${currentList}.listItems.completed`;
+        let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
 
         const saveNewItem = async (newItem: Item) => {
             const uid: any = localStorage.getItem('currentUser');
@@ -65,7 +66,7 @@ const ListLayout = forwardRef(
             try {
                 await docRef
                     .update({
-                        [key]: firebase.firestore.FieldValue.arrayUnion(
+                        [keyNotCompleted]: firebase.firestore.FieldValue.arrayUnion(
                             newItemWithDate
                         )
                     })
@@ -75,16 +76,21 @@ const ListLayout = forwardRef(
             }
         };
 
-        const deleteItem = async (id: string) => {
+        const deleteItem = async (id: string, completed: boolean) => {
             const uid: any = localStorage.getItem('currentUser');
             const docRef = await firestore.collection('users').doc(uid);
-            const itemToRemove = lists[currentList].listItems.filter(
-                (item: Item) => item.id === id
-            );
+            const itemToRemove = completed
+                ? lists[currentList].listItems.completed.filter(
+                      (item: Item) => item.id === id
+                  )
+                : lists[currentList].listItems.notCompleted.filter(
+                      (item: Item) => item.id === id
+                  );
+            const deleteKey = completed ? keyCompleted : keyNotCompleted;
             try {
                 await docRef
                     .update({
-                        [key]: firebase.firestore.FieldValue.arrayRemove(
+                        [deleteKey]: firebase.firestore.FieldValue.arrayRemove(
                             itemToRemove[0]
                         )
                     })
@@ -97,12 +103,12 @@ const ListLayout = forwardRef(
         const completeItem = async (id: string) => {
             const uid: any = localStorage.getItem('currentUser');
             const docRef = await firestore.collection('users').doc(uid);
-            const itemToRemove = lists[currentList].listItems.filter(
-                (item: Item) => item.id === id
-            );
+            const itemToRemove = lists[
+                currentList
+            ].listItems.notCompleted.filter((item: Item) => item.id === id);
             try {
                 await docRef.update({
-                    [key]: firebase.firestore.FieldValue.arrayRemove(
+                    [keyNotCompleted]: firebase.firestore.FieldValue.arrayRemove(
                         itemToRemove[0]
                     )
                 });
@@ -114,7 +120,7 @@ const ListLayout = forwardRef(
                 }
                 await docRef
                     .update({
-                        [key]: firebase.firestore.FieldValue.arrayUnion(
+                        [keyCompleted]: firebase.firestore.FieldValue.arrayUnion(
                             updatedItem
                         )
                     })
@@ -136,6 +142,53 @@ const ListLayout = forwardRef(
             if (item.id !== selectedItem.id) {
                 onSelectingItem(item);
             }
+        };
+
+        const mapHandler = (listArray: Item[], completed: boolean) => {
+            return (
+                listArray
+                    .slice()
+                    // sort alphabetically
+                    .sort((a: Item, b: Item) => (a.value > b.value ? 1 : -1))
+                    // sort by date - finished recently first for completed items, to be finished first as first for not completed
+                    .sort((a: Item, b: Item) =>
+                        completed
+                            ? new Date(b.date).getTime() -
+                              new Date(a.date).getTime()
+                            : new Date(a.date).getTime() -
+                              new Date(b.date).getTime()
+                    )
+                    .map((element: Item) => (
+                        <CSSTransition
+                            key={element.id}
+                            timeout={500}
+                            classNames="move"
+                            mountOnEnter
+                            unmountOnExit
+                        >
+                            <ListItem
+                                name={element.value}
+                                date={element.date}
+                                completed={element.completed}
+                                clicked={() =>
+                                    selectItemHandler({
+                                        id: element.id,
+                                        value: element.value,
+                                        date: element.date,
+                                        completed: element.completed
+                                    })
+                                }
+                                clickedComplete={() => completeItem(element.id)}
+                                clickedDelete={() =>
+                                    deleteItem(
+                                        element.id,
+                                        element.completed
+                                    ).then((response) => listUpdateHandler())
+                                }
+                            />
+                        </CSSTransition>
+                    ))
+            );
         };
 
         return (
@@ -167,47 +220,18 @@ const ListLayout = forwardRef(
                             ? null
                             : hidden
                             ? null
-                            : lists[currentList].listItems
-                                  .slice()
-                                  .sort(
-                                      (a: Item, b: Item) =>
-                                          new Date(b.date).getTime() -
-                                          new Date(a.date).getTime()
-                                  )
-                                  .map((element: Item) => (
-                                      <CSSTransition
-                                          key={element.id}
-                                          timeout={500}
-                                          classNames="move"
-                                          mountOnEnter
-                                          unmountOnExit
-                                      >
-                                          <ListItem
-                                              name={element.value}
-                                              date={element.date}
-                                              completed={element.completed}
-                                              clicked={() =>
-                                                  selectItemHandler({
-                                                      id: element.id,
-                                                      value: element.value,
-                                                      date: element.date,
-                                                      completed:
-                                                          element.completed
-                                                  })
-                                              }
-                                              clickedComplete={() =>
-                                                  completeItem(element.id)
-                                              }
-                                              clickedDelete={() =>
-                                                  deleteItem(
-                                                      element.id
-                                                  ).then((response) =>
-                                                      listUpdateHandler()
-                                                  )
-                                              }
-                                          />
-                                      </CSSTransition>
-                                  ))}
+                            : mapHandler(
+                                  lists[currentList].listItems.notCompleted,
+                                  false
+                              )}
+                        {!lists[currentList]
+                            ? null
+                            : hidden
+                            ? null
+                            : mapHandler(
+                                  lists[currentList].listItems.completed,
+                                  true
+                              )}
                     </TransitionGroup>
                 </ListContainer>
             </Wrapper>

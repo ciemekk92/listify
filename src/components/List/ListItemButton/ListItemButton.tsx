@@ -23,4 +23,4 @@ const ListItemButton = (props: {
     );
 };
 
-export default ListItemButton;
+export default React.memo(ListItemButton);

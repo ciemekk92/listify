@@ -13,7 +13,7 @@ import NewListInput from '../../components/UI/Sidebar/NewList/NewListInput/NewLi
 import PanelContainer from '../../components/UI/Sidebar/PanelContainer/PanelContainer';
 import ListPanel from '../../components/UI/Sidebar/ListPanel/ListPanel';
 import AddNewList from '../../components/UI/Sidebar/NewList/AddNewList';
-import { List } from '../../types/List'
+import { List } from '../../types';
 
 const Sidebar = (props: PropsFromRedux) => {
     const {
@@ -27,7 +27,10 @@ const Sidebar = (props: PropsFromRedux) => {
         name: '',
         id: '',
         timestamp: 0,
-        listItems: []
+        listItems: {
+            completed: [],
+            notCompleted: []
+        }
     });
 
     const { handleClick } = useContext(hiddenListContext);
@@ -81,6 +84,7 @@ const Sidebar = (props: PropsFromRedux) => {
     };
 
     // TODO Implement constant sorting of lists
+    // TODO Implement deleting lists
 
     let listsArray = Object.keys(lists);
 

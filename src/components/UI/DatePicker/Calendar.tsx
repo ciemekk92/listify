@@ -17,7 +17,7 @@ import {
     subDays,
     addDays
 } from 'date-fns';
-import { chunk, reduce } from 'lodash';
+import { chunk } from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faAngleDoubleLeft,
