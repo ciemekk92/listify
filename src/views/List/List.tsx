@@ -4,7 +4,7 @@ import ListLayout from '../../containers/ListLayout/ListLayout';
 import ListDetails from '../../containers/ListDetails/ListDetails';
 import { hiddenListContext } from '../../context/hiddenListContext';
 import { connect, ConnectedProps } from 'react-redux';
-import { Item } from '../../types/Item';
+import { Item } from '../../types';
 
 const { Provider } = hiddenListContext;
 const List: React.FC<PropsFromRedux> = (props) => {
@@ -13,6 +13,7 @@ const List: React.FC<PropsFromRedux> = (props) => {
     const handleClick = (value: boolean) => {
         setHidden(value);
     };
+
     return (
         <Provider value={{ hidden, handleClick }}>
             <Sidebar />

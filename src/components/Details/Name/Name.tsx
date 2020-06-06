@@ -1,21 +1,61 @@
 import React, { FunctionComponent, useState } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../../store/actions';
+import firebase from 'firebase';
+import { firestore } from '../../../firebase/firebase';
 import { Wrapper, Display, Input } from './Name.styled';
 import { CSSTransition } from 'react-transition-group';
 import './Name.css';
+import { updateObject } from '../../../shared/utility';
+import { Item } from '../../../types';
 
 type NameProps = {
-    changed(event: React.ChangeEvent): void;
-    submit(): void;
-    value: string;
+    selectedItem: Item;
+    currentList: any;
+    onGettingUserInfo(): void;
 };
 
-const Name: FunctionComponent<NameProps> = (props) => {
-    const { changed, submit, value } = props;
+const Name: React.FC<NameProps> = (props) => {
+    const { selectedItem, currentList, onGettingUserInfo } = props;
     const [editing, setEditing] = useState(false);
+    const [item, setItem] = useState(selectedItem);
+
+    const inputChangedHandler = (event: React.ChangeEvent) => {
+        const target = event.target as HTMLInputElement;
+        const updatedData = updateObject(item, {
+            value: target.value
+        });
+        setItem(updatedData);
+    };
+
+    let keyCompleted = `lists.${currentList}.listItems.completed`;
+    let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
+
+    const saveEditedItem = async () => {
+        const uid: any = localStorage.getItem('currentUser');
+        const docRef = await firestore.collection('users').doc(uid);
+        try {
+            await docRef
+                .update({
+                    [item.completed
+                        ? keyCompleted
+                        : keyNotCompleted]: firebase.firestore.FieldValue.arrayUnion(
+                        item
+                    )
+                })
+                .catch((error) => console.log(error));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const submitHandler = () => {
+        saveEditedItem().then((response) => onGettingUserInfo());
+    };
 
     return (
         <Wrapper>
-            <Display>{value}</Display>
+            <Display>{selectedItem.value}</Display>
             <button
                 onClick={() => {
                     setEditing(!editing);
@@ -33,18 +73,35 @@ const Name: FunctionComponent<NameProps> = (props) => {
                 unmountOnExit
             >
                 <Input
-                    placeholder={value}
-                    onChange={changed}
+                    placeholder={item.value}
+                    onChange={inputChangedHandler}
                     onKeyDown={(event) => {
                         if (event.key === 'Enter') {
-                            submit();
+                            submitHandler();
                         }
                     }}
-                    value={value}
+                    onSubmit={submitHandler}
+                    value={item.value}
                 />
             </CSSTransition>
         </Wrapper>
     );
 };
 
-export default Name;
+const mapStateToProps = (state: {
+    list: {
+        selectedItem: Item;
+        currentList: any;
+    };
+}) => {
+    return {
+        selectedItem: state.list.selectedItem,
+        currentList: state.list.currentList
+    };
+};
+
+const mapDispatchToProps = {
+    onGettingUserInfo: () => actions.initUserInfo()
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Name);

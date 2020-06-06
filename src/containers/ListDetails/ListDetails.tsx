@@ -7,32 +7,18 @@ import DateContainer from '../../components/Details/Date/DateContainer';
 import Completed from '../../components/Details/Completed/Completed';
 import Description from '../../components/Details/Description/Description';
 import { Item } from '../../types/Item';
+import { firestore } from '../../firebase/firebase';
+import firebase from 'firebase';
 
-const Details = (props: { selectedItem: Item }) => {
-    const { selectedItem } = props;
+const Details = (props: { selectedItem: Item; currentList: any }) => {
+    const { selectedItem, currentList } = props;
     const [item, setItem] = useState(selectedItem);
-
-    const inputChangedHandler = (event: React.ChangeEvent) => {
-        const target = event.target as HTMLInputElement;
-        const updatedData = updateObject(item, {
-            value: target.value
-        });
-        setItem(updatedData);
-    };
-
-    const saveEditedItem = () => {
-        // TODO
-    };
 
     // TODO Fully implement list details
 
     return (
         <Wrapper>
-            <Name
-                changed={inputChangedHandler}
-                submit={saveEditedItem}
-                value={selectedItem.value}
-            />
+            <Name />
             <DateContainer>{selectedItem.date}</DateContainer>
             <Completed>{selectedItem.completed}</Completed>
             <Description>There goes description</Description>
@@ -43,10 +29,12 @@ const Details = (props: { selectedItem: Item }) => {
 const mapStateToProps = (state: {
     list: {
         selectedItem: Item;
+        currentList: any;
     };
 }) => {
     return {
-        selectedItem: state.list.selectedItem
+        selectedItem: state.list.selectedItem,
+        currentList: state.list.currentList
     };
 };
 
