@@ -1,17 +1,27 @@
 import React from 'react';
 import { Button } from './EditButton.styled';
-import Edit from '../../../components/Icons/Edit';
+import { Cancel, Confirm, Edit } from '../../Icons';
 
 type ButtonProps = {
     clicked(): void;
     title: string;
+    type: string;
 };
 
 const EditButton: React.FC<ButtonProps> = (props) => {
-    const { clicked, title } = props;
+    const { clicked, title, type } = props;
+
+    const editButton = <Edit title={title} color={'#fff'} size={16} />;
+    const confirmButton = <Confirm title={title} color={'#fff'} size={16} />;
+    const cancelButton = <Cancel title={title} color={'#fff'} size={16} />;
+
     return (
         <Button onClick={clicked}>
-            <Edit title={title} color={'#fff'} size={16} />
+            {type === 'edit'
+                ? editButton
+                : type === 'confirm'
+                ? confirmButton
+                : cancelButton}
         </Button>
     );
 };

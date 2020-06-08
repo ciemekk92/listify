@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Plus = (props: { title: string; size: number; color: string }) => {
+export const Plus = (props: { title: string; size: number; color: string }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -37,5 +37,3 @@ const Plus = (props: { title: string; size: number; color: string }) => {
         </svg>
     );
 };
-
-export default Plus;

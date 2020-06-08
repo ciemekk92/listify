@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import firebase from 'firebase';
 import { firestore } from '../../../firebase/firebase';
-import { Wrapper, Display, Input } from './Name.styled';
+import { Wrapper, Input, Value, Confirm } from './Name.styled';
+import EditButton from '../EditButton/EditButton';
 import { CSSTransition } from 'react-transition-group';
 import './Name.css';
 import { updateObject } from '../../../shared/utility';
@@ -44,7 +45,17 @@ const Name: React.FC<NameProps> = (props) => {
     const saveEditedItem = async () => {
         const uid: any = localStorage.getItem('currentUser');
         const docRef = await firestore.collection('users').doc(uid);
+
         try {
+            await docRef
+                .update({
+                    [selectedItem.completed
+                        ? keyCompleted
+                        : keyNotCompleted]: firebase.firestore.FieldValue.arrayRemove(
+                        selectedItem
+                    )
+                })
+                .catch((error) => console.log(error));
             await docRef
                 .update({
                     [item.completed
@@ -61,22 +72,24 @@ const Name: React.FC<NameProps> = (props) => {
 
     const submitHandler = () => {
         saveEditedItem()
-            .then((response) => onGettingUserInfo())
+            .then((response) => {
+                setEditing(!editing);
+                onGettingUserInfo();
+            })
             .then((response) => onSelectingItem(item));
     };
 
     return (
         <Wrapper>
-            <Display>{selectedItem.value}</Display>
-            <button
-                onClick={() => {
+            <Value>{selectedItem.value}</Value>
+            <EditButton
+                title={'Edit task name'}
+                clicked={() => {
                     setEditing(!editing);
                     // TODO
                 }}
-            >
-                Toggle
-            </button>
-
+                type="edit"
+            />
             <CSSTransition
                 in={editing}
                 timeout={400}
@@ -95,6 +108,26 @@ const Name: React.FC<NameProps> = (props) => {
                     onSubmit={submitHandler}
                     value={item.value}
                 />
+            </CSSTransition>
+            <CSSTransition
+                in={editing}
+                timeout={400}
+                classNames={'input'}
+                mountOnEnter
+                unmountOnExit
+            >
+                <Confirm>
+                    <EditButton
+                        clicked={submitHandler}
+                        title="Confirm changes"
+                        type="confirm"
+                    />
+                    <EditButton
+                        clicked={() => setEditing(!editing)}
+                        title="Cancel"
+                        type="cancel"
+                    />
+                </Confirm>
             </CSSTransition>
         </Wrapper>
     );

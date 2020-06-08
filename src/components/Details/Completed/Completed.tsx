@@ -66,7 +66,8 @@ const Completed: React.FC<PropsFromRedux> = (props) => {
                 clicked={() =>
                     editHandler(selectedItem.id, selectedItem.completed)
                 }
-                title={'Toggle completion'}
+                title={'Edit completion of task'}
+                type={'edit'}
             />
         </Wrapper>
     );

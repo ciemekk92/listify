@@ -1,12 +1,12 @@
 import React from 'react';
-import { Wrapper } from './DateContainer.styled'
+import { Wrapper } from './DateContainer.styled';
 
 const DateContainer: React.FC = (props) => {
     return (
         <Wrapper>
-            {props.children}
+            <h1>{props.children}</h1>
         </Wrapper>
-    )
-}
+    );
+};
 
 export default DateContainer;
