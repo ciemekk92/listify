@@ -6,13 +6,10 @@ import Name from '../../components/Details/Name/Name';
 import DateContainer from '../../components/Details/Date/DateContainer';
 import Completed from '../../components/Details/Completed/Completed';
 import Description from '../../components/Details/Description/Description';
-import { Item } from '../../types/Item';
-import { firestore } from '../../firebase/firebase';
-import firebase from 'firebase';
+import { Item } from '../../types';
 
 const Details = (props: { selectedItem: Item; currentList: any }) => {
     const { selectedItem, currentList } = props;
-    const [item, setItem] = useState(selectedItem);
 
     // TODO Fully implement list details
 

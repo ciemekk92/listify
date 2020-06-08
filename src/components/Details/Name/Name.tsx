@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import firebase from 'firebase';
@@ -13,12 +13,22 @@ type NameProps = {
     selectedItem: Item;
     currentList: any;
     onGettingUserInfo(): void;
+    onSelectingItem(item: Item): void;
 };
 
 const Name: React.FC<NameProps> = (props) => {
-    const { selectedItem, currentList, onGettingUserInfo } = props;
+    const {
+        selectedItem,
+        currentList,
+        onGettingUserInfo,
+        onSelectingItem
+    } = props;
     const [editing, setEditing] = useState(false);
     const [item, setItem] = useState(selectedItem);
+
+    useEffect(() => {
+        setItem(selectedItem);
+    }, [selectedItem]);
 
     const inputChangedHandler = (event: React.ChangeEvent) => {
         const target = event.target as HTMLInputElement;
@@ -50,7 +60,9 @@ const Name: React.FC<NameProps> = (props) => {
     };
 
     const submitHandler = () => {
-        saveEditedItem().then((response) => onGettingUserInfo());
+        saveEditedItem()
+            .then((response) => onGettingUserInfo())
+            .then((response) => onSelectingItem(item));
     };
 
     return (
@@ -101,7 +113,8 @@ const mapStateToProps = (state: {
 };
 
 const mapDispatchToProps = {
-    onGettingUserInfo: () => actions.initUserInfo()
+    onGettingUserInfo: () => actions.initUserInfo(),
+    onSelectingItem: (item: Item) => actions.setSelectedItem(item)
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Name);
