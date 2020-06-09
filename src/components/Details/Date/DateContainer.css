@@ -1,14 +1,14 @@
-.input-enter {
+.picker-enter {
     opacity: 0;
 }
-.input-enter-active {
+.picker-enter-active {
     opacity: 1;
     transition: opacity 400ms;
 }
-.input-exit {
+.picker-exit {
     opacity: 1;
 }
-.input-exit-active {
+.picker-exit-active {
     opacity: 0;
     transition: opacity 400ms;
 }

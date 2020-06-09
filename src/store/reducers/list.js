@@ -9,7 +9,8 @@ const initialState = {
         value: '',
         date: null,
         completed: false
-    }
+    },
+    changedDate: null
 };
 
 const setSelectedDate = (state, action) => {
@@ -30,6 +31,12 @@ const setSelectedItem = (state, action) => {
     });
 };
 
+const setChangedDate = (state, action) => {
+    return updateObject(state, {
+        changedDate: action.changedDate
+    });
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_SELECTED_DATE:
@@ -38,6 +45,8 @@ const reducer = (state = initialState, action) => {
             return setCurrentList(state, action);
         case actionTypes.SET_SELECTED_ITEM:
             return setSelectedItem(state, action);
+        case actionTypes.SET_CHANGED_DATE:
+            return setChangedDate(state, action);
         default:
             return state;
     }

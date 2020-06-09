@@ -28,8 +28,13 @@ export const Input = styled.input`
     border-radius: 15px;
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 1rem;
+    text-align: center;
     margin: 1% auto;
     grid-area: input;
+
+    &:focus {
+        outline: none;
+    }
 `;
 
 export const Value = styled.h1`

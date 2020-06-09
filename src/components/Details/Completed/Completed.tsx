@@ -1,12 +1,12 @@
 import React from 'react';
 import { Wrapper } from './Completed.styled';
-import EditButton from '../EditButton/EditButton';
 import * as actions from '../../../store/actions/index';
 import { connect, ConnectedProps } from 'react-redux';
 import { Item } from '../../../types/Item';
 import { firestore } from '../../../firebase/firebase';
 import { updateObject } from '../../../shared/utility';
 import firebase from 'firebase';
+import CompletedButton from './CompletedButton/CompletedButton';
 
 const Completed: React.FC<PropsFromRedux> = (props) => {
     const {
@@ -61,13 +61,11 @@ const Completed: React.FC<PropsFromRedux> = (props) => {
 
     return (
         <Wrapper>
-            {props.children ? 'Completed' : 'Not completed'}
-            <EditButton
+            <CompletedButton
                 clicked={() =>
                     editHandler(selectedItem.id, selectedItem.completed)
                 }
-                title={'Edit completion of task'}
-                type={'edit'}
+                completed={selectedItem.completed}
             />
         </Wrapper>
     );

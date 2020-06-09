@@ -5,12 +5,18 @@ import { format } from 'date-fns';
 import Picker from '../../components/UI/DatePicker/Picker';
 import Calendar from '../../components/UI/DatePicker/Calendar';
 import { Wrapper } from './DatePicker.styled';
+import { Item } from '../../types';
 
-const DatePicker = (props: PropsFromRedux) => {
-    const { onSettingDate } = props;
+const DatePicker = (props: Props) => {
+    const { onSettingDate, onSettingChangedDate, type, selectedItem } = props;
     const [showDatepicker, setShowDatePicker] = useState(true);
     const [showCalendar, setShowCalendar] = useState(false);
-    const [date, setDate]: any = useState(format(new Date(), 'yyyy-MM-dd'));
+    const [date, setDate]: any = useState(
+        format(
+            type === 'layout' ? new Date() : new Date(selectedItem.date),
+            'yyyy-MM-dd'
+        )
+    );
 
     const toggleCalendar = () => {
         setShowDatePicker(false);
@@ -27,11 +33,16 @@ const DatePicker = (props: PropsFromRedux) => {
     };
 
     useEffect(() => {
-        onSettingDate(date);
+        if (type === 'layout') {
+            onSettingDate(date);
+        }
+        if (type === 'details') {
+            onSettingChangedDate(date);
+        }
     }, [date, onSettingDate]);
 
     return (
-        <Wrapper>
+        <Wrapper details={type === 'details'}>
             {showDatepicker && (
                 <Picker date={date} handleSelect={toggleCalendar} />
             )}
@@ -46,11 +57,23 @@ const DatePicker = (props: PropsFromRedux) => {
     );
 };
 
-const mapDispatchToProps = {
-    onSettingDate: (date: string) => actions.setSelectedDate(date)
+const mapStateToProps = (state: {
+    list: {
+        selectedItem: Item;
+    };
+}) => {
+    return { selectedItem: state.list.selectedItem };
 };
 
-const connector = connect(null, mapDispatchToProps);
+const mapDispatchToProps = {
+    onSettingDate: (date: string) => actions.setSelectedDate(date),
+    onSettingChangedDate: (date: string) => actions.setChangedDate(date)
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux & {
+    type: string;
+};
 
 export default connector(React.memo(DatePicker));

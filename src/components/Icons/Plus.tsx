@@ -1,21 +1,28 @@
 import React from 'react';
 
-export const Plus = (props: { title: string; size: number; color: string }) => {
+type SVGProps = {
+    size: number;
+    title: string;
+    color: string;
+};
+
+export const Plus: React.FC<SVGProps> = (props) => {
+    const { size, title, color } = props;
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={props.size}
-            height={props.size}
-            viewBox={`0 0 ${props.size} ${props.size}`}
+            width={size}
+            height={size}
+            viewBox={`0 0 ${size} ${size}`}
         >
-            <title>{props.title}</title>
+            <title>{title}</title>
             <line
-                x1={props.size / 2}
-                y1={props.size * 0.21875}
-                x2={props.size / 2}
-                y2={props.size * 0.78125}
+                x1={size / 2}
+                y1={size * 0.21875}
+                x2={size / 2}
+                y2={size * 0.78125}
                 fill="none"
-                stroke={props.color}
+                stroke={color}
                 style={{
                     strokeLinecap: 'round',
                     strokeLinejoin: 'round',
@@ -23,11 +30,11 @@ export const Plus = (props: { title: string; size: number; color: string }) => {
                 }}
             />
             <line
-                x1={props.size * 0.78125}
-                y1={props.size / 2}
-                x2={props.size * 0.21875}
-                y2={props.size / 2}
-                stroke={props.color}
+                x1={size * 0.78125}
+                y1={size / 2}
+                x2={size * 0.21875}
+                y2={size / 2}
+                stroke={color}
                 style={{
                     strokeLinecap: 'round',
                     strokeLinejoin: 'round',

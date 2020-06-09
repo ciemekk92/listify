@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { updateObject } from '../../shared/utility';
 import { Wrapper } from './ListDetails.styled';
 import Name from '../../components/Details/Name/Name';
 import DateContainer from '../../components/Details/Date/DateContainer';

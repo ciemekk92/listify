@@ -83,7 +83,6 @@ const Sidebar = (props: PropsFromRedux) => {
         }
     };
 
-    // TODO Implement constant sorting of lists
     // TODO Implement deleting lists
 
     let listsArray = Object.keys(lists);

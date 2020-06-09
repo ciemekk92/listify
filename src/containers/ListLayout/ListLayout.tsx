@@ -213,7 +213,7 @@ const ListLayout = forwardRef(
                 >
                     Add new list item
                 </SubmitButton>
-                <DatePicker />
+                <DatePicker type="layout" />
                 <ListContainer>
                     <TransitionGroup className={'list'}>
                         {!lists[currentList]

@@ -1,14 +1,14 @@
-.input-enter {
+.button-enter {
     opacity: 0;
 }
-.input-enter-active {
+.button-enter-active {
     opacity: 1;
     transition: opacity 400ms;
 }
-.input-exit {
+.button-exit {
     opacity: 1;
 }
-.input-exit-active {
+.button-exit-active {
     opacity: 0;
     transition: opacity 400ms;
 }

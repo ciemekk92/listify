@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+interface PickerProps {
+    readonly details: boolean;
+}
+
+export const Wrapper = styled.div<PickerProps>`
     width: 100%;
     text-align: center;
     display: flex;
@@ -9,4 +13,5 @@ export const Wrapper = styled.div`
     grid-row-start: 3;
     height: 45px;
     z-index: 20;
+    ${(props) => (props.details ? 'grid-area: input' : null)}
 `;

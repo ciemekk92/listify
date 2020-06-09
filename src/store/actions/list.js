@@ -7,6 +7,13 @@ export const setSelectedDate = (date) => {
     };
 };
 
+export const setChangedDate = (date) => {
+    return {
+        type: actionTypes.SET_CHANGED_DATE,
+        changedDate: date
+    };
+};
+
 export const setCurrentList = (list) => {
     return {
         type: actionTypes.SET_CURRENT_LIST,
