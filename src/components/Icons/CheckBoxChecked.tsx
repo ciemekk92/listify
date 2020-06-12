@@ -24,18 +24,6 @@ export const CheckBoxChecked: React.FC<SVGProps> = (props) => {
                 strokeLinejoin="round"
                 strokeWidth="32px"
             />
-            <rect
-                x="64"
-                y="64"
-                width="384"
-                height="384"
-                rx="48"
-                ry="48"
-                fill="none"
-                stroke={color}
-                strokeLinejoin="round"
-                strokeWidth="32px"
-            />
         </svg>
     );
 };

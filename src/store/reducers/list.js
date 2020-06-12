@@ -8,7 +8,8 @@ const initialState = {
         id: null,
         value: '',
         date: null,
-        completed: false
+        completed: false,
+        description: ''
     },
     changedDate: null
 };
@@ -22,6 +23,18 @@ const setSelectedDate = (state, action) => {
 const setCurrentList = (state, action) => {
     return updateObject(state, {
         currentList: action.currentList
+    });
+};
+
+const setSelectedItemEmpty = (state, action) => {
+    return updateObject(state, {
+        selectedItem: {
+            id: null,
+            value: '',
+            date: null,
+            completed: false,
+            description: ''
+        }
     });
 };
 
@@ -47,6 +60,8 @@ const reducer = (state = initialState, action) => {
             return setSelectedItem(state, action);
         case actionTypes.SET_CHANGED_DATE:
             return setChangedDate(state, action);
+        case actionTypes.SET_SELECTED_ITEM_EMPTY:
+            return setSelectedItemEmpty(state, action);
         default:
             return state;
     }

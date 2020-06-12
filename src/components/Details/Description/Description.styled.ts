@@ -1,12 +1,45 @@
 import styled from 'styled-components';
 
+interface DescriptionProps {
+    readonly editing: boolean;
+}
+
 export const Wrapper = styled.div`
     width: 95%;
     height: 35%;
-    border-radius: 15px;
     margin-top: 2%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.2fr;
+    grid-template-rows: 0.6fr 1fr 1fr 1fr;
+    gap: 1px 1px;
+    grid-template-areas: '. . button' 'value value value' 'input input input' 'confirm confirm confirm';
+    clip-path: polygon(0 0%, 100% 0, 100% 80%, 0% 100%);
+`;
+
+export const Input = styled.input<DescriptionProps>`
+    width: 80%;
+    height: 6rem;
+    border-radius: 15px;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 1rem;
+    text-align: center;
+    margin: 1% auto;
+    grid-area: ${(props) => (props.editing ? 'value' : 'input')};
+`;
+
+export const Display = styled.h1`
+    font-family: 'Open Sans Condensed', sans-serif;
+    margin: auto 3%;
+    grid-area: value;
+    place-self: center;
+    cursor: default;
+`;
+
+export const Confirm = styled.div`
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    background-color: #ffc9a5;
+    justify-content: center;
+    grid-area: input;
 `;

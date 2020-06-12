@@ -23,8 +23,8 @@ export const MainLoggedIn = styled.main`
     background: rgb(240, 138, 93);
     background: radial-gradient(
         circle,
-        rgba(255, 211, 182, 1) 0%,
-        rgba(255, 170, 165, 1) 100%
+        rgba(98, 210, 162, 1) 0%,
+        rgba(31, 171, 137, 1) 100%
     );
     display: grid;
     grid-template-columns: 1.2fr 1.2fr;

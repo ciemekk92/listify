@@ -8,6 +8,7 @@ export type List = {
             id: string;
             date: Date;
             completed: boolean;
+            description: string;
         }[];
 
         notCompleted: {
@@ -15,6 +16,7 @@ export type List = {
             id: string;
             date: Date;
             completed: boolean;
+            description: string;
         }[];
     };
 };

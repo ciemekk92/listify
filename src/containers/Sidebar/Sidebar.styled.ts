@@ -7,7 +7,7 @@ export const Bar = styled.div`
     top: 0;
     left: 0;
     height: 100vh;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: #d7fbe8;
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 10% 85% 5%;

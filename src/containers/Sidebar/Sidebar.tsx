@@ -13,14 +13,16 @@ import NewListInput from '../../components/UI/Sidebar/NewList/NewListInput/NewLi
 import PanelContainer from '../../components/UI/Sidebar/PanelContainer/PanelContainer';
 import ListPanel from '../../components/UI/Sidebar/ListPanel/ListPanel';
 import AddNewList from '../../components/UI/Sidebar/NewList/AddNewList';
-import { List } from '../../types';
+import { Item, List } from '../../types';
 
-const Sidebar = (props: PropsFromRedux) => {
+const Sidebar: React.FC<PropsFromRedux> = (props) => {
     const {
         lists,
+        selectedItem,
         selectedCurrentList,
         onSettingCurrentList,
-        onGettingUserInfo
+        onGettingUserInfo,
+        onSettingSelectedItemEmpty
     } = props;
 
     const [newList, setNewList] = useState({
@@ -77,13 +79,16 @@ const Sidebar = (props: PropsFromRedux) => {
         if (list !== selectedCurrentList) {
             handleClick(true);
             onSettingCurrentList(list);
+            if (selectedItem.id) {
+                onSettingSelectedItemEmpty();
+            }
             setTimeout(() => {
                 handleClick(false);
             }, 500);
         }
     };
 
-    // TODO Implement deleting lists
+    // TODO Implement deleting lists lul
 
     let listsArray = Object.keys(lists);
 
@@ -102,16 +107,24 @@ const Sidebar = (props: PropsFromRedux) => {
             </SidebarModal>
             <LogoPlaceholder>Listify</LogoPlaceholder>
             <PanelContainer>
-                {lists
-                    ? listsArray.map((element) => (
-                          <ListPanel
-                              active={selectedCurrentList === element}
-                              name={element}
-                              key={uuidv4()}
-                              clicked={() => currentListHandler(element)}
-                          />
-                      ))
-                    : null}
+                {
+                    // sort alphabetically
+                    lists
+                        ? listsArray
+                              .slice()
+                              .sort()
+                              .map((element) => (
+                                  <ListPanel
+                                      active={selectedCurrentList === element}
+                                      name={element}
+                                      key={uuidv4()}
+                                      clicked={() =>
+                                          currentListHandler(element)
+                                      }
+                                  />
+                              ))
+                        : null
+                }
             </PanelContainer>
             <AddNewList
                 clicked={
@@ -130,17 +143,20 @@ const mapStateToProps = (state: {
     };
     list: {
         currentList: any;
+        selectedItem: Item;
     };
 }) => {
     return {
         lists: state.user.userInfo.lists,
+        selectedItem: state.list.selectedItem,
         selectedCurrentList: state.list.currentList
     };
 };
 
 const mapDispatchToProps = {
     onGettingUserInfo: () => actions.initUserInfo(),
-    onSettingCurrentList: (list: string) => actions.setCurrentList(list)
+    onSettingCurrentList: (list: string) => actions.setCurrentList(list),
+    onSettingSelectedItemEmpty: () => actions.setSelectedItemEmpty()
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

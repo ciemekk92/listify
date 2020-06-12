@@ -13,7 +13,7 @@ import { firestore } from '../../firebase/firebase';
 import firebase from 'firebase';
 import * as actions from '../../store/actions';
 import './ListLayout.css';
-import { Item } from '../../types/Item';
+import { Item } from '../../types';
 
 const ListLayout = forwardRef(
     (props: PropsFromRedux, ref: React.Ref<HTMLInputElement>) => {
@@ -31,7 +31,8 @@ const ListLayout = forwardRef(
             value: '',
             id: '',
             date: new Date(),
-            completed: false
+            completed: false,
+            description: ''
         });
 
         const { hidden } = useContext(hiddenListContext);
@@ -170,12 +171,14 @@ const ListLayout = forwardRef(
                                 name={element.value}
                                 date={element.date}
                                 completed={element.completed}
+                                selected={selectedItem.id === element.id}
                                 clicked={() =>
                                     selectItemHandler({
                                         id: element.id,
                                         value: element.value,
                                         date: element.date,
-                                        completed: element.completed
+                                        completed: element.completed,
+                                        description: element.description
                                     })
                                 }
                                 clickedComplete={() => completeItem(element.id)}

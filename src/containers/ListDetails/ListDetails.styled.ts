@@ -14,6 +14,6 @@ export const Wrapper = styled.div`
     z-index: 0;
 
     & > div {
-        box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
+        background-color: #d7fbe8;
     }
 `;

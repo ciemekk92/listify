@@ -86,7 +86,6 @@ const Name: React.FC<NameProps> = (props) => {
                 title={'Edit task name'}
                 clicked={() => {
                     setEditing(!editing);
-                    // TODO
                 }}
                 type="edit"
             />

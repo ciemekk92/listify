@@ -2,12 +2,25 @@ import styled from 'styled-components';
 
 interface ItemProps {
     readonly completed: boolean;
+    readonly selected: boolean;
 }
+
+// selected & completed: #73d7b2
+// selected & not completed: #fcff78
+// completed: #a8e6cf
+// not completed: #fdffab
 
 export const Item = styled.div<ItemProps>`
     width: 90%;
     height: 2rem;
-    background-color: ${(props) => (props.completed ? '#a8e6cf' : '#fdffab')};
+    background-color: ${(props) =>
+        props.completed
+            ? props.selected
+                ? '#73d7b2'
+                : '#a8e6cf'
+            : props.selected
+            ? '#fcff78'
+            : '#fdffab'};
     text-align: center;
     font-family: 'Open Sans Condensed', sans-serif;
     color: black;

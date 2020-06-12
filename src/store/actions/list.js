@@ -21,6 +21,12 @@ export const setCurrentList = (list) => {
     };
 };
 
+export const setSelectedItemEmpty = () => {
+    return {
+        type: actionTypes.SET_SELECTED_ITEM_EMPTY
+    };
+};
+
 export const setSelectedItem = (item) => {
     return {
         type: actionTypes.SET_SELECTED_ITEM,

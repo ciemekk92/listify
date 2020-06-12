@@ -1,7 +1,7 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { CheckBoxChecked, CheckBoxEmpty } from '../../../Icons';
-import { Button } from './CompletedButton.styled';
+import { Button, Border } from './CompletedButton.styled';
 import './CompletedButton.css';
 
 type ButtonProps = {
@@ -16,15 +16,19 @@ const CompletedButton: React.FC<ButtonProps> = (props) => {
         <CheckBoxChecked size={32} title={'Completed'} color={'#fff'} />
     );
 
-    const notChecked = (
-        <CheckBoxEmpty size={32} title={'Not completed'} color={'#fff'} />
-    );
+    const notChecked = <div />;
 
     return (
         <Button onClick={clicked}>
-            <CSSTransition in={completed} timeout={400} classNames={'button'}>
-                {completed ? checked : notChecked}
-            </CSSTransition>
+            <Border>
+                <CSSTransition
+                    in={completed}
+                    timeout={400}
+                    classNames={'button'}
+                >
+                    {completed ? checked : notChecked}
+                </CSSTransition>
+            </Border>
         </Button>
     );
 };

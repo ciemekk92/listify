@@ -7,8 +7,8 @@ import Completed from '../../components/Details/Completed/Completed';
 import Description from '../../components/Details/Description/Description';
 import { Item } from '../../types';
 
-const Details = (props: { selectedItem: Item; currentList: any }) => {
-    const { selectedItem, currentList } = props;
+const Details = (props: { selectedItem: Item }) => {
+    const { selectedItem } = props;
 
     // TODO Fully implement list details
 
@@ -25,12 +25,10 @@ const Details = (props: { selectedItem: Item; currentList: any }) => {
 const mapStateToProps = (state: {
     list: {
         selectedItem: Item;
-        currentList: any;
     };
 }) => {
     return {
-        selectedItem: state.list.selectedItem,
-        currentList: state.list.currentList
+        selectedItem: state.list.selectedItem
     };
 };
 

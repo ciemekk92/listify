@@ -1,24 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { CSSTransition } from 'react-transition-group';
 import Sidebar from '../../containers/Sidebar/Sidebar';
 import ListLayout from '../../containers/ListLayout/ListLayout';
 import ListDetails from '../../containers/ListDetails/ListDetails';
 import { hiddenListContext } from '../../context/hiddenListContext';
 import { connect, ConnectedProps } from 'react-redux';
 import { Item } from '../../types';
+import './List.css';
 
 const { Provider } = hiddenListContext;
 const List: React.FC<PropsFromRedux> = (props) => {
     const { selectedItem } = props;
+
     const [hidden, setHidden] = useState(false);
+
     const handleClick = (value: boolean) => {
         setHidden(value);
     };
+
+    const [showing, setShowing] = useState(!!selectedItem.id);
+
+    useEffect(() => {
+        if (selectedItem.id !== null) {
+            setShowing(true);
+        } else {
+            setShowing(false);
+        }
+    }, [selectedItem.id]);
 
     return (
         <Provider value={{ hidden, handleClick }}>
             <Sidebar />
             <ListLayout />
-            {selectedItem.id ? <ListDetails /> : null}
+            <CSSTransition
+                in={showing}
+                timeout={400}
+                classNames={'move'}
+                mountOnEnter
+                unmountOnExit
+            >
+                {selectedItem.id ? <ListDetails /> : <ListDetails />}
+            </CSSTransition>
         </Provider>
     );
 };

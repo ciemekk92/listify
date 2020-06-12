@@ -15,7 +15,7 @@ const ListInput = (props: {
         if (node) {
             node.focus();
         }
-    }, [props.editing, ref]);
+    }, [props.editing, ref, node]);
 
     return (
         <Input
