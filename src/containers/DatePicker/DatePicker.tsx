@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import * as actions from '../../store/actions/index';
+import * as actions from '../../store/actions';
 import { format } from 'date-fns';
 import Picker from '../../components/UI/DatePicker/Picker';
 import Calendar from '../../components/UI/DatePicker/Calendar';

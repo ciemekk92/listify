@@ -1,6 +1,6 @@
 import React from 'react';
 import { Wrapper } from './Completed.styled';
-import * as actions from '../../../store/actions/index';
+import * as actions from '../../../store/actions';
 import { connect, ConnectedProps } from 'react-redux';
 import { Item } from '../../../types/Item';
 import { firestore } from '../../../firebase/firebase';

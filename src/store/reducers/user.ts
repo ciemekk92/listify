@@ -1,10 +1,11 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
+import { userState } from '../types/types';
 
-const initialState = {
+const initialState: userState = {
     userInfo: {
         uid: '',
-        createdAt: {},
+        createdAt: null,
         email: '',
         userName: '',
         lists: {}
@@ -14,31 +15,31 @@ const initialState = {
     loading: true
 };
 
-const setUserInfo = (state, action) => {
+const setUserInfo = (state: userState, action: any) => {
     return updateObject(state, {
         userInfo: action.userInfo
     });
 };
 
-const fetchUserInfoFailed = (state, action) => {
+const fetchUserInfoFailed = (state: userState, action: any) => {
     return updateObject(state, {
         error: action.error
     });
 };
 
-const enableLoading = (state, action) => {
+const enableLoading = (state: userState, action: any) => {
     return updateObject(state, {
         loading: true
     });
 };
 
-const disableLoading = (state, action) => {
+const disableLoading = (state: userState, action: any) => {
     return updateObject(state, {
         loading: false
     });
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action: any) => {
     switch (action.type) {
         case actionTypes.SET_USER_INFO:
             return setUserInfo(state, action);

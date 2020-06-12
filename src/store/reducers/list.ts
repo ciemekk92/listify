@@ -1,7 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
+import { listState, ListActionTypes} from '../types/types';
 
-const initialState = {
+const initialState: listState = {
     date: null,
     currentList: null,
     selectedItem: {
@@ -14,19 +15,19 @@ const initialState = {
     changedDate: null
 };
 
-const setSelectedDate = (state, action) => {
+const setSelectedDate = (state: listState, action: any) => {
     return updateObject(state, {
         date: action.date
     });
 };
 
-const setCurrentList = (state, action) => {
+const setCurrentList = (state: listState, action: any) => {
     return updateObject(state, {
         currentList: action.currentList
     });
 };
 
-const setSelectedItemEmpty = (state, action) => {
+const setSelectedItemEmpty = (state: listState, action: any) => {
     return updateObject(state, {
         selectedItem: {
             id: null,
@@ -38,19 +39,19 @@ const setSelectedItemEmpty = (state, action) => {
     });
 };
 
-const setSelectedItem = (state, action) => {
+const setSelectedItem = (state: listState, action: any) => {
     return updateObject(state, {
         selectedItem: action.selectedItem
     });
 };
 
-const setChangedDate = (state, action) => {
+const setChangedDate = (state: listState, action: any) => {
     return updateObject(state, {
         changedDate: action.changedDate
     });
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action: ListActionTypes) => {
     switch (action.type) {
         case actionTypes.SET_SELECTED_DATE:
             return setSelectedDate(state, action);

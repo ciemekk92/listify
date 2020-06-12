@@ -1,7 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
-import * as actions from '../../store/actions/index';
+import * as actions from '../../store/actions';
 import { routes } from '../../routes/routes';
 import Layout from '../../templates/Layout/Layout';
 import { auth } from '../../firebase/firebase';
