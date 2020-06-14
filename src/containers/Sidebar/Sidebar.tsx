@@ -88,7 +88,27 @@ const Sidebar: React.FC<PropsFromRedux> = (props) => {
         }
     };
 
-    // TODO Implement deleting lists lul
+    const deleteList = async (list: string) => {
+        const uid: any = localStorage.getItem('currentUser');
+        const docRef = await firestore.collection('users').doc(uid);
+
+        let key = `lists.${list}`;
+
+        try {
+            await docRef
+                .update({
+                    [key]: firebase.firestore.FieldValue.delete()
+                })
+                .then((response) => console.log(response))
+                .catch((error) => console.log(error));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const deleteListHandler = (list: string) => {
+        deleteList(list).then((response) => onGettingUserInfo());
+    };
 
     let listsArray = Object.keys(lists);
 
@@ -120,6 +140,9 @@ const Sidebar: React.FC<PropsFromRedux> = (props) => {
                                       key={uuidv4()}
                                       clicked={() =>
                                           currentListHandler(element)
+                                      }
+                                      clickedDelete={() =>
+                                          deleteListHandler(element)
                                       }
                                   />
                               ))

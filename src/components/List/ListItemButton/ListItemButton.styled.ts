@@ -17,6 +17,7 @@ export const Button = styled.div<ButtonProps>`
     grid-column-end: auto;
     place-self: center;
     transition: all 0.3s ease;
+    z-index: 2;
 
     &:hover {
         background-color: #ff771d;

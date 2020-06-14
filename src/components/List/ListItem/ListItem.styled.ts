@@ -24,19 +24,47 @@ export const Item = styled.div<ItemProps>`
     text-align: center;
     font-family: 'Open Sans Condensed', sans-serif;
     color: black;
-    margin: 1% 0;
+    margin: ${(props) => (props.selected ? '1% 0' : '0.5% 0')};
     border-radius: 5px;
     display: grid;
     grid-template-rows: 100%;
     grid-template-columns: 40% 40% 10% 10%;
     cursor: default;
-    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.75);
+    box-shadow: 1px 1px ${(props) => (props.selected ? '5px' : '3px')} 0
+        rgba(0, 0, 0, 0.5);
     z-index: 0;
     transition: all 0.4s ease;
+    position: relative;
+
+    &:first-child {
+        margin: ${(props) => (props.selected ? '0.5% 0 1% 0' : '0.5% 0')};
+    }
+
+    &::after {
+        position: absolute;
+        border-radius: 5px;
+        content: ' ';
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transition: opacity 0.4s;
+    }
+
+    &:hover::after {
+        opacity: 1;
+    }
 
     &:hover {
         background-color: ${(props) =>
             props.completed ? '#73d7b2' : '#fcff78'};
+        margin: 1% 0;
+    }
+
+    &:first-child:hover {
+        margin: 0.5% 0 1% 0;
     }
 `;
 

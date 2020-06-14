@@ -7,4 +7,5 @@ export const Input = styled.input`
     border-radius: 15px;
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 1rem;
+    outline: none;
 `;
