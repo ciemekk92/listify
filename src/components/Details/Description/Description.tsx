@@ -43,6 +43,8 @@ const Description: React.FC<PropsFromRedux> = (props) => {
             .then((response) => onSelectingItem(item));
     };
 
+    const emptyDescription = <h1></h1>;
+
     return (
         <Wrapper>
             <EditButton
@@ -56,7 +58,7 @@ const Description: React.FC<PropsFromRedux> = (props) => {
                 classNames={'input'}
                 mountOnEnter
             >
-                {!editing ? description : description}
+                {!editing ? description : emptyDescription}
             </CSSTransition>
             <CSSTransition
                 in={editing}

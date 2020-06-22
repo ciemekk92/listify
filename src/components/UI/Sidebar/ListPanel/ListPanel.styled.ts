@@ -13,13 +13,14 @@ export const Panel = styled.div<PanelProps>`
     gap: 1px 1px;
     grid-template-areas: '. name button';
     font-weight: ${(props) => (props.active ? '700' : '300')};
-    background-color: ${(props) => (props.active ? '#62d2a2' : '#9df3c4')};
+    background-color: ${(props) => (props.active ? '#112d4e' : '#3f72af')};
     padding: 1% 0;
     transition: all 0.6s ease;
     flex-shrink: 0;
+    border-bottom: 1px solid white;
 
     &:hover {
-        background-color: #70eda9;
+        background-color: #366296;
     }
 `;
 
@@ -29,4 +30,5 @@ export const Name = styled.p`
     place-self: center;
     margin: 0;
     cursor: default;
+    color: white;
 `;

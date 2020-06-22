@@ -20,12 +20,7 @@ export const MainLoggedIn = styled.main`
     min-height: 100vh;
     width: 85%;
     margin-left: 15%;
-    background: rgb(240, 138, 93);
-    background: radial-gradient(
-        circle,
-        rgba(98, 210, 162, 1) 0%,
-        rgba(31, 171, 137, 1) 100%
-    );
+    background: #dbe2ef;
     display: grid;
     grid-template-columns: 1.2fr 1.2fr;
     grid-template-rows: 0.05fr 0.95fr;

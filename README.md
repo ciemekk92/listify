@@ -23,8 +23,3 @@ Practical to-do list made with React
 -   Styling overhaul
 
 ## COLOUR PALETTE
-
--   a8e6cf - turquoise
--   fdffab - light yellow
--   ffd3b6 - light pink
--   ffaaa5 - salmon

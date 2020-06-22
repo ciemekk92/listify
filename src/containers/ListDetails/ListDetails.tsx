@@ -9,8 +9,7 @@ import { Item } from '../../types';
 
 const Details = (props: { selectedItem: Item }) => {
     const { selectedItem } = props;
-
-    // TODO Fully implement list details
+    // TODO add small type labels for each field
 
     return (
         <Wrapper>

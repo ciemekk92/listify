@@ -5,7 +5,7 @@ export const Button = styled.div`
     height: 3rem;
     margin: 0 3%;
     border-radius: 50%;
-    background-color: #ff9650;
+    background-color: #3f72af;
     grid-area: button;
     place-self: center;
     display: flex;
@@ -16,7 +16,7 @@ export const Button = styled.div`
     cursor: pointer;
 
     &:hover {
-        background-color: #ff771d;
+        background-color: #366296;
     }
 `;
 

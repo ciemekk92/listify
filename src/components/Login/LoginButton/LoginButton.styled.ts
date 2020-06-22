@@ -8,11 +8,11 @@ export const Button = styled.button<ButtonProps>`
     width: 80%;
     height: 30px;
     background-color: transparent;
-    border: 2px solid #b83b5e;
+    border: 2px solid #3f72af;
     border-radius: 5px;
     margin: 0;
     box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.25);
-    color: purple;
+    color: black;
     outline: none;
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 16px;

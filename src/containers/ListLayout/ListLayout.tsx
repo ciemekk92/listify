@@ -26,14 +26,19 @@ const ListLayout = forwardRef(
             selectedItem
         } = props;
 
+        // TODO check for not empty input
+        // TODO split completed / notCompleted into separate 'piles'
+
         const [editing, setEditing] = useState(false);
-        const [inputItem, setInputItem] = useState({
+
+        const initialItem = {
             value: '',
             id: '',
             date: new Date(),
             completed: false,
             description: ''
-        });
+        };
+        const [inputItem, setInputItem] = useState(initialItem);
 
         const { hidden } = useContext(hiddenListContext);
 
@@ -48,11 +53,7 @@ const ListLayout = forwardRef(
         };
 
         const clearInput = () => {
-            setInputItem(
-                updateObject(inputItem, {
-                    value: ''
-                })
-            );
+            setInputItem(initialItem);
         };
 
         let keyCompleted = `lists.${currentList}.listItems.completed`;

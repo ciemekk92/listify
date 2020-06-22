@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-    width: 95%;
     height: 20%;
     display: grid;
     grid-template-columns: 1fr 1fr 0.2fr;
@@ -9,7 +8,6 @@ export const Wrapper = styled.div`
     gap: 1px 1px;
     grid-template-areas: '. . button' 'value value value' 'input input input' 'confirm confirm confirm';
     z-index: 1;
-    clip-path: polygon(0 25%, 100% 0, 100% 100%, 0% 100%);
 `;
 
 export const Confirm = styled.div`

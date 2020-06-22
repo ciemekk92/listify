@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-    width: 95%;
     height: 20%;
     display: grid;
     grid-template-columns: 1fr 1fr 0.2fr;
     grid-template-rows: 0.6fr 1fr 1fr 1fr;
     gap: 1px 1px;
     grid-template-areas: '. . button' 'value value value' 'input input input' 'confirm confirm confirm';
-    margin-top: 2%;
 `;
 
 export const Value = styled.h1`

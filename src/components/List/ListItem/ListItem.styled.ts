@@ -76,7 +76,7 @@ export const Date = styled.div`
 `;
 
 export const Name = styled.div`
-    width: 30%;
+    width: 90%;
     grid-column-start: 1;
     grid-column-end: auto;
     place-self: center;
