@@ -5,6 +5,7 @@ import { CSSTransition } from 'react-transition-group';
 import './Description.css';
 import { Item } from '../../../types';
 import { Wrapper, Input, Display, Confirm } from './Description.styled';
+import { Label } from '../Shared.styled';
 import EditButton from '../EditButton/EditButton';
 import { updateObject } from '../../../shared/utility';
 import { saveEditedItem } from '../../../firebase/firebase';
@@ -20,7 +21,7 @@ const Description: React.FC<PropsFromRedux> = (props) => {
         selectedItem.description !== '' ? (
             <Display>{selectedItem.description}</Display>
         ) : (
-            <Display>No description set! :(</Display>
+            <Display>No notes set yet! :(</Display>
         );
 
     const [editing, setEditing] = useState(false);
@@ -47,6 +48,7 @@ const Description: React.FC<PropsFromRedux> = (props) => {
 
     return (
         <Wrapper>
+            <Label>Notes</Label>
             <EditButton
                 clicked={() => setEditing(!editing)}
                 title={'Edit description'}
@@ -69,7 +71,11 @@ const Description: React.FC<PropsFromRedux> = (props) => {
             >
                 <Input
                     editing={editing}
-                    placeholder={item.description}
+                    placeholder={
+                        item.description === ''
+                            ? 'Enter new notes here'
+                            : item.description
+                    }
                     onChange={inputChangedHandler}
                     onKeyDown={(event) => {
                         if (event.key === 'Enter') {

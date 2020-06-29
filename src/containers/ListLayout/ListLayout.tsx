@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useContext } from 'react';
+import React, { useState, forwardRef, useContext, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { hiddenListContext } from '../../context/hiddenListContext';
 import { Wrapper, ListContainer, Label } from './ListLayout.styled';
@@ -219,12 +219,6 @@ const ListLayout = forwardRef(
                 <DatePicker type="layout" />
                 <ListContainer>
                     <TransitionGroup className={'list'}>
-                        {lists[currentList] ? (
-                            lists[currentList].listItems.notCompleted.length !==
-                            0 ? (
-                                <Label>Tasks not completed</Label>
-                            ) : null
-                        ) : null}
                         {!lists[currentList]
                             ? null
                             : hidden
@@ -233,12 +227,6 @@ const ListLayout = forwardRef(
                                   lists[currentList].listItems.notCompleted,
                                   false
                               )}
-                        {lists[currentList] ? (
-                            lists[currentList].listItems.completed.length !==
-                            0 ? (
-                                <Label>Completed tasks</Label>
-                            ) : null
-                        ) : null}
                         {!lists[currentList]
                             ? null
                             : hidden

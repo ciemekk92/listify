@@ -8,7 +8,7 @@ export const Button = styled.div<ButtonProps>`
     min-width: 24px;
     min-height: 24px;
     border-radius: 50%;
-    background-color: #3f72af;
+    background-color: #112d4e;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -21,6 +21,6 @@ export const Button = styled.div<ButtonProps>`
     cursor: pointer;
 
     &:hover {
-        background-color: #366296;
+        background-color: #1d4d86;
     }
 `;

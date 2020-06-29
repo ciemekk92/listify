@@ -1,8 +1,9 @@
 import React from 'react';
 import { Wrapper } from './Completed.styled';
+import { Label } from '../Shared.styled';
 import * as actions from '../../../store/actions';
 import { connect, ConnectedProps } from 'react-redux';
-import { Item } from '../../../types/Item';
+import { Item } from '../../../types';
 import { firestore } from '../../../firebase/firebase';
 import { updateObject } from '../../../shared/utility';
 import firebase from 'firebase';
@@ -61,6 +62,7 @@ const Completed: React.FC<PropsFromRedux> = (props) => {
 
     return (
         <Wrapper>
+            <Label>Completed?</Label>
             <CompletedButton
                 clicked={() =>
                     editHandler(selectedItem.id, selectedItem.completed)

@@ -16,14 +16,14 @@ export const Item = styled.div<ItemProps>`
     background-color: ${(props) =>
         props.completed
             ? props.selected
-                ? '#73d7b2'
-                : '#a8e6cf'
+                ? '#366296'
+                : '#3f72af'
             : props.selected
-            ? '#fcff78'
-            : '#fdffab'};
+            ? '#b7c6e0'
+            : '#cfd9ea'};
     text-align: center;
     font-family: 'Open Sans Condensed', sans-serif;
-    color: black;
+    color: ${(props) => (props.completed ? 'white' : 'black')};
     margin: ${(props) => (props.selected ? '1% 0' : '0.5% 0')};
     border-radius: 5px;
     display: grid;
@@ -59,7 +59,7 @@ export const Item = styled.div<ItemProps>`
 
     &:hover {
         background-color: ${(props) =>
-            props.completed ? '#73d7b2' : '#fcff78'};
+            props.completed ? '#366296' : '#b7c6e0'};
         margin: 1% 0;
     }
 

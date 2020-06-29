@@ -37,5 +37,6 @@ export const ListContainer = styled.div`
 export const Label = styled.div`
     color: black;
     width: 95%;
-    font-size: 0.6rem;
+    font-size: 0.8rem;
+    margin: 1% 0;
 `;

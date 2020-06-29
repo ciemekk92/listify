@@ -3,10 +3,10 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
     height: 20%;
     display: grid;
-    grid-template-columns: 1fr 1fr 0.2fr;
+    grid-template-columns: 0.2fr 1fr 0.2fr;
     grid-template-rows: 0.6fr 1fr 1fr 1fr;
     gap: 1px 1px;
-    grid-template-areas: '. . button' 'value value value' 'input input input' 'confirm confirm confirm';
+    grid-template-areas: 'label . button' 'value value value' 'input input input' 'confirm confirm confirm';
     z-index: 1;
 `;
 

@@ -7,15 +7,15 @@ interface DescriptionProps {
 export const Wrapper = styled.div`
     height: 35%;
     display: grid;
-    grid-template-columns: 1fr 1fr 0.2fr;
+    grid-template-columns: 0.15fr 1fr 0.15fr;
     grid-template-rows: 0.6fr 1fr 1fr 1fr;
     gap: 1px 1px;
-    grid-template-areas: '. . button' 'value value value' 'input input input' 'confirm confirm confirm';
+    grid-template-areas: 'label . button' 'value value value' 'value value value' 'confirm confirm confirm';
 `;
 
 export const Input = styled.input<DescriptionProps>`
     width: 80%;
-    height: 3rem;
+    height: 10rem;
     border-radius: 15px;
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 1rem;
@@ -38,5 +38,5 @@ export const Confirm = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    grid-area: input;
+    grid-area: confirm;
 `;

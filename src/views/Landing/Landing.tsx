@@ -13,6 +13,7 @@ const Wrapper = styled.div`
 `;
 
 const Landing = () => {
+    // TODO whole Landing page / routing
     return (
         <Wrapper>
             <h2>Welcome to Listify!</h2>

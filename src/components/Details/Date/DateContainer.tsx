@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
-import { Wrapper, Value, Confirm } from './DateContainer.styled';
+import { Value, Confirm } from './DateContainer.styled';
+import { Wrapper, Label } from '../Shared.styled';
 import EditButton from '../EditButton/EditButton';
 import DatePicker from '../../../containers/DatePicker/DatePicker';
 import './DateContainer.css';
@@ -18,6 +19,7 @@ const DateContainer: React.FC<PropsFromRedux> = (props) => {
 
     return (
         <Wrapper>
+            <Label>Date</Label>
             <Value>{props.children}</Value>
             <EditButton
                 clicked={clickHandler}

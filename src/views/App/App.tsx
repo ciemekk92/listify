@@ -13,6 +13,8 @@ const App = (props: PropsFromRedux) => {
     const { onGettingUserInfo } = props;
     const [currentUser, setCurrentUser] = useState(null);
 
+    // TODO mobile layout
+
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {

@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import firebase from 'firebase';
 import { firestore } from '../../../firebase/firebase';
-import { Wrapper, Input, Value, Confirm } from './Name.styled';
+import { Input, Value, Confirm } from './Name.styled';
+import { Wrapper, Label } from '../Shared.styled';
 import EditButton from '../EditButton/EditButton';
 import { CSSTransition } from 'react-transition-group';
 import './Name.css';
@@ -81,6 +82,7 @@ const Name: React.FC<NameProps> = (props) => {
 
     return (
         <Wrapper>
+            <Label>Task name</Label>
             <Value>{selectedItem.value}</Value>
             <EditButton
                 title={'Edit task name'}
