@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
     height: 35%;
     display: grid;
     grid-template-columns: 0.15fr 1fr 0.15fr;
-    grid-template-rows: 0.6fr 1fr 1fr 1fr;
+    grid-template-rows: 1.8em 1fr 1fr 1fr;
     gap: 1px 1px;
     grid-template-areas: 'label . button' 'value value value' 'value value value' 'confirm confirm confirm';
 `;

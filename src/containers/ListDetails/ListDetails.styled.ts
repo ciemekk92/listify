@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
     width: 80%;
     margin: 0 auto;
-    height: 90%;
+    height: 95%;
     align-items: center;
     justify-content: center;
     place-self: center;

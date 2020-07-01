@@ -14,6 +14,7 @@ import PanelContainer from '../../components/UI/Sidebar/PanelContainer/PanelCont
 import ListPanel from '../../components/UI/Sidebar/ListPanel/ListPanel';
 import AddNewList from '../../components/UI/Sidebar/NewList/AddNewList';
 import { Item, List } from '../../types';
+import logo from '../../assets/logo.png';
 
 const Sidebar: React.FC<PropsFromRedux> = (props) => {
     const {
@@ -125,7 +126,13 @@ const Sidebar: React.FC<PropsFromRedux> = (props) => {
                     submit={() => newListHandler(newList)}
                 />
             </SidebarModal>
-            <LogoPlaceholder>Listify</LogoPlaceholder>
+            <LogoPlaceholder>
+                <img
+                    src={logo}
+                    alt={'Logo'}
+                    style={{ width: '75%', height: '75%' }}
+                />
+            </LogoPlaceholder>
             <PanelContainer>
                 {
                     // sort alphabetically

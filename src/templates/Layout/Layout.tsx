@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { auth } from '../../firebase/firebase';
-import { Header, MainLoggedIn, Wrapper } from './Layout.styled';
+import {
+    Header,
+    Logo,
+    MainLoggedIn,
+    MainNotLoggedIn,
+    Wrapper
+} from './Layout.styled';
 import LoginButton from '../../components/Login/LoginButton/LoginButton';
 import Modal from '../../components/UI/Modal/Modal';
 import Login from '../../views/Login/Login';
+import logo from '../../assets/logo.png';
 
 type LayoutProps = {
     user: any;
@@ -12,6 +19,8 @@ type LayoutProps = {
 const Layout: React.FC<LayoutProps> = (props) => {
     const [openModal, setOpenModal] = useState(false);
     const [authType, setAuthType] = useState('login');
+
+    const { user } = props;
 
     const openLogin = () => {
         setOpenModal(true);
@@ -29,30 +38,48 @@ const Layout: React.FC<LayoutProps> = (props) => {
 
     const handleSignOut = () => auth.signOut();
 
+    const header = (
+        <Header loggedIn={!!user}>
+            {user ? (
+                <LoginButton login={false} clicked={handleSignOut}>
+                    Logout
+                </LoginButton>
+            ) : (
+                <>
+                    <LoginButton login clicked={openLogin}>
+                        Login
+                    </LoginButton>
+                    <LoginButton login={false} clicked={openSignUp}>
+                        Sign up
+                    </LoginButton>
+                    <Logo>
+                        <img
+                            src={logo}
+                            alt={'Logo'}
+                            style={{ height: '50%' }}
+                        />
+                    </Logo>
+                </>
+            )}
+        </Header>
+    );
+
     return (
         <Wrapper>
             <Modal open={openModal} modalClosed={closeLogin}>
                 <Login type={authType} modalClosed={closeLogin} />
             </Modal>
-            <MainLoggedIn>
-                <Header>
-                    {props.user ? (
-                        <LoginButton login={false} clicked={handleSignOut}>
-                            Logout
-                        </LoginButton>
-                    ) : (
-                        <>
-                            <LoginButton login clicked={openLogin}>
-                                Login
-                            </LoginButton>
-                            <LoginButton login={false} clicked={openSignUp}>
-                                Sign up
-                            </LoginButton>
-                        </>
-                    )}
-                </Header>
-                {props.children}
-            </MainLoggedIn>
+            {user ? (
+                <MainLoggedIn loggedIn={!!user}>
+                    {header}
+                    {props.children}
+                </MainLoggedIn>
+            ) : (
+                <MainNotLoggedIn>
+                    {header}
+                    {props.children}
+                </MainNotLoggedIn>
+            )}
         </Wrapper>
     );
 };

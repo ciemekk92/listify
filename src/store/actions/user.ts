@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
 import { getUserDoc } from '../../firebase/firebase';
-import { userInfo } from '../types/types'
+import { userInfo } from '../types/types';
 
 export const setUserInfo = (userInfo: userInfo) => {
     return {
@@ -32,8 +32,7 @@ export const initUserInfo = () => {
     return (dispatch: any) => {
         dispatch(enableLoading());
         getUserDoc(localStorage.getItem('currentUser'))
-            .then((response) => {
-                // @ts-ignore
+            .then((response: any) => {
                 dispatch(setUserInfo(response));
                 dispatch(disableLoading());
             })

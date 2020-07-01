@@ -19,11 +19,10 @@ export const Button = styled.button<ButtonProps>`
     grid-column-start: ${(props) => (props.login ? '3' : '4')};
     grid-column-end: auto;
     place-self: center;
-    transition: all 0.25s ease-in;
+    transition: all 0.4s ease;
+    backface-visibility: hidden;
 
     &:hover {
-        font-size: 17px;
-        width: 83%;
-        height: 33px;
+        transform: translateY(-7%);
     }
 `;

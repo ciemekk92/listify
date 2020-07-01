@@ -31,15 +31,23 @@ const Login = (props: { type: string; modalClosed(): void }) => {
 
     const history = useHistory();
 
-    const handleSignIn = (
+    const handleSignIn = async (
         event: React.SyntheticEvent,
         email: string,
         password: string
     ) => {
         setLoading(true);
         event.preventDefault();
-        auth.signInWithEmailAndPassword(email, password)
-            .then(() => {
+        await auth
+            .signInWithEmailAndPassword(email, password)
+            .then((response) => {
+                if (response.user) {
+                    localStorage.setItem('currentUser', response.user.uid);
+                } else {
+                    alert(
+                        'Oops! Something went wrong! Try refreshing the page.'
+                    );
+                }
                 setLoading(false);
                 handleCancel();
                 history.push('/list');

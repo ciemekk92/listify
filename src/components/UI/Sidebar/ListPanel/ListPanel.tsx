@@ -39,4 +39,4 @@ const ListPanel: React.FC<PanelProps> = (props) => {
     );
 };
 
-export default ListPanel;
+export default React.memo(ListPanel);

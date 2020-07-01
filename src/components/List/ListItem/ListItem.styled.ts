@@ -11,7 +11,7 @@ interface ItemProps {
 // not completed: #fdffab
 
 export const Item = styled.div<ItemProps>`
-    width: 90%;
+    width: ${(props) => (props.selected ? '95%' : '90%')};
     height: 2rem;
     background-color: ${(props) =>
         props.completed
@@ -31,7 +31,7 @@ export const Item = styled.div<ItemProps>`
     grid-template-columns: 40% 40% 10% 10%;
     cursor: default;
     box-shadow: 1px 1px ${(props) => (props.selected ? '5px' : '3px')} 0
-        rgba(0, 0, 0, 0.5);
+        rgba(0, 0, 0, ${(props) => (props.selected ? '1' : '0.5')});
     z-index: 0;
     transition: all 0.4s ease;
     position: relative;

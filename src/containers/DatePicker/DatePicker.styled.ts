@@ -13,5 +13,5 @@ export const Wrapper = styled.div<PickerProps>`
     grid-row-start: 3;
     height: 45px;
     z-index: 20;
-    ${(props) => (props.details ? 'grid-area: input' : null)}
+    ${(props) => (props.details ? 'grid-area: input' : null)};
 `;

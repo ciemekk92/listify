@@ -16,4 +16,10 @@ export const Button = styled.button`
     grid-row-end: auto;
     place-self: center;
     cursor: pointer;
+    transition: all 0.4s ease;
+    backface-visibility: hidden;
+
+    &:hover {
+        transform: translateY(-7%);
+    }
 `;

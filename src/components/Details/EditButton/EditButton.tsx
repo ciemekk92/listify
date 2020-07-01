@@ -3,7 +3,7 @@ import { Button } from './EditButton.styled';
 import { Cancel, Confirm, Edit, Delete } from '../../Icons';
 
 type ButtonProps = {
-    clicked(): void;
+    clicked(arg0: any): void;
     title: string;
     type: string;
 };
@@ -29,4 +29,4 @@ const EditButton: React.FC<ButtonProps> = (props) => {
     );
 };
 
-export default EditButton;
+export default React.memo(EditButton);

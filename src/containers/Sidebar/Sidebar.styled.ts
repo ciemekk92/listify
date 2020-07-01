@@ -19,4 +19,7 @@ export const LogoPlaceholder = styled.h1`
     grid-row-start: 1;
     grid-row-end: auto;
     place-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;

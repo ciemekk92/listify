@@ -39,7 +39,7 @@ const DatePicker = (props: Props) => {
         if (type === 'details') {
             onSettingChangedDate(date);
         }
-    }, [date, onSettingDate]);
+    }, [date, onSettingDate, onSettingChangedDate, type]);
 
     return (
         <Wrapper details={type === 'details'}>

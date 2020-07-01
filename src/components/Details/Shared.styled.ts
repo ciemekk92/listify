@@ -4,7 +4,7 @@ export const Wrapper = styled.div`
     height: 20%;
     display: grid;
     grid-template-columns: 0.15fr 1fr 0.15fr;
-    grid-template-rows: 0.6fr 1fr 1fr 1fr;
+    grid-template-rows: 1.8em 1fr 1fr 1fr;
     gap: 1px 1px;
     grid-template-areas: 'label . button' 'value value value' 'input input input' 'confirm confirm confirm';
     z-index: 1;

@@ -32,6 +32,9 @@ const Name: React.FC<NameProps> = (props) => {
         setItem(selectedItem);
     }, [selectedItem]);
 
+    // TODO correct input display
+    // TODO empty input validation
+
     const inputChangedHandler = (event: React.ChangeEvent) => {
         const target = event.target as HTMLInputElement;
         const updatedData = updateObject(item, {
