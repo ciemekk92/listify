@@ -46,6 +46,7 @@ const Description: React.FC<PropsFromRedux> = (props) => {
 
     const emptyDescription = <h1></h1>;
 
+    // FIXME fix transitions on input
     return (
         <Wrapper>
             <Label>Notes</Label>

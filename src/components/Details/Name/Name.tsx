@@ -83,10 +83,36 @@ const Name: React.FC<NameProps> = (props) => {
             .then((response) => onSelectingItem(item));
     };
 
+    const inputWithTransition = (
+        <Input
+            placeholder={item.value}
+            onChange={inputChangedHandler}
+            onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                    submitHandler();
+                }
+            }}
+            onSubmit={submitHandler}
+            value={item.value}
+        />
+    );
+
     return (
         <Wrapper>
             <Label>Task name</Label>
-            <Value>{selectedItem.value}</Value>
+            <CSSTransition
+                in={!editing}
+                timeout={400}
+                classNames={'input'}
+                mountOnEnter
+                unmountOnExit
+            >
+                {editing ? (
+                    inputWithTransition
+                ) : (
+                    <Value>{selectedItem.value}</Value>
+                )}
+            </CSSTransition>
             <EditButton
                 title={'Edit task name'}
                 clicked={() => {
@@ -94,25 +120,7 @@ const Name: React.FC<NameProps> = (props) => {
                 }}
                 type="edit"
             />
-            <CSSTransition
-                in={editing}
-                timeout={400}
-                classNames={'input'}
-                mountOnEnter
-                unmountOnExit
-            >
-                <Input
-                    placeholder={item.value}
-                    onChange={inputChangedHandler}
-                    onKeyDown={(event) => {
-                        if (event.key === 'Enter') {
-                            submitHandler();
-                        }
-                    }}
-                    onSubmit={submitHandler}
-                    value={item.value}
-                />
-            </CSSTransition>
+
             <CSSTransition
                 in={editing}
                 timeout={400}

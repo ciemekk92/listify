@@ -25,7 +25,7 @@ export const Button = styled.div`
 export const Border = styled.div`
     width: 26px;
     height: 26px;
-    border: 2px solid white;
+    border: 2px solid black;
     display: flex;
     justify-content: center;
     align-items: center;

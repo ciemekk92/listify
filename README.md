@@ -1,4 +1,4 @@
-# TODOIST
+# Listify
 
 Practical to-do list made with React
 
@@ -17,9 +17,5 @@ Practical to-do list made with React
 ## TODO
 
 -   List Item Details - specific components
--   List deleting
--   Transitions
 -   Login input validation
 -   Styling overhaul
-
-## COLOUR PALETTE

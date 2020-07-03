@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from '../MediaQueries/MediaQueries';
 
 interface LayoutProps {
     readonly loggedIn: boolean;
@@ -50,6 +51,10 @@ export const MainLoggedIn = styled.main<LayoutProps>`
         props.loggedIn ? '0.05fr 0.95fr' : '0.15fr 0.85fr'};
     gap: 1px 1px;
     grid-template-areas: 'header header' 'main-left main-right';
+
+    @media ${device.laptop} {
+        background: #dbe2ee;
+    }
 `;
 
 export const MainLeft = styled.div`
