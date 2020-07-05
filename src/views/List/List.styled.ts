@@ -1,17 +1,15 @@
 import styled from 'styled-components';
+import { device } from '../../templates/MediaQueries/MediaQueries';
 
 export const Wrapper = styled.div`
-    width: 90%;
-    margin: 0 auto;
-    min-height: 85%;
-    max-height: 85%;
-    background-color: #fff2e9;
-    border-radius: 15px;
-    color: black;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    min-height: 100%;
+    height: 100%;
     align-items: center;
-    overflow: hidden;
-    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
-    z-index: 0;
+    justify-content: center;
+
+    @media only screen and ${device.tablet} {
+        flex-direction: column;
+    }
 `;

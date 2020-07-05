@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useContext, useEffect } from 'react';
+import React, { useState, forwardRef, useContext, useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { hiddenListContext } from '../../context/hiddenListContext';
 import { Wrapper, ListContainer, Label } from './ListLayout.styled';
@@ -14,16 +14,18 @@ import firebase from 'firebase';
 import * as actions from '../../store/actions';
 import './ListLayout.css';
 import { Item } from '../../types';
+import { sizeNumber } from '../../templates/MediaQueries/MediaQueries';
 
 const ListLayout = forwardRef(
-    (props: PropsFromRedux, ref: React.Ref<HTMLInputElement>) => {
+    (props: Props, ref: React.Ref<HTMLInputElement>) => {
         const {
             onGettingUserInfo,
             onSelectingItem,
             lists,
             date,
             currentList,
-            selectedItem
+            selectedItem,
+            selected
         } = props;
 
         // TODO check for not empty input
@@ -139,9 +141,20 @@ const ListLayout = forwardRef(
             setEditing(false);
         };
 
-        const selectItemHandler = (item: Item) => {
+        const dummyRef = useRef(null);
+
+        const scrollToBottom = (ref: any) => {
+            if (window.innerWidth <= sizeNumber.tablet) {
+                ref.current.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
+        const selectItemHandler = (item: Item, ref: any) => {
             if (item.id !== selectedItem.id) {
                 onSelectingItem(item);
+                setTimeout(() => {
+                    scrollToBottom(ref);
+                }, 10);
             }
         };
 
@@ -173,13 +186,16 @@ const ListLayout = forwardRef(
                                 completed={element.completed}
                                 selected={selectedItem.id === element.id}
                                 clicked={() =>
-                                    selectItemHandler({
-                                        id: element.id,
-                                        value: element.value,
-                                        date: element.date,
-                                        completed: element.completed,
-                                        description: element.description
-                                    })
+                                    selectItemHandler(
+                                        {
+                                            id: element.id,
+                                            value: element.value,
+                                            date: element.date,
+                                            completed: element.completed,
+                                            description: element.description
+                                        },
+                                        dummyRef
+                                    )
                                 }
                                 clickedComplete={() => completeItem(element.id)}
                                 clickedDelete={() =>
@@ -195,7 +211,7 @@ const ListLayout = forwardRef(
         };
 
         return (
-            <Wrapper>
+            <Wrapper selected={selected}>
                 <ListInput
                     ref={ref}
                     submit={() => {
@@ -237,6 +253,7 @@ const ListLayout = forwardRef(
                               )}
                     </TransitionGroup>
                 </ListContainer>
+                <div ref={dummyRef} />
             </Wrapper>
         );
     }
@@ -261,5 +278,6 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux & { selected: boolean };
 
 export default connector(React.memo(ListLayout));

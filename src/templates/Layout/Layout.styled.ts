@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
 
 export const Header = styled.div<LayoutProps>`
     width: 100%;
-    grid-area: header;
+    margin: 1% 0;
     display: grid;
     grid-template-rows: ${(props) => (props.loggedIn ? '100%' : '30% 70%')};
     grid-template-columns: 20% auto 10% 10%;
@@ -32,8 +32,7 @@ export const Logo = styled.div`
 export const MainNotLoggedIn = styled.main`
     width: 100%;
     min-height: 100vh;
-    background: #dbe2ef;
-    display: grid;
+    background-color: #dbe2ef;
     grid-template-columns: 1.2fr 1.2fr;
     grid-template-rows: 0.15fr 0.85fr;
     gap: 1px 1px;
@@ -44,17 +43,9 @@ export const MainLoggedIn = styled.main<LayoutProps>`
     min-height: 100vh;
     width: 85%;
     margin-left: 15%;
-    background: #dbe2ef;
-    display: grid;
-    grid-template-columns: 1.2fr 1.2fr;
-    grid-template-rows: ${(props) =>
-        props.loggedIn ? '0.05fr 0.95fr' : '0.15fr 0.85fr'};
-    gap: 1px 1px;
-    grid-template-areas: 'header header' 'main-left main-right';
-
-    @media ${device.laptop} {
-        background: #dbe2ee;
-    }
+    background-color: #dbe2ef;
+    display: flex;
+    flex-direction: column;
 `;
 
 export const MainLeft = styled.div`

@@ -6,7 +6,8 @@ export const Wrapper = styled.div`
     grid-template-columns: 0.2fr 1fr 0.2fr;
     grid-template-rows: 0.6fr 1fr 1fr 1fr;
     gap: 1px 1px;
-    grid-template-areas: 'label . button' 'value value value' 'input input input' 'confirm confirm confirm';
+    place-self: center;
+    grid-template-areas: 'label . button' 'value value value' 'value value value' 'confirm confirm confirm';
     z-index: 1;
 `;
 
@@ -27,7 +28,8 @@ export const Input = styled.input`
     font-size: 1rem;
     text-align: center;
     margin: 1% auto;
-    grid-area: input;
+    grid-area: value;
+    place-self: center;
 
     &:focus {
         outline: none;
@@ -40,4 +42,9 @@ export const Value = styled.h1`
     grid-area: value;
     place-self: center;
     cursor: default;
+`;
+
+export const Placeholder = styled.div`
+    margin: 0;
+    padding: 0;
 `;

@@ -24,7 +24,7 @@ export const Item = styled.div<ItemProps>`
     text-align: center;
     font-family: 'Open Sans Condensed', sans-serif;
     color: ${(props) => (props.completed ? 'white' : 'black')};
-    margin: ${(props) => (props.selected ? '1% 0' : '0.5% 0')};
+    margin: ${(props) => (props.selected ? '0.5rem 0' : '0.25rem 0')};
     border-radius: 5px;
     display: grid;
     grid-template-rows: 100%;

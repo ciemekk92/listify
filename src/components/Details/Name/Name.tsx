@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import firebase from 'firebase';
 import { firestore } from '../../../firebase/firebase';
-import { Input, Value, Confirm } from './Name.styled';
-import { Wrapper, Label } from '../Shared.styled';
+import { Wrapper, Input, Value, Confirm, Placeholder } from './Name.styled';
+import { Label } from '../Shared.styled';
 import EditButton from '../EditButton/EditButton';
 import { CSSTransition } from 'react-transition-group';
 import './Name.css';
@@ -32,7 +32,6 @@ const Name: React.FC<NameProps> = (props) => {
         setItem(selectedItem);
     }, [selectedItem]);
 
-    // TODO correct input display
     // TODO empty input validation
 
     const inputChangedHandler = (event: React.ChangeEvent) => {
@@ -83,19 +82,7 @@ const Name: React.FC<NameProps> = (props) => {
             .then((response) => onSelectingItem(item));
     };
 
-    const inputWithTransition = (
-        <Input
-            placeholder={item.value}
-            onChange={inputChangedHandler}
-            onKeyDown={(event) => {
-                if (event.key === 'Enter') {
-                    submitHandler();
-                }
-            }}
-            onSubmit={submitHandler}
-            value={item.value}
-        />
-    );
+    const emptyName = <Placeholder />;
 
     return (
         <Wrapper>
@@ -107,11 +94,26 @@ const Name: React.FC<NameProps> = (props) => {
                 mountOnEnter
                 unmountOnExit
             >
-                {editing ? (
-                    inputWithTransition
-                ) : (
-                    <Value>{selectedItem.value}</Value>
-                )}
+                {editing ? emptyName : <Value>{selectedItem.value}</Value>}
+            </CSSTransition>
+            <CSSTransition
+                in={editing}
+                timeout={400}
+                classNames={'input'}
+                mountOnEnter
+                unmountOnExit
+            >
+                <Input
+                    placeholder={item.value}
+                    onChange={inputChangedHandler}
+                    onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                            submitHandler();
+                        }
+                    }}
+                    onSubmit={submitHandler}
+                    value={item.value}
+                />
             </CSSTransition>
             <EditButton
                 title={'Edit task name'}

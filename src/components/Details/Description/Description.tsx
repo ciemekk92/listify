@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../../store/actions';
 import { CSSTransition } from 'react-transition-group';
@@ -17,12 +17,6 @@ const Description: React.FC<PropsFromRedux> = (props) => {
         onGettingUserInfo,
         onSelectingItem
     } = props;
-    const description =
-        selectedItem.description !== '' ? (
-            <Display>{selectedItem.description}</Display>
-        ) : (
-            <Display>No notes set yet! :(</Display>
-        );
 
     const [editing, setEditing] = useState(false);
     const [item, setItem] = useState(selectedItem);
@@ -35,6 +29,10 @@ const Description: React.FC<PropsFromRedux> = (props) => {
         setItem(updatedData);
     };
 
+    useEffect(() => {
+        setItem(selectedItem);
+    }, [selectedItem]);
+
     const submitHandler = () => {
         saveEditedItem(currentList, selectedItem, item)
             .then((response) => {
@@ -44,9 +42,15 @@ const Description: React.FC<PropsFromRedux> = (props) => {
             .then((response) => onSelectingItem(item));
     };
 
+    const description =
+        selectedItem.description !== '' ? (
+            <Display>{selectedItem.description}</Display>
+        ) : (
+            <Display>No notes set yet! :(</Display>
+        );
+
     const emptyDescription = <h1></h1>;
 
-    // FIXME fix transitions on input
     return (
         <Wrapper>
             <Label>Notes</Label>

@@ -9,7 +9,7 @@ export const Wrapper = styled.div<PickerProps>`
     text-align: center;
     display: flex;
     justify-content: center;
-    margin: ${(props) => (props.details ? '0' : '0 0 2% 0')};
+    margin: ${(props) => (props.details ? '0' : '0 0 1rem 0')};
     grid-row-start: 3;
     height: 45px;
     z-index: 20;

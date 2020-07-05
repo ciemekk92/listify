@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export const Button = styled.div`
-    width: 3rem;
-    height: 3rem;
-    margin: 0 3%;
+    width: 5vh;
+    height: 5vh;
+    margin-bottom: 2%;
     border-radius: 50%;
     background-color: #3f72af;
     grid-area: button;
@@ -23,9 +23,9 @@ export const Button = styled.div`
 `;
 
 export const Border = styled.div`
-    width: 26px;
-    height: 26px;
-    border: 2px solid black;
+    width: 2.5vh;
+    height: 2.5vh;
+    border: 0.2vh solid white;
     display: flex;
     justify-content: center;
     align-items: center;
