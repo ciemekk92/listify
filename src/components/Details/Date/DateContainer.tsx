@@ -41,7 +41,7 @@ const DateContainer: React.FC<Props> = (props) => {
     return (
         <Wrapper>
             <Label>Date</Label>
-            <Value>{props.children}</Value>
+            <Value>{selectedItem.date}</Value>
             <EditButton
                 clicked={clickHandler}
                 title={'Edit date'}

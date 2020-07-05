@@ -3,5 +3,5 @@ export type Item = {
     id: string;
     date: Date;
     completed: boolean;
-    description: string;
+    notes: string[];
 };

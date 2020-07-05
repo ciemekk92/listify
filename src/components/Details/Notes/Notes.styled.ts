@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-interface DescriptionProps {
+interface NotesProps {
     readonly editing: boolean;
 }
 
@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
     grid-template-areas: 'label . button' 'value value value' 'value value value' 'confirm confirm confirm';
 `;
 
-export const Input = styled.textarea<DescriptionProps>`
+export const Input = styled.input<NotesProps>`
     width: 80%;
     height: 10rem;
     border-radius: 15px;
@@ -24,7 +24,7 @@ export const Input = styled.textarea<DescriptionProps>`
     grid-area: value;
 `;
 
-export const Display = styled.h1`
+export const Display = styled.ul`
     font-family: 'Open Sans Condensed', sans-serif;
     margin: auto 3%;
     grid-area: value;

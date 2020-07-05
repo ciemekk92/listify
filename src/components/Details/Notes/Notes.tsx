@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../../store/actions';
 import { CSSTransition } from 'react-transition-group';
-import './Description.css';
+import './Notes.css';
 import { Item } from '../../../types';
-import { Wrapper, Input, Display, Confirm } from './Description.styled';
+import { Wrapper, Input, Display, Confirm } from './Notes.styled';
 import { Label } from '../Shared.styled';
 import EditButton from '../EditButton/EditButton';
 import { updateObject } from '../../../shared/utility';
 import { saveEditedItem } from '../../../firebase/firebase';
 
-const Description: React.FC<PropsFromRedux> = (props) => {
+const Notes: React.FC<PropsFromRedux> = (props) => {
     const {
         selectedItem,
         currentList,
@@ -19,32 +19,39 @@ const Description: React.FC<PropsFromRedux> = (props) => {
     } = props;
 
     const [editing, setEditing] = useState(false);
-    const [item, setItem] = useState(selectedItem);
+    const [inputValue, setInputValue] = useState('');
+
+    // TODO notes styling, notes deleting
 
     const inputChangedHandler = (event: React.ChangeEvent) => {
         const target = event.target as HTMLInputElement;
-        const updatedData = updateObject(item, {
-            description: target.value
-        });
-        setItem(updatedData);
+        setInputValue(target.value);
     };
 
-    useEffect(() => {
-        setItem(selectedItem);
-    }, [selectedItem]);
+    const clearInput = () => {
+        setInputValue('');
+    };
 
     const submitHandler = () => {
-        saveEditedItem(currentList, selectedItem, item)
+        const updatedItem = updateObject(selectedItem, {
+            notes: [inputValue, ...selectedItem.notes]
+        });
+        saveEditedItem(currentList, selectedItem, updatedItem)
             .then((response) => {
                 setEditing(!editing);
+                clearInput();
                 onGettingUserInfo();
             })
-            .then((response) => onSelectingItem(item));
+            .then((response) => onSelectingItem(updatedItem));
     };
 
     const description =
-        selectedItem.description !== '' ? (
-            <Display>{selectedItem.description}</Display>
+        selectedItem.notes[0] !== '' ? (
+            <Display>
+                {selectedItem.notes.map((element) => (
+                    <li>{element}</li>
+                ))}
+            </Display>
         ) : (
             <Display>No notes set yet! :(</Display>
         );
@@ -56,7 +63,7 @@ const Description: React.FC<PropsFromRedux> = (props) => {
             <Label>Notes</Label>
             <EditButton
                 clicked={() => setEditing(!editing)}
-                title={'Edit description'}
+                title={'Add new notes'}
                 type={'edit'}
             />
             <CSSTransition
@@ -77,18 +84,13 @@ const Description: React.FC<PropsFromRedux> = (props) => {
                 <Input
                     editing={editing}
                     placeholder={
-                        item.description === ''
+                        selectedItem.notes[0] === ''
                             ? 'Enter new notes here'
-                            : item.description
+                            : selectedItem.notes[1]
                     }
                     onChange={inputChangedHandler}
-                    onKeyDown={(event) => {
-                        if (event.key === '7') {
-                            submitHandler();
-                        }
-                    }}
                     onSubmit={submitHandler}
-                    value={item.description}
+                    value={inputValue}
                 />
             </CSSTransition>
             <CSSTransition
@@ -135,4 +137,4 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-export default connector(Description);
+export default connector(Notes);

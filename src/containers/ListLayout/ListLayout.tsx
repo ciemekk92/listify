@@ -38,7 +38,7 @@ const ListLayout = forwardRef(
             id: '',
             date: new Date(),
             completed: false,
-            description: ''
+            notes: []
         };
         const [inputItem, setInputItem] = useState(initialItem);
 
@@ -178,7 +178,7 @@ const ListLayout = forwardRef(
                     .map((element: Item) => (
                         <CSSTransition
                             key={element.id}
-                            timeout={500}
+                            timeout={600}
                             classNames="move"
                             mountOnEnter
                             unmountOnExit
@@ -195,7 +195,7 @@ const ListLayout = forwardRef(
                                             value: element.value,
                                             date: element.date,
                                             completed: element.completed,
-                                            description: element.description
+                                            notes: element.notes
                                         },
                                         dummyRef
                                     )

@@ -1,6 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
-import { listState, ListActionTypes} from '../types/types';
+import { listState, ListActionTypes } from '../types/types';
 
 const initialState: listState = {
     date: null,
@@ -10,7 +10,7 @@ const initialState: listState = {
         value: '',
         date: null,
         completed: false,
-        description: ''
+        notes: []
     },
     changedDate: null
 };
@@ -34,7 +34,7 @@ const setSelectedItemEmpty = (state: listState, action: any) => {
             value: '',
             date: null,
             completed: false,
-            description: ''
+            notes: []
         }
     });
 };
