@@ -83,7 +83,7 @@ const Description: React.FC<PropsFromRedux> = (props) => {
                     }
                     onChange={inputChangedHandler}
                     onKeyDown={(event) => {
-                        if (event.key === 'Enter') {
+                        if (event.key === '7') {
                             submitHandler();
                         }
                     }}

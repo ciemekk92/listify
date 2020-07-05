@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
     grid-template-areas: 'label . button' 'value value value' 'value value value' 'confirm confirm confirm';
 `;
 
-export const Input = styled.input<DescriptionProps>`
+export const Input = styled.textarea<DescriptionProps>`
     width: 80%;
     height: 10rem;
     border-radius: 15px;

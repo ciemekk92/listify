@@ -19,7 +19,7 @@ export const Wrapper = styled.div<LayoutProps>`
     box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
     z-index: 0;
     border-radius: 30px;
-    transition: flex-shrink 1s ease-out;
+    transition: flex-shrink 0.54s linear;
 
     @media only screen and ${device.tablet} {
         margin: 1%;

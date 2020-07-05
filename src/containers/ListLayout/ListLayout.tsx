@@ -21,6 +21,7 @@ const ListLayout = forwardRef(
         const {
             onGettingUserInfo,
             onSelectingItem,
+            onSelectingItemEmpty,
             lists,
             date,
             currentList,
@@ -155,6 +156,8 @@ const ListLayout = forwardRef(
                 setTimeout(() => {
                     scrollToBottom(ref);
                 }, 10);
+            } else {
+                onSelectingItemEmpty();
             }
         };
 
@@ -273,7 +276,8 @@ const mapStateToProps = (state: {
 
 const mapDispatchToProps = {
     onGettingUserInfo: () => actions.initUserInfo(),
-    onSelectingItem: (item: Item) => actions.setSelectedItem(item)
+    onSelectingItem: (item: Item) => actions.setSelectedItem(item),
+    onSelectingItemEmpty: () => actions.setSelectedItemEmpty()
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

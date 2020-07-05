@@ -43,7 +43,7 @@ const List: React.FC<PropsFromRedux> = forwardRef(
                     <ListLayout selected={!!selectedItem.id} />
                     <CSSTransition
                         in={showing}
-                        timeout={1000}
+                        timeout={500}
                         classNames={'layout'}
                         mountOnEnter
                         unmountOnExit
