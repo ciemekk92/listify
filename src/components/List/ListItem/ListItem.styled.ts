@@ -36,9 +36,9 @@ export const Item = styled.div<ItemProps>`
     transition: all 0.4s ease;
     position: relative;
 
-    &:first-child {
+   /* &:first-child {
         margin: ${(props) => (props.selected ? '0.5% 0 1% 0' : '0.5% 0')};
-    }
+    }*/
 
     &::after {
         position: absolute;

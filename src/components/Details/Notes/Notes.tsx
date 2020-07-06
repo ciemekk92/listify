@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../../store/actions';
+import { firestore, saveEditedItem } from '../../../firebase/firebase';
 import { CSSTransition } from 'react-transition-group';
 import './Notes.css';
 import { Item } from '../../../types';
-import { Wrapper, Input, Display, Confirm } from './Notes.styled';
+import { Wrapper, Input, Display, Container, Confirm } from './Notes.styled';
 import { Label } from '../Shared.styled';
 import EditButton from '../EditButton/EditButton';
+import NotePanel from './NotePanel/NotePanel';
 import { updateObject } from '../../../shared/utility';
-import { saveEditedItem } from '../../../firebase/firebase';
+import firebase from 'firebase';
 
 const Notes: React.FC<PropsFromRedux> = (props) => {
     const {
@@ -21,7 +24,7 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
     const [editing, setEditing] = useState(false);
     const [inputValue, setInputValue] = useState('');
 
-    // TODO notes styling, notes deleting
+    // TODO  notes deleting
 
     const inputChangedHandler = (event: React.ChangeEvent) => {
         const target = event.target as HTMLInputElement;
@@ -45,21 +48,71 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
             .then((response) => onSelectingItem(updatedItem));
     };
 
-    const description =
-        selectedItem.notes[0] !== '' ? (
+    const deleteNote = async (note: string) => {
+        const resultArray = selectedItem.notes.filter(
+            (element) => element !== note
+        );
+
+        const updatedItem = updateObject(selectedItem, {
+            notes: resultArray
+        });
+
+        console.log(updatedItem);
+
+        let keyCompleted = `lists.${currentList}.listItems.completed`;
+        let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
+
+        const uid: any = localStorage.getItem('currentUser');
+        const docRef = await firestore.collection('users').doc(uid);
+
+        try {
+            await docRef
+                .update({
+                    [selectedItem.completed
+                        ? keyCompleted
+                        : keyNotCompleted]: firebase.firestore.FieldValue.arrayRemove(
+                        selectedItem
+                    )
+                })
+                .catch((error) => console.log(error));
+            await docRef
+                .update({
+                    [updatedItem.completed
+                        ? keyCompleted
+                        : keyNotCompleted]: firebase.firestore.FieldValue.arrayUnion(
+                        updatedItem
+                    )
+                })
+                .then((response) => onSelectingItem(updatedItem))
+                .catch((error) => console.log(error));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const deleteNoteHandler = async (note: string) => {
+        await deleteNote(note).then((response) => onGettingUserInfo());
+    };
+
+    const notesMap =
+        selectedItem.notes.length !== 0 ? (
             <Display>
                 {selectedItem.notes.map((element) => (
-                    <li>{element}</li>
+                    <NotePanel
+                        value={element}
+                        clickedDelete={() => deleteNoteHandler(element)}
+                        key={uuidv4()}
+                    />
                 ))}
             </Display>
         ) : (
             <Display>No notes set yet! :(</Display>
         );
 
-    const emptyDescription = <h1></h1>;
+    const emptyNote = <h3></h3>;
 
     return (
-        <Wrapper>
+        <Wrapper editing={editing}>
             <Label>Notes</Label>
             <EditButton
                 clicked={() => setEditing(!editing)}
@@ -72,7 +125,7 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
                 classNames={'input'}
                 mountOnEnter
             >
-                {!editing ? description : emptyDescription}
+                {!editing ? notesMap : emptyNote}
             </CSSTransition>
             <CSSTransition
                 in={editing}
@@ -81,37 +134,27 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
                 mountOnEnter
                 unmountOnExit
             >
-                <Input
-                    editing={editing}
-                    placeholder={
-                        selectedItem.notes[0] === ''
-                            ? 'Enter new notes here'
-                            : selectedItem.notes[1]
-                    }
-                    onChange={inputChangedHandler}
-                    onSubmit={submitHandler}
-                    value={inputValue}
-                />
-            </CSSTransition>
-            <CSSTransition
-                in={editing}
-                timeout={400}
-                classNames={'input'}
-                mountOnEnter
-                unmountOnExit
-            >
-                <Confirm>
-                    <EditButton
-                        clicked={submitHandler}
-                        title="Confirm changes"
-                        type="confirm"
+                <Container>
+                    <Input
+                        editing={editing}
+                        placeholder={'Enter new note here'}
+                        onChange={inputChangedHandler}
+                        onSubmit={submitHandler}
+                        value={inputValue}
                     />
-                    <EditButton
-                        clicked={() => setEditing(!editing)}
-                        title="Cancel"
-                        type="cancel"
-                    />
-                </Confirm>
+                    <Confirm>
+                        <EditButton
+                            clicked={submitHandler}
+                            title="Confirm changes"
+                            type="confirm"
+                        />
+                        <EditButton
+                            clicked={() => setEditing(!editing)}
+                            title="Cancel"
+                            type="cancel"
+                        />
+                    </Confirm>
+                </Container>
             </CSSTransition>
         </Wrapper>
     );

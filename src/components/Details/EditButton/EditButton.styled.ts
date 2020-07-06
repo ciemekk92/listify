@@ -14,6 +14,7 @@ export const Button = styled.div`
     align-items: center;
     transition: all 0.4s ease;
     cursor: pointer;
+    z-index: 5;
 
     &:hover {
         background-color: #366296;

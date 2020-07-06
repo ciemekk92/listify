@@ -3,7 +3,14 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import firebase from 'firebase';
 import { firestore } from '../../../firebase/firebase';
-import { Wrapper, Input, Value, Confirm, Placeholder } from './Name.styled';
+import {
+    Wrapper,
+    Input,
+    Value,
+    Container,
+    Confirm,
+    Placeholder
+} from './Name.styled';
 import { Label } from '../Shared.styled';
 import EditButton from '../EditButton/EditButton';
 import { CSSTransition } from 'react-transition-group';
@@ -87,6 +94,13 @@ const Name: React.FC<NameProps> = (props) => {
     return (
         <Wrapper>
             <Label>Task name</Label>
+            <EditButton
+                title={'Edit task name'}
+                clicked={() => {
+                    setEditing(!editing);
+                }}
+                type="edit"
+            />
             <CSSTransition
                 in={!editing}
                 timeout={400}
@@ -103,45 +117,31 @@ const Name: React.FC<NameProps> = (props) => {
                 mountOnEnter
                 unmountOnExit
             >
-                <Input
-                    placeholder={item.value}
-                    onChange={inputChangedHandler}
-                    onKeyDown={(event) => {
-                        if (event.key === 'Enter') {
-                            submitHandler();
-                        }
-                    }}
-                    onSubmit={submitHandler}
-                    value={item.value}
-                />
-            </CSSTransition>
-            <EditButton
-                title={'Edit task name'}
-                clicked={() => {
-                    setEditing(!editing);
-                }}
-                type="edit"
-            />
-
-            <CSSTransition
-                in={editing}
-                timeout={400}
-                classNames={'input'}
-                mountOnEnter
-                unmountOnExit
-            >
-                <Confirm>
-                    <EditButton
-                        clicked={submitHandler}
-                        title="Confirm changes"
-                        type="confirm"
+                <Container>
+                    <Input
+                        placeholder={item.value}
+                        onChange={inputChangedHandler}
+                        onKeyDown={(event) => {
+                            if (event.key === 'Enter') {
+                                submitHandler();
+                            }
+                        }}
+                        onSubmit={submitHandler}
+                        value={item.value}
                     />
-                    <EditButton
-                        clicked={() => setEditing(!editing)}
-                        title="Cancel"
-                        type="cancel"
-                    />
-                </Confirm>
+                    <Confirm>
+                        <EditButton
+                            clicked={submitHandler}
+                            title="Confirm changes"
+                            type="confirm"
+                        />
+                        <EditButton
+                            clicked={() => setEditing(!editing)}
+                            title="Cancel"
+                            type="cancel"
+                        />
+                    </Confirm>
+                </Container>
             </CSSTransition>
         </Wrapper>
     );
