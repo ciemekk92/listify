@@ -44,8 +44,9 @@ export const Input = styled.input`
     }
 `;
 
-export const Value = styled.h1`
+export const Value = styled.div`
     font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 2rem;
     place-self: center;
     cursor: default;
     grid-area: value;

@@ -106,7 +106,7 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
                 ))}
             </Display>
         ) : (
-            <Display>No notes set yet! :(</Display>
+            <Display>No notes saved yet!</Display>
         );
 
     const emptyNote = <h3></h3>;

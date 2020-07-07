@@ -8,10 +8,11 @@ type ModalProps = {
 };
 
 const Modal: React.FC<ModalProps> = (props) => {
+    const { open, modalClosed } = props;
     return (
         <>
-            <Backdrop show={props.open} clicked={props.modalClosed} />
-            <Area slide={props.open}>{props.children}</Area>
+            <Backdrop show={open} clicked={modalClosed} />
+            <Area slide={open}>{props.children}</Area>
         </>
     );
 };

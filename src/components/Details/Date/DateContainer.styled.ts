@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-export const Value = styled.h1`
+export const Value = styled.div`
     font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 2rem;
     margin: auto 3%;
     grid-area: value;
     place-self: center;

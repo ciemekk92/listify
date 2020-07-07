@@ -7,7 +7,7 @@ import { hiddenListContext } from '../../context/hiddenListContext';
 import { updateObject } from '../../shared/utility';
 import * as actions from '../../store/actions';
 import useDidMountEffect from '../../hooks/useDidMountEffect';
-import { Bar, LogoPlaceholder } from './Sidebar.styled';
+import { Bar, ButtonsContainer, LogoPlaceholder } from './Sidebar.styled';
 import SidebarModal from '../../components/UI/Sidebar/SidebarModal/SidebarModal';
 import NewListInput from '../../components/UI/Sidebar/NewList/NewListInput/NewListInput';
 import PanelContainer from '../../components/UI/Sidebar/PanelContainer/PanelContainer';
@@ -15,12 +15,13 @@ import ListPanel from '../../components/UI/Sidebar/ListPanel/ListPanel';
 import AddNewList from '../../components/UI/Sidebar/NewList/AddNewList';
 import { Item, List } from '../../types';
 import logo from '../../assets/logo.png';
+import EditButton from '../../components/Details/EditButton/EditButton';
 
 const Sidebar: React.FC<PropsFromRedux> = (props) => {
     const {
         lists,
         selectedItem,
-        selectedCurrentList,
+        currentList,
         onSettingCurrentList,
         onGettingUserInfo,
         onSettingSelectedItemEmpty
@@ -39,6 +40,8 @@ const Sidebar: React.FC<PropsFromRedux> = (props) => {
     const { handleClick } = useContext(hiddenListContext);
 
     const [addingList, setAddingList] = useState(false);
+    const [deletingList, setDeletingList] = useState(false);
+    const [listToDelete, setListToDelete] = useState('');
 
     const newListHandler = async (list: List) => {
         setAddingList(false);
@@ -76,8 +79,12 @@ const Sidebar: React.FC<PropsFromRedux> = (props) => {
         setAddingList(!addingList);
     };
 
+    const toggleDeleting = () => {
+        setDeletingList(!deletingList);
+    };
+
     const currentListHandler = (list: string) => {
-        if (list !== selectedCurrentList) {
+        if (list !== currentList) {
             handleClick(true);
             onSettingCurrentList(list);
             if (selectedItem.id) {
@@ -108,7 +115,32 @@ const Sidebar: React.FC<PropsFromRedux> = (props) => {
     };
 
     const deleteListHandler = (list: string) => {
-        deleteList(list).then((response) => onGettingUserInfo());
+        if (
+            lists[list].listItems.completed.length !== 0 ||
+            lists[list].listItems.notCompleted.length !== 0
+        ) {
+            setListToDelete(list);
+            toggleDeleting();
+        } else {
+            try {
+                deleteList(list).then((response) => {
+                    onGettingUserInfo();
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    const handleConfirm = () => {
+        try {
+            deleteList(listToDelete).then((response) => {
+                toggleDeleting();
+                onGettingUserInfo();
+            });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     let listsArray = Object.keys(lists);
@@ -126,6 +158,22 @@ const Sidebar: React.FC<PropsFromRedux> = (props) => {
                     submit={() => newListHandler(newList)}
                 />
             </SidebarModal>
+            <SidebarModal open={deletingList} modalClosed={toggleDeleting}>
+                This will delete ALL tasks saved in the list. <br /> Are you
+                sure?
+                <ButtonsContainer>
+                    <EditButton
+                        type={'confirm'}
+                        title={'Confirm deleting'}
+                        clicked={handleConfirm}
+                    />
+                    <EditButton
+                        type={'cancel'}
+                        title={'Cancel'}
+                        clicked={() => setDeletingList(false)}
+                    />
+                </ButtonsContainer>
+            </SidebarModal>
             <LogoPlaceholder>
                 <img
                     src={logo}
@@ -142,7 +190,7 @@ const Sidebar: React.FC<PropsFromRedux> = (props) => {
                               .sort()
                               .map((element) => (
                                   <ListPanel
-                                      active={selectedCurrentList === element}
+                                      active={currentList === element}
                                       name={element}
                                       key={uuidv4()}
                                       clicked={() =>
@@ -179,7 +227,7 @@ const mapStateToProps = (state: {
     return {
         lists: state.user.userInfo.lists,
         selectedItem: state.list.selectedItem,
-        selectedCurrentList: state.list.currentList
+        currentList: state.list.currentList
     };
 };
 

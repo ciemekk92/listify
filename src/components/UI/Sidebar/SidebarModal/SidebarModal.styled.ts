@@ -11,6 +11,7 @@ export const Area = styled.div<ModalProps>`
     position: fixed;
     display: flex;
     flex-direction: column;
+    text-align: center;
     justify-content: center;
     align-items: center;
     z-index: 1000;
