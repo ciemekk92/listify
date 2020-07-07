@@ -11,7 +11,10 @@ export const Wrapper = styled.div<LayoutProps>`
     height: 85vh;
     background-color: #f9f7f7;
     color: black;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.2fr 0.2fr 0.3fr 0.3fr 3fr;
+    grid-template-areas: 'warning' 'input' 'submit' 'date' 'list';
     align-items: center;
     flex-direction: column;
     flex-shrink: ${(props) => (props.selected ? 1 : 0.000001)};
@@ -30,15 +33,14 @@ export const Wrapper = styled.div<LayoutProps>`
 
 export const ListContainer = styled.div`
     width: 85%;
-    height: 60%;
-    margin: 0.25rem auto;
+    height: 100%;
+    margin: 1% auto auto auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 10px;
     color: black;
-    grid-row-start: 4;
-    grid-row-end: auto;
+    grid-area: list;
     overflow: auto;
 
     &::-webkit-scrollbar {
@@ -46,9 +48,10 @@ export const ListContainer = styled.div`
     }
 `;
 
-export const Label = styled.div`
-    color: black;
-    width: 95%;
+export const Warning = styled.div`
+    place-self: center;
+    grid-area: warning;
+    text-align: center;
+    color: red;
     font-size: 0.8rem;
-    margin: 1% 0;
 `;

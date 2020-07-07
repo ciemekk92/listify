@@ -9,7 +9,8 @@ import {
     Value,
     Container,
     Confirm,
-    Placeholder
+    Placeholder,
+    Warning
 } from './Name.styled';
 import { Label } from '../Shared.styled';
 import EditButton from '../EditButton/EditButton';
@@ -34,12 +35,11 @@ const Name: React.FC<NameProps> = (props) => {
     } = props;
     const [editing, setEditing] = useState(false);
     const [item, setItem] = useState(selectedItem);
+    const [warning, setWarning] = useState('');
 
     useEffect(() => {
         setItem(selectedItem);
     }, [selectedItem]);
-
-    // TODO empty input validation
 
     const inputChangedHandler = (event: React.ChangeEvent) => {
         const target = event.target as HTMLInputElement;
@@ -81,12 +81,21 @@ const Name: React.FC<NameProps> = (props) => {
     };
 
     const submitHandler = () => {
-        saveEditedItem()
-            .then((response) => {
-                setEditing(!editing);
-                onGettingUserInfo();
-            })
-            .then((response) => onSelectingItem(item));
+        if (item.value === '') {
+            setWarning('The name field must not be empty!');
+        } else {
+            saveEditedItem()
+                .then((response) => {
+                    setEditing(!editing);
+                    onGettingUserInfo();
+                })
+                .then((response) => onSelectingItem(item));
+        }
+    };
+
+    const editHandler = () => {
+        setEditing(!editing);
+        setItem(selectedItem);
     };
 
     const emptyName = <Placeholder />;
@@ -96,9 +105,7 @@ const Name: React.FC<NameProps> = (props) => {
             <Label>Task name</Label>
             <EditButton
                 title={'Edit task name'}
-                clicked={() => {
-                    setEditing(!editing);
-                }}
+                clicked={editHandler}
                 type="edit"
             />
             <CSSTransition
@@ -118,6 +125,7 @@ const Name: React.FC<NameProps> = (props) => {
                 unmountOnExit
             >
                 <Container>
+                    <Warning>{warning !== '' ? warning : null}</Warning>
                     <Input
                         placeholder={item.value}
                         onChange={inputChangedHandler}

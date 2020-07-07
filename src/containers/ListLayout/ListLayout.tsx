@@ -1,7 +1,7 @@
 import React, { useState, forwardRef, useContext, useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { hiddenListContext } from '../../context/hiddenListContext';
-import { Wrapper, ListContainer, Label } from './ListLayout.styled';
+import { Wrapper, ListContainer, Warning } from './ListLayout.styled';
 import ListInput from '../../components/List/ListInput/ListInput';
 import SubmitButton from '../../components/List/SubmitButton/SubmitButton';
 import DatePicker from '../DatePicker/DatePicker';
@@ -29,9 +29,8 @@ const ListLayout = forwardRef(
             selected
         } = props;
 
-        // TODO check for not empty input
-
         const [editing, setEditing] = useState(false);
+        const [warning, setWarning] = useState('');
 
         const initialItem = {
             value: '',
@@ -213,8 +212,17 @@ const ListLayout = forwardRef(
             );
         };
 
+        const submitHandler = () => {
+            if (inputItem.value === '') {
+                setWarning('Name field must not be empty!');
+            } else {
+                saveNewItem(inputItem).then((response) => listUpdateHandler());
+            }
+        };
+
         return (
             <Wrapper selected={selected}>
+                <Warning>{warning !== '' ? warning : null}</Warning>
                 <ListInput
                     ref={ref}
                     submit={() => {
@@ -226,13 +234,7 @@ const ListLayout = forwardRef(
                     value={inputItem.value}
                     editing={editing}
                 />
-                <SubmitButton
-                    clicked={() => {
-                        saveNewItem(inputItem).then((response) =>
-                            listUpdateHandler()
-                        );
-                    }}
-                >
+                <SubmitButton clicked={submitHandler}>
                     Add new list item
                 </SubmitButton>
                 <DatePicker type="layout" />

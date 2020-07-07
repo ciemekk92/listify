@@ -6,7 +6,14 @@ import { firestore, saveEditedItem } from '../../../firebase/firebase';
 import { CSSTransition } from 'react-transition-group';
 import './Notes.css';
 import { Item } from '../../../types';
-import { Wrapper, Input, Display, Container, Confirm } from './Notes.styled';
+import {
+    Wrapper,
+    Input,
+    Display,
+    Container,
+    Confirm,
+    Warning
+} from './Notes.styled';
 import { Label } from '../Shared.styled';
 import EditButton from '../EditButton/EditButton';
 import NotePanel from './NotePanel/NotePanel';
@@ -23,8 +30,7 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
 
     const [editing, setEditing] = useState(false);
     const [inputValue, setInputValue] = useState('');
-
-    // TODO  notes deleting
+    const [warning, setWarning] = useState('');
 
     const inputChangedHandler = (event: React.ChangeEvent) => {
         const target = event.target as HTMLInputElement;
@@ -36,16 +42,20 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
     };
 
     const submitHandler = () => {
-        const updatedItem = updateObject(selectedItem, {
-            notes: [inputValue, ...selectedItem.notes]
-        });
-        saveEditedItem(currentList, selectedItem, updatedItem)
-            .then((response) => {
-                setEditing(!editing);
-                clearInput();
-                onGettingUserInfo();
-            })
-            .then((response) => onSelectingItem(updatedItem));
+        if (inputValue === '') {
+            setWarning('This field must not be empty!');
+        } else {
+            const updatedItem = updateObject(selectedItem, {
+                notes: [inputValue, ...selectedItem.notes]
+            });
+            saveEditedItem(currentList, selectedItem, updatedItem)
+                .then((response) => {
+                    setEditing(!editing);
+                    clearInput();
+                    onGettingUserInfo();
+                })
+                .then((response) => onSelectingItem(updatedItem));
+        }
     };
 
     const deleteNote = async (note: string) => {
@@ -56,8 +66,6 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
         const updatedItem = updateObject(selectedItem, {
             notes: resultArray
         });
-
-        console.log(updatedItem);
 
         let keyCompleted = `lists.${currentList}.listItems.completed`;
         let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
@@ -135,6 +143,7 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
                 unmountOnExit
             >
                 <Container>
+                    <Warning>{warning !== '' ? warning : null}</Warning>
                     <Input
                         editing={editing}
                         placeholder={'Enter new note here'}

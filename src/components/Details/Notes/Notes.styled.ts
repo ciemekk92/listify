@@ -20,7 +20,9 @@ export const Input = styled.input<NotesProps>`
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 1rem;
     text-align: center;
-    margin: 2% auto;
+    margin-top: 5%;
+    grid-area: input;
+    place-self: center;
     outline: none;
 `;
 
@@ -47,12 +49,13 @@ export const Display = styled.div`
 export const Container = styled.div`
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.4fr 1fr 0.6fr;
     grid-area: value;
     place-self: center;
     margin-bottom: 5%;
+    grid-template-areas: 'warning' 'input' 'confirm';
 `;
 
 export const Confirm = styled.div`
@@ -61,4 +64,14 @@ export const Confirm = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    grid-area: confirm;
+    margin: 0 0 auto 0;
+`;
+
+export const Warning = styled.div`
+    place-self: center;
+    grid-area: warning;
+    text-align: center;
+    color: red;
+    font-size: 0.8rem;
 `;
