@@ -15,7 +15,7 @@ export const Panel = styled.div<PanelProps>`
     font-weight: ${(props) => (props.active ? '700' : '300')};
     background-color: ${(props) => (props.active ? '#112d4e' : '#3f72af')};
     padding: 1% 0;
-    transition: all 0.6s ease;
+    transition: all 0.4s ease-out;
     flex-shrink: 0;
     border-bottom: 1px solid white;
 

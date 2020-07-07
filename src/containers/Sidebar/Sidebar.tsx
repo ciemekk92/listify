@@ -152,11 +152,24 @@ const Sidebar: React.FC<PropsFromRedux> = (props) => {
     return (
         <Bar>
             <SidebarModal open={addingList} modalClosed={toggleAdding}>
+                Enter new list name below.
                 <NewListInput
                     changed={inputChangedHandler}
                     value={newList.name}
                     submit={() => newListHandler(newList)}
                 />
+                <ButtonsContainer>
+                    <EditButton
+                        type={'confirm'}
+                        title={'Confirm adding new list'}
+                        clicked={() => newListHandler(newList)}
+                    />
+                    <EditButton
+                        type={'cancel'}
+                        title={'Cancel'}
+                        clicked={() => setAddingList(!addingList)}
+                    />
+                </ButtonsContainer>
             </SidebarModal>
             <SidebarModal open={deletingList} modalClosed={toggleDeleting}>
                 This will delete ALL tasks saved in the list. <br /> Are you
