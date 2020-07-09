@@ -8,6 +8,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Item } from '../../types';
 import { Wrapper } from './List.styled';
 import './List.css';
+import BackToTopButton from '../../components/UI/BackToTopButton/BackToTopButton';
 
 const { Provider } = hiddenListContext;
 
@@ -22,11 +23,13 @@ const List: React.FC<PropsFromRedux> = forwardRef(
         };
 
         const scrollToRef = (ref: any) =>
-            window.scrollTo(0, ref.current.offsetTop);
+            ref.current.scrollIntoView({ behavior: 'smooth' });
 
         const handleScroll = (scrollRef: any) => scrollToRef(scrollRef);
 
         const [showing, setShowing] = useState(!!selectedItem.id);
+
+        const topRef = useRef(null);
 
         useEffect(() => {
             if (selectedItem.id !== null) {
@@ -38,7 +41,7 @@ const List: React.FC<PropsFromRedux> = forwardRef(
 
         return (
             <Provider value={{ hidden, handleClick }}>
-                <Sidebar />
+                <Sidebar ref={topRef} />
                 <Wrapper>
                     <ListLayout selected={!!selectedItem.id} />
                     <CSSTransition

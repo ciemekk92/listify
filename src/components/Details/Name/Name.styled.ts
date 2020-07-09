@@ -8,7 +8,6 @@ export const Wrapper = styled.div`
     gap: 1px 1px;
     place-self: center;
     grid-template-areas: 'label . button' 'value value value';
-    z-index: 1;
 `;
 
 export const Container = styled.div`

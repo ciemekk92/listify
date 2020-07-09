@@ -1,4 +1,10 @@
-import React, { useState, forwardRef, useContext, useRef } from 'react';
+import React, {
+    useState,
+    forwardRef,
+    useContext,
+    useRef,
+    useEffect
+} from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { hiddenListContext } from '../../context/hiddenListContext';
 import { Wrapper, ListContainer, Warning } from './ListLayout.styled';
@@ -15,6 +21,7 @@ import * as actions from '../../store/actions';
 import './ListLayout.css';
 import { Item } from '../../types';
 import { sizeNumber } from '../../templates/MediaQueries/MediaQueries';
+import BackToTopButton from '../../components/UI/BackToTopButton/BackToTopButton';
 
 const ListLayout = forwardRef(
     (props: Props, ref: React.Ref<HTMLInputElement>) => {
@@ -31,6 +38,7 @@ const ListLayout = forwardRef(
 
         const [editing, setEditing] = useState(false);
         const [warning, setWarning] = useState('');
+        const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
         const initialItem = {
             value: '',
@@ -40,6 +48,26 @@ const ListLayout = forwardRef(
             notes: []
         };
         const [inputItem, setInputItem] = useState(initialItem);
+
+        const bottomRef = useRef(null);
+        const topRef = useRef(null);
+
+        const scrollToRef = (ref: any) => {
+            if (window.innerWidth <= sizeNumber.tablet) {
+                ref.current.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
+        const updateMedia = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        useEffect(() => {
+            window.addEventListener('resize', updateMedia);
+            return () => {
+                window.removeEventListener('resize', updateMedia);
+            };
+        });
 
         const { hidden } = useContext(hiddenListContext);
 
@@ -141,19 +169,11 @@ const ListLayout = forwardRef(
             setEditing(false);
         };
 
-        const dummyRef = useRef(null);
-
-        const scrollToBottom = (ref: any) => {
-            if (window.innerWidth <= sizeNumber.tablet) {
-                ref.current.scrollIntoView({ behavior: 'smooth' });
-            }
-        };
-
         const selectItemHandler = (item: Item, ref: any) => {
             if (item.id !== selectedItem.id) {
                 onSelectingItem(item);
                 setTimeout(() => {
-                    scrollToBottom(ref);
+                    scrollToRef(ref);
                 }, 10);
             } else {
                 onSelectingItemEmpty();
@@ -196,7 +216,7 @@ const ListLayout = forwardRef(
                                             completed: element.completed,
                                             notes: element.notes
                                         },
-                                        dummyRef
+                                        bottomRef
                                     )
                                 }
                                 clickedComplete={() => completeItem(element.id)}
@@ -221,7 +241,7 @@ const ListLayout = forwardRef(
         };
 
         return (
-            <Wrapper selected={selected}>
+            <Wrapper selected={selected} ref={topRef}>
                 <Warning>{warning !== '' ? warning : null}</Warning>
                 <ListInput
                     ref={ref}
@@ -258,7 +278,10 @@ const ListLayout = forwardRef(
                               )}
                     </TransitionGroup>
                 </ListContainer>
-                <div ref={dummyRef} />
+                {isMobile ? (
+                    <BackToTopButton clicked={() => scrollToRef(topRef)} />
+                ) : null}
+                <div ref={bottomRef} />
             </Wrapper>
         );
     }

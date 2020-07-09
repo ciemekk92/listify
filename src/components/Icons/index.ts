@@ -5,3 +5,4 @@ export { Plus } from './Plus';
 export { Delete } from './Delete';
 export { CheckBoxChecked } from './CheckBoxChecked';
 export { CheckBoxEmpty } from './CheckBoxEmpty';
+export { ArrowUp } from './ArrowUp';

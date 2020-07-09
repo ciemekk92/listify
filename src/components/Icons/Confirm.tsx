@@ -1,12 +1,7 @@
 import React from 'react';
+import { SVG } from '../../types/SVG';
 
-type SVGProps = {
-    size: number;
-    title: string;
-    color: string;
-};
-
-export const Confirm: React.FC<SVGProps> = (props) => {
+export const Confirm: React.FC<SVG> = (props) => {
     const { size, title, color } = props;
     return (
         <svg

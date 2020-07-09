@@ -12,7 +12,6 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    z-index: 0;
     box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
     border-radius: 30px;
     background-color: #f9f7f7;

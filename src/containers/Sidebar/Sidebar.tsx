@@ -17,14 +17,15 @@ import { Item, List } from '../../types';
 import logo from '../../assets/logo.png';
 import EditButton from '../../components/Details/EditButton/EditButton';
 
-const Sidebar: React.FC<PropsFromRedux> = (props) => {
+const Sidebar: React.FC<Props> = (props) => {
     const {
         lists,
         selectedItem,
         currentList,
         onSettingCurrentList,
         onGettingUserInfo,
-        onSettingSelectedItemEmpty
+        onSettingSelectedItemEmpty,
+        ref
     } = props;
 
     const [newList, setNewList] = useState({
@@ -150,7 +151,7 @@ const Sidebar: React.FC<PropsFromRedux> = (props) => {
     }, [listsArray.length]);
 
     return (
-        <Bar>
+        <Bar ref={ref}>
             <SidebarModal open={addingList} modalClosed={toggleAdding}>
                 Enter new list name below.
                 <NewListInput
@@ -252,5 +253,8 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux & {
+    ref: any;
+};
 
 export default connector(React.memo(Sidebar));

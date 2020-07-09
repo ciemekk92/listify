@@ -1,12 +1,7 @@
 import React from 'react';
+import { SVG } from '../../types/SVG';
 
-type SVGProps = {
-    size: number;
-    title: string;
-    color: string;
-};
-
-export const CheckBoxEmpty: React.FC<SVGProps> = (props) => {
+export const CheckBoxEmpty: React.FC<SVG> = (props) => {
     const { size, title, color } = props;
     return (
         <svg

@@ -33,7 +33,7 @@ export const Wrapper = styled.div<LayoutProps>`
 
 export const ListContainer = styled.div`
     width: 85%;
-    height: 100%;
+    height: 90%;
     margin: 1% auto auto auto;
     display: flex;
     flex-direction: column;

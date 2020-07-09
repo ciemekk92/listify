@@ -7,7 +7,6 @@ export const Wrapper = styled.div`
     grid-template-rows: 1.8em 1fr 1fr 1fr;
     gap: 1px 1px;
     grid-template-areas: 'label . button' 'value value value' 'input input input' 'confirm confirm confirm';
-    z-index: 1;
 `;
 
 export const Label = styled.div`
