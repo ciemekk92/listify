@@ -1,35 +1,45 @@
-import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import React, { useState, useEffect, forwardRef } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import * as actions from '../../store/actions';
 import { CSSTransition } from 'react-transition-group';
 import Sidebar from '../../containers/Sidebar/Sidebar';
 import ListLayout from '../../containers/ListLayout/ListLayout';
 import ListDetails from '../../containers/ListDetails/ListDetails';
 import { hiddenListContext } from '../../context/hiddenListContext';
-import { connect, ConnectedProps } from 'react-redux';
 import { Item } from '../../types';
 import { Wrapper } from './List.styled';
 import './List.css';
-import BackToTopButton from '../../components/UI/BackToTopButton/BackToTopButton';
+import Burger from '../../components/UI/Sidebar/Burger/Burger';
 
 const { Provider } = hiddenListContext;
 
 const List: React.FC<PropsFromRedux> = forwardRef(
     (props, ref: React.Ref<HTMLDivElement>) => {
-        const { selectedItem } = props;
+        const { selectedItem, mobile, onSettingMobile } = props;
 
         const [hidden, setHidden] = useState(false);
+        const [open, setOpen] = useState(false);
 
         const handleClick = (value: boolean) => {
             setHidden(value);
         };
 
-        const scrollToRef = (ref: any) =>
-            ref.current.scrollIntoView({ behavior: 'smooth' });
+        const openHandler = () => {
+            setOpen(!open);
+        };
 
-        const handleScroll = (scrollRef: any) => scrollToRef(scrollRef);
+        const updateMedia = () => {
+            onSettingMobile(window.innerWidth <= 768);
+        };
+
+        useEffect(() => {
+            window.addEventListener('resize', updateMedia);
+            return () => {
+                window.removeEventListener('resize', updateMedia);
+            };
+        });
 
         const [showing, setShowing] = useState(!!selectedItem.id);
-
-        const topRef = useRef(null);
 
         useEffect(() => {
             if (selectedItem.id !== null) {
@@ -41,7 +51,8 @@ const List: React.FC<PropsFromRedux> = forwardRef(
 
         return (
             <Provider value={{ hidden, handleClick }}>
-                <Sidebar ref={topRef} />
+                {mobile ? <Burger setOpen={openHandler} /> : null}
+                <Sidebar open={open} setOpen={openHandler} />
                 <Wrapper>
                     <ListLayout selected={!!selectedItem.id} />
                     <CSSTransition
@@ -63,13 +74,21 @@ const mapStateToProps = (state: {
     list: {
         selectedItem: Item;
     };
+    user: {
+        mobile: boolean;
+    };
 }) => {
     return {
-        selectedItem: state.list.selectedItem
+        selectedItem: state.list.selectedItem,
+        mobile: state.user.mobile
     };
 };
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = {
+    onSettingMobile: (mobile: boolean) => actions.setMobile(mobile)
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 export default connector(React.memo(List));

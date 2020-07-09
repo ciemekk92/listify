@@ -46,6 +46,7 @@ const DateContainer: React.FC<Props> = (props) => {
                 clicked={clickHandler}
                 title={'Edit date'}
                 type={'edit'}
+                size={16}
             />
             <CSSTransition
                 in={editing}
@@ -68,11 +69,13 @@ const DateContainer: React.FC<Props> = (props) => {
                         clicked={submitNewDateHandler}
                         title={'Submit new date'}
                         type={'confirm'}
+                        size={16}
                     />
                     <EditButton
                         clicked={() => setEditing(!editing)}
                         title={'Cancel'}
                         type={'cancel'}
+                        size={16}
                     />
                 </Confirm>
             </CSSTransition>

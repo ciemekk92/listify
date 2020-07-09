@@ -15,7 +15,7 @@ export const Button = styled.div`
     transition: all 0.4s ease;
     cursor: pointer;
     position: fixed;
-    top: 90%;
+    top: 92%;
     left: 85%;
     z-index: 50;
 

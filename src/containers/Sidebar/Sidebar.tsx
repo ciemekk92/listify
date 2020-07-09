@@ -7,7 +7,7 @@ import { hiddenListContext } from '../../context/hiddenListContext';
 import { updateObject } from '../../shared/utility';
 import * as actions from '../../store/actions';
 import useDidMountEffect from '../../hooks/useDidMountEffect';
-import { Bar, ButtonsContainer, LogoPlaceholder } from './Sidebar.styled';
+import { Bar, ButtonsContainer, Logo } from './Sidebar.styled';
 import SidebarModal from '../../components/UI/Sidebar/SidebarModal/SidebarModal';
 import NewListInput from '../../components/UI/Sidebar/NewList/NewListInput/NewListInput';
 import PanelContainer from '../../components/UI/Sidebar/PanelContainer/PanelContainer';
@@ -25,7 +25,8 @@ const Sidebar: React.FC<Props> = (props) => {
         onSettingCurrentList,
         onGettingUserInfo,
         onSettingSelectedItemEmpty,
-        ref
+        open,
+        setOpen
     } = props;
 
     const [newList, setNewList] = useState({
@@ -88,6 +89,7 @@ const Sidebar: React.FC<Props> = (props) => {
         if (list !== currentList) {
             handleClick(true);
             onSettingCurrentList(list);
+            setOpen();
             if (selectedItem.id) {
                 onSettingSelectedItemEmpty();
             }
@@ -151,7 +153,7 @@ const Sidebar: React.FC<Props> = (props) => {
     }, [listsArray.length]);
 
     return (
-        <Bar ref={ref}>
+        <Bar open={open}>
             <SidebarModal open={addingList} modalClosed={toggleAdding}>
                 Enter new list name below.
                 <NewListInput
@@ -164,11 +166,13 @@ const Sidebar: React.FC<Props> = (props) => {
                         type={'confirm'}
                         title={'Confirm adding new list'}
                         clicked={() => newListHandler(newList)}
+                        size={16}
                     />
                     <EditButton
                         type={'cancel'}
                         title={'Cancel'}
                         clicked={() => setAddingList(!addingList)}
+                        size={16}
                     />
                 </ButtonsContainer>
             </SidebarModal>
@@ -180,21 +184,23 @@ const Sidebar: React.FC<Props> = (props) => {
                         type={'confirm'}
                         title={'Confirm deleting'}
                         clicked={handleConfirm}
+                        size={16}
                     />
                     <EditButton
                         type={'cancel'}
                         title={'Cancel'}
                         clicked={() => setDeletingList(false)}
+                        size={16}
                     />
                 </ButtonsContainer>
             </SidebarModal>
-            <LogoPlaceholder>
+            <Logo>
                 <img
                     src={logo}
                     alt={'Logo'}
                     style={{ width: '75%', height: '75%' }}
                 />
-            </LogoPlaceholder>
+            </Logo>
             <PanelContainer>
                 {
                     // sort alphabetically
@@ -254,7 +260,8 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & {
-    ref: any;
+    open: boolean;
+    setOpen(): void;
 };
 
 export default connector(React.memo(Sidebar));

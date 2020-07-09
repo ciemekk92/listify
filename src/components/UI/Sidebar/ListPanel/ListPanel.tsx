@@ -32,6 +32,7 @@ const ListPanel: React.FC<PanelProps> = (props) => {
                     title={'Delete list'}
                     type="delete"
                     clicked={clickedDelete}
+                    size={16}
                 />
             </CSSTransition>
             <Name>{props.name}</Name>

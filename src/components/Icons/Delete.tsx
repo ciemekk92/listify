@@ -2,13 +2,13 @@ import React from 'react';
 import { SVG } from '../../types/SVG';
 
 export const Delete: React.FC<SVG> = (props) => {
-    const { size, title, color } = props;
+    const { size, title, color, mobile } = props;
 
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={size}
-            height={size}
+            width={mobile ? size * 2 : size}
+            height={mobile ? size * 2 : size}
             viewBox="0 0 512 512"
         >
             <title>{title}</title>

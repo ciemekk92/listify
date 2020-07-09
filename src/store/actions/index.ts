@@ -1,4 +1,9 @@
-export { initUserInfo, fetchUserInfoFailed, setUserInfo } from './user';
+export {
+    initUserInfo,
+    fetchUserInfoFailed,
+    setUserInfo,
+    setMobile
+} from './user';
 export {
     setSelectedDate,
     setCurrentList,

@@ -9,8 +9,6 @@ import { Item } from '../../types';
 
 const Details = forwardRef(
     (props: { selectedItem: Item }, ref: React.Ref<HTMLDivElement>) => {
-        // TODO add return to top button in mobile
-
         return (
             <Wrapper ref={ref}>
                 <Name />

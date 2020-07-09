@@ -33,12 +33,14 @@ const ListLayout = forwardRef(
             date,
             currentList,
             selectedItem,
-            selected
+            selected,
+            mobile,
+            onSettingMobile
         } = props;
 
         const [editing, setEditing] = useState(false);
         const [warning, setWarning] = useState('');
-        const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+        // const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
         const initialItem = {
             value: '',
@@ -59,7 +61,7 @@ const ListLayout = forwardRef(
         };
 
         const updateMedia = () => {
-            setIsMobile(window.innerWidth <= 768);
+            onSettingMobile(window.innerWidth <= 768);
         };
 
         useEffect(() => {
@@ -278,7 +280,7 @@ const ListLayout = forwardRef(
                               )}
                     </TransitionGroup>
                 </ListContainer>
-                {isMobile ? (
+                {mobile ? (
                     <BackToTopButton clicked={() => scrollToRef(topRef)} />
                 ) : null}
                 <div ref={bottomRef} />
@@ -288,21 +290,23 @@ const ListLayout = forwardRef(
 );
 
 const mapStateToProps = (state: {
-    user: { userInfo: { lists: any } };
+    user: { userInfo: { lists: any }; mobile: boolean };
     list: { currentList: any; date: any; selectedItem: Item };
 }) => {
     return {
         lists: state.user.userInfo.lists,
         currentList: state.list.currentList,
         date: state.list.date,
-        selectedItem: state.list.selectedItem
+        selectedItem: state.list.selectedItem,
+        mobile: state.user.mobile
     };
 };
 
 const mapDispatchToProps = {
     onGettingUserInfo: () => actions.initUserInfo(),
     onSelectingItem: (item: Item) => actions.setSelectedItem(item),
-    onSelectingItemEmpty: () => actions.setSelectedItemEmpty()
+    onSelectingItemEmpty: () => actions.setSelectedItemEmpty(),
+    onSettingMobile: (mobile: boolean) => actions.setMobile(mobile)
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

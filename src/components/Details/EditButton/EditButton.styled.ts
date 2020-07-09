@@ -1,8 +1,14 @@
 import styled from 'styled-components';
 
-export const Button = styled.div`
-    width: 1.5rem;
-    height: 1.5rem;
+interface ButtonProps {
+    readonly type: string;
+    readonly size: number;
+    readonly mobile: boolean;
+}
+
+export const Button = styled.div<ButtonProps>`
+    width: ${(props) => (props.size === 16 ? '1.5rem' : '1.6rem')};
+    height: ${(props) => (props.size === 16 ? '1.5rem' : '1.6rem')};
     margin: 0 3%;
     border-radius: 50%;
     background-color: #3f72af;
@@ -14,6 +20,8 @@ export const Button = styled.div`
     align-items: center;
     transition: all 0.4s ease;
     cursor: pointer;
+    ${(props) => (props.mobile ? 'transform: scale(2);' : null)}
+    ${(props) => (props.type === 'delete' ? 'z-index: 5;' : null)}
 
     &:hover {
         background-color: #366296;

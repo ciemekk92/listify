@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+// TODO start here next -> correct sizing of panels in mobile view
+
 export const Panel = styled.div`
     width: 80%;
     margin: 1% 0;
@@ -8,8 +10,8 @@ export const Panel = styled.div`
     background-color: #e7ebf4;
     border-radius: 5px;
     box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.4);
-    min-height: 10%;
-    height: 10%;
+    min-height: 15%;
+    height: 15%;
     transition: all 0.4s ease;
     position: relative;
     padding: 0 2%;
@@ -31,7 +33,7 @@ export const Panel = styled.div`
         right: 0;
         bottom: 0;
         left: 0;
-        box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.7);
+        box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.7);
         opacity: 0;
         transition: opacity 0.4s ease;
     }

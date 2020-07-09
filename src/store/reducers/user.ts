@@ -12,7 +12,8 @@ const initialState: userState = {
     },
     error: null,
     loaded: false,
-    loading: true
+    loading: true,
+    mobile: window.innerWidth <= 768
 };
 
 const setUserInfo = (state: userState, action: any) => {
@@ -39,6 +40,12 @@ const disableLoading = (state: userState, action: any) => {
     });
 };
 
+const setMobile = (state: userState, action: any) => {
+    return updateObject(state, {
+        mobile: action.mobile
+    });
+};
+
 const reducer = (state = initialState, action: any) => {
     switch (action.type) {
         case actionTypes.SET_USER_INFO:
@@ -49,6 +56,8 @@ const reducer = (state = initialState, action: any) => {
             return enableLoading(state, action);
         case actionTypes.DISABLE_LOADING:
             return disableLoading(state, action);
+        case actionTypes.SET_MOBILE:
+            return setMobile(state, action);
         default:
             return state;
     }

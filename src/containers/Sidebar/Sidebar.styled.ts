@@ -1,6 +1,10 @@
 import styled from 'styled-components';
+import { device } from '../../templates/MediaQueries/MediaQueries';
+interface SidebarProps {
+    readonly open: boolean;
+}
 
-export const Bar = styled.div`
+export const Bar = styled.div<SidebarProps>`
     position: fixed;
     overflow: auto;
     width: 15%;
@@ -13,9 +17,25 @@ export const Bar = styled.div`
     grid-template-rows: 10% 85% 5%;
     box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
     z-index: 100;
+
+    @media only screen and ${device.tablet} {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: transform 0.4s ease-out;
+        transform: ${({ open }) =>
+            open ? 'translateX(0)' : 'translateX(-100%)'};
+        width: 100%;
+        box-shadow: none;
+        overflow: hidden;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
 `;
 
-export const LogoPlaceholder = styled.h1`
+export const Logo = styled.div`
     grid-row-start: 1;
     grid-row-end: auto;
     place-self: center;

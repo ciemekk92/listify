@@ -126,6 +126,7 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
                 clicked={() => setEditing(!editing)}
                 title={'Add new notes'}
                 type={'edit'}
+                size={16}
             />
             <CSSTransition
                 in={!editing}
@@ -156,11 +157,13 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
                             clicked={submitHandler}
                             title="Confirm changes"
                             type="confirm"
+                            size={16}
                         />
                         <EditButton
                             clicked={() => setEditing(!editing)}
                             title="Cancel"
                             type="cancel"
+                            size={16}
                         />
                     </Confirm>
                 </Container>

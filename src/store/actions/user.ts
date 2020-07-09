@@ -28,6 +28,13 @@ export const disableLoading = () => {
     };
 };
 
+export const setMobile = (mobile: boolean) => {
+    return {
+        type: actionTypes.SET_MOBILE,
+        mobile: mobile
+    };
+};
+
 export const initUserInfo = () => {
     return (dispatch: any) => {
         dispatch(enableLoading());

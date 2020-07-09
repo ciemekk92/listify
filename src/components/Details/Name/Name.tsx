@@ -107,6 +107,7 @@ const Name: React.FC<NameProps> = (props) => {
                 title={'Edit task name'}
                 clicked={editHandler}
                 type="edit"
+                size={16}
             />
             <CSSTransition
                 in={!editing}
@@ -142,11 +143,13 @@ const Name: React.FC<NameProps> = (props) => {
                             clicked={submitHandler}
                             title="Confirm changes"
                             type="confirm"
+                            size={16}
                         />
                         <EditButton
                             clicked={() => setEditing(!editing)}
                             title="Cancel"
                             type="cancel"
+                            size={16}
                         />
                     </Confirm>
                 </Container>

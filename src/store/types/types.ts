@@ -39,6 +39,7 @@ export interface userState {
     error: any;
     loaded: boolean;
     loading: boolean;
+    mobile: boolean;
 }
 
 interface setSelectedDateAction {

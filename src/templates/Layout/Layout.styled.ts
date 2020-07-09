@@ -46,6 +46,11 @@ export const MainLoggedIn = styled.main<LayoutProps>`
     background-color: #dbe2ef;
     display: flex;
     flex-direction: column;
+
+    @media only screen and ${device.tablet} {
+        width: 100%;
+        margin: 0;
+    }
 `;
 
 export const MainLeft = styled.div`
