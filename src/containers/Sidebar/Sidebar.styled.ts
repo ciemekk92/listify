@@ -52,3 +52,11 @@ export const ButtonsContainer = styled.div`
     justify-content: center;
     margin-top: 5%;
 `;
+
+export const PanelText = styled.div`
+    margin: auto 5%;
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+`;

@@ -7,7 +7,7 @@ import { hiddenListContext } from '../../context/hiddenListContext';
 import { updateObject } from '../../shared/utility';
 import * as actions from '../../store/actions';
 import useDidMountEffect from '../../hooks/useDidMountEffect';
-import { Bar, ButtonsContainer, Logo } from './Sidebar.styled';
+import { Bar, ButtonsContainer, Logo, PanelText } from './Sidebar.styled';
 import SidebarModal from '../../components/UI/Sidebar/SidebarModal/SidebarModal';
 import NewListInput from '../../components/UI/Sidebar/NewList/NewListInput/NewListInput';
 import PanelContainer from '../../components/UI/Sidebar/PanelContainer/PanelContainer';
@@ -205,24 +205,26 @@ const Sidebar: React.FC<Props> = (props) => {
             <PanelContainer>
                 {
                     // sort alphabetically
-                    lists
-                        ? listsArray
-                              .slice()
-                              .sort()
-                              .map((element) => (
-                                  <ListPanel
-                                      active={currentList === element}
-                                      name={element}
-                                      key={uuidv4()}
-                                      clicked={() =>
-                                          currentListHandler(element)
-                                      }
-                                      clickedDelete={() =>
-                                          deleteListHandler(element)
-                                      }
-                                  />
-                              ))
-                        : null
+                    listsArray.length !== 0 ? (
+                        listsArray
+                            .slice()
+                            .sort()
+                            .map((element) => (
+                                <ListPanel
+                                    active={currentList === element}
+                                    name={element}
+                                    key={uuidv4()}
+                                    clicked={() => currentListHandler(element)}
+                                    clickedDelete={() =>
+                                        deleteListHandler(element)
+                                    }
+                                />
+                            ))
+                    ) : (
+                        <PanelText>
+                            Create a new list by clicking + down below!
+                        </PanelText>
+                    )
                 }
             </PanelContainer>
             <AddNewList

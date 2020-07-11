@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { device } from '../MediaQueries/MediaQueries';
 
 interface LayoutProps {
@@ -15,28 +15,40 @@ export const Header = styled.div<LayoutProps>`
     width: 100%;
     margin: 1% 0;
     display: grid;
-    grid-template-rows: ${(props) => (props.loggedIn ? '100%' : '30% 70%')};
+    grid-template-rows: ${(props) => (props.loggedIn ? '100%' : '3fr 7fr')};
     grid-template-columns: 20% auto 10% 10%;
     grid-template-areas: '. . login login' '. logo . .';
 `;
 
+const moveInBottom = keyframes`
+  0% {
+        opacity: 0;
+        transform: translateY(3rem);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(0);
+    }
+`;
+
 export const Logo = styled.div`
-    width: 100%;
-    height: 100%;
     grid-area: logo;
     display: flex;
     justify-content: center;
     align-items: center;
+    animation: ${moveInBottom} 1s ease-out;
 `;
 
 export const MainNotLoggedIn = styled.main`
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     background-color: #dbe2ef;
-    grid-template-columns: 1.2fr 1.2fr;
-    grid-template-rows: 0.15fr 0.85fr;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1.5fr 8.5fr;
     gap: 1px 1px;
-    grid-template-areas: 'header header' 'main main';
+    grid-template-areas: 'header' 'main';
 `;
 
 export const MainLoggedIn = styled.main<LayoutProps>`
@@ -51,12 +63,4 @@ export const MainLoggedIn = styled.main<LayoutProps>`
         width: 100%;
         margin: 0;
     }
-`;
-
-export const MainLeft = styled.div`
-    grid-area: main-left;
-`;
-
-export const MainRight = styled.div`
-    grid-area: main-right;
 `;
