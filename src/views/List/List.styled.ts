@@ -11,5 +11,14 @@ export const Wrapper = styled.div`
 
     @media only screen and ${device.tablet} {
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5%;
     }
+`;
+
+export const Placeholder = styled.div`
+    text-align: center;
+    font-size: 3rem;
+    margin: 20% auto;
 `;

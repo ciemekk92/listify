@@ -20,7 +20,6 @@ export const Button = styled.div<ButtonProps>`
     align-items: center;
     transition: all 0.4s ease;
     cursor: pointer;
-    ${(props) => (props.mobile ? 'transform: scale(2);' : null)}
     ${(props) => (props.type === 'delete' ? 'z-index: 5;' : null)}
 
     &:hover {

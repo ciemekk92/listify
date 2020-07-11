@@ -7,8 +7,8 @@ export const Delete: React.FC<SVG> = (props) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={mobile ? size * 2 : size}
-            height={mobile ? size * 2 : size}
+            width={size}
+            height={size}
             viewBox="0 0 512 512"
         >
             <title>{title}</title>

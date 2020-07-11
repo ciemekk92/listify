@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-// TODO start here next -> correct sizing of panels in mobile view
-
 export const Panel = styled.div`
     width: 80%;
     margin: 1% 0;

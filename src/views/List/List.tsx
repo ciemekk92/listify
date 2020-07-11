@@ -7,7 +7,7 @@ import ListLayout from '../../containers/ListLayout/ListLayout';
 import ListDetails from '../../containers/ListDetails/ListDetails';
 import { hiddenListContext } from '../../context/hiddenListContext';
 import { Item } from '../../types';
-import { Wrapper } from './List.styled';
+import { Placeholder, Wrapper } from './List.styled';
 import './List.css';
 import Burger from '../../components/UI/Sidebar/Burger/Burger';
 
@@ -15,7 +15,7 @@ const { Provider } = hiddenListContext;
 
 const List: React.FC<PropsFromRedux> = forwardRef(
     (props, ref: React.Ref<HTMLDivElement>) => {
-        const { selectedItem, mobile, onSettingMobile } = props;
+        const { selectedItem, mobile, onSettingMobile, currentList } = props;
 
         const [hidden, setHidden] = useState(false);
         const [open, setOpen] = useState(false);
@@ -51,19 +51,31 @@ const List: React.FC<PropsFromRedux> = forwardRef(
 
         return (
             <Provider value={{ hidden, handleClick }}>
-                {mobile ? <Burger setOpen={openHandler} /> : null}
+                {mobile ? <Burger open={open} setOpen={openHandler} /> : null}
                 <Sidebar open={open} setOpen={openHandler} />
                 <Wrapper>
-                    <ListLayout selected={!!selectedItem.id} />
-                    <CSSTransition
-                        in={showing}
-                        timeout={500}
-                        classNames={'layout'}
-                        mountOnEnter
-                        unmountOnExit
-                    >
-                        {selectedItem.id ? <ListDetails /> : <ListDetails />}
-                    </CSSTransition>
+                    {currentList ? (
+                        <>
+                            <ListLayout selected={!!selectedItem.id} />
+                            <CSSTransition
+                                in={showing}
+                                timeout={500}
+                                classNames={'layout'}
+                                mountOnEnter
+                                unmountOnExit
+                            >
+                                {selectedItem.id ? (
+                                    <ListDetails />
+                                ) : (
+                                    <ListDetails />
+                                )}
+                            </CSSTransition>
+                        </>
+                    ) : (
+                        <Placeholder>
+                            Select a list in the sidebar on the left.
+                        </Placeholder>
+                    )}
                 </Wrapper>
             </Provider>
         );
@@ -73,6 +85,7 @@ const List: React.FC<PropsFromRedux> = forwardRef(
 const mapStateToProps = (state: {
     list: {
         selectedItem: Item;
+        currentList: string;
     };
     user: {
         mobile: boolean;
@@ -80,6 +93,7 @@ const mapStateToProps = (state: {
 }) => {
     return {
         selectedItem: state.list.selectedItem,
+        currentList: state.list.currentList,
         mobile: state.user.mobile
     };
 };

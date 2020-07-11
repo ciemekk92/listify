@@ -26,7 +26,8 @@ const Sidebar: React.FC<Props> = (props) => {
         onGettingUserInfo,
         onSettingSelectedItemEmpty,
         open,
-        setOpen
+        setOpen,
+        mobile
     } = props;
 
     const [newList, setNewList] = useState({
@@ -146,7 +147,7 @@ const Sidebar: React.FC<Props> = (props) => {
         }
     };
 
-    let listsArray = Object.keys(lists);
+    let listsArray = Object.keys(lists).sort();
 
     useDidMountEffect(() => {
         onSettingCurrentList(listsArray[0]);
@@ -238,6 +239,7 @@ const mapStateToProps = (state: {
         userInfo: {
             lists: any;
         };
+        mobile: boolean;
     };
     list: {
         currentList: any;
@@ -247,7 +249,8 @@ const mapStateToProps = (state: {
     return {
         lists: state.user.userInfo.lists,
         selectedItem: state.list.selectedItem,
-        currentList: state.list.currentList
+        currentList: state.list.currentList,
+        mobile: state.user.mobile
     };
 };
 

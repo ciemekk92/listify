@@ -32,3 +32,11 @@ export const Name = styled.p`
     cursor: default;
     color: white;
 `;
+
+export const ButtonContainer = styled.div`
+    grid-area: button;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`;
