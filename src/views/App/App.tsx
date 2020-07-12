@@ -1,22 +1,31 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import '../../index.css';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect
+} from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
-import * as actions from '../../store/actions/index';
+import * as actions from '../../store/actions';
 import { routes } from '../../routes/routes';
 import Layout from '../../templates/Layout/Layout';
 import { auth } from '../../firebase/firebase';
+import { User } from 'firebase';
 
 const Landing = lazy(() => import('../Landing/Landing'));
 const List = lazy(() => import('../List/List'));
 
 const App = (props: PropsFromRedux) => {
+    // TODO input validation (check all inputs, login as well)
+    // TODO safeguard against empty inputs (check all inputs)
+
     const { onGettingUserInfo } = props;
-    const [currentUser, setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
 
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {
-                // @ts-ignore
                 setCurrentUser(user);
                 localStorage.setItem('currentUser', user.uid);
             } else {
@@ -45,8 +54,20 @@ const App = (props: PropsFromRedux) => {
             <Layout user={currentUser}>
                 <Suspense fallback={'Loading...'}>
                     <Switch>
-                        <Route exact path={landing} component={Landing} />
-                        <Route exact path={list} component={List} />
+                        <Route exact path={landing}>
+                            {currentUser ? (
+                                <Redirect to={'/list'} />
+                            ) : (
+                                <Landing />
+                            )}
+                        </Route>
+                        <Route
+                            exact
+                            path={list}
+                            component={() =>
+                                currentUser ? <List /> : <Redirect to={'/'} />
+                            }
+                        />
                     </Switch>
                 </Suspense>
             </Layout>

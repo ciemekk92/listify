@@ -1,7 +1,13 @@
-import React, { useState, forwardRef, useContext } from 'react';
+import React, {
+    useState,
+    forwardRef,
+    useContext,
+    useRef,
+    useEffect
+} from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { hiddenListContext } from '../../context/hiddenListContext';
-import { Wrapper, ListContainer } from './ListLayout.styled';
+import { Wrapper, ListContainer, Warning } from './ListLayout.styled';
 import ListInput from '../../components/List/ListInput/ListInput';
 import SubmitButton from '../../components/List/SubmitButton/SubmitButton';
 import DatePicker from '../DatePicker/DatePicker';
@@ -13,31 +19,56 @@ import { firestore } from '../../firebase/firebase';
 import firebase from 'firebase';
 import * as actions from '../../store/actions';
 import './ListLayout.css';
-
-type Item = {
-    value: string;
-    id: string;
-    date: Date;
-    completed: boolean;
-};
+import { Item } from '../../types';
+import { sizeNumber } from '../../templates/MediaQueries/MediaQueries';
+import BackToTopButton from '../../components/UI/BackToTopButton/BackToTopButton';
 
 const ListLayout = forwardRef(
-    (props: PropsFromRedux, ref: React.Ref<HTMLInputElement>) => {
+    (props: Props, ref: React.Ref<HTMLInputElement>) => {
         const {
             onGettingUserInfo,
             onSelectingItem,
+            onSelectingItemEmpty,
             lists,
             date,
             currentList,
-            selectedItem
+            selectedItem,
+            selected,
+            mobile,
+            onSettingMobile
         } = props;
 
         const [editing, setEditing] = useState(false);
-        const [inputItem, setInputItem] = useState({
+        const [warning, setWarning] = useState('');
+        // const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+        const initialItem = {
             value: '',
             id: '',
             date: new Date(),
-            completed: false
+            completed: false,
+            notes: []
+        };
+        const [inputItem, setInputItem] = useState(initialItem);
+
+        const bottomRef = useRef(null);
+        const topRef = useRef(null);
+
+        const scrollToRef = (ref: any) => {
+            if (window.innerWidth <= sizeNumber.tablet) {
+                ref.current.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
+        const updateMedia = () => {
+            onSettingMobile(window.innerWidth <= 768);
+        };
+
+        useEffect(() => {
+            window.addEventListener('resize', updateMedia);
+            return () => {
+                window.removeEventListener('resize', updateMedia);
+            };
         });
 
         const { hidden } = useContext(hiddenListContext);
@@ -53,14 +84,11 @@ const ListLayout = forwardRef(
         };
 
         const clearInput = () => {
-            setInputItem(
-                updateObject(inputItem, {
-                    value: ''
-                })
-            );
+            setInputItem(initialItem);
         };
 
-        let key = `lists.${currentList}.listItems`;
+        let keyCompleted = `lists.${currentList}.listItems.completed`;
+        let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
 
         const saveNewItem = async (newItem: Item) => {
             const uid: any = localStorage.getItem('currentUser');
@@ -71,7 +99,7 @@ const ListLayout = forwardRef(
             try {
                 await docRef
                     .update({
-                        [key]: firebase.firestore.FieldValue.arrayUnion(
+                        [keyNotCompleted]: firebase.firestore.FieldValue.arrayUnion(
                             newItemWithDate
                         )
                     })
@@ -81,16 +109,21 @@ const ListLayout = forwardRef(
             }
         };
 
-        const deleteItem = async (id: string) => {
+        const deleteItem = async (id: string, completed: boolean) => {
             const uid: any = localStorage.getItem('currentUser');
             const docRef = await firestore.collection('users').doc(uid);
-            const itemToRemove = lists[currentList].listItems.filter(
-                (item: Item) => item.id === id
-            );
+            const itemToRemove = completed
+                ? lists[currentList].listItems.completed.filter(
+                      (item: Item) => item.id === id
+                  )
+                : lists[currentList].listItems.notCompleted.filter(
+                      (item: Item) => item.id === id
+                  );
+            const deleteKey = completed ? keyCompleted : keyNotCompleted;
             try {
                 await docRef
                     .update({
-                        [key]: firebase.firestore.FieldValue.arrayRemove(
+                        [deleteKey]: firebase.firestore.FieldValue.arrayRemove(
                             itemToRemove[0]
                         )
                     })
@@ -103,21 +136,24 @@ const ListLayout = forwardRef(
         const completeItem = async (id: string) => {
             const uid: any = localStorage.getItem('currentUser');
             const docRef = await firestore.collection('users').doc(uid);
-            const itemToRemove = lists[currentList].listItems.filter(
-                (item: Item) => item.id === id
-            );
+            const itemToRemove = lists[
+                currentList
+            ].listItems.notCompleted.filter((item: Item) => item.id === id);
             try {
                 await docRef.update({
-                    [key]: firebase.firestore.FieldValue.arrayRemove(
+                    [keyNotCompleted]: firebase.firestore.FieldValue.arrayRemove(
                         itemToRemove[0]
                     )
                 });
                 const updatedItem = updateObject(itemToRemove[0], {
                     completed: true
                 });
+                if (selectedItem.id) {
+                    onSelectingItem(updatedItem);
+                }
                 await docRef
                     .update({
-                        [key]: firebase.firestore.FieldValue.arrayUnion(
+                        [keyCompleted]: firebase.firestore.FieldValue.arrayUnion(
                             updatedItem
                         )
                     })
@@ -135,14 +171,80 @@ const ListLayout = forwardRef(
             setEditing(false);
         };
 
-        const selectItemHandler = (item: Item) => {
+        const selectItemHandler = (item: Item, ref: any) => {
             if (item.id !== selectedItem.id) {
                 onSelectingItem(item);
+                setTimeout(() => {
+                    scrollToRef(ref);
+                }, 10);
+            } else {
+                onSelectingItemEmpty();
+            }
+        };
+
+        const mapHandler = (listArray: Item[], completed: boolean) => {
+            return (
+                listArray
+                    .slice()
+                    // sort alphabetically
+                    .sort((a: Item, b: Item) => (a.value > b.value ? 1 : -1))
+                    // sort by date - finished recently first for completed items, to be finished first as first for not completed
+                    .sort((a: Item, b: Item) =>
+                        completed
+                            ? new Date(b.date).getTime() -
+                              new Date(a.date).getTime()
+                            : new Date(a.date).getTime() -
+                              new Date(b.date).getTime()
+                    )
+                    .map((element: Item) => (
+                        <CSSTransition
+                            key={element.id}
+                            timeout={600}
+                            classNames="move"
+                            mountOnEnter
+                            unmountOnExit
+                        >
+                            <ListItem
+                                name={element.value}
+                                date={element.date}
+                                completed={element.completed}
+                                selected={selectedItem.id === element.id}
+                                clicked={() =>
+                                    selectItemHandler(
+                                        {
+                                            id: element.id,
+                                            value: element.value,
+                                            date: element.date,
+                                            completed: element.completed,
+                                            notes: element.notes
+                                        },
+                                        bottomRef
+                                    )
+                                }
+                                clickedComplete={() => completeItem(element.id)}
+                                clickedDelete={() =>
+                                    deleteItem(
+                                        element.id,
+                                        element.completed
+                                    ).then((response) => listUpdateHandler())
+                                }
+                            />
+                        </CSSTransition>
+                    ))
+            );
+        };
+
+        const submitHandler = () => {
+            if (inputItem.value === '') {
+                setWarning('Name field must not be empty!');
+            } else {
+                saveNewItem(inputItem).then((response) => listUpdateHandler());
             }
         };
 
         return (
-            <Wrapper>
+            <Wrapper selected={selected} ref={topRef}>
+                <Warning>{warning !== '' ? warning : null}</Warning>
                 <ListInput
                     ref={ref}
                     submit={() => {
@@ -154,93 +256,61 @@ const ListLayout = forwardRef(
                     value={inputItem.value}
                     editing={editing}
                 />
-                <SubmitButton
-                    clicked={() => {
-                        saveNewItem(inputItem).then((response) =>
-                            listUpdateHandler()
-                        );
-                    }}
-                >
+                <SubmitButton clicked={submitHandler}>
                     Add new list item
                 </SubmitButton>
-                <DatePicker />
+                <DatePicker type="layout" />
                 <ListContainer>
                     <TransitionGroup className={'list'}>
                         {!lists[currentList]
                             ? null
                             : hidden
                             ? null
-                            : lists[currentList].listItems
-                                  .slice()
-                                  .sort(
-                                      (a: Item, b: Item) =>
-                                          new Date(b.date).getTime() -
-                                          new Date(a.date).getTime()
-                                  )
-                                  .map((element: Item) => (
-                                      <CSSTransition
-                                          key={element.id}
-                                          timeout={1000}
-                                          classNames="move"
-                                          addEndListener={(node, done) => {
-                                              node.addEventListener(
-                                                  'transitionend',
-                                                  done,
-                                                  false
-                                              );
-                                          }}
-                                      >
-                                          <ListItem
-                                              name={element.value}
-                                              date={element.date}
-                                              completed={element.completed}
-                                              clicked={() =>
-                                                  selectItemHandler({
-                                                      id: element.id,
-                                                      value: element.value,
-                                                      date: element.date,
-                                                      completed:
-                                                          element.completed
-                                                  })
-                                              }
-                                              clickedComplete={() =>
-                                                  completeItem(element.id)
-                                              }
-                                              clickedDelete={() =>
-                                                  deleteItem(
-                                                      element.id
-                                                  ).then((response) =>
-                                                      listUpdateHandler()
-                                                  )
-                                              }
-                                          />
-                                      </CSSTransition>
-                                  ))}
+                            : mapHandler(
+                                  lists[currentList].listItems.notCompleted,
+                                  false
+                              )}
+                        {!lists[currentList]
+                            ? null
+                            : hidden
+                            ? null
+                            : mapHandler(
+                                  lists[currentList].listItems.completed,
+                                  true
+                              )}
                     </TransitionGroup>
                 </ListContainer>
+                {mobile ? (
+                    <BackToTopButton clicked={() => scrollToRef(topRef)} />
+                ) : null}
+                <div ref={bottomRef} />
             </Wrapper>
         );
     }
 );
 
 const mapStateToProps = (state: {
-    user: { userInfo: { lists: any } };
-    list: { currentList: any; date: any; selectedItem: any };
+    user: { userInfo: { lists: any }; mobile: boolean };
+    list: { currentList: any; date: any; selectedItem: Item };
 }) => {
     return {
         lists: state.user.userInfo.lists,
         currentList: state.list.currentList,
         date: state.list.date,
-        selectedItem: state.list.selectedItem
+        selectedItem: state.list.selectedItem,
+        mobile: state.user.mobile
     };
 };
 
 const mapDispatchToProps = {
     onGettingUserInfo: () => actions.initUserInfo(),
-    onSelectingItem: (item: Item) => actions.setSelectedItem(item)
+    onSelectingItem: (item: Item) => actions.setSelectedItem(item),
+    onSelectingItemEmpty: () => actions.setSelectedItemEmpty(),
+    onSettingMobile: (mobile: boolean) => actions.setMobile(mobile)
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux & { selected: boolean };
 
 export default connector(React.memo(ListLayout));

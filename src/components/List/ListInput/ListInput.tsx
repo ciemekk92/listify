@@ -15,13 +15,13 @@ const ListInput = (props: {
         if (node) {
             node.focus();
         }
-    }, [props.editing, ref]);
+    }, [props.editing, ref, node]);
 
     return (
         <Input
             ref={ref}
             onChange={props.changed}
-            placeholder={'Type in the task you want to add to your list!'}
+            placeholder={'Type in the task to add to your list!'}
             value={props.value}
             onKeyDown={(event) => {
                 if (event.key === 'Enter') {

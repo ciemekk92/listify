@@ -10,7 +10,7 @@ export const Title = styled.div`
     flex-direction: row;
     justify-content: space-between;
     font-size: 16px;
-    background-color: #ffaaa5;
+    background-color: #3f72af;
     padding: 10px 0;
     border-radius: 10px 10px 0 0;
 `;
@@ -24,7 +24,8 @@ export const IconContainer = styled.div`
 `;
 export const Month = styled.div`
     padding: 0 15px;
-    background-color: #ffaaa5;
+    background-color: #3f72af;
+    color: white;
 `;
 export const Header = styled.th`
     height: 30px;

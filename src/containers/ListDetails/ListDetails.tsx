@@ -1,26 +1,28 @@
-import React, { useState } from 'react';
+import React, { forwardRef } from 'react';
 import { connect } from 'react-redux';
 import { Wrapper } from './ListDetails.styled';
 import Name from '../../components/Details/Name/Name';
+import DateContainer from '../../components/Details/Date/DateContainer';
+import Completed from '../../components/Details/Completed/Completed';
+import Notes from '../../components/Details/Notes/Notes';
+import { Item } from '../../types';
 
-const Details = (props: { selectedItem: { value: string } }) => {
-    const { selectedItem } = props;
-    const [item, setItem] = useState();
-
-    // TODO Fully implement list details
-
-    return (
-        <Wrapper>
-            <Name>{selectedItem.value}</Name>
-        </Wrapper>
-    );
-};
+const Details = forwardRef(
+    (props: { selectedItem: Item }, ref: React.Ref<HTMLDivElement>) => {
+        return (
+            <Wrapper ref={ref}>
+                <Name />
+                <DateContainer />
+                <Completed />
+                <Notes />
+            </Wrapper>
+        );
+    }
+);
 
 const mapStateToProps = (state: {
     list: {
-        selectedItem: {
-            value: string;
-        };
+        selectedItem: Item;
     };
 }) => {
     return {

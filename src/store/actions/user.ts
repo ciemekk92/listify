@@ -1,14 +1,15 @@
 import * as actionTypes from './actionTypes';
 import { getUserDoc } from '../../firebase/firebase';
+import { userInfo } from '../types/types';
 
-export const setUserInfo = (userInfo) => {
+export const setUserInfo = (userInfo: userInfo) => {
     return {
         type: actionTypes.SET_USER_INFO,
         userInfo: userInfo
     };
 };
 
-export const fetchUserInfoFailed = (error) => {
+export const fetchUserInfoFailed = (error: any) => {
     return {
         type: actionTypes.FETCH_USER_INFO_FAILED,
         error: error
@@ -27,11 +28,18 @@ export const disableLoading = () => {
     };
 };
 
+export const setMobile = (mobile: boolean) => {
+    return {
+        type: actionTypes.SET_MOBILE,
+        mobile: mobile
+    };
+};
+
 export const initUserInfo = () => {
-    return (dispatch) => {
+    return (dispatch: any) => {
         dispatch(enableLoading());
         getUserDoc(localStorage.getItem('currentUser'))
-            .then((response) => {
+            .then((response: any) => {
                 dispatch(setUserInfo(response));
                 dispatch(disableLoading());
             })

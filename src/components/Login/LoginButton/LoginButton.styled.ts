@@ -1,29 +1,35 @@
 import styled from 'styled-components';
+import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 interface ButtonProps {
     readonly login: boolean;
 }
 
 export const Button = styled.button<ButtonProps>`
-    width: 80%;
+    width: 60%;
     height: 30px;
     background-color: transparent;
-    border: 2px solid #b83b5e;
+    border: 2px solid #3f72af;
     border-radius: 5px;
-    margin: 0;
+    margin: 0 2%;
     box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.25);
-    color: purple;
+    color: black;
     outline: none;
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 16px;
-    grid-column-start: ${(props) => (props.login ? '3' : '4')};
-    grid-column-end: auto;
-    place-self: center;
-    transition: all 0.25s ease-in;
+    transition: all 0.4s ease;
+    backface-visibility: hidden;
+
+    @media only screen and (min-width: 2200px) {
+        font-size: 2rem;
+        height: 50px;
+    }
+
+    @media only screen and ${device.tablet} {
+        width: 60%;
+    }
 
     &:hover {
-        font-size: 17px;
-        width: 83%;
-        height: 33px;
+        transform: translateY(-7%);
     }
 `;

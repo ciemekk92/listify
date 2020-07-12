@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
 import { auth, createUserDoc } from '../../firebase/firebase';
 import LoginInput from '../../components/Login/LoginInput/LoginInput';
 import ModalButton from '../../components/UI/ModalButton/ModalButton';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { updateObject } from '../../shared/utility';
-
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-`;
+import { Wrapper } from './Login.styled';
 
 const Login = (props: { type: string; modalClosed(): void }) => {
     const [authData, setAuthData] = useState({
@@ -31,15 +25,23 @@ const Login = (props: { type: string; modalClosed(): void }) => {
 
     const history = useHistory();
 
-    const handleSignIn = (
+    const handleSignIn = async (
         event: React.SyntheticEvent,
         email: string,
         password: string
     ) => {
         setLoading(true);
         event.preventDefault();
-        auth.signInWithEmailAndPassword(email, password)
-            .then(() => {
+        await auth
+            .signInWithEmailAndPassword(email, password)
+            .then((response) => {
+                if (response.user) {
+                    localStorage.setItem('currentUser', response.user.uid);
+                } else {
+                    alert(
+                        'Oops! Something went wrong! Try refreshing the page.'
+                    );
+                }
                 setLoading(false);
                 handleCancel();
                 history.push('/list');

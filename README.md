@@ -1,4 +1,4 @@
-# TODOIST
+# Listify
 
 Practical to-do list made with React
 
@@ -12,14 +12,10 @@ Practical to-do list made with React
 -   Redux
 -   Styled Components
 -   Firebase
+-   Typescript
 
 ## TODO
 
+-   List Item Details - specific components
+-   Login input validation
 -   Styling overhaul
-
-## COLOUR PALETTE
-
--   a8e6cf - turquoise
--   fdffab - light yellow
--   ffd3b6 - light pink
--   ffaaa5 - salmon

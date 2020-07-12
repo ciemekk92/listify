@@ -1,44 +1,52 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
+import { userState } from '../types/types';
 
-const initialState = {
+const initialState: userState = {
     userInfo: {
         uid: '',
-        createdAt: {},
+        createdAt: null,
         email: '',
         userName: '',
         lists: {}
     },
     error: null,
     loaded: false,
-    loading: true
+    loading: true,
+    mobile: window.innerWidth <= 768
 };
 
-const setUserInfo = (state, action) => {
+const setUserInfo = (state: userState, action: any) => {
     return updateObject(state, {
         userInfo: action.userInfo
     });
 };
 
-const fetchUserInfoFailed = (state, action) => {
+const fetchUserInfoFailed = (state: userState, action: any) => {
     return updateObject(state, {
         error: action.error
     });
 };
 
-const enableLoading = (state, action) => {
+const enableLoading = (state: userState, action: any) => {
     return updateObject(state, {
         loading: true
     });
 };
 
-const disableLoading = (state, action) => {
+const disableLoading = (state: userState, action: any) => {
     return updateObject(state, {
         loading: false
     });
 };
 
-const reducer = (state = initialState, action) => {
+const setMobile = (state: userState, action: any) => {
+    return updateObject(state, {
+        mobile: action.mobile
+    });
+};
+
+const reducer = (state = initialState, action: any) => {
     switch (action.type) {
         case actionTypes.SET_USER_INFO:
             return setUserInfo(state, action);
@@ -48,6 +56,8 @@ const reducer = (state = initialState, action) => {
             return enableLoading(state, action);
         case actionTypes.DISABLE_LOADING:
             return disableLoading(state, action);
+        case actionTypes.SET_MOBILE:
+            return setMobile(state, action);
         default:
             return state;
     }

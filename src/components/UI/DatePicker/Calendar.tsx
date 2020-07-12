@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
     format,
     startOfMonth,
@@ -17,7 +17,7 @@ import {
     subDays,
     addDays
 } from 'date-fns';
-import { chunk, reduce } from 'lodash';
+import { chunk } from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faAngleDoubleLeft,
@@ -35,6 +35,7 @@ import {
     Wrapper
 } from './Calendar.styled';
 import './Calendar.css';
+import { useOutsideClick } from '../../../hooks/useOutsideClick';
 
 const Calendar = (props: {
     date: string;
@@ -43,6 +44,7 @@ const Calendar = (props: {
 }) => {
     const { date, handleSelectDate, closeCalendar } = props;
     const [selectedDate, setSelectedDate] = useState(new Date(date));
+
     const setPreviousMonth = () => {
         const previousMonth = subMonths(selectedDate, 1);
         setSelectedDate(startOfMonth(previousMonth));
@@ -163,8 +165,11 @@ const Calendar = (props: {
         handleSelectDate(dateString);
     };
 
+    const wrapperRef = useRef(null);
+    useOutsideClick(wrapperRef, closeCalendar);
+
     return (
-        <Wrapper>
+        <Wrapper ref={wrapperRef}>
             <Title>
                 <Icons>
                     <IconContainer
@@ -174,7 +179,10 @@ const Calendar = (props: {
                         role="button"
                         aria-label="Previous year"
                     >
-                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                        <FontAwesomeIcon
+                            icon={faAngleDoubleLeft}
+                            color={'white'}
+                        />
                     </IconContainer>
                     <IconContainer
                         tabIndex={0}
@@ -183,7 +191,7 @@ const Calendar = (props: {
                         role="button"
                         aria-label="Previous month"
                     >
-                        <FontAwesomeIcon icon={faAngleLeft} />
+                        <FontAwesomeIcon icon={faAngleLeft} color={'white'} />
                     </IconContainer>
                 </Icons>
                 <Month role="heading">
@@ -197,7 +205,7 @@ const Calendar = (props: {
                         role="button"
                         aria-label="Next year"
                     >
-                        <FontAwesomeIcon icon={faAngleRight} />
+                        <FontAwesomeIcon icon={faAngleRight} color={'white'} />
                     </IconContainer>
                     <IconContainer
                         tabIndex={0}
@@ -206,7 +214,10 @@ const Calendar = (props: {
                         role="button"
                         aria-label="Next year"
                     >
-                        <FontAwesomeIcon icon={faAngleDoubleRight} />
+                        <FontAwesomeIcon
+                            icon={faAngleDoubleRight}
+                            color={'white'}
+                        />
                     </IconContainer>
                 </Icons>
             </Title>

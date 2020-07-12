@@ -9,10 +9,6 @@ export const Container = styled.div`
     flex-direction: column;
     overflow: auto;
 
-    & > div:last-child {
-        border-bottom: 1px solid #b4b4b4;
-    }
-
     &::-webkit-scrollbar {
         display: none;
     }

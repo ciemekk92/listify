@@ -5,22 +5,28 @@
     height: 30px;
     font-family: arial, helvetica, sans-serif;
     font-size: 16px;
+    cursor: default;
+    transition: all 0.4s ease;
 }
 
 /*noinspection ALL*/
 .cell:hover {
-    background-color: #fc3;
-    border-color: #800;
+    background-color: #cfd9ea;
+    border-color: #000;
+    transform: translateY(-3%);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
 }
 
 /*noinspection ALL*/
 .cell.active {
-    background-color: #fc3;
-    border-color: #800;
+    background-color: #3f72af;
+    border-color: #000;
+    color: white;
+    font-weight: 700;
 }
 
 .table {
-    background-color: #ddd;
+    background-color: #cfd9ea;
     border-radius: 0 0 10px 10px;
     border: 1px solid black;
     border-spacing: 5px;

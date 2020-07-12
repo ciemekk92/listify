@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const NewList = styled.div`
     width: 100%;
-    background-color: #ffd3b6;
+    background-color: #3f72af;
     height: 100%;
     grid-row-start: 3;
     grid-row-end: auto;
@@ -14,6 +14,6 @@ export const NewList = styled.div`
     transition: all 0.4s ease;
 
     &:hover {
-        background-color: #ffaaa5;
+        background-color: #366296;
     }
 `;

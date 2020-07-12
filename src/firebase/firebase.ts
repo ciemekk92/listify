@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import { Item } from '../types';
 
 const firebaseConfig = {
     apiKey: `${process.env.REACT_APP_API_KEY}`,
@@ -18,7 +19,7 @@ firebase.initializeApp(firebaseConfig);
 export const firestore = firebase.firestore();
 export const auth = firebase.auth();
 
-export const getUserDoc = async (uid) => {
+export const getUserDoc = async (uid: any) => {
     if (!uid) return null;
     try {
         const userDoc = await firestore.collection('users').doc(uid).get();
@@ -28,7 +29,7 @@ export const getUserDoc = async (uid) => {
     }
 };
 
-export const createUserDoc = async (user, userName) => {
+export const createUserDoc = async (user: any, userName: string) => {
     const userRef = await firestore.doc(`users/${user.uid}`);
     const snapshot = await userRef.get();
     if (!snapshot.exists) {
@@ -47,4 +48,39 @@ export const createUserDoc = async (user, userName) => {
         }
     }
     return getUserDoc(user.uid);
+};
+
+export const saveEditedItem = async (
+    currentList: string,
+    selectedItem: Item,
+    editedItem: Item
+) => {
+    let keyCompleted = `lists.${currentList}.listItems.completed`;
+    let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
+
+    const uid: any = localStorage.getItem('currentUser');
+    const docRef = await firestore.collection('users').doc(uid);
+
+    try {
+        await docRef
+            .update({
+                [selectedItem.completed
+                    ? keyCompleted
+                    : keyNotCompleted]: firebase.firestore.FieldValue.arrayRemove(
+                    selectedItem
+                )
+            })
+            .catch((error) => console.log(error));
+        await docRef
+            .update({
+                [editedItem.completed
+                    ? keyCompleted
+                    : keyNotCompleted]: firebase.firestore.FieldValue.arrayUnion(
+                    editedItem
+                )
+            })
+            .catch((error) => console.log(error));
+    } catch (error) {
+        console.log(error);
+    }
 };

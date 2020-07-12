@@ -14,7 +14,7 @@
 /*noinspection CssUnusedSymbol*/
 .move-enter-active {
     opacity: 1;
-    transition: all 500ms ease-out;
+    transition: all 600ms ease-out;
 }
 
 .move-exit {
@@ -24,5 +24,5 @@
 /*noinspection CssUnusedSymbol*/
 .move-exit-active {
     opacity: 0;
-    transition: all 500ms ease-out;
+    transition: all 600ms ease-out;
 }

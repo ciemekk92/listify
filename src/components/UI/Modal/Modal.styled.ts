@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 interface ModalProps {
     readonly slide: boolean;
@@ -13,7 +14,7 @@ export const Area = styled.div<ModalProps>`
     color: black;
     background-color: white;
     width: 30%;
-    height: 25%;
+    height: 12rem;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 1px 1px 1px black;
@@ -24,4 +25,10 @@ export const Area = styled.div<ModalProps>`
     transition: all 0.4s ease-out;
     transform: ${(props) =>
         props.slide ? 'translateY(0)' : 'translateY(-100vh)'};
+
+    @media only screen and ${device.tablet} {
+        width: 80%;
+        top: 35%;
+        left: 10%;
+    }
 `;

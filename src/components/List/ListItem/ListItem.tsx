@@ -7,6 +7,7 @@ const ListItem = (props: {
     clickedComplete(): void;
     clickedDelete(): void;
     completed: boolean;
+    selected: boolean;
     name: string;
     date: Date;
 }) => {
@@ -15,6 +16,7 @@ const ListItem = (props: {
         clickedComplete,
         clickedDelete,
         completed,
+        selected,
         name,
         date
     } = props;
@@ -30,7 +32,7 @@ const ListItem = (props: {
     };
 
     return (
-        <Item completed={completed} onClick={clicked}>
+        <Item completed={completed} onClick={clicked} selected={selected}>
             <Name>{name}</Name>
             <Date>{date}</Date>
             {!completed ? (
@@ -38,7 +40,7 @@ const ListItem = (props: {
                     complete={true}
                     completed={completed}
                     delete={false}
-                    clicked={completeHandler}
+                    clicked={(event) => completeHandler(event)}
                 />
             ) : null}
             <ListItemButton
