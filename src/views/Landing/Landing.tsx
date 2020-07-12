@@ -5,6 +5,7 @@ import {
     Heading3,
     UnorderedList,
     OrderedList,
+    ListItem,
     Image,
     ImageBox,
     StartContainer,
@@ -16,7 +17,6 @@ import { connect, ConnectedProps } from 'react-redux';
 import book from '../../assets/book.png';
 
 const Landing: React.FC = (props) => {
-    // TODO correct styling, create mobile look here
     return (
         <Wrapper>
             <Heading3>No more post-its on your fridge!</Heading3>
@@ -30,33 +30,37 @@ const Landing: React.FC = (props) => {
                 lawyer - be more organized and keep all your tasks in a single
                 place.
             </Paragraph>
-            <Paragraph>Key features:</Paragraph>
+            <Paragraph>
+                <strong>Key features:</strong>
+            </Paragraph>
             <UnorderedList>
-                <li>
+                <ListItem>
                     Access your to-do lists on any device through web browser
-                </li>
-                <li>Create multiple separate lists</li>
-                <li>Track completion of your tasks</li>
-                <li>
+                </ListItem>
+                <ListItem>Create multiple separate lists</ListItem>
+                <ListItem>Track completion of your tasks</ListItem>
+                <ListItem>
                     Add important notes or things to remember about your most
                     important tasks
-                </li>
-                <li>Edit any task on a fly with simple user interface</li>
+                </ListItem>
+                <ListItem>
+                    Edit any task on a fly with simple user interface
+                </ListItem>
             </UnorderedList>
             <StartContainer>
                 <Text>
                     <Heading3>How to start?</Heading3>
                     <Paragraph>There are only two requirements:</Paragraph>
                     <OrderedList>
-                        <li>
+                        <ListItem>
                             Enable JavaScript in your browser (it is enabled by
                             default{' '}
                             <span role="img" aria-label="wink_emoji">
                                 😉
                             </span>{' '}
                             ){' '}
-                        </li>
-                        <li>Create your account and enjoy!</li>
+                        </ListItem>
+                        <ListItem>Create your account and enjoy!</ListItem>
                     </OrderedList>
                 </Text>
                 <ImageBox>

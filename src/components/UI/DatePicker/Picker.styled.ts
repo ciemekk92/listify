@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 export const Wrapper = styled.div`
     display: flex;
@@ -14,6 +15,10 @@ export const Wrapper = styled.div`
 
     & > div {
         padding: 10px 20px;
+
+        @media only screen and ${device.tablet} {
+            padding: 5px 10px;
+        }
     }
 
     & > div:nth-child(1) {

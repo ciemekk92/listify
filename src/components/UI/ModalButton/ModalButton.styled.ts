@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 export const Button = styled.button`
     width: 30%;
@@ -10,12 +11,26 @@ export const Button = styled.button`
     color: black;
     outline: none;
     font-family: 'Open Sans Condensed', sans-serif;
-    font-size: 16px;
+    font-size: 1rem;
     margin: 3% 5% 0 5%;
     transition: all 0.4s ease;
     backface-visibility: hidden;
 
     &:hover {
         transform: translateY(-7%);
+    }
+
+    @media only screen and (min-width: 2200px) {
+        font-size: 2rem;
+        height: 85%;
+    }
+
+    @media only screen and ${device.tablet} {
+        width: 40%;
+        font-size: 0.9rem;
+    }
+
+    @media only screen and ${device.mobileM} {
+        width: 60%;
     }
 `;

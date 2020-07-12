@@ -19,8 +19,14 @@ export const Header = styled.div<LayoutProps>`
     grid-template-columns: 20% auto 10% 10%;
     grid-template-areas: '. . login login' '. logo . .';
 
-    @media only screen and ${device.tablet} {
+    @media only screen and ${device.laptop} {
         grid-template-columns: 20% auto 20% 20%;
+        grid-template-areas: '. . login login' 'logo logo logo logo';
+        row-gap: 10%;
+    }
+
+    @media only screen and ${device.tablet} {
+        row-gap: 15%;
     }
 `;
 
@@ -42,6 +48,14 @@ export const Logo = styled.div`
     justify-content: center;
     align-items: center;
     animation: ${moveInBottom} 1s ease-out;
+
+    & > img {
+        width: 30%;
+
+        @media only screen and ${device.mobileL} {
+            width: 50%;
+        }
+    }
 `;
 
 export const MainNotLoggedIn = styled.main`

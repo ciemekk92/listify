@@ -1,4 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
+import '../../index.css';
 import {
     BrowserRouter as Router,
     Switch,
@@ -16,10 +17,11 @@ const Landing = lazy(() => import('../Landing/Landing'));
 const List = lazy(() => import('../List/List'));
 
 const App = (props: PropsFromRedux) => {
+    // TODO input validation (check all inputs, login as well)
+    // TODO safeguard against empty inputs (check all inputs)
+
     const { onGettingUserInfo } = props;
     const [currentUser, setCurrentUser] = useState<User | null>(null);
-
-    // TODO mobile layout
 
     useEffect(() => {
         auth.onAuthStateChanged((user) => {

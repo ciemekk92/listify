@@ -11,7 +11,6 @@ import {
 import LoginButton from '../../components/Login/LoginButton/LoginButton';
 import Modal from '../../components/UI/Modal/Modal';
 import Login from '../../views/Login/Login';
-import logo from '../../assets/logo.png';
 import logoLarge from '../../assets/logo_large.png';
 
 type LayoutProps = {
@@ -59,11 +58,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
                         </LoginButton>
                     </LoginContainer>
                     <Logo>
-                        <img
-                            src={logoLarge}
-                            alt={'Logo'}
-                            style={{ width: '30%' }}
-                        />
+                        <img src={logoLarge} alt={'Logo'} />
                     </Logo>
                 </>
             )}

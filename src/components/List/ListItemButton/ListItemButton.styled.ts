@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 interface ButtonProps {
     readonly type: string;
@@ -19,6 +20,11 @@ export const Button = styled.div<ButtonProps>`
     transition: all 0.4s ease;
     z-index: 2;
     cursor: pointer;
+
+    @media only screen and ${device.mobileL} {
+        min-width: 18px;
+        min-height: 18px;
+    }
 
     &:hover {
         background-color: #1d4d86;

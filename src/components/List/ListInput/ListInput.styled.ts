@@ -3,7 +3,7 @@ import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 export const Input = styled.input`
     width: 80%;
-    height: 1.8rem;
+    height: 1.7rem;
     border-radius: 10px;
     outline: none;
     font-family: 'Open Sans Condensed', sans-serif;

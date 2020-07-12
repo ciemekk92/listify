@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 export const Button = styled.button`
-    width: 30%;
-    height: 2rem;
+    width: 15%;
+    height: 1.8rem;
     background-color: transparent;
     border: 2px solid #3f72af;
     border-radius: 5px;
@@ -21,6 +21,7 @@ export const Button = styled.button`
 
     @media only screen and ${device.tablet} {
         width: 50%;
+        margin-bottom: 0.4rem;
     }
 
     @media only screen and ${device.laptop} {
@@ -29,6 +30,12 @@ export const Button = styled.button`
 
     @media only screen and ${device.mobileL} {
         font-size: 0.8rem;
+        margin-bottom: 0.2rem;
+    }
+
+    @media only screen and ${device.mobileM} {
+        font-size: 0.8rem;
+        margin-bottom: 0;
     }
 
     &:hover {

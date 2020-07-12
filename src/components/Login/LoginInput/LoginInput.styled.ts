@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 export const TextInput = styled.input`
     width: 80%;
@@ -9,4 +10,9 @@ export const TextInput = styled.input`
     font-size: 16px;
     text-align: center;
     margin: 0 auto 1% auto;
+
+    @media only screen and (min-width: 2200px) {
+        height: 40px;
+        font-size: 2rem;
+    }
 `;
