@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import { Item } from '../../types/'
+import { Item } from '../../types/';
 
 export const setSelectedDate = (date: string) => {
     return {
