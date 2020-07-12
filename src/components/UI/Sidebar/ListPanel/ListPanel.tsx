@@ -10,6 +10,7 @@ type PanelProps = {
     clicked(): void;
     name: string;
     clickedDelete(): void;
+    mobileClicked(): void;
 };
 
 type Props = PanelProps & PropsFromRedux;
@@ -21,7 +22,8 @@ const ListPanel: React.FC<Props> = (props) => {
         clicked,
         active,
         mobile,
-        onSettingCurrentList
+        onSettingCurrentList,
+        mobileClicked
     } = props;
     const [isShown, setIsShown] = useState(false);
 
@@ -31,6 +33,7 @@ const ListPanel: React.FC<Props> = (props) => {
 
     const mobileCurrentHandler = () => {
         onSettingCurrentList(name);
+        mobileClicked();
     };
 
     return (

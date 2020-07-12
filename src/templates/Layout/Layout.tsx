@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { auth } from '../../firebase/firebase';
 import {
     Header,
+    LoginContainer,
     Logo,
     MainLoggedIn,
     MainNotLoggedIn,
@@ -42,17 +43,21 @@ const Layout: React.FC<LayoutProps> = (props) => {
     const header = (
         <Header loggedIn={!!user}>
             {user ? (
-                <LoginButton login={false} clicked={handleSignOut}>
-                    Logout
-                </LoginButton>
+                <LoginContainer>
+                    <LoginButton login={false} clicked={handleSignOut}>
+                        Logout
+                    </LoginButton>
+                </LoginContainer>
             ) : (
                 <>
-                    <LoginButton login clicked={openLogin}>
-                        Login
-                    </LoginButton>
-                    <LoginButton login={false} clicked={openSignUp}>
-                        Sign up
-                    </LoginButton>
+                    <LoginContainer>
+                        <LoginButton login clicked={openLogin}>
+                            Login
+                        </LoginButton>
+                        <LoginButton login={false} clicked={openSignUp}>
+                            Sign up
+                        </LoginButton>
+                    </LoginContainer>
                     <Logo>
                         <img
                             src={logoLarge}

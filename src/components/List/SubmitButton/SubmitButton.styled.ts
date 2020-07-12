@@ -23,6 +23,14 @@ export const Button = styled.button`
         width: 50%;
     }
 
+    @media only screen and ${device.laptop} {
+        font-size: 1rem;
+    }
+
+    @media only screen and ${device.mobileL} {
+        font-size: 0.8rem;
+    }
+
     &:hover {
         transform: translateY(-7%);
     }

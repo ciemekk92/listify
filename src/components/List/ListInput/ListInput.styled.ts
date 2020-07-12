@@ -11,4 +11,12 @@ export const Input = styled.input`
     text-align: center;
     grid-area: input;
     place-self: center;
+
+    @media only screen and ${device.laptop} {
+        font-size: 1rem;
+    }
+
+    @media only screen and ${device.mobileL} {
+        font-size: 0.8rem;
+    }
 `;

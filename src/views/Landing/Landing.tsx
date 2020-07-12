@@ -50,7 +50,11 @@ const Landing: React.FC = (props) => {
                     <OrderedList>
                         <li>
                             Enable JavaScript in your browser (it is enabled by
-                            default 😉 ){' '}
+                            default{' '}
+                            <span role="img" aria-label="wink_emoji">
+                                😉
+                            </span>{' '}
+                            ){' '}
                         </li>
                         <li>Create your account and enjoy!</li>
                     </OrderedList>

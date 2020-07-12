@@ -218,6 +218,7 @@ const Sidebar: React.FC<Props> = (props) => {
                                     clickedDelete={() =>
                                         deleteListHandler(element)
                                     }
+                                    mobileClicked={() => setOpen()}
                                 />
                             ))
                     ) : (

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 interface ItemProps {
     readonly completed: boolean;
@@ -22,13 +23,14 @@ export const Item = styled.div<ItemProps>`
             ? '#b7c6e0'
             : '#cfd9ea'};
     text-align: center;
+    font-size: 1.1rem;
     font-family: 'Open Sans Condensed', sans-serif;
     color: ${(props) => (props.completed ? 'white' : 'black')};
     margin: ${(props) => (props.selected ? '0.5rem 0' : '0.25rem 0')};
     border-radius: 5px;
     display: grid;
     grid-template-rows: 100%;
-    grid-template-columns: 40% 40% 10% 10%;
+    grid-template-columns: 50% 30% 10% 10%;
     cursor: default;
     box-shadow: 1px 1px ${(props) => (props.selected ? '5px' : '3px')} 0
         rgba(0, 0, 0, ${(props) => (props.selected ? '1' : '0.5')});
@@ -36,9 +38,13 @@ export const Item = styled.div<ItemProps>`
     transition: all 0.4s ease;
     position: relative;
 
-   /* &:first-child {
-        margin: ${(props) => (props.selected ? '0.5% 0 1% 0' : '0.5% 0')};
-    }*/
+    @media only screen and ${device.laptop} {
+        font-size: 1rem;
+    }
+
+    @media only screen and ${device.mobileL} {
+        font-size: 0.8rem;
+    }
 
     &::after {
         position: absolute;
@@ -69,14 +75,14 @@ export const Item = styled.div<ItemProps>`
 `;
 
 export const Date = styled.div`
-    width: 70%;
+    width: 100%;
     grid-column-start: 2;
     grid-column-end: auto;
     place-self: center;
 `;
 
 export const Name = styled.div`
-    width: 90%;
+    width: 100%;
     grid-column-start: 1;
     grid-column-end: auto;
     place-self: center;

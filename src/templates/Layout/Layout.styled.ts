@@ -18,6 +18,10 @@ export const Header = styled.div<LayoutProps>`
     grid-template-rows: ${(props) => (props.loggedIn ? '100%' : '3fr 7fr')};
     grid-template-columns: 20% auto 10% 10%;
     grid-template-areas: '. . login login' '. logo . .';
+
+    @media only screen and ${device.tablet} {
+        grid-template-columns: 20% auto 20% 20%;
+    }
 `;
 
 const moveInBottom = keyframes`
@@ -63,4 +67,13 @@ export const MainLoggedIn = styled.main<LayoutProps>`
         width: 100%;
         margin: 0;
     }
+`;
+
+export const LoginContainer = styled.div`
+    width: 100%;
+    grid-area: login;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 `;
