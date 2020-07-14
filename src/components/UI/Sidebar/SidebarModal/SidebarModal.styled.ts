@@ -35,3 +35,9 @@ export const Area = styled.div<ModalProps>`
         left: 25%;
     }
 `;
+
+export const Warning = styled.div`
+    color: red;
+    font-size: 0.8rem;
+    text-align: center;
+`;

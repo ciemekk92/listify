@@ -45,29 +45,7 @@ const Sidebar: React.FC<Props> = (props) => {
     const [addingList, setAddingList] = useState(false);
     const [deletingList, setDeletingList] = useState(false);
     const [listToDelete, setListToDelete] = useState('');
-
-    const newListHandler = async (list: List) => {
-        setAddingList(false);
-        if (newList.name !== '') {
-            const uid: any = localStorage.getItem('currentUser');
-            const docRef = await firestore.collection('users').doc(uid);
-            const listWithTimestamp = updateObject(list, {
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            let key = `lists.${list.name}`;
-
-            try {
-                await docRef
-                    .update({
-                        [key]: listWithTimestamp
-                    })
-                    .then((response) => onGettingUserInfo())
-                    .catch((error) => console.log(error));
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    };
+    const [warning, setWarning] = useState('');
 
     const inputChangedHandler = (event: React.ChangeEvent) => {
         const target = event.target as HTMLInputElement;
@@ -80,6 +58,7 @@ const Sidebar: React.FC<Props> = (props) => {
 
     const toggleAdding = () => {
         setAddingList(!addingList);
+        setWarning('');
     };
 
     const toggleDeleting = () => {
@@ -97,6 +76,31 @@ const Sidebar: React.FC<Props> = (props) => {
             setTimeout(() => {
                 handleClick(false);
             }, 500);
+        }
+    };
+
+    const newListHandler = async (list: List) => {
+        if (newList.name !== '') {
+            setAddingList(false);
+            const uid: any = localStorage.getItem('currentUser');
+            const docRef = await firestore.collection('users').doc(uid);
+            const listWithTimestamp = updateObject(list, {
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            let key = `lists.${list.name}`;
+
+            try {
+                await docRef
+                    .update({
+                        [key]: listWithTimestamp
+                    })
+                    .then((response) => onGettingUserInfo())
+                    .catch((error) => console.log(error));
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            setWarning('Name of the list must not be empty!');
         }
     };
 
@@ -155,7 +159,11 @@ const Sidebar: React.FC<Props> = (props) => {
 
     return (
         <Bar open={open}>
-            <SidebarModal open={addingList} modalClosed={toggleAdding}>
+            <SidebarModal
+                open={addingList}
+                modalClosed={toggleAdding}
+                warning={warning}
+            >
                 Enter new list name below.
                 <NewListInput
                     changed={inputChangedHandler}

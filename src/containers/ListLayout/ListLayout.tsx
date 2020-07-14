@@ -96,6 +96,7 @@ const ListLayout = forwardRef(
             const newItemWithDate = updateObject(newItem, {
                 date: date
             });
+
             try {
                 await docRef
                     .update({
