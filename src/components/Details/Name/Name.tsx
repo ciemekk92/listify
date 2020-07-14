@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
-import firebase from 'firebase/app';
-import { firestore } from '../../../firebase/firebase';
+import { saveEditedItem } from '../../../firebase/firebase';
 import {
     Wrapper,
     Input,
@@ -49,42 +48,11 @@ const Name: React.FC<NameProps> = (props) => {
         setItem(updatedData);
     };
 
-    let keyCompleted = `lists.${currentList}.listItems.completed`;
-    let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
-
-    const saveEditedItem = async () => {
-        const uid: any = localStorage.getItem('currentUser');
-        const docRef = await firestore.collection('users').doc(uid);
-
-        try {
-            await docRef
-                .update({
-                    [selectedItem.completed
-                        ? keyCompleted
-                        : keyNotCompleted]: firebase.firestore.FieldValue.arrayRemove(
-                        selectedItem
-                    )
-                })
-                .catch((error) => console.log(error));
-            await docRef
-                .update({
-                    [item.completed
-                        ? keyCompleted
-                        : keyNotCompleted]: firebase.firestore.FieldValue.arrayUnion(
-                        item
-                    )
-                })
-                .catch((error) => console.log(error));
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const submitHandler = () => {
         if (item.value === '') {
             setWarning('The name field must not be empty!');
         } else {
-            saveEditedItem()
+            saveEditedItem(currentList, selectedItem, item)
                 .then((response) => {
                     setEditing(!editing);
                     onGettingUserInfo();

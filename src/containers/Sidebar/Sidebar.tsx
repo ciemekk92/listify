@@ -94,9 +94,17 @@ const Sidebar: React.FC<Props> = (props) => {
                         [key]: listWithTimestamp
                     })
                     .then((response) => onGettingUserInfo())
-                    .catch((error) => console.log(error));
+                    .catch((error) =>
+                        alert(
+                            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                                error
+                        )
+                    );
             } catch (error) {
-                console.log(error);
+                alert(
+                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                        error
+                );
             }
         } else {
             setWarning('Name of the list must not be empty!');
@@ -114,10 +122,17 @@ const Sidebar: React.FC<Props> = (props) => {
                 .update({
                     [key]: firebase.firestore.FieldValue.delete()
                 })
-                .then((response) => console.log(response))
-                .catch((error) => console.log(error));
+                .catch((error) =>
+                    alert(
+                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                            error
+                    )
+                );
         } catch (error) {
-            console.log(error);
+            alert(
+                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                    error
+            );
         }
     };
 
@@ -134,7 +149,10 @@ const Sidebar: React.FC<Props> = (props) => {
                     onGettingUserInfo();
                 });
             } catch (error) {
-                console.log(error);
+                alert(
+                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                        error
+                );
             }
         }
     };
@@ -146,7 +164,10 @@ const Sidebar: React.FC<Props> = (props) => {
                 onGettingUserInfo();
             });
         } catch (error) {
-            console.log(error);
+            alert(
+                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                    error
+            );
         }
     };
 

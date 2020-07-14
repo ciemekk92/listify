@@ -39,7 +39,10 @@ const App = (props: PropsFromRedux) => {
                     await onGettingUserInfo();
                 }
             } catch (error) {
-                console.log(error);
+                alert(
+                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                        error
+                );
             }
         };
         fetchInfo();

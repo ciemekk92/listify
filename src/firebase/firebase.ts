@@ -25,7 +25,10 @@ export const getUserDoc = async (uid: any) => {
         const userDoc = await firestore.collection('users').doc(uid).get();
         return { uid, ...userDoc.data() };
     } catch (error) {
-        console.log(error);
+        alert(
+            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                error
+        );
     }
 };
 
@@ -44,7 +47,10 @@ export const createUserDoc = async (user: any, userName: string) => {
                 lists: {}
             });
         } catch (error) {
-            console.log(error);
+            alert(
+                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                    error
+            );
         }
     }
     return getUserDoc(user.uid);
@@ -70,7 +76,12 @@ export const saveEditedItem = async (
                     selectedItem
                 )
             })
-            .catch((error) => console.log(error));
+            .catch((error) =>
+                alert(
+                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                        error
+                )
+            );
         await docRef
             .update({
                 [editedItem.completed
@@ -79,8 +90,16 @@ export const saveEditedItem = async (
                     editedItem
                 )
             })
-            .catch((error) => console.log(error));
+            .catch((error) =>
+                alert(
+                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                        error
+                )
+            );
     } catch (error) {
-        console.log(error);
+        alert(
+            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                error
+        );
     }
 };

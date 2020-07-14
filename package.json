@@ -25,7 +25,6 @@
         "date-fns": "^2.14.0",
         "firebase": "^7.14.4",
         "lodash": "^4.17.19",
-        "prop-types": "^15.7.2",
         "react": "^16.13.1",
         "react-animate-height": "^2.0.21",
         "react-dom": "^16.13.1",
