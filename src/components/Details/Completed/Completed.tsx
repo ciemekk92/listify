@@ -6,7 +6,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Item } from '../../../types';
 import { firestore } from '../../../firebase/firebase';
 import { updateObject } from '../../../shared/utility';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import CompletedButton from './CompletedButton/CompletedButton';
 
 const Completed: React.FC<PropsFromRedux> = (props) => {

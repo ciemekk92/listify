@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { firestore } from '../../../firebase/firebase';
 import {
     Wrapper,

@@ -18,7 +18,7 @@ import { Label } from '../Shared.styled';
 import EditButton from '../EditButton/EditButton';
 import NotePanel from './NotePanel/NotePanel';
 import { updateObject } from '../../../shared/utility';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 const Notes: React.FC<PropsFromRedux> = (props) => {
     const {

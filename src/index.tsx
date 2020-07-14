@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import WebFont from 'webfontloader';
 import App from './views/App/App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
@@ -8,6 +9,12 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import userReducer from './store/reducers/user';
 import listReducer from './store/reducers/list';
+
+WebFont.load({
+    google: {
+        families: ['Open Sans Condensed:300,700', 'sans-serif']
+    }
+});
 
 declare global {
     interface Window {

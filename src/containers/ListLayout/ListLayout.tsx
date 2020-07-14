@@ -16,7 +16,7 @@ import ListItem from '../../components/List/ListItem/ListItem';
 import { updateObject } from '../../shared/utility';
 import { v4 as uuidv4 } from 'uuid';
 import { firestore } from '../../firebase/firebase';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import * as actions from '../../store/actions';
 import './ListLayout.css';
 import { Item } from '../../types';
