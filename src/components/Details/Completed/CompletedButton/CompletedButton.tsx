@@ -1,6 +1,6 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { CheckBoxChecked, CheckBoxEmpty } from '../../../Icons';
+import { CheckBoxChecked } from '../../../Icons';
 import { Button, Border } from './CompletedButton.styled';
 import './CompletedButton.css';
 

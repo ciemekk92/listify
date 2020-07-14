@@ -4,6 +4,14 @@ export const Wrapper = styled.div`
     width: 300px;
     display: flex;
     flex-direction: column;
+
+    @media only screen and (max-width: 475px) {
+        width: 250px;
+    }
+
+    @media only screen and (max-width: 350px) {
+        width: 225px;
+    }
 `;
 export const Title = styled.div`
     display: flex;

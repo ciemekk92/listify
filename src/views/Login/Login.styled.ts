@@ -11,3 +11,9 @@ export const Wrapper = styled.div`
         align-items: center;
     }
 `;
+
+export const Warning = styled.div`
+    color: red;
+    font-size: 0.9rem;
+    text-align: center;
+`;

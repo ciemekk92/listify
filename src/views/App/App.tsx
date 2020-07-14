@@ -17,9 +17,6 @@ const Landing = lazy(() => import('../Landing/Landing'));
 const List = lazy(() => import('../List/List'));
 
 const App = (props: PropsFromRedux) => {
-    // TODO input validation (check all inputs, login as well)
-    // TODO safeguard against empty inputs (check all inputs)
-
     const { onGettingUserInfo } = props;
     const [currentUser, setCurrentUser] = useState<User | null>(null);
 
@@ -42,7 +39,10 @@ const App = (props: PropsFromRedux) => {
                     await onGettingUserInfo();
                 }
             } catch (error) {
-                console.log(error);
+                alert(
+                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                        error
+                );
             }
         };
         fetchInfo();

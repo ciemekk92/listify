@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../store/actions';
 import { CSSTransition } from 'react-transition-group';
@@ -13,75 +13,72 @@ import Burger from '../../components/UI/Sidebar/Burger/Burger';
 
 const { Provider } = hiddenListContext;
 
-const List: React.FC<PropsFromRedux> = forwardRef(
-    (props, ref: React.Ref<HTMLDivElement>) => {
-        const { selectedItem, mobile, onSettingMobile, currentList } = props;
+const List: React.FC<PropsFromRedux> = (props) => {
+    const { selectedItem, mobile, onSettingMobile, currentList } = props;
 
-        const [hidden, setHidden] = useState(false);
-        const [open, setOpen] = useState(false);
+    const [hidden, setHidden] = useState(false);
+    const [open, setOpen] = useState(false);
 
-        const handleClick = (value: boolean) => {
-            setHidden(value);
+    const handleClick = (value: boolean) => {
+        setHidden(value);
+    };
+
+    const openHandler = () => {
+        setOpen(!open);
+    };
+
+    const updateMedia = () => {
+        onSettingMobile(window.innerWidth <= 768);
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', updateMedia);
+        return () => {
+            window.removeEventListener('resize', updateMedia);
         };
+    });
 
-        const openHandler = () => {
-            setOpen(!open);
-        };
+    const [showing, setShowing] = useState(!!selectedItem.id);
 
-        const updateMedia = () => {
-            onSettingMobile(window.innerWidth <= 768);
-        };
+    useEffect(() => {
+        if (selectedItem.id !== null) {
+            setShowing(true);
+        } else {
+            setShowing(false);
+        }
+    }, [selectedItem.id]);
 
-        useEffect(() => {
-            window.addEventListener('resize', updateMedia);
-            return () => {
-                window.removeEventListener('resize', updateMedia);
-            };
-        });
-
-        const [showing, setShowing] = useState(!!selectedItem.id);
-
-        useEffect(() => {
-            if (selectedItem.id !== null) {
-                setShowing(true);
-            } else {
-                setShowing(false);
-            }
-        }, [selectedItem.id]);
-
-        return (
-            <Provider value={{ hidden, handleClick }}>
-                {mobile ? <Burger open={open} setOpen={openHandler} /> : null}
-                <Sidebar open={open} setOpen={openHandler} />
-                <Wrapper>
-                    {currentList ? (
-                        <>
-                            <ListLayout selected={!!selectedItem.id} />
-                            <CSSTransition
-                                in={showing}
-                                timeout={500}
-                                classNames={'layout'}
-                                mountOnEnter
-                                unmountOnExit
-                            >
-                                {selectedItem.id ? (
-                                    <ListDetails />
-                                ) : (
-                                    <ListDetails />
-                                )}
-                            </CSSTransition>
-                        </>
-                    ) : (
-                        <Placeholder>
-                            Select a list in the sidebar on the left.
-                        </Placeholder>
-                    )}
-                </Wrapper>
-            </Provider>
-        );
-    }
-);
-
+    return (
+        <Provider value={{ hidden, handleClick }}>
+            {mobile ? <Burger open={open} setOpen={openHandler} /> : null}
+            <Sidebar open={open} setOpen={openHandler} />
+            <Wrapper>
+                {currentList ? (
+                    <>
+                        <ListLayout selected={!!selectedItem.id} />
+                        <CSSTransition
+                            in={showing}
+                            timeout={500}
+                            classNames={'layout'}
+                            mountOnEnter
+                            unmountOnExit
+                        >
+                            {selectedItem.id ? (
+                                <ListDetails />
+                            ) : (
+                                <ListDetails />
+                            )}
+                        </CSSTransition>
+                    </>
+                ) : (
+                    <Placeholder>
+                        Select a list in the sidebar on the left.
+                    </Placeholder>
+                )}
+            </Wrapper>
+        </Provider>
+    );
+};
 const mapStateToProps = (state: {
     list: {
         selectedItem: Item;

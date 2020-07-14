@@ -45,7 +45,9 @@ export const initUserInfo = () => {
             })
             .catch((error) => {
                 dispatch(fetchUserInfoFailed(error));
-                console.log(error);
+                alert(
+                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/'
+                );
                 dispatch(disableLoading());
             });
     };

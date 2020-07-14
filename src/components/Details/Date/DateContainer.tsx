@@ -35,7 +35,12 @@ const DateContainer: React.FC<Props> = (props) => {
                 onSettingSelectedItem(updatedItem);
                 setEditing(!editing);
             })
-            .catch((error) => console.log(error));
+            .catch((error) =>
+                alert(
+                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                        error
+                )
+            );
     };
 
     return (

@@ -12,11 +12,9 @@ import {
     Text
 } from './Landing.styled';
 
-import { connect, ConnectedProps } from 'react-redux';
-
 import book from '../../assets/book.png';
 
-const Landing: React.FC = (props) => {
+const Landing: React.FC = () => {
     return (
         <Wrapper>
             <Heading3>No more post-its on your fridge!</Heading3>

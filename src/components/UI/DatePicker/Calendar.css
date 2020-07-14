@@ -31,3 +31,9 @@
     border: 1px solid black;
     border-spacing: 5px;
 }
+
+@media only screen and (max-width: 475px) {
+    .cell {
+        font-size: 14px;
+    }
+}

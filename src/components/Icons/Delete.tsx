@@ -2,7 +2,7 @@ import React from 'react';
 import { SVG } from '../../types/SVG';
 
 export const Delete: React.FC<SVG> = (props) => {
-    const { size, title, color, mobile } = props;
+    const { size, title, color } = props;
 
     return (
         <svg
