@@ -117,7 +117,7 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
             <Display>No notes saved yet!</Display>
         );
 
-    const emptyNote = <h3></h3>;
+    const emptyNote = <p></p>;
 
     return (
         <Wrapper editing={editing}>

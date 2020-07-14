@@ -26,8 +26,7 @@ const Sidebar: React.FC<Props> = (props) => {
         onGettingUserInfo,
         onSettingSelectedItemEmpty,
         open,
-        setOpen,
-        mobile
+        setOpen
     } = props;
 
     const [newList, setNewList] = useState({
@@ -250,7 +249,6 @@ const mapStateToProps = (state: {
         userInfo: {
             lists: any;
         };
-        mobile: boolean;
     };
     list: {
         currentList: any;
@@ -260,8 +258,7 @@ const mapStateToProps = (state: {
     return {
         lists: state.user.userInfo.lists,
         selectedItem: state.list.selectedItem,
-        currentList: state.list.currentList,
-        mobile: state.user.mobile
+        currentList: state.list.currentList
     };
 };
 

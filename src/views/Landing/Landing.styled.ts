@@ -1,29 +1,5 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { device } from '../../templates/MediaQueries/MediaQueries';
-
-const moveInBottom = keyframes`
-  0% {
-        opacity: 0;
-        transform: translateY(3rem);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translate(0);
-    }
-`;
-
-const moveInLeft = keyframes`
-  0% {
-        opacity: 0;
-        transform: translateX(3rem);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translate(0);
-    }
-`;
 
 export const Wrapper = styled.div`
     width: 70%;
@@ -63,12 +39,16 @@ export const Paragraph = styled.p`
         font-size: 1.1rem;
     }
 
-    @media only screen and (max-width: 454px) {
-        font-size: 1rem;
+    @media only screen and (max-width: 478px) {
+        font-size: 1.05rem;
     }
 
     @media only screen and ${device.mobileM} {
-        font-size: 0.95rem;
+        font-size: 0.96rem;
+    }
+
+    @media only screen and (max-width: 260px) {
+        font-size: 0.9rem;
     }
 `;
 
@@ -86,35 +66,36 @@ export const Heading3 = styled.h3`
     }
 
     @media only screen and ${device.mobileL} {
-        font-size: 1.3rem;
+        font-size: 1.25rem;
     }
 
     @media only screen and ${device.mobileM} {
-        font-size: 1.1rem;
+        font-size: 1.15rem;
+    }
+
+    @media only screen and (max-width: 260px) {
+        font-size: 1rem;
     }
 `;
 
 export const UnorderedList = styled.ul`
     list-style: circle;
     text-align: left;
-    margin: 0 0 0 5%;
-    padding: 0;
+    padding-left: 30px;
 
     @media only screen and ${device.tablet} {
-        margin: 0 0 0 9%;
     }
 `;
 
 export const OrderedList = styled.ol`
     list-style: upper-roman;
     font-size: 1.4rem;
+    padding-left: 20px;
 
     @media only screen and (min-width: 2200px) {
-        margin: 1.5% 2.2%;
     }
 
     @media only screen and (max-width: 454px) {
-        font-size: 1rem;
         margin: 0;
     }
 `;
@@ -134,12 +115,20 @@ export const ListItem = styled.li`
         font-size: 1.2rem;
     }
 
+    @media only screen and (max-width: 478px) {
+        font-size: 1.05rem;
+    }
+
     @media only screen and ${device.mobileL} {
-        font-size: 1rem;
+        font-size: 1.05rem;
     }
 
     @media only screen and ${device.mobileM} {
-        font-size: 0.95rem;
+        font-size: 0.96rem;
+    }
+
+    @media only screen and (max-width: 260px) {
+        font-size: 0.9rem;
     }
 `;
 

@@ -5,7 +5,7 @@ import LoginInput from '../../components/Login/LoginInput/LoginInput';
 import ModalButton from '../../components/UI/ModalButton/ModalButton';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { updateObject } from '../../shared/utility';
-import { Wrapper } from './Login.styled';
+import { Warning, Wrapper } from './Login.styled';
 
 const Login = (props: { type: string; modalClosed(): void }) => {
     const [authData, setAuthData] = useState({
@@ -13,13 +13,28 @@ const Login = (props: { type: string; modalClosed(): void }) => {
         password: ''
     });
     const [loading, setLoading] = useState(false);
+    const [warning, setWarning] = useState('');
     const { type } = props;
+
+    const validateEmail = (email: string) => {
+        const pattern = /\S+@\S+\.\S+/;
+        return pattern.test(email.toLowerCase());
+    };
 
     const inputChangedHandler = (event: React.ChangeEvent) => {
         const target = event.target as HTMLInputElement;
         const updatedData = updateObject(authData, {
             [target.name]: target.value
         });
+        if (target.name === 'email') {
+            if (!validateEmail(target.value)) {
+                if (warning === '') {
+                    setWarning('Please enter a valid email address');
+                }
+            } else {
+                setWarning('');
+            }
+        }
         setAuthData(updatedData);
     };
 
@@ -83,6 +98,7 @@ const Login = (props: { type: string; modalClosed(): void }) => {
         <Spinner />
     ) : (
         <>
+            {warning !== '' ? <Warning>{warning}</Warning> : null}
             <LoginInput
                 name="email"
                 type="email"
