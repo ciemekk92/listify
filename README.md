@@ -1,6 +1,6 @@
 # Listify
 
-Practical to-do list made with React
+React application that allows user to create and manage multiple to-do lists online. Each list is stored in database and can be accessed from any device.
 
 #### Author: Przemysław Reducha
 
