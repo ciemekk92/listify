@@ -4,7 +4,7 @@ Practical to-do list made with React
 
 #### Author: Przemysław Reducha
 
-## TECH STACK
+## Tech stack
 
 -   React 16.13
 -   Typescript
