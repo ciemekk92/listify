@@ -15,7 +15,7 @@ export const Wrapper = styled.div<NotesProps>`
 
 export const Input = styled.input<NotesProps>`
     width: 80%;
-    height: 2rem;
+    height: 1.6rem;
     border-radius: 15px;
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 1rem;

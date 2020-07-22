@@ -286,7 +286,7 @@ const ListLayout = forwardRef(
                     value={inputItem.value}
                     editing={editing}
                 />
-                <SubmitButton clicked={submitHandler}>
+                <SubmitButton selected={selected} clicked={submitHandler}>
                     Add new list item
                 </SubmitButton>
                 <DatePicker type="layout" />

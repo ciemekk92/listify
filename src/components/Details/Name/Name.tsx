@@ -70,7 +70,7 @@ const Name: React.FC<NameProps> = (props) => {
 
     return (
         <Wrapper>
-            <Label>Task name</Label>
+            <Label>Task</Label>
             <EditButton
                 title={'Edit task name'}
                 clicked={editHandler}

@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
 import { saveEditedItem } from '../../../firebase/firebase';
 import { updateObject } from '../../../shared/utility';
-import { Value, Confirm } from './DateContainer.styled';
+import { Value, Confirm, Container, Placeholder } from './DateContainer.styled';
 import { Wrapper, Label } from '../Shared.styled';
 import EditButton from '../EditButton/EditButton';
 import DatePicker from '../../../containers/DatePicker/DatePicker';
@@ -43,10 +43,12 @@ const DateContainer: React.FC<Props> = (props) => {
             );
     };
 
+    const emptyDate = <Placeholder />;
+
     return (
         <Wrapper>
             <Label>Date</Label>
-            <Value>{selectedItem.date}</Value>
+
             <EditButton
                 clicked={clickHandler}
                 title={'Edit date'}
@@ -54,13 +56,13 @@ const DateContainer: React.FC<Props> = (props) => {
                 size={16}
             />
             <CSSTransition
-                in={editing}
+                in={!editing}
                 timeout={400}
                 classNames={'picker'}
                 mountOnEnter
                 unmountOnExit
             >
-                <DatePicker type="details" />
+                {editing ? emptyDate : <Value>{selectedItem.date}</Value>}
             </CSSTransition>
             <CSSTransition
                 in={editing}
@@ -69,20 +71,23 @@ const DateContainer: React.FC<Props> = (props) => {
                 mountOnEnter
                 unmountOnExit
             >
-                <Confirm>
-                    <EditButton
-                        clicked={submitNewDateHandler}
-                        title={'Submit new date'}
-                        type={'confirm'}
-                        size={16}
-                    />
-                    <EditButton
-                        clicked={() => setEditing(!editing)}
-                        title={'Cancel'}
-                        type={'cancel'}
-                        size={16}
-                    />
-                </Confirm>
+                <Container>
+                    <DatePicker type="details" />
+                    <Confirm>
+                        <EditButton
+                            clicked={submitNewDateHandler}
+                            title={'Submit new date'}
+                            type={'confirm'}
+                            size={16}
+                        />
+                        <EditButton
+                            clicked={() => setEditing(!editing)}
+                            title={'Cancel'}
+                            type={'cancel'}
+                            size={16}
+                        />
+                    </Confirm>
+                </Container>
             </CSSTransition>
         </Wrapper>
     );

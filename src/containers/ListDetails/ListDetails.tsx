@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Wrapper } from './ListDetails.styled';
 import Name from '../../components/Details/Name/Name';
@@ -7,18 +7,16 @@ import Completed from '../../components/Details/Completed/Completed';
 import Notes from '../../components/Details/Notes/Notes';
 import { Item } from '../../types';
 
-const Details = forwardRef(
-    (props: { selectedItem: Item }, ref: React.Ref<HTMLDivElement>) => {
-        return (
-            <Wrapper ref={ref}>
-                <Name />
-                <DateContainer />
-                <Completed />
-                <Notes />
-            </Wrapper>
-        );
-    }
-);
+const Details = (props: { selectedItem: Item }) => {
+    return (
+        <Wrapper>
+            <Name />
+            <DateContainer />
+            <Completed />
+            <Notes />
+        </Wrapper>
+    );
+};
 
 const mapStateToProps = (state: {
     list: {

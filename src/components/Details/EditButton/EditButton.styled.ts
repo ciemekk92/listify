@@ -27,4 +27,9 @@ export const Button = styled.div<ButtonProps>`
         box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.4);
         transform: translateY(-7%);
     }
+
+    @media only screen and (max-height: 800px) {
+        width: ${(props) => (props.size === 16 ? '1.2rem' : '1.3rem')};
+        height: ${(props) => (props.size === 16 ? '1.2rem' : '1.3rem')};
+    }
 `;

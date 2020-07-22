@@ -14,7 +14,7 @@ const Login = (props: { type: string; modalClosed(): void }) => {
     });
     const [loading, setLoading] = useState(false);
     const [warning, setWarning] = useState('');
-    const { type } = props;
+    const { type, modalClosed } = props;
 
     const validateEmail = (email: string) => {
         const pattern = /\S+@\S+\.\S+/;
@@ -58,7 +58,7 @@ const Login = (props: { type: string; modalClosed(): void }) => {
                     );
                 }
                 setLoading(false);
-                handleCancel();
+                modalClosed();
                 history.push('/list');
             })
             .catch((error) => {
@@ -85,13 +85,9 @@ const Login = (props: { type: string; modalClosed(): void }) => {
             });
         await createUserDoc(user, email).then((response) => {
             setLoading(false);
-            handleCancel();
+            modalClosed();
             history.push('/list');
         });
-    };
-
-    const handleCancel = () => {
-        props.modalClosed();
     };
 
     return loading ? (
@@ -135,7 +131,7 @@ const Login = (props: { type: string; modalClosed(): void }) => {
                 >
                     {type === 'login' ? 'Login' : 'Sign up'}
                 </ModalButton>
-                <ModalButton clicked={handleCancel}>Cancel</ModalButton>
+                <ModalButton clicked={modalClosed}>Cancel</ModalButton>
             </Wrapper>
         </>
     );

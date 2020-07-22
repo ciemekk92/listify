@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 import { device } from '../../../templates/MediaQueries/MediaQueries';
 
-export const Button = styled.button`
-    width: 15%;
+interface SubmitProps {
+    readonly selected: boolean;
+}
+
+export const Button = styled.button<SubmitProps>`
+    width: ${(props) => (props.selected ? '30%' : '15%')};
     height: 1.8rem;
     background-color: transparent;
     border: 2px solid #3f72af;
