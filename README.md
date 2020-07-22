@@ -26,5 +26,4 @@ Note: Cloning the repository will require:
 
 ## TODO
 
--   Tests
--   Split components to follow SRP, check project for DRY accordance.
+-   Tests (Jest, Enzyme)
