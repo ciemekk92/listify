@@ -4,6 +4,11 @@ React application that allows user to create and manage multiple to-do lists onl
 
 #### Author: Przemysław Reducha
 
+## TODO
+- ASAP: Redesign layout into more modern one, place correct media queries.
+-   Tests (Jest, Enzyme)
+
+
 ## Tech stack
 
 -   React 16.13
@@ -23,7 +28,3 @@ Note: Cloning the repository will require:
 
 1.  Configuring Firebase to work correctly and storing API key, messaging sender ID and App ID in `.env` file in root directory.
 2.  Editing `./firebase/firebase.ts` file with the rest of your Firebase account's config info.
-
-## TODO
-
--   Tests (Jest, Enzyme)
