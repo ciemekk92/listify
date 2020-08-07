@@ -4,10 +4,7 @@ export const NewList = styled.div`
     width: 100%;
     background-color: #3f72af;
     height: 100%;
-    grid-row-start: 3;
-    grid-row-end: auto;
-    grid-column-start: 1;
-    grid-column-end: auto;
+    grid-row: 5 / 6;
     display: flex;
     align-items: center;
     justify-content: center;
