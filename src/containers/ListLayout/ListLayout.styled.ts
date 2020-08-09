@@ -6,8 +6,7 @@ interface LayoutProps {
 }
 
 export const Wrapper = styled.div<LayoutProps>`
-    width: ${(props) => (props.selected ? '80%' : '94%')};
-    margin: 0 3%;
+    width: 45%;
     height: 85vh;
     background-color: #f9f7f7;
     color: black;
@@ -17,12 +16,10 @@ export const Wrapper = styled.div<LayoutProps>`
     grid-template-areas: 'warning' 'input' 'submit' 'date' 'list';
     align-items: center;
     flex-direction: column;
-    flex-shrink: ${(props) => (props.selected ? 1 : 0.000001)};
     overflow: hidden;
     box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
     z-index: 0;
     border-radius: 30px;
-    transition: flex-shrink 0.54s linear;
 
     @media only screen and ${device.tablet} {
         margin: 1%;
@@ -53,5 +50,5 @@ export const Warning = styled.div`
     grid-area: warning;
     text-align: center;
     color: red;
-    font-size: 0.8rem;
+    font-size: 1.4rem;
 `;

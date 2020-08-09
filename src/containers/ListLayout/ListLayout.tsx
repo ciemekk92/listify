@@ -274,6 +274,9 @@ const ListLayout = forwardRef(
 
         return (
             <Wrapper selected={selected} ref={topRef}>
+                <p>Today</p>
+                <p>Tomorrow</p>
+                <p>Future tasks</p>
                 <Warning>{warning !== '' ? warning : null}</Warning>
                 <ListInput
                     ref={ref}

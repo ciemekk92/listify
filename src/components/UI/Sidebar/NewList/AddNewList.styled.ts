@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const NewList = styled.div`
     width: 100%;
     background-color: #3f72af;
-    height: 5rem;
+    height: 4rem;
     grid-row: 5 / 6;
     display: flex;
     align-items: center;

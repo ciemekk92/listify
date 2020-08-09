@@ -6,7 +6,7 @@ interface PanelProps {
 
 export const Panel = styled.div<PanelProps>`
     width: 100%;
-    height: 3.2rem;
+    height: 3.6rem;
     display: grid;
     grid-template-columns: 0.2fr 0.6fr 0.2fr;
     grid-template-rows: 1fr;

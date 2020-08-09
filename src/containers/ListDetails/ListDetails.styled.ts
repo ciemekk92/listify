@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 import { device } from '../../templates/MediaQueries/MediaQueries';
 
-export const Wrapper = styled.div`
-    width: 80%;
-    margin: 0 3%;
+interface DetailsProps {
+    readonly selected: boolean;
+}
+
+export const Wrapper = styled.div<DetailsProps>`
+    opacity: ${(props) => (props.selected ? 1 : 0)};
+    width: 45%;
     height: 85vh;
     align-items: center;
     justify-content: center;
@@ -15,6 +19,7 @@ export const Wrapper = styled.div`
     box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
     border-radius: 30px;
     background-color: #f9f7f7;
+    transition: all 0.4s ease;
 
     @media only screen and ${device.tablet} {
         margin: 1%;

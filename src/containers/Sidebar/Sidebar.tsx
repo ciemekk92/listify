@@ -15,11 +15,9 @@ import ListPanel from '../../components/UI/Sidebar/ListPanel/ListPanel';
 import AddNewList from '../../components/UI/Sidebar/NewList/AddNewList';
 import { Item, List } from '../../types';
 import EditButton from '../../components/Details/EditButton/EditButton';
-import { Home, Unread } from '../../components/Icons';
+import { Home, Unread, Github, Mail } from '../../components/Icons';
 import { CSSTransition } from 'react-transition-group';
 import './Sidebar.css';
-import { Github } from '../../components/Icons/Github';
-import { Mail } from '../../components/Icons/Mail';
 
 const Sidebar: React.FC<Props> = (props) => {
     const {

@@ -8,3 +8,5 @@ export { CheckBoxEmpty } from './CheckBoxEmpty';
 export { ArrowUp } from './ArrowUp';
 export { Home } from './Home';
 export { Unread } from './Unread';
+export { Mail } from './Mail';
+export { Github } from './Github';

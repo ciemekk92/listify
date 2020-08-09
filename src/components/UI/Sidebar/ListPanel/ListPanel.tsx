@@ -56,14 +56,14 @@ const ListPanel: React.FC<Props> = (props) => {
                             title={'Select active list'}
                             type="confirm"
                             clicked={mobileCurrentHandler}
-                            size={16}
+                            size={20}
                         />
                     ) : null}
                     <EditButton
                         title={'Delete list'}
                         type="delete"
                         clicked={clickedDelete}
-                        size={16}
+                        size={20}
                     />
                 </ButtonContainer>
             </CSSTransition>

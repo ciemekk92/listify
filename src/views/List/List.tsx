@@ -38,16 +38,6 @@ const List: React.FC<PropsFromRedux> = (props) => {
         };
     });
 
-    const [showing, setShowing] = useState(!!selectedItem.id);
-
-    useEffect(() => {
-        if (selectedItem.id !== null) {
-            setShowing(true);
-        } else {
-            setShowing(false);
-        }
-    }, [selectedItem.id]);
-
     return (
         <Provider value={{ hidden, handleClick }}>
             {mobile ? <Burger open={open} setOpen={openHandler} /> : null}
@@ -56,19 +46,7 @@ const List: React.FC<PropsFromRedux> = (props) => {
                 {currentList ? (
                     <>
                         <ListLayout selected={!!selectedItem.id} />
-                        <CSSTransition
-                            in={showing}
-                            timeout={500}
-                            classNames={'layout'}
-                            mountOnEnter
-                            unmountOnExit
-                        >
-                            {selectedItem.id ? (
-                                <ListDetails />
-                            ) : (
-                                <ListDetails />
-                            )}
-                        </CSSTransition>
+                        <ListDetails selected={!!selectedItem.id} />
                     </>
                 ) : (
                     <Placeholder>

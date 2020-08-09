@@ -7,8 +7,8 @@ interface ButtonProps {
 }
 
 export const Button = styled.div<ButtonProps>`
-    width: ${(props) => (props.size === 16 ? '1.5rem' : '1.6rem')};
-    height: ${(props) => (props.size === 16 ? '1.5rem' : '1.6rem')};
+    width: 2.4rem;
+    height: 2.4rem;
     margin: 0 3%;
     border-radius: 50%;
     background-color: #3f72af;
@@ -26,10 +26,5 @@ export const Button = styled.div<ButtonProps>`
         background-color: #366296;
         box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.4);
         transform: translateY(-7%);
-    }
-
-    @media only screen and (max-height: 800px) {
-        width: ${(props) => (props.size === 16 ? '1.2rem' : '1.3rem')};
-        height: ${(props) => (props.size === 16 ? '1.2rem' : '1.3rem')};
     }
 `;

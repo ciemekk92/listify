@@ -6,7 +6,7 @@ interface SubmitProps {
 }
 
 export const Button = styled.button<SubmitProps>`
-    width: ${(props) => (props.selected ? '30%' : '15%')};
+    width: 20rem;
     height: 3rem;
     background-color: transparent;
     border: 2px solid #3f72af;

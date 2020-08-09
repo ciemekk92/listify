@@ -7,9 +7,10 @@ import Completed from '../../components/Details/Completed/Completed';
 import Notes from '../../components/Details/Notes/Notes';
 import { Item } from '../../types';
 
-const Details = (props: { selectedItem: Item }) => {
+const Details = (props: { selectedItem: Item; selected: boolean }) => {
+    const { selectedItem, selected } = props;
     return (
-        <Wrapper>
+        <Wrapper selected={selected}>
             <Name />
             <DateContainer />
             <Completed />
