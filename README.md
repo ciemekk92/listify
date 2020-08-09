@@ -5,9 +5,12 @@ React application that allows user to create and manage multiple to-do lists onl
 #### Author: Przemysław Reducha
 
 ## TODO
-- ASAP: Redesign layout into more modern one, place correct media queries.
--   Tests (Jest, Enzyme)
 
+-   ASAP: Redesign layout into more modern one, place correct media queries.
+-   Add new containers - Today / Tomorrow tasks
+-   Rearrange project structure
+-   Clean up CSS
+-   Tests (Jest, Enzyme)
 
 ## Tech stack
 

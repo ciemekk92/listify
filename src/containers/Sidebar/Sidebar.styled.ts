@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { device } from '../../templates/MediaQueries/MediaQueries';
+
 interface SidebarProps {
     readonly open: boolean;
 }
@@ -13,8 +14,7 @@ export const Bar = styled.div<SidebarProps>`
     height: 100vh;
     background-color: #cfd9ea;
     display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 10% 85% 5%;
+    grid-template-rows: 10% max-content max-content 1fr 5%;
     box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
     z-index: 100;
 
@@ -36,8 +36,7 @@ export const Bar = styled.div<SidebarProps>`
 `;
 
 export const Logo = styled.div`
-    grid-row-start: 1;
-    grid-row-end: auto;
+    grid-row: 1 / 2;
     place-self: center;
     display: flex;
     justify-content: center;
@@ -51,6 +50,10 @@ export const ButtonsContainer = styled.div`
     align-items: center;
     justify-content: center;
     margin-top: 5%;
+`;
+
+export const LabelPanel = styled.div`
+    width: 100%;
 `;
 
 export const PanelText = styled.div`

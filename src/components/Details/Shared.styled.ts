@@ -16,18 +16,18 @@ export const Wrapper = styled.div`
 
 export const Label = styled.div`
     font-family: 'Open Sans Condensed', sans-serif;
-    font-size: 0.8rem;
+    font-size: 1.1rem;
     font-style: oblique;
     grid-area: label;
     cursor: default;
     margin: auto 0 auto 15%;
 
     @media only screen and ${device.tablet} {
-        font-size: 0.7rem;
+        font-size: 0.9rem;
         margin: auto 0 auto 30%;
     }
 
     @media only screen and ${device.mobileM} {
-        font-size: 0.5rem;
+        font-size: 0.8rem;
     }
 `;

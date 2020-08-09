@@ -6,7 +6,7 @@ interface PanelProps {
 
 export const Panel = styled.div<PanelProps>`
     width: 100%;
-    height: 2rem;
+    height: 3.2rem;
     display: grid;
     grid-template-columns: 0.2fr 0.6fr 0.2fr;
     grid-template-rows: 1fr;
@@ -26,10 +26,10 @@ export const Panel = styled.div<PanelProps>`
 
 export const Name = styled.p`
     grid-area: name;
-    font-size: 1rem;
+    font-size: 1.6rem;
     place-self: center;
     margin: 0;
-    cursor: default;
+    cursor: pointer;
     color: white;
 `;
 

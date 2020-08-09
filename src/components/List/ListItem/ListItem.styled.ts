@@ -13,7 +13,7 @@ interface ItemProps {
 
 export const Item = styled.div<ItemProps>`
     width: ${(props) => (props.selected ? '95%' : '90%')};
-    height: 2rem;
+    height: 3.2rem;
     background-color: ${(props) =>
         props.completed
             ? props.selected
@@ -23,13 +23,12 @@ export const Item = styled.div<ItemProps>`
             ? '#b7c6e0'
             : '#cfd9ea'};
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 1.8rem;
     font-family: 'Open Sans Condensed', sans-serif;
     color: ${(props) => (props.completed ? 'white' : 'black')};
     margin: ${(props) => (props.selected ? '0.5rem 0' : '0.25rem 0')};
-    border-radius: 5px;
+    border-radius: 0.5rem;
     display: grid;
-    grid-template-rows: 100%;
     grid-template-columns: 50% 30% 10% 10%;
     cursor: default;
     box-shadow: 1px 1px ${(props) => (props.selected ? '5px' : '3px')} 0
