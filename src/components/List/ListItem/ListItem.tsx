@@ -35,14 +35,14 @@ const ListItem = (props: {
         <Item completed={completed} onClick={clicked} selected={selected}>
             <Name>{name}</Name>
             <Date>{date}</Date>
-            {!completed ? (
+            {completed ? null : (
                 <ListItemButton
                     complete={true}
                     completed={completed}
                     delete={false}
                     clicked={(event) => completeHandler(event)}
                 />
-            ) : null}
+            )}
             <ListItemButton
                 complete={false}
                 completed={completed}
