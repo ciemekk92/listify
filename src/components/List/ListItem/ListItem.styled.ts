@@ -34,7 +34,7 @@ export const Item = styled.div<ItemProps>`
     box-shadow: 1px 1px ${(props) => (props.selected ? '5px' : '3px')} 0
         rgba(0, 0, 0, ${(props) => (props.selected ? '1' : '0.5')});
     z-index: 0;
-    transition: all 0.4s ease;
+    transition: all 0.2s ease;
     position: relative;
 
     @media only screen and ${device.laptop} {

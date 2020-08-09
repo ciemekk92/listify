@@ -17,7 +17,7 @@ export const Button = styled.div<ButtonProps>`
     grid-column-start: ${(props) => (props.type === 'complete' ? 3 : 4)};
     grid-column-end: auto;
     place-self: center;
-    transition: all 0.4s ease;
+    transition: all 0.2s ease;
     z-index: 2;
     cursor: pointer;
 

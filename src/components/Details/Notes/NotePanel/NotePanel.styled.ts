@@ -10,7 +10,7 @@ export const Panel = styled.div`
     box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.4);
     min-height: 15%;
     height: 15%;
-    transition: all 0.4s ease;
+    transition: all 0.2s ease;
     position: relative;
     padding: 0 2%;
     display: grid;

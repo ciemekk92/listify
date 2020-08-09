@@ -9,12 +9,13 @@ export const Area = styled.div<ModalProps>`
     position: fixed;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     z-index: 500;
     color: black;
     background-color: white;
     width: 30%;
-    height: 12rem;
+    height: 15rem;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 1px 1px 1px black;

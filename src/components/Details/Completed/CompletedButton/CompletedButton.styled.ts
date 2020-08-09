@@ -13,7 +13,7 @@ export const Button = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: all 0.4s ease;
+    transition: all 0.2s ease;
     cursor: pointer;
 
     &:hover {

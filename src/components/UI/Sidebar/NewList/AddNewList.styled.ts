@@ -8,7 +8,7 @@ export const NewList = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.4s ease;
+    transition: all 0.2s ease;
 
     &:hover {
         background-color: #366296;

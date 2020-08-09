@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { auth } from '../../firebase/firebase';
 import {
     Header,
+    HeaderLogo,
     LoginContainer,
     Logo,
     MainLoggedIn,
@@ -12,6 +13,7 @@ import LoginButton from '../../components/Login/LoginButton/LoginButton';
 import Modal from '../../components/UI/Modal/Modal';
 import Login from '../../views/Login/Login';
 import logoLarge from '../../assets/logo_large.png';
+import logo from '../../assets/logo.png';
 
 type LayoutProps = {
     user: any;
@@ -42,44 +44,44 @@ const Layout: React.FC<LayoutProps> = (props) => {
     const header = (
         <Header loggedIn={!!user}>
             {user ? (
-                <LoginContainer>
+                <HeaderLogo>
+                    <img src={logo} alt={'Logo'} />
+                </HeaderLogo>
+            ) : null}
+            <LoginContainer>
+                {user ? (
                     <LoginButton login={false} clicked={handleSignOut}>
                         Logout
                     </LoginButton>
-                </LoginContainer>
-            ) : (
-                <>
-                    <LoginContainer>
+                ) : (
+                    <>
                         <LoginButton login clicked={openLogin}>
                             Login
                         </LoginButton>
                         <LoginButton login={false} clicked={openSignUp}>
                             Sign up
                         </LoginButton>
-                    </LoginContainer>
-                    <Logo>
-                        <img src={logoLarge} alt={'Logo'} />
-                    </Logo>
-                </>
+                    </>
+                )}
+            </LoginContainer>
+            {user ? null : (
+                <Logo>
+                    <img src={logoLarge} alt={'Logo'} />
+                </Logo>
             )}
         </Header>
     );
 
     return (
-        <Wrapper>
+        <Wrapper loggedIn={!!user}>
             <Modal open={openModal} modalClosed={closeLogin}>
                 <Login type={authType} modalClosed={closeLogin} />
             </Modal>
+            {header}
             {user ? (
-                <MainLoggedIn loggedIn={!!user}>
-                    {header}
-                    {props.children}
-                </MainLoggedIn>
+                <MainLoggedIn loggedIn={!!user}>{props.children}</MainLoggedIn>
             ) : (
-                <MainNotLoggedIn>
-                    {header}
-                    {props.children}
-                </MainNotLoggedIn>
+                <MainNotLoggedIn>{props.children}</MainNotLoggedIn>
             )}
         </Wrapper>
     );

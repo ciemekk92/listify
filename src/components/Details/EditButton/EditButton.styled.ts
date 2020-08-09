@@ -18,7 +18,7 @@ export const Button = styled.div<ButtonProps>`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: all 0.4s ease;
+    transition: all 0.2s ease;
     cursor: pointer;
     ${(props) => (props.type === 'delete' ? 'z-index: 5;' : null)}
 

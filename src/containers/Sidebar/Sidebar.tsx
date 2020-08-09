@@ -7,13 +7,7 @@ import { hiddenListContext } from '../../context/hiddenListContext';
 import { updateObject } from '../../shared/utility';
 import * as actions from '../../store/actions';
 import useDidMountEffect from '../../hooks/useDidMountEffect';
-import {
-    Bar,
-    ButtonsContainer,
-    Logo,
-    PanelText,
-    LabelPanel
-} from './Sidebar.styled';
+import { Bar, ButtonsContainer, PanelText, LabelPanel } from './Sidebar.styled';
 import SidebarModal from '../../components/UI/Sidebar/SidebarModal/SidebarModal';
 import NewListInput from '../../components/UI/Sidebar/NewList/NewListInput/NewListInput';
 import PanelContainer from '../../components/UI/Sidebar/PanelContainer/PanelContainer';
@@ -230,13 +224,6 @@ const Sidebar: React.FC<Props> = (props) => {
                     />
                 </ButtonsContainer>
             </SidebarModal>
-            <Logo>
-                <img
-                    src={logo}
-                    alt={'Logo'}
-                    style={{ width: '75%', height: '75%' }}
-                />
-            </Logo>
             <LabelPanel>Home</LabelPanel>
             <LabelPanel>My lists</LabelPanel>
             <PanelContainer>

@@ -9,17 +9,17 @@ export const Bar = styled.div<SidebarProps>`
     position: fixed;
     overflow: auto;
     width: 15%;
-    top: 0;
+    top: 10vh;
     left: 0;
-    height: 100vh;
+    height: 90vh;
     background-color: #cfd9ea;
     display: grid;
-    grid-template-rows: 10% max-content max-content 1fr 5%;
-    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
-    z-index: 100;
+    grid-template-rows: max-content max-content 1fr 5%;
+    z-index: 5;
 
     @media only screen and ${device.tablet} {
         position: absolute;
+        height: 100vh;
         top: 0;
         left: 0;
         transition: transform 0.4s ease-out;
@@ -33,14 +33,6 @@ export const Bar = styled.div<SidebarProps>`
             display: none;
         }
     }
-`;
-
-export const Logo = styled.div`
-    grid-row: 1 / 2;
-    place-self: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 `;
 
 export const ButtonsContainer = styled.div`
