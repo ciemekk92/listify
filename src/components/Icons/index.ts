@@ -6,3 +6,5 @@ export { Delete } from './Delete';
 export { CheckBoxChecked } from './CheckBoxChecked';
 export { CheckBoxEmpty } from './CheckBoxEmpty';
 export { ArrowUp } from './ArrowUp';
+export { Home } from './Home';
+export { Unread } from './Unread';

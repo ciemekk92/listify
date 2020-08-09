@@ -14,8 +14,12 @@ import PanelContainer from '../../components/UI/Sidebar/PanelContainer/PanelCont
 import ListPanel from '../../components/UI/Sidebar/ListPanel/ListPanel';
 import AddNewList from '../../components/UI/Sidebar/NewList/AddNewList';
 import { Item, List } from '../../types';
-import logo from '../../assets/logo.png';
 import EditButton from '../../components/Details/EditButton/EditButton';
+import { Home, Unread } from '../../components/Icons';
+import { CSSTransition } from 'react-transition-group';
+import './Sidebar.css';
+import { Github } from '../../components/Icons/Github';
+import { Mail } from '../../components/Icons/Mail';
 
 const Sidebar: React.FC<Props> = (props) => {
     const {
@@ -45,6 +49,7 @@ const Sidebar: React.FC<Props> = (props) => {
     const [deletingList, setDeletingList] = useState(false);
     const [listToDelete, setListToDelete] = useState('');
     const [warning, setWarning] = useState('');
+    const [isShown, setIsShown] = useState(false);
 
     const inputChangedHandler = (event: React.ChangeEvent) => {
         const target = event.target as HTMLInputElement;
@@ -171,6 +176,10 @@ const Sidebar: React.FC<Props> = (props) => {
         }
     };
 
+    const handleListVisibility = () => {
+        setIsShown(!isShown);
+    };
+
     let listsArray = Object.keys(lists).sort();
 
     useDidMountEffect(() => {
@@ -224,34 +233,83 @@ const Sidebar: React.FC<Props> = (props) => {
                     />
                 </ButtonsContainer>
             </SidebarModal>
-            <LabelPanel>Home</LabelPanel>
-            <LabelPanel>My lists</LabelPanel>
-            <PanelContainer>
-                {
-                    // sort alphabetically
-                    listsArray.length !== 0 ? (
-                        listsArray
-                            .slice()
-                            .sort()
-                            .map((element) => (
-                                <ListPanel
-                                    active={currentList === element}
-                                    name={element}
-                                    key={uuidv4()}
-                                    clicked={() => currentListHandler(element)}
-                                    clickedDelete={() =>
-                                        deleteListHandler(element)
-                                    }
-                                    mobileClicked={() => setOpen()}
-                                />
-                            ))
-                    ) : (
-                        <PanelText>
-                            Create a new list by clicking + down below!
-                        </PanelText>
-                    )
-                }
-            </PanelContainer>
+            {/*TODO: Set correct routing here */}
+            <LabelPanel>
+                <Home
+                    size={24}
+                    color={'#666'}
+                    title={'Home'}
+                    style={{ marginLeft: '2rem' }}
+                />
+                <p>Home</p>
+            </LabelPanel>
+            <LabelPanel onClick={handleListVisibility}>
+                <Unread
+                    size={24}
+                    title={'My lists'}
+                    color={'#666'}
+                    style={{ marginLeft: '2rem' }}
+                />
+                <p>My lists</p>
+            </LabelPanel>
+            <CSSTransition
+                in={isShown}
+                timeout={500}
+                classNames={'lists'}
+                mountOnEnter
+                unmountOnExit
+            >
+                <PanelContainer>
+                    {
+                        // sort alphabetically
+                        listsArray.length !== 0 ? (
+                            listsArray
+                                .slice()
+                                .sort()
+                                .map((element) => (
+                                    <ListPanel
+                                        active={currentList === element}
+                                        name={element}
+                                        key={uuidv4()}
+                                        clicked={() =>
+                                            currentListHandler(element)
+                                        }
+                                        clickedDelete={() =>
+                                            deleteListHandler(element)
+                                        }
+                                        mobileClicked={() => setOpen()}
+                                    />
+                                ))
+                        ) : (
+                            <PanelText>
+                                Create a new list by clicking + down below!
+                            </PanelText>
+                        )
+                    }
+                </PanelContainer>
+            </CSSTransition>
+            <LabelPanel>
+                <Github
+                    size={24}
+                    title={'Github'}
+                    color={'#666'}
+                    style={{ marginLeft: '2rem' }}
+                />
+                <a href="https://github.com/ciemekk92/listify" target="_blank">
+                    <p>GitHub Repository</p>
+                </a>
+            </LabelPanel>
+            <LabelPanel>
+                <Mail
+                    size={24}
+                    title={'Contact'}
+                    color={'#666'}
+                    style={{ marginLeft: '2rem' }}
+                />
+                <a href="mailto: przemyslaw.reducha@gmail.com">
+                    <p>Contact Author</p>
+                </a>
+            </LabelPanel>
             <AddNewList
                 clicked={
                     !addingList ? toggleAdding : () => newListHandler(newList)

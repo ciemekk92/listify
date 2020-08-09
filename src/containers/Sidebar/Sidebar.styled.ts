@@ -13,9 +13,12 @@ export const Bar = styled.div<SidebarProps>`
     left: 0;
     height: 90vh;
     background-color: #cfd9ea;
-    display: grid;
-    grid-template-rows: max-content max-content 1fr 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
     z-index: 5;
+    box-shadow: 1px 0 5px rgba(0, 0, 0, 0.2);
 
     @media only screen and ${device.tablet} {
         position: absolute;
@@ -45,7 +48,37 @@ export const ButtonsContainer = styled.div`
 `;
 
 export const LabelPanel = styled.div`
+    height: max-content;
     width: 100%;
+    font-size: 1.6rem;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 1rem 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-top: 1px solid #666;
+
+    &:nth-child(3) {
+        border-top: none;
+    }
+
+    & > p {
+        margin-left: 1rem;
+    }
+
+    & > a {
+        color: #000;
+        text-decoration: none;
+        margin-left: 1rem;
+    }
+
+    &:hover,
+    &:active {
+        background-color: #b7c6e0;
+    }
 `;
 
 export const PanelText = styled.div`
