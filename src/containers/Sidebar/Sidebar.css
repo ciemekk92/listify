@@ -1,12 +1,12 @@
 .lists-enter {
     opacity: 0;
-    transform: translateX(-5vh);
+    transform: scaleY(0);
 }
 
 .lists-enter-active {
     opacity: 1;
-    transform: translateX(0);
-    transition: all 200ms ease-out;
+    transform: scaleY(1);
+    transition: all 300ms ease-out;
 }
 
 .lists-exit {
@@ -15,6 +15,6 @@
 
 .lists-exit-active {
     opacity: 0;
-    transform: translateX(-5vh);
-    transition: all 200ms ease-out;
+    transform: scaleY(0);
+    transition: all 300ms ease-out;
 }

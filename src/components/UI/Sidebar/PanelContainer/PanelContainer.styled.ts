@@ -6,7 +6,8 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     overflow: auto;
-    transition: all 0.8s ease;
+    transition: all 0.4s ease;
+    transform-origin: top;
 
     &::-webkit-scrollbar {
         display: none;

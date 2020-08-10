@@ -252,7 +252,7 @@ const Sidebar: React.FC<Props> = (props) => {
             </LabelPanel>
             <CSSTransition
                 in={isShown}
-                timeout={500}
+                timeout={300}
                 classNames={'lists'}
                 mountOnEnter
                 unmountOnExit
@@ -276,6 +276,12 @@ const Sidebar: React.FC<Props> = (props) => {
                                             deleteListHandler(element)
                                         }
                                         mobileClicked={() => setOpen()}
+                                        count={
+                                            lists[element].listItems.completed
+                                                .length +
+                                            lists[element].listItems
+                                                .notCompleted.length
+                                        }
                                     />
                                 ))
                         ) : (
@@ -284,6 +290,13 @@ const Sidebar: React.FC<Props> = (props) => {
                             </PanelText>
                         )
                     }
+                    <AddNewList
+                        clicked={
+                            !addingList
+                                ? toggleAdding
+                                : () => newListHandler(newList)
+                        }
+                    />
                 </PanelContainer>
             </CSSTransition>
             <LabelPanel>
@@ -308,11 +321,6 @@ const Sidebar: React.FC<Props> = (props) => {
                     <p>Contact Author</p>
                 </a>
             </LabelPanel>
-            <AddNewList
-                clicked={
-                    !addingList ? toggleAdding : () => newListHandler(newList)
-                }
-            />
         </Bar>
     );
 };

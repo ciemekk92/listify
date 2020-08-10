@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Panel, Name, ButtonContainer } from './ListPanel.styled';
+import { Panel, Name, ButtonContainer, Count } from './ListPanel.styled';
 import EditButton from '../../../Details/EditButton/EditButton';
 import { CSSTransition } from 'react-transition-group';
 import * as actions from '../../../../store/actions';
@@ -11,12 +11,14 @@ type PanelProps = {
     name: string;
     clickedDelete(): void;
     mobileClicked(): void;
+    count: number;
 };
 
 type Props = PanelProps & PropsFromRedux;
 
 const ListPanel: React.FC<Props> = (props) => {
     const {
+        count,
         name,
         clickedDelete,
         clicked,
@@ -68,6 +70,7 @@ const ListPanel: React.FC<Props> = (props) => {
                 </ButtonContainer>
             </CSSTransition>
             <Name>{name}</Name>
+            <Count>{count >= 100 ? '99+' : count}</Count>
         </Panel>
     );
 };
