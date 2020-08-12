@@ -9,7 +9,7 @@ import { hiddenListContext } from '../../context/hiddenListContext';
 import { Item } from '../../types';
 import { Placeholder, Wrapper } from './List.styled';
 import './List.css';
-import Burger from '../../components/UI/Sidebar/Burger/Burger';
+import Burger from '../../components/Sidebar/Burger/Burger';
 
 const { Provider } = hiddenListContext;
 

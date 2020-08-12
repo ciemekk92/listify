@@ -8,13 +8,13 @@ import { updateObject } from '../../shared/utility';
 import * as actions from '../../store/actions';
 import useDidMountEffect from '../../hooks/useDidMountEffect';
 import { Bar, ButtonsContainer, PanelText, LabelPanel } from './Sidebar.styled';
-import SidebarModal from '../../components/UI/Sidebar/SidebarModal/SidebarModal';
-import NewListInput from '../../components/UI/Sidebar/NewList/NewListInput/NewListInput';
-import PanelContainer from '../../components/UI/Sidebar/PanelContainer/PanelContainer';
-import ListPanel from '../../components/UI/Sidebar/ListPanel/ListPanel';
-import AddNewList from '../../components/UI/Sidebar/NewList/AddNewList';
+import SidebarModal from '../../components/Sidebar/SidebarModal/SidebarModal';
+import NewListInput from '../../components/Sidebar/NewList/NewListInput/NewListInput';
+import PanelContainer from '../../components/Sidebar/PanelContainer/PanelContainer';
+import ListPanel from '../../components/Sidebar/ListPanel/ListPanel';
+import AddNewList from '../../components/Sidebar/NewList/AddNewList';
 import { Item, List } from '../../types';
-import EditButton from '../../components/Details/EditButton/EditButton';
+import EditButton from '../../components/ListDetails/EditButton/EditButton';
 import { Home, Unread, Github, Mail } from '../../components/Icons';
 import { CSSTransition } from 'react-transition-group';
 import './Sidebar.css';
@@ -317,7 +317,7 @@ const Sidebar: React.FC<Props> = (props) => {
                     color={'#666'}
                     style={{ marginLeft: '2rem' }}
                 />
-                <a href="mailto: przemyslaw.reducha@gmail.com">
+                <a href="https://www.facebook.com/przemyslaw.reducha/">
                     <p>Contact Author</p>
                 </a>
             </LabelPanel>

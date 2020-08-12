@@ -1,6 +1,6 @@
 import React from 'react';
 import { NewList } from './AddNewList.styled';
-import { Plus } from '../../../Icons';
+import { Plus } from '../../Icons';
 
 const AddNewList = (props: { clicked(): void }) => {
     return (

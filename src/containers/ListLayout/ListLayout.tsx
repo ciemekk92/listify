@@ -8,11 +8,11 @@ import React, {
 import { connect, ConnectedProps } from 'react-redux';
 import { hiddenListContext } from '../../context/hiddenListContext';
 import { Wrapper, ListContainer, Warning } from './ListLayout.styled';
-import ListInput from '../../components/List/ListInput/ListInput';
-import SubmitButton from '../../components/List/SubmitButton/SubmitButton';
+import ListInput from '../../components/ListLayout/ListInput/ListInput';
+import SubmitButton from '../../components/ListLayout/SubmitButton/SubmitButton';
 import DatePicker from '../DatePicker/DatePicker';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import ListItem from '../../components/List/ListItem/ListItem';
+import ListItem from '../../components/ListLayout/ListItem/ListItem';
 import { updateObject } from '../../shared/utility';
 import { v4 as uuidv4 } from 'uuid';
 import { firestore } from '../../firebase/firebase';
@@ -22,6 +22,8 @@ import './ListLayout.css';
 import { Item } from '../../types';
 import { sizeNumber } from '../../templates/MediaQueries/MediaQueries';
 import BackToTopButton from '../../components/UI/BackToTopButton/BackToTopButton';
+import { Heading2 } from '../../components/UI/Typography/Heading2/Heading2.styled';
+import { Heading3 } from '../../components/UI/Typography/Heading3/Heading3.styled';
 
 const ListLayout = forwardRef(
     (props: Props, ref: React.Ref<HTMLInputElement>) => {
@@ -40,7 +42,8 @@ const ListLayout = forwardRef(
 
         const [editing, setEditing] = useState(false);
         const [warning, setWarning] = useState('');
-        // const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+        const [showCompleted, setShowCompleted] = useState(false);
+        const [showNotCompleted, setShowNotCompleted] = useState(false);
 
         const initialItem = {
             value: '',
@@ -70,6 +73,22 @@ const ListLayout = forwardRef(
                 window.removeEventListener('resize', updateMedia);
             };
         });
+
+        useEffect(() => {
+            if (lists[currentList].listItems.completed.length > 0) {
+                setShowCompleted(true);
+            } else {
+                setShowCompleted(false);
+            }
+            if (lists[currentList].listItems.notCompleted.length > 0) {
+                setShowNotCompleted(true);
+            } else {
+                setShowNotCompleted(false);
+            }
+        }, [
+            lists[currentList].listItems.completed.length,
+            lists[currentList].listItems.notCompleted.length
+        ]);
 
         const { hidden } = useContext(hiddenListContext);
 
@@ -274,9 +293,7 @@ const ListLayout = forwardRef(
 
         return (
             <Wrapper selected={selected} ref={topRef}>
-                <p>Today</p>
-                <p>Tomorrow</p>
-                <p>Future tasks</p>
+                <Heading2>Your tasks</Heading2>
                 <Warning>{warning !== '' ? warning : null}</Warning>
                 <ListInput
                     ref={ref}
@@ -294,6 +311,9 @@ const ListLayout = forwardRef(
                 </SubmitButton>
                 <DatePicker type="layout" />
                 <ListContainer>
+                    {showNotCompleted ? (
+                        <Heading3>Tasks not completed</Heading3>
+                    ) : null}
                     <TransitionGroup className={'list'}>
                         {!lists[currentList]
                             ? null
@@ -303,6 +323,11 @@ const ListLayout = forwardRef(
                                   lists[currentList].listItems.notCompleted,
                                   false
                               )}
+                    </TransitionGroup>
+                    {showCompleted ? (
+                        <Heading3>Completed tasks</Heading3>
+                    ) : null}
+                    <TransitionGroup className={'list'}>
                         {!lists[currentList]
                             ? null
                             : hidden

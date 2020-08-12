@@ -12,10 +12,10 @@ export const Wrapper = styled.div<LayoutProps>`
     color: black;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 0.2fr 0.2fr 0.3fr 0.3fr 3fr;
-    grid-template-areas: 'warning' 'input' 'submit' 'date' 'list';
+    grid-template-rows: repeat(5, max-content) 1fr;
+    row-gap: 1rem;
     align-items: center;
-    flex-direction: column;
+    justify-items: center;
     overflow: hidden;
     box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
     z-index: 0;
@@ -30,14 +30,13 @@ export const Wrapper = styled.div<LayoutProps>`
 
 export const ListContainer = styled.div`
     width: 85%;
-    height: 90%;
-    margin: 1% auto auto auto;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 10px;
     color: black;
-    grid-area: list;
+    grid-row: 6 / -1;
     overflow: auto;
 
     &::-webkit-scrollbar {
@@ -47,7 +46,7 @@ export const ListContainer = styled.div`
 
 export const Warning = styled.div`
     place-self: center;
-    grid-area: warning;
+    grid-row: 5 / 6;
     text-align: center;
     color: red;
     font-size: 1.4rem;

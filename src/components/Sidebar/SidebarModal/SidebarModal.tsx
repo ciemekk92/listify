@@ -1,6 +1,6 @@
 import React from 'react';
 import { Area, Warning } from './SidebarModal.styled';
-import Backdrop from '../../Backdrop/Backdrop';
+import Backdrop from '../../UI/Backdrop/Backdrop';
 
 type ModalProps = {
     open: boolean;

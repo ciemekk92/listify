@@ -16,12 +16,10 @@ export const Button = styled.button<SubmitProps>`
     outline: none;
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 1.6rem;
-    grid-area: submit;
-    place-self: center;
+    grid-row: 4 / 5;
     cursor: pointer;
     transition: all 0.2s ease;
     backface-visibility: hidden;
-    margin-top: 0.5%;
 
     @media only screen and ${device.laptop} {
         font-size: 1rem;

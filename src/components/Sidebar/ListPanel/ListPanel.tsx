@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Panel, Name, ButtonContainer, Count } from './ListPanel.styled';
-import EditButton from '../../../Details/EditButton/EditButton';
+import EditButton from '../../ListDetails/EditButton/EditButton';
 import { CSSTransition } from 'react-transition-group';
-import * as actions from '../../../../store/actions';
+import * as actions from '../../../store/actions';
 
 type PanelProps = {
     active: boolean;

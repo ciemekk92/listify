@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
     cursor: pointer;
     border-radius: 5px;
     transition: all 0.2s ease;
+    font-size: 1.6rem;
 
     &:hover {
         transform: translateY(-7%);

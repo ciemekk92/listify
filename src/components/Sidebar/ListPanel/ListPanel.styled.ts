@@ -18,7 +18,8 @@ export const Panel = styled.div<PanelProps>`
     align-items: center;
     justify-content: center;
 
-    &:not(:last-child) {
+    &:not(:first-child) {
+        border-top: 1px solid white;
         border-bottom: 1px solid white;
     }
 

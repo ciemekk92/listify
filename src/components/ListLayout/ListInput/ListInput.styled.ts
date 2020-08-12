@@ -9,8 +9,8 @@ export const Input = styled.input`
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 1.6rem;
     text-align: center;
-    grid-area: input;
-    place-self: center;
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
     border: none;
     border-bottom: 2px solid #3f72af;
     transition: all 0.2s ease;
