@@ -10,3 +10,4 @@ export { Home } from './Home';
 export { Unread } from './Unread';
 export { Mail } from './Mail';
 export { Github } from './Github';
+export { Tags } from './Tags';

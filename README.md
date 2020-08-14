@@ -7,7 +7,7 @@ React application that allows user to create and manage multiple to-do lists onl
 ## TODO
 
 -   ASAP: Redesign layout into more modern one, place correct media queries.
--   Add new containers - Today / Tomorrow tasks
+-   Tags (adding, deleting, display tasks by tag, color selection)
 -   Rearrange project structure
 -   Clean up CSS
 -   Tests (Jest, Enzyme)
@@ -29,5 +29,6 @@ React application that allows user to create and manage multiple to-do lists onl
 
 Note: Cloning the repository will require:
 
-1.  Configuring Firebase to work correctly and storing API key, messaging sender ID and App ID in `.env` file in root directory.
-2.  Editing `./firebase/firebase.ts` file with the rest of your Firebase account's config info.
+1. Creating your own Firebase project.
+2. Configuring Firebase to work correctly and storing API key, messaging sender ID and App ID in `.env` file in root directory.
+3. Editing `./firebase/firebase.ts` file with the rest of your Firebase account's config info.

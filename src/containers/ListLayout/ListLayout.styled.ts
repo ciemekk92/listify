@@ -17,9 +17,9 @@ export const Wrapper = styled.div<LayoutProps>`
     align-items: center;
     justify-items: center;
     overflow: hidden;
-    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
     z-index: 0;
-    border-radius: 30px;
+    border-radius: 0.5rem;
 
     @media only screen and ${device.tablet} {
         margin: 1%;

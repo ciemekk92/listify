@@ -15,7 +15,7 @@ import ListPanel from '../../components/Sidebar/ListPanel/ListPanel';
 import AddNewList from '../../components/Sidebar/NewList/AddNewList';
 import { Item, List } from '../../types';
 import EditButton from '../../components/ListDetails/EditButton/EditButton';
-import { Home, Unread, Github, Mail } from '../../components/Icons';
+import { Home, Unread, Github, Mail, Tags } from '../../components/Icons';
 import { CSSTransition } from 'react-transition-group';
 import './Sidebar.css';
 
@@ -286,7 +286,8 @@ const Sidebar: React.FC<Props> = (props) => {
                                 ))
                         ) : (
                             <PanelText>
-                                Create a new list by clicking + down below!
+                                Create a new list by clicking a button down
+                                below!
                             </PanelText>
                         )
                     }
@@ -299,6 +300,15 @@ const Sidebar: React.FC<Props> = (props) => {
                     />
                 </PanelContainer>
             </CSSTransition>
+            <LabelPanel>
+                <Tags
+                    size={24}
+                    title={'Tags'}
+                    color={'#666'}
+                    style={{ marginLeft: '2rem' }}
+                />
+                <p>Tags</p>
+            </LabelPanel>
             <LabelPanel>
                 <Github
                     size={24}

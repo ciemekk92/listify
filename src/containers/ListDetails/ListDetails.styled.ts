@@ -16,8 +16,8 @@ export const Wrapper = styled.div<DetailsProps>`
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
-    border-radius: 30px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    border-radius: 0.5rem;
     background-color: #f9f7f7;
     transition: all 0.4s ease;
 

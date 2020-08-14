@@ -75,15 +75,17 @@ const ListLayout = forwardRef(
         });
 
         useEffect(() => {
-            if (lists[currentList].listItems.completed.length > 0) {
-                setShowCompleted(true);
-            } else {
-                setShowCompleted(false);
-            }
-            if (lists[currentList].listItems.notCompleted.length > 0) {
-                setShowNotCompleted(true);
-            } else {
-                setShowNotCompleted(false);
+            if (lists[currentList]) {
+                if (lists[currentList].listItems.completed.length > 0) {
+                    setShowCompleted(true);
+                } else {
+                    setShowCompleted(false);
+                }
+                if (lists[currentList].listItems.notCompleted.length > 0) {
+                    setShowNotCompleted(true);
+                } else {
+                    setShowNotCompleted(false);
+                }
             }
         }, [
             lists[currentList].listItems.completed.length,

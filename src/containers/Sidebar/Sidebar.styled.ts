@@ -83,7 +83,8 @@ export const LabelPanel = styled.div`
 
 export const PanelText = styled.div`
     margin: auto 5%;
-    font-size: 2rem;
+    font-size: 1.6rem;
+    padding: 0.5rem;
     display: flex;
     justify-content: center;
     text-align: center;
