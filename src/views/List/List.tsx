@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../store/actions';
-import { CSSTransition } from 'react-transition-group';
 import Sidebar from '../../containers/Sidebar/Sidebar';
 import ListLayout from '../../containers/ListLayout/ListLayout';
 import ListDetails from '../../containers/ListDetails/ListDetails';
@@ -50,7 +49,7 @@ const List: React.FC<PropsFromRedux> = (props) => {
                     </>
                 ) : (
                     <Placeholder>
-                        Select a list in the sidebar on the left.
+                        Select a list or a tag in the sidebar on the left.
                     </Placeholder>
                 )}
             </Wrapper>

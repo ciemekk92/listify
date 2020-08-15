@@ -15,6 +15,7 @@ export const NewList = styled.div`
     align-items: center;
     font-weight: 700;
     color: #fff;
+    cursor: pointer;
 
     & > p {
         margin-left: 1rem;

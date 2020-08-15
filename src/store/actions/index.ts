@@ -7,7 +7,9 @@ export {
 export {
     setSelectedDate,
     setCurrentList,
+    setCurrentTag,
     setSelectedItemEmpty,
     setSelectedItem,
-    setChangedDate
+    setChangedDate,
+    setCurrentColor
 } from './list';

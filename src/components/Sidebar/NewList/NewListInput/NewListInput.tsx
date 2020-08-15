@@ -5,14 +5,16 @@ const NewListInput = (props: {
     changed(event: React.ChangeEvent): void;
     submit(): void;
     value: string;
+    type: string;
 }) => {
+    const { changed, submit, value, type } = props;
     return (
         <Input
-            onChange={props.changed}
-            placeholder={'New list name'}
+            onChange={changed}
+            placeholder={type === 'list' ? 'New list name' : 'New tag name'}
             onKeyDown={(event) => {
                 if (event.key === 'Enter') {
-                    props.submit();
+                    submit();
                 }
             }}
         />

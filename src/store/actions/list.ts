@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import { Item } from '../../types/';
+import { Item, Tag } from '../../types/';
 
 export const setSelectedDate = (date: string) => {
     return {
@@ -19,6 +19,20 @@ export const setCurrentList = (list: string) => {
     return {
         type: actionTypes.SET_CURRENT_LIST,
         currentList: list
+    };
+};
+
+export const setCurrentTag = (tag: Tag) => {
+    return {
+        type: actionTypes.SET_CURRENT_TAG,
+        currentTag: tag
+    };
+};
+
+export const setCurrentColor = (color: string) => {
+    return {
+        type: actionTypes.SET_CURRENT_COLOR,
+        currentColor: color
     };
 };
 

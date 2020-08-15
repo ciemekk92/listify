@@ -1,7 +1,9 @@
 import { Item } from '../../types';
 import {
     SET_CHANGED_DATE,
+    SET_CURRENT_COLOR,
     SET_CURRENT_LIST,
+    SET_CURRENT_TAG,
     SET_SELECTED_DATE,
     SET_SELECTED_ITEM,
     SET_SELECTED_ITEM_EMPTY
@@ -18,6 +20,8 @@ export interface userInfo {
 export interface listState {
     date: string | null;
     currentList: string | null;
+    currentTag: { name: string; id: string; color: string } | null;
+    currentColor: string;
     selectedItem: {
         id: string | null;
         value: string;
@@ -35,6 +39,7 @@ export interface userState {
         email: string;
         userName: string;
         lists: {};
+        tags: [];
     };
     error: any;
     loaded: boolean;
@@ -50,6 +55,18 @@ interface setSelectedDateAction {
 interface setCurrentListAction {
     type: typeof SET_CURRENT_LIST;
     currentList: string;
+    currentTag: null;
+}
+
+interface setCurrentTagAction {
+    type: typeof SET_CURRENT_TAG;
+    currentList: null;
+    currentTag: string;
+}
+
+interface setCurrentColorAction {
+    type: typeof SET_CURRENT_COLOR;
+    currentColor: string;
 }
 
 interface setSelectedItemEmptyAction {
@@ -71,4 +88,6 @@ export type ListActionTypes =
     | setCurrentListAction
     | setSelectedItemEmptyAction
     | setSelectedItemAction
-    | setChangedDateAction;
+    | setCurrentColorAction
+    | setChangedDateAction
+    | setCurrentTagAction;

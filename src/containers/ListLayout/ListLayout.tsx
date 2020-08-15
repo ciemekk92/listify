@@ -87,18 +87,14 @@ const ListLayout = forwardRef(
                     setShowNotCompleted(false);
                 }
             }
-        }, [
-            lists[currentList].listItems.completed.length,
-            lists[currentList].listItems.notCompleted.length
-        ]);
+        }, [lists[currentList]]);
 
         const { hidden } = useContext(hiddenListContext);
 
         const inputChangedHandler = (event: React.ChangeEvent) => {
             const target = event.target as HTMLInputElement;
             const updatedData = updateObject(inputItem, {
-                value: target.value,
-                id: uuidv4()
+                value: target.value
             });
             setInputItem(updatedData);
             setEditing(true);
@@ -115,7 +111,8 @@ const ListLayout = forwardRef(
             const uid: any = localStorage.getItem('currentUser');
             const docRef = await firestore.collection('users').doc(uid);
             const newItemWithDate = updateObject(newItem, {
-                date: date
+                date: date,
+                id: uuidv4()
             });
 
             try {

@@ -8,11 +8,12 @@ interface ModalProps {
 export const Area = styled.div<ModalProps>`
     font-size: 1.8rem;
     width: 14%;
-    height: 16%;
+    max-height: max-content;
     background-color: #fff;
     position: fixed;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -23,7 +24,7 @@ export const Area = styled.div<ModalProps>`
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
     padding: 8px;
     left: 0.5%;
-    top: 78%;
+    bottom: 2%;
     box-sizing: border-box;
     transition: all 0.2s ease-out;
     transform: ${(props) =>

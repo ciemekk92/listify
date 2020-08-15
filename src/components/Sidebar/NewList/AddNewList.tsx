@@ -2,16 +2,17 @@ import React from 'react';
 import { NewList } from './AddNewList.styled';
 import { Plus } from '../../Icons';
 
-const AddNewList = (props: { clicked(): void }) => {
+const AddNewList = (props: { clicked(): void; type: string }) => {
+    const { clicked, type } = props;
     return (
-        <NewList onClick={props.clicked}>
+        <NewList onClick={clicked}>
             <Plus
                 title={'Add new list'}
                 color={'#fff'}
                 size={24}
                 style={{ marginLeft: '3rem' }}
             />
-            <p>Add new list</p>
+            <p>Add new {type}</p>
         </NewList>
     );
 };

@@ -8,7 +8,8 @@ const initialState: userState = {
         createdAt: null,
         email: '',
         userName: '',
-        lists: {}
+        lists: {},
+        tags: []
     },
     error: null,
     loaded: false,

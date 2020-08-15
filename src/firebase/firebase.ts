@@ -3,6 +3,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import { Item } from '../types';
 
+// Edit firebaseConfig with your Firebase configuration, if you cloned the repository from GitHub
 const firebaseConfig = {
     apiKey: `${process.env.REACT_APP_API_KEY}`,
     authDomain: 'listify-react.firebaseapp.com',
@@ -44,7 +45,8 @@ export const createUserDoc = async (user: any, userName: string) => {
                 email,
                 createdAt,
                 userName: userName,
-                lists: {}
+                lists: {},
+                tags: []
             });
         } catch (error) {
             alert(

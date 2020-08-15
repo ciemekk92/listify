@@ -13,23 +13,33 @@ import NewListInput from '../../components/Sidebar/NewList/NewListInput/NewListI
 import PanelContainer from '../../components/Sidebar/PanelContainer/PanelContainer';
 import ListPanel from '../../components/Sidebar/ListPanel/ListPanel';
 import AddNewList from '../../components/Sidebar/NewList/AddNewList';
-import { Item, List } from '../../types';
+import { Item, List, Tag } from '../../types';
 import EditButton from '../../components/ListDetails/EditButton/EditButton';
 import { Home, Unread, Github, Mail, Tags } from '../../components/Icons';
 import { CSSTransition } from 'react-transition-group';
 import './Sidebar.css';
+import TagPanel from '../../components/Sidebar/TagPanel/TagPanel';
+import ColorPicker from '../../components/Sidebar/NewList/ColorPicker/ColorPicker';
 
 const Sidebar: React.FC<Props> = (props) => {
     const {
         lists,
+        tags,
         selectedItem,
+        currentColor,
         currentList,
+        currentTag,
         onSettingCurrentList,
+        onSettingCurrentTag,
         onGettingUserInfo,
         onSettingSelectedItemEmpty,
         open,
         setOpen
     } = props;
+
+    // TODO: Finish implementing selecting current tag & tag view
+
+    const { handleClick } = useContext(hiddenListContext);
 
     const [newList, setNewList] = useState({
         name: '',
@@ -40,26 +50,46 @@ const Sidebar: React.FC<Props> = (props) => {
             notCompleted: []
         }
     });
-
-    const { handleClick } = useContext(hiddenListContext);
-
-    const [addingList, setAddingList] = useState(false);
+    const [newTag, setNewTag] = useState({
+        id: '',
+        name: '',
+        color: ''
+    });
+    const [adding, setAdding] = useState(false);
+    const [addingWhat, setAddingWhat] = useState('');
     const [deletingList, setDeletingList] = useState(false);
     const [listToDelete, setListToDelete] = useState('');
     const [warning, setWarning] = useState('');
     const [isShown, setIsShown] = useState(false);
+    const [areTagsShown, setAreTagsShown] = useState(false);
 
-    const inputChangedHandler = (event: React.ChangeEvent) => {
+    const listInputChangedHandler = (
+        event: React.ChangeEvent,
+        list: typeof newList
+    ) => {
         const target = event.target as HTMLInputElement;
-        const updatedData = updateObject(newList, {
-            name: target.value,
-            id: uuidv4()
+        const updatedData = updateObject(list, {
+            name: target.value
         });
         setNewList(updatedData);
     };
 
-    const toggleAdding = () => {
-        setAddingList(!addingList);
+    const tagInputChangedHandler = (
+        event: React.ChangeEvent,
+        tag: typeof newTag
+    ) => {
+        const target = event.target as HTMLInputElement;
+        const updatedData = updateObject(tag, {
+            name: target.value
+        });
+        setNewTag(updatedData);
+    };
+
+    const toggleAdding = (type?: string) => {
+        if (type) {
+            setAddingWhat(type);
+        }
+        setAdding(!adding);
         setWarning('');
     };
 
@@ -83,10 +113,11 @@ const Sidebar: React.FC<Props> = (props) => {
 
     const newListHandler = async (list: List) => {
         if (newList.name !== '') {
-            setAddingList(false);
+            setAdding(false);
             const uid: any = localStorage.getItem('currentUser');
             const docRef = await firestore.collection('users').doc(uid);
             const listWithTimestamp = updateObject(list, {
+                id: uuidv4(),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
             let key = `lists.${list.name}`;
@@ -174,8 +205,52 @@ const Sidebar: React.FC<Props> = (props) => {
         }
     };
 
+    const newTagHandler = async (tag: { name: string; color: string }) => {
+        if (newTag.name !== '') {
+            setAdding(false);
+            const uid: any = localStorage.getItem('currentUser');
+            const docRef = await firestore.collection('users').doc(uid);
+            const updatedTag = updateObject(tag, {
+                id: uuidv4(),
+                color: currentColor
+            });
+
+            try {
+                await docRef
+                    .update({
+                        tags: firebase.firestore.FieldValue.arrayUnion(
+                            updatedTag
+                        )
+                    })
+                    .then((response) => onGettingUserInfo())
+                    .catch((error) =>
+                        alert(
+                            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                                error
+                        )
+                    );
+            } catch (error) {
+                alert(
+                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                        error
+                );
+            }
+        } else {
+            setWarning('Name of the tag must not be empty!');
+        }
+    };
+
+    const currentTagHandler = (id: string) => {
+        if (id !== currentTag.id) {
+        }
+    };
+
     const handleListVisibility = () => {
         setIsShown(!isShown);
+    };
+
+    const handleTagsVisibility = () => {
+        setAreTagsShown(!areTagsShown);
     };
 
     let listsArray = Object.keys(lists).sort();
@@ -188,30 +263,64 @@ const Sidebar: React.FC<Props> = (props) => {
     return (
         <Bar open={open}>
             <SidebarModal
-                open={addingList}
+                open={adding}
                 modalClosed={toggleAdding}
                 warning={warning}
             >
-                Enter new list name below.
-                <NewListInput
-                    changed={inputChangedHandler}
-                    value={newList.name}
-                    submit={() => newListHandler(newList)}
-                />
-                <ButtonsContainer>
-                    <EditButton
-                        type={'confirm'}
-                        title={'Confirm adding new list'}
-                        clicked={() => newListHandler(newList)}
-                        size={16}
-                    />
-                    <EditButton
-                        type={'cancel'}
-                        title={'Cancel'}
-                        clicked={() => setAddingList(!addingList)}
-                        size={16}
-                    />
-                </ButtonsContainer>
+                {addingWhat === 'list' ? (
+                    <>
+                        Enter new list name below.
+                        <NewListInput
+                            changed={(event) =>
+                                listInputChangedHandler(event, newList)
+                            }
+                            value={newList.name}
+                            submit={() => newListHandler(newList)}
+                            type={'list'}
+                        />
+                        <ButtonsContainer>
+                            <EditButton
+                                type={'confirm'}
+                                title={'Confirm adding new list'}
+                                clicked={() => newListHandler(newList)}
+                                size={16}
+                            />
+                            <EditButton
+                                type={'cancel'}
+                                title={'Cancel'}
+                                clicked={() => setAdding(!adding)}
+                                size={16}
+                            />
+                        </ButtonsContainer>
+                    </>
+                ) : (
+                    <>
+                        Enter new tag name below.
+                        <NewListInput
+                            changed={(event) =>
+                                tagInputChangedHandler(event, newTag)
+                            }
+                            value={newTag.name}
+                            submit={() => newTagHandler(newTag)}
+                            type={'tag'}
+                        />
+                        <ColorPicker />
+                        <ButtonsContainer>
+                            <EditButton
+                                type={'confirm'}
+                                title={'Confirm adding new list'}
+                                clicked={() => newTagHandler(newTag)}
+                                size={16}
+                            />
+                            <EditButton
+                                type={'cancel'}
+                                title={'Cancel'}
+                                clicked={() => setAdding(!adding)}
+                                size={16}
+                            />
+                        </ButtonsContainer>
+                    </>
+                )}
             </SidebarModal>
             <SidebarModal open={deletingList} modalClosed={toggleDeleting}>
                 This will delete ALL tasks saved in the list. <br /> Are you
@@ -293,14 +402,15 @@ const Sidebar: React.FC<Props> = (props) => {
                     }
                     <AddNewList
                         clicked={
-                            !addingList
-                                ? toggleAdding
+                            !adding
+                                ? () => toggleAdding('list')
                                 : () => newListHandler(newList)
                         }
+                        type={'list'}
                     />
                 </PanelContainer>
             </CSSTransition>
-            <LabelPanel>
+            <LabelPanel onClick={handleTagsVisibility}>
                 <Tags
                     size={24}
                     title={'Tags'}
@@ -309,6 +419,32 @@ const Sidebar: React.FC<Props> = (props) => {
                 />
                 <p>Tags</p>
             </LabelPanel>
+            <CSSTransition
+                in={areTagsShown}
+                timeout={300}
+                classNames={'lists'}
+                mountOnEnter
+                unmountOnExit
+            >
+                <PanelContainer>
+                    {tags.map((element) => (
+                        <TagPanel
+                            color={element.color}
+                            key={element.id}
+                            active={false}
+                            clicked={() => currentTagHandler(element.id)}
+                        >
+                            {element.name}
+                        </TagPanel>
+                    ))}
+                    <AddNewList
+                        type={'tag'}
+                        clicked={
+                            !adding ? toggleAdding : () => newTagHandler(newTag)
+                        }
+                    />
+                </PanelContainer>
+            </CSSTransition>
             <LabelPanel>
                 <Github
                     size={24}
@@ -316,7 +452,11 @@ const Sidebar: React.FC<Props> = (props) => {
                     color={'#666'}
                     style={{ marginLeft: '2rem' }}
                 />
-                <a href="https://github.com/ciemekk92/listify" target="_blank">
+                <a
+                    href="https://github.com/ciemekk92/listify"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
                     <p>GitHub Repository</p>
                 </a>
             </LabelPanel>
@@ -339,23 +479,31 @@ const mapStateToProps = (state: {
     user: {
         userInfo: {
             lists: any;
+            tags: Tag[];
         };
     };
     list: {
-        currentList: any;
+        currentList: string;
         selectedItem: Item;
+        currentColor: string;
+        currentTag: Tag;
     };
 }) => {
     return {
         lists: state.user.userInfo.lists,
+        tags: state.user.userInfo.tags,
         selectedItem: state.list.selectedItem,
-        currentList: state.list.currentList
+        currentList: state.list.currentList,
+        currentColor: state.list.currentColor,
+        currentTag: state.list.currentTag
     };
 };
 
 const mapDispatchToProps = {
     onGettingUserInfo: () => actions.initUserInfo(),
     onSettingCurrentList: (list: string) => actions.setCurrentList(list),
+    onSettingCurrentTag: (tag: { name: string; id: string; color: string }) =>
+        actions.setCurrentTag(tag),
     onSettingSelectedItemEmpty: () => actions.setSelectedItemEmpty()
 };
 
