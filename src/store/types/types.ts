@@ -1,4 +1,4 @@
-import { Item } from '../../types';
+import { Item, Tag } from '../../types';
 import {
     SET_CHANGED_DATE,
     SET_CURRENT_COLOR,
@@ -20,7 +20,7 @@ export interface userInfo {
 export interface listState {
     date: string | null;
     currentList: string | null;
-    currentTag: { name: string; id: string; color: string } | null;
+    currentTag: Tag | null;
     currentColor: string;
     selectedItem: {
         id: string | null;
@@ -61,7 +61,7 @@ interface setCurrentListAction {
 interface setCurrentTagAction {
     type: typeof SET_CURRENT_TAG;
     currentList: null;
-    currentTag: string;
+    currentTag: Tag;
 }
 
 interface setCurrentColorAction {

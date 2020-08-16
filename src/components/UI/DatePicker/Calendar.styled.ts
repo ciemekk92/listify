@@ -22,7 +22,7 @@ export const Title = styled.div`
     font-size: 1.6rem;
     background-color: #3f72af;
     padding: 1rem 0;
-    border-radius: 1rem 1rem 0 0;
+    border-radius: 0.3rem 0.3rem 0 0;
     outline: none;
     cursor: default;
 `;

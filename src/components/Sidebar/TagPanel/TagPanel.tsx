@@ -1,5 +1,5 @@
 import React from 'react';
-import { Panel, Name, Count, ButtonContainer } from './TagPanel.styled';
+import { Panel, Name, ButtonContainer, Color } from './TagPanel.styled';
 import EditButton from '../../ListDetails/EditButton/EditButton';
 
 type PanelProps = {
@@ -15,8 +15,8 @@ const TagPanel: React.FC<PanelProps> = (props) => {
 
     return (
         <Panel onClick={clicked} active={active} color={color}>
+            <Color color={color} />
             <Name>{props.children}</Name>
-            <Count>0</Count>
             <ButtonContainer>
                 <EditButton
                     title={'Delete tag'}

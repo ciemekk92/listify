@@ -36,6 +36,7 @@ export const Item = styled.div<ItemProps>`
     z-index: 0;
     transition: all 0.2s ease;
     position: relative;
+    font-weight: ${(props) => (props.selected ? 700 : 300)};
 
     @media only screen and ${device.laptop} {
         font-size: 1rem;

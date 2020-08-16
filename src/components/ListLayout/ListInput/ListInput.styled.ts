@@ -3,21 +3,20 @@ import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 export const Input = styled.input`
     background-color: transparent;
-    width: 50%;
+    width: 60%;
     height: 3rem;
     outline: none;
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 1.6rem;
     text-align: center;
-    grid-row: 2 / 3;
-    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
     border: none;
     border-bottom: 2px solid #3f72af;
     transition: all 0.2s ease;
 
     &:hover,
     &:focus {
-        // box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
         transform: translateY(-0.2rem);
     }
 

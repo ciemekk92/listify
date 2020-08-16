@@ -6,6 +6,7 @@ export const Heading2 = styled.h2`
     text-transform: uppercase;
     margin: 1.5rem 0 1.5rem 6%;
     grid-row: 1 / 2;
+    grid-column: 1 / 2;
     justify-self: start;
     cursor: default;
     color: #112d4e;

@@ -5,7 +5,11 @@ import { listState, ListActionTypes } from '../types/types';
 const initialState: listState = {
     date: null,
     currentList: null,
-    currentTag: null,
+    currentTag: {
+        name: '',
+        id: '',
+        color: ''
+    },
     currentColor: '#2196F3',
     selectedItem: {
         id: null,
@@ -26,7 +30,7 @@ const setSelectedDate = (state: listState, action: any) => {
 const setCurrentList = (state: listState, action: any) => {
     return updateObject(state, {
         currentList: action.currentList,
-        currentTag: null
+        currentTag: initialState.currentTag
     });
 };
 

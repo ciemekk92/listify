@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 
 interface PanelProps {
-    readonly active: boolean;
+    readonly active?: boolean;
     readonly color: string;
 }
 
@@ -10,50 +10,42 @@ export const Panel = styled.div<PanelProps>`
     width: 100%;
     height: 3.6rem;
     display: grid;
-    grid-template-columns: 0.5fr 0.2fr 0.3fr;
+    grid-template-columns: 0.2fr 0.5fr 0.3fr;
     grid-template-rows: 1fr;
     gap: 1px 1px;
     font-weight: ${(props) => (props.active ? '700' : '300')};
-    background-color: ${(props) => props.color};
+    background-color: #8eafd6;
     padding: 1% 0;
     transition: all 0.4s ease-out;
     align-items: center;
-    justify-content: center;
+    justify-items: center;
     z-index: 1;
 
-    &:not(:first-child) {
-        border-top: 1px solid white;
+    &:not(:last-child) {
         border-bottom: 1px solid white;
     }
 
     &:hover {
-        background-color: ${(props) => darken(0.05, props.color)};
+        background-color: ${(props) => darken(0.05, '#8eafd6')};
         color: #fff;
     }
 `;
 
-export const Name = styled.p`
+export const Color = styled.div<PanelProps>`
+    height: 0.5rem;
+    width: 2rem;
+    border-radius: 1rem;
+    background-color: ${(props) => props.color};
     grid-column: 1 / 2;
+    margin-left: 1rem;
+`;
+
+export const Name = styled.p`
+    grid-column: 2 / 3;
     font-size: 1.6rem;
     cursor: pointer;
     color: #fff;
-    margin-left: auto;
-    margin-right: 1rem;
     z-index: 5;
-`;
-
-export const Count = styled.div`
-    background-color: #dbe2ef;
-    border-radius: 15rem;
-    width: 2.8rem;
-    height: 1.6rem;
-    color: #666;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    grid-column: 2 / 3;
-    font-size: 1.4rem;
-    font-weight: 700;
 `;
 
 export const ButtonContainer = styled.div`

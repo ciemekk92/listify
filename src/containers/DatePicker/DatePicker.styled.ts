@@ -10,13 +10,16 @@ export const Wrapper = styled.div<PickerProps>`
     text-align: center;
     display: flex;
     position: relative;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     margin: 0;
-    place-self: center;
-    height: 45px;
+    ${(props) => (props.details ? 'place-self: center' : null)};
+    height: 3rem;
     z-index: 20;
-    ${(props) => (props.details ? 'grid-area: input' : 'grid-row: 3 / 4;')};
+    ${(props) =>
+        props.details
+            ? 'grid-area: input'
+            : 'grid-row: 2 / 3; grid-column: 2 / 3'};
 
     @media only screen and ${device.tablet} {
         height: 2rem;

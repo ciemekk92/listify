@@ -65,6 +65,10 @@ export const LabelPanel = styled.div`
         border-top: none;
     }
 
+    &:last-child {
+        border-bottom: 1px solid #666;
+    }
+
     & > p {
         margin-left: 1rem;
     }

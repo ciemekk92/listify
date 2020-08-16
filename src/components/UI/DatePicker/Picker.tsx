@@ -19,7 +19,6 @@ const Picker = (props: { date: string; handleSelect(): void }) => {
             role="button"
             aria-label="Datepicker"
         >
-            <div>Select a date</div>
             <div aria-label="Selected date">{date}</div>
         </Wrapper>
     );

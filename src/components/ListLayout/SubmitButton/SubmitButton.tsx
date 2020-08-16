@@ -4,12 +4,13 @@ import { Button } from './SubmitButton.styled';
 type ButtonProps = {
     clicked(): void;
     selected: boolean;
+    open: boolean;
 };
 
 const SubmitButton: React.FC<ButtonProps> = (props) => {
-    const { selected } = props;
+    const { selected, clicked, open } = props;
     return (
-        <Button selected={selected} onClick={props.clicked}>
+        <Button open={open} selected={selected} onClick={clicked}>
             {props.children}
         </Button>
     );

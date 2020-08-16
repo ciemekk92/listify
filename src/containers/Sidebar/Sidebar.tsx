@@ -240,8 +240,9 @@ const Sidebar: React.FC<Props> = (props) => {
         }
     };
 
-    const currentTagHandler = (id: string) => {
-        if (id !== currentTag.id) {
+    const currentTagHandler = (tag: Tag) => {
+        if (tag.id !== currentTag.id) {
+            onSettingCurrentTag(tag);
         }
     };
 
@@ -431,8 +432,8 @@ const Sidebar: React.FC<Props> = (props) => {
                         <TagPanel
                             color={element.color}
                             key={element.id}
-                            active={false}
-                            clicked={() => currentTagHandler(element.id)}
+                            active={currentTag.id === element.id}
+                            clicked={() => currentTagHandler(element)}
                         >
                             {element.name}
                         </TagPanel>
@@ -502,8 +503,7 @@ const mapStateToProps = (state: {
 const mapDispatchToProps = {
     onGettingUserInfo: () => actions.initUserInfo(),
     onSettingCurrentList: (list: string) => actions.setCurrentList(list),
-    onSettingCurrentTag: (tag: { name: string; id: string; color: string }) =>
-        actions.setCurrentTag(tag),
+    onSettingCurrentTag: (tag: Tag) => actions.setCurrentTag(tag),
     onSettingSelectedItemEmpty: () => actions.setSelectedItemEmpty()
 };
 

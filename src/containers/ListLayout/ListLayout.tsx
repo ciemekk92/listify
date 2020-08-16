@@ -7,7 +7,15 @@ import React, {
 } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { hiddenListContext } from '../../context/hiddenListContext';
-import { Wrapper, ListContainer, Warning } from './ListLayout.styled';
+import {
+    Wrapper,
+    ListContainer,
+    Warning,
+    AddingTaskContainer,
+    Description,
+    TagContainer,
+    TagField
+} from './ListLayout.styled';
 import ListInput from '../../components/ListLayout/ListInput/ListInput';
 import SubmitButton from '../../components/ListLayout/SubmitButton/SubmitButton';
 import DatePicker from '../DatePicker/DatePicker';
@@ -19,11 +27,12 @@ import { firestore } from '../../firebase/firebase';
 import firebase from 'firebase/app';
 import * as actions from '../../store/actions';
 import './ListLayout.css';
-import { Item } from '../../types';
+import { Item, Tag } from '../../types';
 import { sizeNumber } from '../../templates/MediaQueries/MediaQueries';
 import BackToTopButton from '../../components/UI/BackToTopButton/BackToTopButton';
 import { Heading2 } from '../../components/UI/Typography/Heading2/Heading2.styled';
 import { Heading3 } from '../../components/UI/Typography/Heading3/Heading3.styled';
+import TagButton from '../../components/ListLayout/TagButton/TagButton';
 
 const ListLayout = forwardRef(
     (props: Props, ref: React.Ref<HTMLInputElement>) => {
@@ -31,6 +40,7 @@ const ListLayout = forwardRef(
             onGettingUserInfo,
             onSelectingItem,
             onSelectingItemEmpty,
+            tags,
             lists,
             date,
             currentList,
@@ -44,13 +54,24 @@ const ListLayout = forwardRef(
         const [warning, setWarning] = useState('');
         const [showCompleted, setShowCompleted] = useState(false);
         const [showNotCompleted, setShowNotCompleted] = useState(false);
+        const [showTags, setShowTags] = useState(false);
+        const [buttonTag, setButtonTag] = useState({
+            name: '',
+            id: '',
+            color: ''
+        });
 
         const initialItem = {
             value: '',
             id: '',
             date: new Date(),
             completed: false,
-            notes: []
+            notes: [],
+            tag: {
+                name: '',
+                id: '',
+                color: ''
+            }
         };
         const [inputItem, setInputItem] = useState(initialItem);
 
@@ -290,25 +311,75 @@ const ListLayout = forwardRef(
             }
         };
 
+        const tagDisplayHandler = () => {
+            setShowTags(!showTags);
+        };
+
+        const tagSelectHandler = (tag: Tag) => {
+            const updatedItem = updateObject(inputItem, {
+                tag: tag
+            });
+            setInputItem(updatedItem);
+            setButtonTag(tag);
+            setShowTags(!showTags);
+        };
+
         return (
             <Wrapper selected={selected} ref={topRef}>
                 <Heading2>Your tasks</Heading2>
-                <Warning>{warning !== '' ? warning : null}</Warning>
-                <ListInput
-                    ref={ref}
-                    submit={() => {
-                        saveNewItem(inputItem).then((response) =>
-                            listUpdateHandler()
-                        );
-                    }}
-                    changed={inputChangedHandler}
-                    value={inputItem.value}
-                    editing={editing}
-                />
-                <SubmitButton selected={selected} clicked={submitHandler}>
-                    Add new list item
-                </SubmitButton>
-                <DatePicker type="layout" />
+                <AddingTaskContainer>
+                    <Description>Task name:</Description>
+                    <Description>Date:</Description>
+                    <Description>Tag:</Description>
+                    <ListInput
+                        ref={ref}
+                        submit={() => submitHandler()}
+                        changed={inputChangedHandler}
+                        value={inputItem.value}
+                        editing={editing}
+                    />
+                    <DatePicker type="layout" />
+                    <TagButton clicked={tagDisplayHandler} value={buttonTag} />
+                    <CSSTransition
+                        in={showTags}
+                        timeout={400}
+                        mountOnEnter
+                        unmountOnExit
+                        classNames="move"
+                    >
+                        <TagContainer>
+                            <TagField
+                                onClick={() =>
+                                    tagSelectHandler({
+                                        name: '',
+                                        id: '',
+                                        color: ''
+                                    })
+                                }
+                            >
+                                None
+                            </TagField>
+                            {tags.map((element) => (
+                                <TagField
+                                    key={element.id}
+                                    color={element.color}
+                                    onClick={() => tagSelectHandler(element)}
+                                >
+                                    {element.name}
+                                </TagField>
+                            ))}
+                        </TagContainer>
+                    </CSSTransition>
+                    <SubmitButton
+                        open={!showTags}
+                        selected={selected}
+                        clicked={submitHandler}
+                    >
+                        Add new list item
+                    </SubmitButton>
+                    <Warning>{warning !== '' ? warning : null}</Warning>
+                </AddingTaskContainer>
+
                 <ListContainer>
                     {showNotCompleted ? (
                         <Heading3>Tasks not completed</Heading3>
@@ -347,11 +418,12 @@ const ListLayout = forwardRef(
 );
 
 const mapStateToProps = (state: {
-    user: { userInfo: { lists: any }; mobile: boolean };
+    user: { userInfo: { lists: any; tags: Tag[] }; mobile: boolean };
     list: { currentList: any; date: any; selectedItem: Item };
 }) => {
     return {
         lists: state.user.userInfo.lists,
+        tags: state.user.userInfo.tags,
         currentList: state.list.currentList,
         date: state.list.date,
         selectedItem: state.list.selectedItem,

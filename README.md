@@ -21,6 +21,7 @@ React application that allows user to create and manage multiple to-do lists onl
 -   React Transition Group
 -   Redux
 -   Styled Components
+-   polished for Styled Components
 -   Firebase
 
 ## How to run:
