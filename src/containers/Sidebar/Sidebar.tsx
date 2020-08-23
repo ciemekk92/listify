@@ -38,6 +38,7 @@ const Sidebar: React.FC<Props> = (props) => {
     } = props;
 
     // TODO: Finish implementing selecting current tag & tag view
+    // TODO: implement shortening of tag names if too long.
 
     const { handleClick } = useContext(hiddenListContext);
 
@@ -53,7 +54,8 @@ const Sidebar: React.FC<Props> = (props) => {
     const [newTag, setNewTag] = useState({
         id: '',
         name: '',
-        color: ''
+        color: '',
+        items: []
     });
     const [adding, setAdding] = useState(false);
     const [addingWhat, setAddingWhat] = useState('');
@@ -127,7 +129,7 @@ const Sidebar: React.FC<Props> = (props) => {
                     .update({
                         [key]: listWithTimestamp
                     })
-                    .then((response) => onGettingUserInfo())
+                    .then(() => onGettingUserInfo())
                     .catch((error) =>
                         alert(
                             'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
@@ -179,7 +181,7 @@ const Sidebar: React.FC<Props> = (props) => {
             toggleDeleting();
         } else {
             try {
-                deleteList(list).then((response) => {
+                deleteList(list).then(() => {
                     onGettingUserInfo();
                 });
             } catch (error) {
@@ -193,7 +195,7 @@ const Sidebar: React.FC<Props> = (props) => {
 
     const handleConfirm = () => {
         try {
-            deleteList(listToDelete).then((response) => {
+            deleteList(listToDelete).then(() => {
                 toggleDeleting();
                 onGettingUserInfo();
             });
@@ -205,7 +207,13 @@ const Sidebar: React.FC<Props> = (props) => {
         }
     };
 
-    const newTagHandler = async (tag: { name: string; color: string }) => {
+    let tagsArray = Object.values(tags);
+
+    const newTagHandler = async (tag: {
+        name: string;
+        color: string;
+        items: never[];
+    }) => {
         if (newTag.name !== '') {
             setAdding(false);
             const uid: any = localStorage.getItem('currentUser');
@@ -215,14 +223,14 @@ const Sidebar: React.FC<Props> = (props) => {
                 color: currentColor
             });
 
+            let key = `tags.${updatedTag.name}`;
+
             try {
                 await docRef
                     .update({
-                        tags: firebase.firestore.FieldValue.arrayUnion(
-                            updatedTag
-                        )
+                        [key]: updatedTag
                     })
-                    .then((response) => onGettingUserInfo())
+                    .then(() => onGettingUserInfo())
                     .catch((error) =>
                         alert(
                             'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
@@ -309,7 +317,7 @@ const Sidebar: React.FC<Props> = (props) => {
                         <ButtonsContainer>
                             <EditButton
                                 type={'confirm'}
-                                title={'Confirm adding new list'}
+                                title={'Confirm adding new tag'}
                                 clicked={() => newTagHandler(newTag)}
                                 size={16}
                             />
@@ -428,15 +436,14 @@ const Sidebar: React.FC<Props> = (props) => {
                 unmountOnExit
             >
                 <PanelContainer>
-                    {tags.map((element) => (
+                    {tagsArray.map((element) => (
                         <TagPanel
                             color={element.color}
                             key={element.id}
                             active={currentTag.id === element.id}
                             clicked={() => currentTagHandler(element)}
-                        >
-                            {element.name}
-                        </TagPanel>
+                            name={element.name}
+                        />
                     ))}
                     <AddNewList
                         type={'tag'}

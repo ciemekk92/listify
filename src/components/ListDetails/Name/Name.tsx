@@ -53,11 +53,11 @@ const Name: React.FC<NameProps> = (props) => {
             setWarning('The name field must not be empty!');
         } else {
             saveEditedItem(currentList, selectedItem, item)
-                .then((response) => {
+                .then(() => {
                     setEditing(!editing);
                     onGettingUserInfo();
                 })
-                .then((response) => onSelectingItem(item));
+                .then(() => onSelectingItem(item));
         }
     };
 

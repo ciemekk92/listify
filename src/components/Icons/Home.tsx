@@ -1,5 +1,5 @@
 import React from 'react';
-import { SVG } from '../../types/SVG';
+import { SVG } from '../../types';
 
 export const Home: React.FC<SVG> = (props) => {
     const { color, size, style, title } = props;

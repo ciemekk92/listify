@@ -9,7 +9,7 @@ const initialState: userState = {
         email: '',
         userName: '',
         lists: {},
-        tags: []
+        tags: {}
     },
     error: null,
     loaded: false,

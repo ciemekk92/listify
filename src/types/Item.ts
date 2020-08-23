@@ -4,4 +4,9 @@ export type Item = {
     date: Date;
     completed: boolean;
     notes: string[];
+    tag?: {
+        name: string;
+        color: string;
+        id: string;
+    };
 };

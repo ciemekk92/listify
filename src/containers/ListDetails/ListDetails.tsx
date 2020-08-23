@@ -8,7 +8,7 @@ import Notes from '../../components/ListDetails/Notes/Notes';
 import { Item } from '../../types';
 
 const Details = (props: { selectedItem: Item; selected: boolean }) => {
-    const { selectedItem, selected } = props;
+    const { selected } = props;
     return (
         <Wrapper selected={selected}>
             <Name />

@@ -5,23 +5,17 @@ import { darken } from 'polished';
 interface LayoutProps {
     readonly selected?: boolean;
     readonly color?: string;
+    readonly adding?: boolean;
 }
 
 export const Wrapper = styled.div<LayoutProps>`
-    width: 45%;
-    height: 85vh;
+    width: 100%;
     background-color: #f9f7f7;
     color: black;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(2, max-content) 1fr;
-    row-gap: 1rem;
-    align-items: center;
-    justify-items: center;
     overflow: hidden;
-    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
+    grid-column: 1 / 3;
     z-index: 0;
-    border-radius: 0.5rem;
+    align-self: start;
 
     @media only screen and ${device.tablet} {
         margin: 1%;
@@ -30,10 +24,36 @@ export const Wrapper = styled.div<LayoutProps>`
     }
 `;
 
-export const AddingTaskContainer = styled.div`
+export const AddingTaskToggle = styled.button`
+    width: 3.6rem;
+    height: 3.6rem;
+    background-color: #3f72af;
+    border: none;
+    border-radius: 50%;
+    color: black;
+    outline: none;
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+    cursor: pointer;
+    backface-visibility: hidden;
+    justify-self: center;
+    transition: all 0.4s ease;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        transform: translateY(-0.2rem);
+        box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.4);
+    }
+`;
+
+export const AddingTaskContainer = styled.div<LayoutProps>`
     width: calc(100% - 5rem);
     margin-left: -5rem;
-    grid-row: 2 / 3;
+    margin-top: 0.5rem;
+    grid-row: ${(props) => (props.adding ? '2 / 3' : '1 / 2')};
+    grid-column: 1 / 3;
     display: grid;
     grid-template-columns: 40% 60%;
     grid-template-rows: repeat(5, max-content);
@@ -72,6 +92,7 @@ export const TagField = styled.div<LayoutProps>`
     border-radius: 0.3rem;
     cursor: pointer;
     transition: all 0.2s ease;
+    margin-top: 0.5rem;
 
     &:hover {
         background-color: ${(props) =>
@@ -79,16 +100,14 @@ export const TagField = styled.div<LayoutProps>`
     }
 `;
 
-export const ListContainer = styled.div`
-    width: 85%;
-    height: 100%;
+export const ListContainer = styled.div<LayoutProps>`
+    justify-content: center;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    border-radius: 10px;
     color: black;
-    grid-row: 3 / 4;
     overflow: auto;
+    margin-bottom: auto;
 
     &::-webkit-scrollbar {
         display: none;

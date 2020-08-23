@@ -7,42 +7,26 @@ import React, {
 } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { hiddenListContext } from '../../context/hiddenListContext';
-import {
-    Wrapper,
-    ListContainer,
-    Warning,
-    AddingTaskContainer,
-    Description,
-    TagContainer,
-    TagField
-} from './ListLayout.styled';
-import ListInput from '../../components/ListLayout/ListInput/ListInput';
-import SubmitButton from '../../components/ListLayout/SubmitButton/SubmitButton';
-import DatePicker from '../DatePicker/DatePicker';
+import { Wrapper, ListContainer } from './ListLayout.styled';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import ListItem from '../../components/ListLayout/ListItem/ListItem';
-import { updateObject } from '../../shared/utility';
-import { v4 as uuidv4 } from 'uuid';
-import { firestore } from '../../firebase/firebase';
-import firebase from 'firebase/app';
+import { scrollToRef, selectItemHandler } from '../../shared/utility';
+import { completeItem, deleteItem } from '../../firebase/ListFunctions';
 import * as actions from '../../store/actions';
 import './ListLayout.css';
 import { Item, Tag } from '../../types';
-import { sizeNumber } from '../../templates/MediaQueries/MediaQueries';
+
 import BackToTopButton from '../../components/UI/BackToTopButton/BackToTopButton';
-import { Heading2 } from '../../components/UI/Typography/Heading2/Heading2.styled';
-import { Heading3 } from '../../components/UI/Typography/Heading3/Heading3.styled';
-import TagButton from '../../components/ListLayout/TagButton/TagButton';
+import { Heading3 } from '../../components/UI/Typography/Headings/Headings.styled';
 
 const ListLayout = forwardRef(
     (props: Props, ref: React.Ref<HTMLInputElement>) => {
         const {
-            onGettingUserInfo,
             onSelectingItem,
             onSelectingItemEmpty,
-            tags,
+            listUpdate,
+            adding,
             lists,
-            date,
             currentList,
             selectedItem,
             selected,
@@ -50,39 +34,11 @@ const ListLayout = forwardRef(
             onSettingMobile
         } = props;
 
-        const [editing, setEditing] = useState(false);
-        const [warning, setWarning] = useState('');
         const [showCompleted, setShowCompleted] = useState(false);
         const [showNotCompleted, setShowNotCompleted] = useState(false);
-        const [showTags, setShowTags] = useState(false);
-        const [buttonTag, setButtonTag] = useState({
-            name: '',
-            id: '',
-            color: ''
-        });
-
-        const initialItem = {
-            value: '',
-            id: '',
-            date: new Date(),
-            completed: false,
-            notes: [],
-            tag: {
-                name: '',
-                id: '',
-                color: ''
-            }
-        };
-        const [inputItem, setInputItem] = useState(initialItem);
 
         const bottomRef = useRef(null);
         const topRef = useRef(null);
-
-        const scrollToRef = (ref: any) => {
-            if (window.innerWidth <= sizeNumber.tablet) {
-                ref.current.scrollIntoView({ behavior: 'smooth' });
-            }
-        };
 
         const updateMedia = () => {
             onSettingMobile(window.innerWidth <= 768);
@@ -112,144 +68,8 @@ const ListLayout = forwardRef(
 
         const { hidden } = useContext(hiddenListContext);
 
-        const inputChangedHandler = (event: React.ChangeEvent) => {
-            const target = event.target as HTMLInputElement;
-            const updatedData = updateObject(inputItem, {
-                value: target.value
-            });
-            setInputItem(updatedData);
-            setEditing(true);
-        };
-
-        const clearInput = () => {
-            setInputItem(initialItem);
-        };
-
         let keyCompleted = `lists.${currentList}.listItems.completed`;
         let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
-
-        const saveNewItem = async (newItem: Item) => {
-            const uid: any = localStorage.getItem('currentUser');
-            const docRef = await firestore.collection('users').doc(uid);
-            const newItemWithDate = updateObject(newItem, {
-                date: date,
-                id: uuidv4()
-            });
-
-            try {
-                await docRef
-                    .update({
-                        [keyNotCompleted]: firebase.firestore.FieldValue.arrayUnion(
-                            newItemWithDate
-                        )
-                    })
-                    .catch((error) =>
-                        alert(
-                            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                                error
-                        )
-                    );
-            } catch (error) {
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                );
-            }
-        };
-
-        const deleteItem = async (id: string, completed: boolean) => {
-            const uid: any = localStorage.getItem('currentUser');
-            const docRef = await firestore.collection('users').doc(uid);
-            const itemToRemove = completed
-                ? lists[currentList].listItems.completed.filter(
-                      (item: Item) => item.id === id
-                  )
-                : lists[currentList].listItems.notCompleted.filter(
-                      (item: Item) => item.id === id
-                  );
-            const deleteKey = completed ? keyCompleted : keyNotCompleted;
-            try {
-                await docRef
-                    .update({
-                        [deleteKey]: firebase.firestore.FieldValue.arrayRemove(
-                            itemToRemove[0]
-                        )
-                    })
-                    .catch((error) =>
-                        alert(
-                            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                                error
-                        )
-                    );
-            } catch (error) {
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                );
-            }
-        };
-
-        const completeItem = async (id: string) => {
-            const uid: any = localStorage.getItem('currentUser');
-            const docRef = await firestore.collection('users').doc(uid);
-            const itemToRemove = lists[
-                currentList
-            ].listItems.notCompleted.filter((item: Item) => item.id === id);
-            try {
-                await docRef.update({
-                    [keyNotCompleted]: firebase.firestore.FieldValue.arrayRemove(
-                        itemToRemove[0]
-                    )
-                });
-                const updatedItem = updateObject(itemToRemove[0], {
-                    completed: true
-                });
-                if (selectedItem.id) {
-                    onSelectingItem(updatedItem);
-                }
-                await docRef
-                    .update({
-                        [keyCompleted]: firebase.firestore.FieldValue.arrayUnion(
-                            updatedItem
-                        )
-                    })
-                    .catch((error) =>
-                        alert(
-                            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                                error
-                        )
-                    )
-                    .then((response) => listUpdateHandler())
-                    .catch((error) =>
-                        alert(
-                            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                                error
-                        )
-                    );
-            } catch (error) {
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                );
-            }
-        };
-
-        const listUpdateHandler = () => {
-            onGettingUserInfo();
-            clearInput();
-            setEditing(false);
-        };
-
-        const selectItemHandler = (item: Item, ref: any) => {
-            if (item.id !== selectedItem.id) {
-                onSelectingItem(item);
-                setTimeout(() => {
-                    scrollToRef(ref);
-                }, 10);
-            } else {
-                onSelectingItemEmpty();
-            }
-        };
 
         const mapHandler = (listArray: Item[], completed: boolean) => {
             return (
@@ -287,15 +107,34 @@ const ListLayout = forwardRef(
                                             completed: element.completed,
                                             notes: element.notes
                                         },
-                                        bottomRef
+                                        selectedItem,
+                                        bottomRef,
+                                        (arg: Item) => onSelectingItem(arg),
+                                        onSelectingItemEmpty
                                     )
                                 }
-                                clickedComplete={() => completeItem(element.id)}
-                                clickedDelete={() =>
-                                    deleteItem(
+                                clickedComplete={() =>
+                                    completeItem(
                                         element.id,
-                                        element.completed
-                                    ).then((response) => listUpdateHandler())
+                                        () => listUpdate(),
+                                        {
+                                            lists: lists,
+                                            currentList: currentList,
+                                            keyNotCompleted: keyNotCompleted,
+                                            keyCompleted: keyCompleted,
+                                            selectedItem: selectedItem,
+                                            onSelectingItem: (arg) =>
+                                                onSelectingItem(arg)
+                                        }
+                                    )
+                                }
+                                clickedDelete={() =>
+                                    deleteItem(element.id, element.completed, {
+                                        lists: lists,
+                                        currentList: currentList,
+                                        keyCompleted: keyCompleted,
+                                        keyNotCompleted: keyNotCompleted
+                                    }).then(() => listUpdate())
                                 }
                             />
                         </CSSTransition>
@@ -303,84 +142,9 @@ const ListLayout = forwardRef(
             );
         };
 
-        const submitHandler = () => {
-            if (inputItem.value === '') {
-                setWarning('Name field must not be empty!');
-            } else {
-                saveNewItem(inputItem).then((response) => listUpdateHandler());
-            }
-        };
-
-        const tagDisplayHandler = () => {
-            setShowTags(!showTags);
-        };
-
-        const tagSelectHandler = (tag: Tag) => {
-            const updatedItem = updateObject(inputItem, {
-                tag: tag
-            });
-            setInputItem(updatedItem);
-            setButtonTag(tag);
-            setShowTags(!showTags);
-        };
-
         return (
-            <Wrapper selected={selected} ref={topRef}>
-                <Heading2>Your tasks</Heading2>
-                <AddingTaskContainer>
-                    <Description>Task name:</Description>
-                    <Description>Date:</Description>
-                    <Description>Tag:</Description>
-                    <ListInput
-                        ref={ref}
-                        submit={() => submitHandler()}
-                        changed={inputChangedHandler}
-                        value={inputItem.value}
-                        editing={editing}
-                    />
-                    <DatePicker type="layout" />
-                    <TagButton clicked={tagDisplayHandler} value={buttonTag} />
-                    <CSSTransition
-                        in={showTags}
-                        timeout={400}
-                        mountOnEnter
-                        unmountOnExit
-                        classNames="move"
-                    >
-                        <TagContainer>
-                            <TagField
-                                onClick={() =>
-                                    tagSelectHandler({
-                                        name: '',
-                                        id: '',
-                                        color: ''
-                                    })
-                                }
-                            >
-                                None
-                            </TagField>
-                            {tags.map((element) => (
-                                <TagField
-                                    key={element.id}
-                                    color={element.color}
-                                    onClick={() => tagSelectHandler(element)}
-                                >
-                                    {element.name}
-                                </TagField>
-                            ))}
-                        </TagContainer>
-                    </CSSTransition>
-                    <SubmitButton
-                        open={!showTags}
-                        selected={selected}
-                        clicked={submitHandler}
-                    >
-                        Add new list item
-                    </SubmitButton>
-                    <Warning>{warning !== '' ? warning : null}</Warning>
-                </AddingTaskContainer>
-
-                <ListContainer>
+            <Wrapper selected={selected} ref={topRef} adding={adding}>
+                <ListContainer adding={adding}>
                     {showNotCompleted ? (
                         <Heading3>Tasks not completed</Heading3>
                     ) : null}
@@ -419,20 +183,18 @@ const ListLayout = forwardRef(
 
 const mapStateToProps = (state: {
     user: { userInfo: { lists: any; tags: Tag[] }; mobile: boolean };
-    list: { currentList: any; date: any; selectedItem: Item };
+    list: { currentList: string; selectedItem: Item };
 }) => {
     return {
         lists: state.user.userInfo.lists,
         tags: state.user.userInfo.tags,
         currentList: state.list.currentList,
-        date: state.list.date,
         selectedItem: state.list.selectedItem,
         mobile: state.user.mobile
     };
 };
 
 const mapDispatchToProps = {
-    onGettingUserInfo: () => actions.initUserInfo(),
     onSelectingItem: (item: Item) => actions.setSelectedItem(item),
     onSelectingItemEmpty: () => actions.setSelectedItemEmpty(),
     onSettingMobile: (mobile: boolean) => actions.setMobile(mobile)
@@ -440,6 +202,10 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type Props = PropsFromRedux & { selected: boolean };
+type Props = PropsFromRedux & {
+    selected: boolean;
+    listUpdate(): void;
+    adding: boolean;
+};
 
 export default connector(React.memo(ListLayout));

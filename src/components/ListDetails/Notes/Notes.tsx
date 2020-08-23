@@ -49,12 +49,12 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
                 notes: [inputValue, ...selectedItem.notes]
             });
             saveEditedItem(currentList, selectedItem, updatedItem)
-                .then((response) => {
+                .then(() => {
                     setEditing(!editing);
                     clearInput();
                     onGettingUserInfo();
                 })
-                .then((response) => onSelectingItem(updatedItem));
+                .then(() => onSelectingItem(updatedItem));
         }
     };
 
@@ -96,7 +96,7 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
                         updatedItem
                     )
                 })
-                .then((response) => onSelectingItem(updatedItem))
+                .then(() => onSelectingItem(updatedItem))
                 .catch((error) =>
                     alert(
                         'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
@@ -112,7 +112,7 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
     };
 
     const deleteNoteHandler = async (note: string) => {
-        await deleteNote(note).then((response) => onGettingUserInfo());
+        await deleteNote(note).then(() => onGettingUserInfo());
     };
 
     const notesMap =
@@ -130,7 +130,7 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
             <Display>No notes saved yet!</Display>
         );
 
-    const emptyNote = <p></p>;
+    const emptyNote = <p />;
 
     return (
         <Wrapper editing={editing}>

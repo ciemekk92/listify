@@ -69,7 +69,7 @@ const ListPanel: React.FC<Props> = (props) => {
                     />
                 </ButtonContainer>
             </CSSTransition>
-            <Name>{name}</Name>
+            <Name>{name.length < 12 ? name : name.substring(0, 12)}</Name>
             <Count>{count >= 100 ? '99+' : count}</Count>
         </Panel>
     );

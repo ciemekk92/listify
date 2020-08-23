@@ -83,7 +83,7 @@ const Login = (props: { type: string; modalClosed(): void }) => {
                     `Your email or password is incorrect, please check your data, ${error}`
                 );
             });
-        await createUserDoc(user, email).then((response) => {
+        await createUserDoc(user, email).then(() => {
             setLoading(false);
             modalClosed();
             history.push('/list');

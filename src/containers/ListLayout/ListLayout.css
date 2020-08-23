@@ -25,3 +25,25 @@
     opacity: 0;
     transition: all 400ms ease-out;
 }
+
+/*noinspection CssUnusedSymbol*/
+.add-enter {
+    opacity: 0;
+}
+
+/*noinspection CssUnusedSymbol*/
+.add-enter-active {
+    opacity: 1;
+    transition: all 400ms ease-out;
+}
+
+.add-exit {
+    opacity: 1;
+}
+
+/*noinspection CssUnusedSymbol*/
+.add-exit-active {
+    display: none;
+    opacity: 0;
+    transition: all 400ms ease-out;
+}

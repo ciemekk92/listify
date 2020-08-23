@@ -8,7 +8,8 @@ const initialState: listState = {
     currentTag: {
         name: '',
         id: '',
-        color: ''
+        color: '',
+        items: []
     },
     currentColor: '#2196F3',
     selectedItem: {

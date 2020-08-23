@@ -39,7 +39,7 @@ export interface userState {
         email: string;
         userName: string;
         lists: {};
-        tags: [];
+        tags: {};
     };
     error: any;
     loaded: boolean;

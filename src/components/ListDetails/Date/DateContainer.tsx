@@ -30,7 +30,7 @@ const DateContainer: React.FC<Props> = (props) => {
             date: changedDate
         });
         saveEditedItem(currentList, selectedItem, updatedItem)
-            .then((response) => {
+            .then(() => {
                 onGettingUserInfo();
                 onSettingSelectedItem(updatedItem);
                 setEditing(!editing);

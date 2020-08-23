@@ -8,14 +8,14 @@ interface PanelProps {
 
 export const Panel = styled.div<PanelProps>`
     width: 100%;
-    height: 3.6rem;
+    height: max-content;
     display: grid;
     grid-template-columns: 0.2fr 0.5fr 0.3fr;
     grid-template-rows: 1fr;
     gap: 1px 1px;
     font-weight: ${(props) => (props.active ? '700' : '300')};
     background-color: #8eafd6;
-    padding: 1% 0;
+    padding: 0.5rem 0;
     transition: all 0.4s ease-out;
     align-items: center;
     justify-items: center;
@@ -26,7 +26,7 @@ export const Panel = styled.div<PanelProps>`
     }
 
     &:hover {
-        background-color: ${(props) => darken(0.05, '#8eafd6')};
+        background-color: ${darken(0.05, '#8eafd6')};
         color: #fff;
     }
 `;
@@ -46,6 +46,8 @@ export const Name = styled.p`
     cursor: pointer;
     color: #fff;
     z-index: 5;
+    justify-self: start;
+    margin-left: 1rem;
 `;
 
 export const ButtonContainer = styled.div`

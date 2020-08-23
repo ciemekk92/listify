@@ -3,7 +3,8 @@ import styled from 'styled-components';
 export const NewList = styled.div`
     width: 100%;
     background-color: #3f72af;
-    height: 3.6rem;
+    height: max-content;
+    padding: 0.5rem 0;
     grid-row: 5 / 6;
     display: flex;
     transition: all 0.2s ease;

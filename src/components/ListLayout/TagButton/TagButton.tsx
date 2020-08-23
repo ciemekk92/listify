@@ -1,10 +1,13 @@
 import React from 'react';
 import { Button } from './TagButton.styled';
-import { Tag } from '../../../types';
 
 type ButtonProps = {
     clicked(): void;
-    value: Tag;
+    value: {
+        name: string;
+        id: string;
+        color: string;
+    };
 };
 
 const TagButton: React.FC<ButtonProps> = (props) => {

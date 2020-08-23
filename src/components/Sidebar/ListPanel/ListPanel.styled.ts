@@ -6,14 +6,14 @@ interface PanelProps {
 
 export const Panel = styled.div<PanelProps>`
     width: 100%;
-    height: 3.6rem;
+    height: max-content;
     display: grid;
     grid-template-columns: 0.5fr 0.2fr 0.3fr;
     grid-template-rows: 1fr;
     gap: 1px 1px;
     font-weight: ${(props) => (props.active ? '700' : '300')};
-    background-color: ${(props) => (props.active ? '#112d4e' : '#3f72af')};
-    padding: 1% 0;
+    background-color: ${(props) => (props.active ? '#112d4e' : '#8eafd6')};
+    padding: 0.5rem 0;
     transition: all 0.4s ease-out;
     align-items: center;
     justify-content: center;

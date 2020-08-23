@@ -6,7 +6,7 @@ const ListInput = (props: {
     changed(event: React.ChangeEvent): void;
     value: string;
     submit(): void;
-    ref: React.Ref<HTMLInputElement>;
+    ref?: React.Ref<HTMLInputElement>;
 }) => {
     const ref = useRef<HTMLInputElement>(null);
     const node = ref.current;
