@@ -8,6 +8,10 @@ interface LayoutProps {
     readonly adding?: boolean;
 }
 
+interface AddingProps {
+    readonly list?: boolean;
+}
+
 export const Wrapper = styled.div<LayoutProps>`
     width: 100%;
     background-color: #f9f7f7;
@@ -56,7 +60,7 @@ export const AddingTaskContainer = styled.div<LayoutProps>`
     grid-column: 1 / 3;
     display: grid;
     grid-template-columns: 40% 60%;
-    grid-template-rows: repeat(5, max-content);
+    grid-template-rows: repeat(6, max-content);
     align-items: center;
     justify-items: start;
     row-gap: 2rem;
@@ -72,16 +76,16 @@ export const Description = styled.p`
     justify-self: end;
 `;
 
-export const TagContainer = styled.div`
+export const FieldContainer = styled.div<AddingProps>`
     width: 100%;
-    grid-row: 4 / 5;
+    grid-row: ${(props) => (props.list ? '4 / 5' : '5 / 6')};
     grid-column: 1 / 3;
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
 `;
 
-export const TagField = styled.div<LayoutProps>`
+export const Field = styled.div<LayoutProps>`
     background-color: ${(props) => (props.color ? props.color : '#3f72af')};
     color: ${(props) =>
         props.color === '#FFEB3B' || props.color === '#FFC107'

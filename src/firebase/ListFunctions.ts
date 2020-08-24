@@ -60,8 +60,10 @@ export const completeItem = async (
 };
 
 export const deleteItem = async (
+    list: string,
     id: string,
     completed: boolean,
+    tagName: string,
     props: {
         lists: any;
         currentList: string;
@@ -72,13 +74,14 @@ export const deleteItem = async (
     const uid: any = localStorage.getItem('currentUser');
     const docRef = await firestore.collection('users').doc(uid);
     const itemToRemove = completed
-        ? props.lists[props.currentList].listItems.completed.filter(
+        ? props.lists[list].listItems.completed.filter(
               (item: Item) => item.id === id
           )
-        : props.lists[props.currentList].listItems.notCompleted.filter(
+        : props.lists[list].listItems.notCompleted.filter(
               (item: Item) => item.id === id
           );
     const deleteKey = completed ? props.keyCompleted : props.keyNotCompleted;
+    let tagKey = `tags.${tagName}.items`;
     try {
         await docRef
             .update({
@@ -92,6 +95,20 @@ export const deleteItem = async (
                         error
                 )
             );
+        if (tagName !== '') {
+            await docRef
+                .update({
+                    [tagKey]: firebase.firestore.FieldValue.arrayRemove(
+                        itemToRemove[0]
+                    )
+                })
+                .catch((error) =>
+                    alert(
+                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                            error
+                    )
+                );
+        }
     } catch (error) {
         alert(
             'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +

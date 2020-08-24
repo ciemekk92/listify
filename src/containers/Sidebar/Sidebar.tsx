@@ -37,8 +37,7 @@ const Sidebar: React.FC<Props> = (props) => {
         setOpen
     } = props;
 
-    // TODO: Finish implementing selecting current tag & tag view
-    // TODO: implement shortening of tag names if too long.
+    // TODO: Finish implementing selecting tag view
 
     const { handleClick } = useContext(hiddenListContext);
 

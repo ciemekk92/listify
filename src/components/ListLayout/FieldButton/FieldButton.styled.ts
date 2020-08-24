@@ -2,11 +2,12 @@ import styled from 'styled-components';
 
 interface ButtonProps {
     readonly color: string;
+    readonly list?: boolean;
 }
 
 export const Button = styled.button<ButtonProps>`
     font-size: 1.6rem;
-    grid-row: 3 / 4;
+    grid-row: ${(props) => (props.list ? '3 / 4' : '4 / 5')};
     grid-column: 2 / 3;
     padding: 0.3rem 2.5rem;
     background-color: ${(props) =>

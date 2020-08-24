@@ -87,7 +87,9 @@ const TagLayout: React.FC<Props> = (props) => {
                                     value: element.value,
                                     date: element.date,
                                     completed: element.completed,
-                                    notes: element.notes
+                                    notes: element.notes,
+                                    list: element.list,
+                                    tag: element.tag
                                 },
                                 selectedItem,
                                 bottomRef,
@@ -106,12 +108,18 @@ const TagLayout: React.FC<Props> = (props) => {
                             })
                         }
                         clickedDelete={() =>
-                            deleteItem(element.id, element.completed, {
-                                lists: lists,
-                                currentList: currentList,
-                                keyCompleted: keyCompleted,
-                                keyNotCompleted: keyNotCompleted
-                            }).then(() => listUpdate())
+                            deleteItem(
+                                element.list,
+                                element.id,
+                                element.completed,
+                                element.tag.name,
+                                {
+                                    lists: lists,
+                                    currentList: currentList,
+                                    keyCompleted: keyCompleted,
+                                    keyNotCompleted: keyNotCompleted
+                                }
+                            ).then(() => listUpdate())
                         }
                     />
                 </CSSTransition>

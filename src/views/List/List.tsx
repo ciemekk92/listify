@@ -15,26 +15,27 @@ import {
     AddingTaskContainer,
     AddingTaskToggle,
     Description,
-    TagContainer,
-    TagField,
+    FieldContainer,
+    Field,
     Warning
 } from '../../containers/ListLayout/ListLayout.styled';
 import { Plus } from '../../components/Icons';
 import { CSSTransition } from 'react-transition-group';
 import ListInput from '../../components/ListLayout/ListInput/ListInput';
 import DatePicker from '../../containers/DatePicker/DatePicker';
-import TagButton from '../../components/ListLayout/TagButton/TagButton';
 import SubmitButton from '../../components/ListLayout/SubmitButton/SubmitButton';
 import { updateObject } from '../../shared/utility';
 import { firestore } from '../../firebase/firebase';
 import { v4 as uuidv4 } from 'uuid';
 import firebase from 'firebase';
+import FieldButton from '../../components/ListLayout/FieldButton/FieldButton';
 
 const { Provider } = hiddenListContext;
 
 const List: React.FC<PropsFromRedux> = (props) => {
     const {
         date,
+        lists,
         tags,
         selectedItem,
         mobile,
@@ -54,7 +55,8 @@ const List: React.FC<PropsFromRedux> = (props) => {
             name: '',
             id: '',
             color: ''
-        }
+        },
+        list: ''
     };
 
     const [hidden, setHidden] = useState(false);
@@ -64,11 +66,13 @@ const List: React.FC<PropsFromRedux> = (props) => {
     const [editing, setEditing] = useState(false);
     const [addingTask, setAddingTask] = useState(false);
     const [showTags, setShowTags] = useState(false);
+    const [showLists, setShowLists] = useState(false);
     const [buttonTag, setButtonTag] = useState({
         name: '',
         id: '',
         color: ''
     });
+    const [buttonList, setButtonList] = useState('');
 
     const inputChangedHandler = (event: React.ChangeEvent) => {
         const target = event.target as HTMLInputElement;
@@ -108,12 +112,22 @@ const List: React.FC<PropsFromRedux> = (props) => {
         };
     });
 
+    useEffect(() => {
+        if (currentList) {
+            setButtonList(currentList);
+        }
+    }, [currentList]);
+
     const submitHandler = () => {
         if (inputItem.value === '') {
             setWarning('Name field must not be empty!');
         } else {
             saveNewItem(inputItem).then(() => listUpdateHandler());
         }
+    };
+
+    const listDisplayHandler = () => {
+        setShowLists(!showLists);
     };
 
     const tagDisplayHandler = () => {
@@ -133,11 +147,18 @@ const List: React.FC<PropsFromRedux> = (props) => {
         setShowTags(!showTags);
     };
 
+    const listSelectHandler = (list: string) => {
+        const updatedItem = updateObject(inputItem, {
+            list: list
+        });
+        setInputItem(updatedItem);
+        setButtonList(list);
+        setShowLists(!showLists);
+    };
+
     const toggleAddingTask = () => {
         setAddingTask(!addingTask);
     };
-
-    let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
 
     const saveNewItem = async (newItem: Item) => {
         const uid: any = localStorage.getItem('currentUser');
@@ -147,6 +168,7 @@ const List: React.FC<PropsFromRedux> = (props) => {
             id: uuidv4()
         });
 
+        let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
         let keyWithTag = `tags.${newItem.tag?.name}.items`;
 
         try {
@@ -163,18 +185,20 @@ const List: React.FC<PropsFromRedux> = (props) => {
                             error
                     )
                 );
-            await docRef
-                .update({
-                    [keyWithTag]: firebase.firestore.FieldValue.arrayUnion(
-                        newItemWithDate
-                    )
-                })
-                .catch((error) =>
-                    alert(
-                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                            error
-                    )
-                );
+            if (newItem.tag.name !== '') {
+                await docRef
+                    .update({
+                        [keyWithTag]: firebase.firestore.FieldValue.arrayUnion(
+                            newItemWithDate
+                        )
+                    })
+                    .catch((error) =>
+                        alert(
+                            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                                error
+                        )
+                    );
+            }
         } catch (error) {
             alert(
                 'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
@@ -184,6 +208,7 @@ const List: React.FC<PropsFromRedux> = (props) => {
     };
 
     let tagsArray = Object.values(tags);
+    let listsArray = Object.keys(lists).sort();
 
     return (
         <Provider value={{ hidden, handleClick }}>
@@ -205,6 +230,7 @@ const List: React.FC<PropsFromRedux> = (props) => {
                         <AddingTaskContainer adding={addingTask}>
                             <Description>Task name:</Description>
                             <Description>Date:</Description>
+                            <Description>List:</Description>
                             <Description>Tag:</Description>
                             <ListInput
                                 submit={() => submitHandler()}
@@ -213,9 +239,34 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                 editing={editing}
                             />
                             <DatePicker type="layout" />
-                            <TagButton
+                            <FieldButton
+                                clicked={listDisplayHandler}
+                                listValue={buttonList}
+                                list
+                            />
+                            <CSSTransition
+                                in={showLists}
+                                timeout={400}
+                                mountOnEnter
+                                unmountOnExit
+                                classNames="move"
+                            >
+                                <FieldContainer list>
+                                    {listsArray.map((element) => (
+                                        <Field
+                                            key={uuidv4()}
+                                            onClick={() =>
+                                                listSelectHandler(element)
+                                            }
+                                        >
+                                            {element}
+                                        </Field>
+                                    ))}
+                                </FieldContainer>
+                            </CSSTransition>
+                            <FieldButton
                                 clicked={tagDisplayHandler}
-                                value={buttonTag}
+                                tagValue={buttonTag}
                             />
                             <CSSTransition
                                 in={showTags}
@@ -224,8 +275,8 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                 unmountOnExit
                                 classNames="move"
                             >
-                                <TagContainer>
-                                    <TagField
+                                <FieldContainer>
+                                    <Field
                                         onClick={() =>
                                             tagSelectHandler({
                                                 name: '',
@@ -235,9 +286,9 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                         }
                                     >
                                         None
-                                    </TagField>
+                                    </Field>
                                     {tagsArray.map((element) => (
-                                        <TagField
+                                        <Field
                                             key={element.id}
                                             color={element.color}
                                             onClick={() =>
@@ -249,9 +300,9 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                             }
                                         >
                                             {element.name}
-                                        </TagField>
+                                        </Field>
                                     ))}
-                                </TagContainer>
+                                </FieldContainer>
                             </CSSTransition>
                             <SubmitButton
                                 open={!showTags}
@@ -301,6 +352,7 @@ const mapStateToProps = (state: {
         mobile: boolean;
         userInfo: {
             tags: Tag[];
+            lists: any;
         };
     };
 }) => {
@@ -310,7 +362,8 @@ const mapStateToProps = (state: {
         selectedItem: state.list.selectedItem,
         currentList: state.list.currentList,
         currentTag: state.list.currentTag,
-        mobile: state.user.mobile
+        mobile: state.user.mobile,
+        lists: state.user.userInfo.lists
     };
 };
 

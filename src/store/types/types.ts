@@ -28,6 +28,13 @@ export interface listState {
         date: string | null;
         completed: boolean;
         notes: string[];
+        tag: {
+            name: string;
+            id: string;
+            color: string;
+            items: any[];
+        };
+        list: string;
     };
     changedDate: string | null;
 }

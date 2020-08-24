@@ -17,7 +17,14 @@ const initialState: listState = {
         value: '',
         date: null,
         completed: false,
-        notes: []
+        notes: [],
+        tag: {
+            name: '',
+            id: '',
+            color: '',
+            items: []
+        },
+        list: ''
     },
     changedDate: null
 };
