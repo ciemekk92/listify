@@ -31,18 +31,17 @@ export const Wrapper = styled.div<LayoutProps>`
 export const AddingTaskToggle = styled.button`
     width: 3.6rem;
     height: 3.6rem;
+    margin-right: 3rem;
     background-color: #3f72af;
     border: none;
     border-radius: 50%;
     color: black;
     outline: none;
-    grid-row: 1 / 2;
-    grid-column: 2 / 3;
     cursor: pointer;
     backface-visibility: hidden;
     justify-self: center;
     transition: all 0.4s ease;
-    display: grid;
+    display: flex;
     justify-content: center;
     align-items: center;
 
@@ -56,15 +55,15 @@ export const AddingTaskContainer = styled.div<LayoutProps>`
     width: calc(100% - 5rem);
     margin-left: -5rem;
     margin-top: 0.5rem;
-    grid-row: ${(props) => (props.adding ? '2 / 3' : '1 / 2')};
-    grid-column: 1 / 3;
-    display: grid;
-    grid-template-columns: 40% 60%;
-    grid-template-rows: repeat(6, max-content);
-    align-items: center;
-    justify-items: start;
-    row-gap: 2rem;
-    column-gap: 5rem;
+    display: flex;
+    height: max-content;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    transition: all 0.4s ease;
+    max-height: ${(props) => (props.adding ? '30rem' : '0')};
+    opacity: ${(props) => (props.adding ? '1' : '0')};
+    overflow: hidden;
 `;
 
 export const Description = styled.p`
@@ -73,6 +72,7 @@ export const Description = styled.p`
     color: #666;
     font-weight: 700;
     grid-column: 1 / 2;
+    grid-row: 1 / 2;
     justify-self: end;
 `;
 
@@ -111,7 +111,6 @@ export const ListContainer = styled.div<LayoutProps>`
     flex-direction: column;
     color: black;
     overflow: auto;
-    margin-bottom: auto;
 
     &::-webkit-scrollbar {
         display: none;

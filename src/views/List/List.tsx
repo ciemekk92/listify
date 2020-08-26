@@ -7,7 +7,13 @@ import ListDetails from '../../containers/ListDetails/ListDetails';
 import TagLayout from '../../containers/TagLayout/TagLayout';
 import { hiddenListContext } from '../../context/hiddenListContext';
 import { Item, Tag } from '../../types';
-import { ListWrapper, Placeholder, Wrapper } from './List.styled';
+import {
+    AddingRow,
+    ListWrapper,
+    Placeholder,
+    Row,
+    Wrapper
+} from './List.styled';
 import './List.css';
 import Burger from '../../components/Sidebar/Burger/Burger';
 import { Heading2 } from '../../components/UI/Typography/Headings/Headings.styled';
@@ -115,6 +121,10 @@ const List: React.FC<PropsFromRedux> = (props) => {
     useEffect(() => {
         if (currentList) {
             setButtonList(currentList);
+            const updatedItem = updateObject(inputItem, {
+                list: currentList
+            });
+            setInputItem(updatedItem);
         }
     }, [currentList]);
 
@@ -178,7 +188,6 @@ const List: React.FC<PropsFromRedux> = (props) => {
                         newItemWithDate
                     )
                 })
-                .then(() => console.log(newItemWithDate))
                 .catch((error) =>
                     alert(
                         'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
@@ -207,6 +216,8 @@ const List: React.FC<PropsFromRedux> = (props) => {
         }
     };
 
+    // TODO: fix padding and adding view in tags layout (maybe after completing task)
+
     let tagsArray = Object.values(tags);
     let listsArray = Object.keys(lists).sort();
 
@@ -216,33 +227,43 @@ const List: React.FC<PropsFromRedux> = (props) => {
             <Sidebar open={open} setOpen={openHandler} />
             <Wrapper>
                 <ListWrapper>
-                    <Heading2>Your tasks</Heading2>
-                    <AddingTaskToggle onClick={toggleAddingTask}>
-                        <Plus size={32} title={'Add new task'} color={'#fff'} />
-                    </AddingTaskToggle>
-                    <CSSTransition
+                    <Row>
+                        <Heading2>Your tasks</Heading2>
+                        <AddingTaskToggle onClick={toggleAddingTask}>
+                            <Plus
+                                size={32}
+                                title={'Add new task'}
+                                color={'#fff'}
+                            />
+                        </AddingTaskToggle>
+                    </Row>
+                    {/*<CSSTransition
                         in={addingTask}
                         mountOnEnter
                         unmountOnExit
                         timeout={400}
                         classNames="add"
-                    >
-                        <AddingTaskContainer adding={addingTask}>
+                    >*/}
+                    <AddingTaskContainer adding={addingTask}>
+                        <AddingRow>
                             <Description>Task name:</Description>
-                            <Description>Date:</Description>
-                            <Description>List:</Description>
-                            <Description>Tag:</Description>
                             <ListInput
                                 submit={() => submitHandler()}
                                 changed={inputChangedHandler}
                                 value={inputItem.value}
                                 editing={editing}
                             />
+                        </AddingRow>
+                        <AddingRow>
+                            <Description>Date:</Description>
                             <DatePicker type="layout" />
+                        </AddingRow>
+                        <AddingRow>
+                            <Description>List:</Description>
                             <FieldButton
                                 clicked={listDisplayHandler}
                                 listValue={buttonList}
-                                list
+                                listEnabled
                             />
                             <CSSTransition
                                 in={showLists}
@@ -264,6 +285,9 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                     ))}
                                 </FieldContainer>
                             </CSSTransition>
+                        </AddingRow>
+                        <AddingRow>
+                            <Description>Tag:</Description>
                             <FieldButton
                                 clicked={tagDisplayHandler}
                                 tagValue={buttonTag}
@@ -304,6 +328,11 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                     ))}
                                 </FieldContainer>
                             </CSSTransition>
+                        </AddingRow>
+                        <AddingRow>
+                            <Warning>{warning !== '' ? warning : null}</Warning>
+                        </AddingRow>
+                        <AddingRow>
                             <SubmitButton
                                 open={!showTags}
                                 selected={!!selectedItem.id}
@@ -311,9 +340,9 @@ const List: React.FC<PropsFromRedux> = (props) => {
                             >
                                 Add new list item
                             </SubmitButton>
-                            <Warning>{warning !== '' ? warning : null}</Warning>
-                        </AddingTaskContainer>
-                    </CSSTransition>
+                        </AddingRow>
+                    </AddingTaskContainer>
+                    {/*</CSSTransition>*/}
                     {currentList ? (
                         <>
                             <ListLayout

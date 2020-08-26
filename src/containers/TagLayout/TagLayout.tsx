@@ -99,6 +99,8 @@ const TagLayout: React.FC<Props> = (props) => {
                         }
                         clickedComplete={() =>
                             completeItem(element.id, () => listUpdate(), {
+                                list: element.list,
+                                tagName: element.tag.name,
                                 lists: lists,
                                 currentList: currentList,
                                 keyNotCompleted: keyNotCompleted,
@@ -114,10 +116,7 @@ const TagLayout: React.FC<Props> = (props) => {
                                 element.completed,
                                 element.tag.name,
                                 {
-                                    lists: lists,
-                                    currentList: currentList,
-                                    keyCompleted: keyCompleted,
-                                    keyNotCompleted: keyNotCompleted
+                                    lists: lists
                                 }
                             ).then(() => listUpdate())
                         }

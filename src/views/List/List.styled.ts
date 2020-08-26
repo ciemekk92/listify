@@ -21,12 +21,10 @@ export const ListWrapper = styled.div`
     height: 85vh;
     background-color: #f9f7f7;
     color: black;
-    display: grid;
-    grid-template-columns: 80% 20%;
-    grid-template-rows: repeat(2, max-content) 1fr;
-    row-gap: 1rem;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-items: center;
+    justify-content: flex-start;
     overflow: hidden;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
     z-index: 0;
@@ -37,6 +35,25 @@ export const ListWrapper = styled.div`
         width: 80%;
         overflow: auto;
     }
+`;
+
+export const Row = styled.div`
+    width: 100%;
+    height: max-content;
+    display: flex;
+    justify-content: space-between;
+    grid-column: 1 / 3;
+    align-items: center;
+`;
+
+export const AddingRow = styled.div`
+    width: 100%;
+    height: max-content;
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-template-rows: 1fr;
+    margin: 1rem 0;
+    column-gap: 5rem;
 `;
 
 export const Placeholder = styled.div`

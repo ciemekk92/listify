@@ -61,7 +61,7 @@ const Sidebar: React.FC<Props> = (props) => {
     const [deletingList, setDeletingList] = useState(false);
     const [listToDelete, setListToDelete] = useState('');
     const [warning, setWarning] = useState('');
-    const [isShown, setIsShown] = useState(false);
+    const [areListsShown, setAreListsShown] = useState(true);
     const [areTagsShown, setAreTagsShown] = useState(false);
 
     const listInputChangedHandler = (
@@ -254,7 +254,7 @@ const Sidebar: React.FC<Props> = (props) => {
     };
 
     const handleListVisibility = () => {
-        setIsShown(!isShown);
+        setAreListsShown(!areListsShown);
     };
 
     const handleTagsVisibility = () => {
@@ -368,7 +368,7 @@ const Sidebar: React.FC<Props> = (props) => {
                 <p>My lists</p>
             </LabelPanel>
             <CSSTransition
-                in={isShown}
+                in={areListsShown}
                 timeout={300}
                 classNames={'lists'}
                 mountOnEnter

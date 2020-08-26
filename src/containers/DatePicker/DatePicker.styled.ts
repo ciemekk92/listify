@@ -19,7 +19,7 @@ export const Wrapper = styled.div<PickerProps>`
     ${(props) =>
         props.details
             ? 'grid-area: input'
-            : 'grid-row: 2 / 3; grid-column: 2 / 3'};
+            : 'grid-row: 1 / 2; grid-column: 2 / 3'};
 
     @media only screen and ${device.tablet} {
         height: 2rem;

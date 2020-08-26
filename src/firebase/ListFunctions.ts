@@ -7,6 +7,8 @@ export const completeItem = async (
     id: string,
     updateCb: Function,
     props: {
+        list: string;
+        tagName: string;
         lists: any;
         currentList: string;
         keyNotCompleted: string;
@@ -17,24 +19,43 @@ export const completeItem = async (
 ) => {
     const uid: any = localStorage.getItem('currentUser');
     const docRef = await firestore.collection('users').doc(uid);
-    const itemToRemove = props.lists[
-        props.currentList
-    ].listItems.notCompleted.filter((item: Item) => item.id === id);
+    const itemToRemove = props.lists[props.list].listItems.notCompleted.filter(
+        (item: Item) => item.id === id
+    );
+
+    let tagKey = `tags.${props.tagName}.items`;
+
     try {
         await docRef.update({
-            [props.keyNotCompleted]: firebase.firestore.FieldValue.arrayRemove(
+            [`lists.${props.list}.listItems.notCompleted`]: firebase.firestore.FieldValue.arrayRemove(
                 itemToRemove[0]
             )
         });
         const updatedItem = updateObject(itemToRemove[0], {
             completed: true
         });
+
+        if (props.tagName !== '') {
+            await docRef
+                .update({
+                    [tagKey]: firebase.firestore.FieldValue.arrayRemove(
+                        itemToRemove[0]
+                    )
+                })
+                .catch((error) =>
+                    alert(
+                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                            error
+                    )
+                );
+        }
+
         if (props.selectedItem.id) {
             props.onSelectingItem(updatedItem);
         }
         await docRef
             .update({
-                [props.keyCompleted]: firebase.firestore.FieldValue.arrayUnion(
+                [`lists.${props.list}.listItems.completed`]: firebase.firestore.FieldValue.arrayUnion(
                     updatedItem
                 )
             })
@@ -51,6 +72,21 @@ export const completeItem = async (
                         error
                 )
             );
+
+        if (props.tagName !== '') {
+            await docRef
+                .update({
+                    [tagKey]: firebase.firestore.FieldValue.arrayUnion(
+                        updatedItem
+                    )
+                })
+                .catch((error) =>
+                    alert(
+                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                            error
+                    )
+                );
+        }
     } catch (error) {
         alert(
             'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
@@ -66,9 +102,6 @@ export const deleteItem = async (
     tagName: string,
     props: {
         lists: any;
-        currentList: string;
-        keyCompleted: string;
-        keyNotCompleted: string;
     }
 ) => {
     const uid: any = localStorage.getItem('currentUser');
@@ -80,7 +113,9 @@ export const deleteItem = async (
         : props.lists[list].listItems.notCompleted.filter(
               (item: Item) => item.id === id
           );
-    const deleteKey = completed ? props.keyCompleted : props.keyNotCompleted;
+    const deleteKey = completed
+        ? `lists.${list}.listItems.completed`
+        : `lists.${list}.listItems.notCompleted`;
     let tagKey = `tags.${tagName}.items`;
     try {
         await docRef

@@ -120,6 +120,8 @@ const ListLayout = forwardRef(
                                         element.id,
                                         () => listUpdate(),
                                         {
+                                            list: element.list,
+                                            tagName: element.tag.name,
                                             lists: lists,
                                             currentList: currentList,
                                             keyNotCompleted: keyNotCompleted,
@@ -137,10 +139,7 @@ const ListLayout = forwardRef(
                                         element.completed,
                                         element.tag?.name,
                                         {
-                                            lists: lists,
-                                            currentList: currentList,
-                                            keyCompleted: keyCompleted,
-                                            keyNotCompleted: keyNotCompleted
+                                            lists: lists
                                         }
                                     ).then(() => listUpdate())
                                 }
