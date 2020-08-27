@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import firebase from 'firebase/app';
 import { firestore } from '../../firebase/firebase';
@@ -20,6 +20,7 @@ import { CSSTransition } from 'react-transition-group';
 import './Sidebar.css';
 import TagPanel from '../../components/Sidebar/TagPanel/TagPanel';
 import ColorPicker from '../../components/Sidebar/NewList/ColorPicker/ColorPicker';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
 
 const Sidebar: React.FC<Props> = (props) => {
     const {
@@ -36,8 +37,6 @@ const Sidebar: React.FC<Props> = (props) => {
         open,
         setOpen
     } = props;
-
-    // TODO: Finish implementing selecting tag view
 
     const { handleClick } = useContext(hiddenListContext);
 
@@ -261,20 +260,22 @@ const Sidebar: React.FC<Props> = (props) => {
         setAreTagsShown(!areTagsShown);
     };
 
+    const wrapperRef: React.Ref<HTMLDivElement> = useRef(null);
+
+    useOutsideClick(wrapperRef, () => {
+        setAdding(false);
+        setDeletingList(false);
+    });
+
     let listsArray = Object.keys(lists).sort();
 
     useDidMountEffect(() => {
         onSettingCurrentList(listsArray[0]);
     }, [listsArray.length]);
 
-    // TODO Rework layout
     return (
         <Bar open={open}>
-            <SidebarModal
-                open={adding}
-                modalClosed={toggleAdding}
-                warning={warning}
-            >
+            <SidebarModal open={adding} warning={warning} ref={wrapperRef}>
                 {addingWhat === 'list' ? (
                     <>
                         Enter new list name below.
@@ -330,7 +331,7 @@ const Sidebar: React.FC<Props> = (props) => {
                     </>
                 )}
             </SidebarModal>
-            <SidebarModal open={deletingList} modalClosed={toggleDeleting}>
+            <SidebarModal open={deletingList}>
                 This will delete ALL tasks saved in the list. <br /> Are you
                 sure?
                 <ButtonsContainer>

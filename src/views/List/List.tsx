@@ -39,6 +39,7 @@ import FieldButton from '../../components/ListLayout/FieldButton/FieldButton';
 const { Provider } = hiddenListContext;
 
 const List: React.FC<PropsFromRedux> = (props) => {
+    // TODO: Display button only on certain layout (not placeholder) and make dynamic heading - list/tag name & color for tags
     const {
         date,
         lists,
@@ -90,7 +91,15 @@ const List: React.FC<PropsFromRedux> = (props) => {
     };
 
     const clearInput = () => {
-        setInputItem(initialItem);
+        // Updating without changing earlier selected list and tag
+        const clearedItem = updateObject(inputItem, {
+            value: '',
+            id: '',
+            date: new Date(),
+            completed: false,
+            notes: []
+        });
+        setInputItem(clearedItem);
     };
 
     const listUpdateHandler = () => {
@@ -178,7 +187,7 @@ const List: React.FC<PropsFromRedux> = (props) => {
             id: uuidv4()
         });
 
-        let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
+        let keyNotCompleted = `lists.${newItem.list}.listItems.notCompleted`;
         let keyWithTag = `tags.${newItem.tag?.name}.items`;
 
         try {
@@ -215,8 +224,6 @@ const List: React.FC<PropsFromRedux> = (props) => {
             );
         }
     };
-
-    // TODO: fix padding and adding view in tags layout (maybe after completing task)
 
     let tagsArray = Object.values(tags);
     let listsArray = Object.keys(lists).sort();
@@ -265,6 +272,8 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                 listValue={buttonList}
                                 listEnabled
                             />
+                        </AddingRow>
+                        <AddingRow active={!showLists}>
                             <CSSTransition
                                 in={showLists}
                                 timeout={400}
@@ -292,6 +301,8 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                 clicked={tagDisplayHandler}
                                 tagValue={buttonTag}
                             />
+                        </AddingRow>
+                        <AddingRow active={!showTags}>
                             <CSSTransition
                                 in={showTags}
                                 timeout={400}
@@ -329,12 +340,11 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                 </FieldContainer>
                             </CSSTransition>
                         </AddingRow>
-                        <AddingRow>
+                        <AddingRow active={warning === ''}>
                             <Warning>{warning !== '' ? warning : null}</Warning>
                         </AddingRow>
                         <AddingRow>
                             <SubmitButton
-                                open={!showTags}
                                 selected={!!selectedItem.id}
                                 clicked={submitHandler}
                             >
@@ -344,20 +354,17 @@ const List: React.FC<PropsFromRedux> = (props) => {
                     </AddingTaskContainer>
                     {/*</CSSTransition>*/}
                     {currentList ? (
-                        <>
-                            <ListLayout
-                                adding={addingTask}
-                                listUpdate={listUpdateHandler}
-                                selected={!!selectedItem.id}
-                            />
-                        </>
+                        <ListLayout
+                            adding={addingTask}
+                            listUpdate={listUpdateHandler}
+                            selected={!!selectedItem.id}
+                        />
                     ) : currentTag.id !== '' ? (
-                        <>
-                            <TagLayout
-                                listUpdate={listUpdateHandler}
-                                selected={!!selectedItem.id}
-                            />
-                        </>
+                        <TagLayout
+                            adding={addingTask}
+                            listUpdate={listUpdateHandler}
+                            selected={!!selectedItem.id}
+                        />
                     ) : (
                         <Placeholder>
                             Select a list or a tag in the sidebar on the left.

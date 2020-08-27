@@ -9,6 +9,8 @@ import { Item } from '../../types';
 
 const Details = (props: { selectedItem: Item; selected: boolean }) => {
     const { selected } = props;
+
+    // TODO: Rework this, completely
     return (
         <Wrapper selected={selected}>
             <Name />

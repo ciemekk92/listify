@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { device } from '../../../templates/MediaQueries/MediaQueries';
+import React from 'react';
 
 interface ModalProps {
     readonly slide: boolean;

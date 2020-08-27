@@ -54,14 +54,14 @@ export const AddingTaskToggle = styled.button`
 export const AddingTaskContainer = styled.div<LayoutProps>`
     width: calc(100% - 5rem);
     margin-left: -5rem;
-    margin-top: 0.5rem;
+    padding: ${(props) => (props.adding ? '1.5rem' : '0')};
     display: flex;
     height: max-content;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
     transition: all 0.4s ease;
-    max-height: ${(props) => (props.adding ? '30rem' : '0')};
+    max-height: ${(props) => (props.adding ? '35rem' : '0')};
     opacity: ${(props) => (props.adding ? '1' : '0')};
     overflow: hidden;
 `;

@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { device } from '../../templates/MediaQueries/MediaQueries';
 
+interface RowProps {
+    readonly active?: boolean;
+}
+
 export const Wrapper = styled.div`
     display: flex;
     min-height: 100%;
@@ -46,13 +50,14 @@ export const Row = styled.div`
     align-items: center;
 `;
 
-export const AddingRow = styled.div`
+export const AddingRow = styled.div<RowProps>`
     width: 100%;
     height: max-content;
     display: grid;
     grid-template-columns: 40% 60%;
     grid-template-rows: 1fr;
-    margin: 1rem 0;
+    align-items: center;
+    margin: ${(props) => (props.active ? '0' : '0.5rem 0')};
     column-gap: 5rem;
 `;
 

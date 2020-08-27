@@ -6,6 +6,8 @@ interface ButtonProps {
 }
 
 export const Button = styled.button<ButtonProps>`
+    display: flex;
+    justify-content: center;
     width: 8rem;
     height: max-content;
     font-size: 1.6rem;

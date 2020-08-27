@@ -3,7 +3,6 @@ import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 interface SubmitProps {
     readonly selected: boolean;
-    readonly open: boolean;
 }
 
 export const Button = styled.button<SubmitProps>`
@@ -17,12 +16,11 @@ export const Button = styled.button<SubmitProps>`
     outline: none;
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 1.6rem;
-    grid-row: 5 / 6;
+    grid-row: 1 / 2;
     grid-column: 1 / 3;
     cursor: pointer;
+    place-self: center;
     backface-visibility: hidden;
-    justify-self: center;
-    ${(props) => (props.open ? 'margin-top: -2rem' : null)};
 
     @media only screen and ${device.laptop} {
         font-size: 1rem;

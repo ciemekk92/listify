@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Wrapper } from './TagLayout.styled';
 import { Heading3 } from '../../components/UI/Typography/Headings/Headings.styled';
 import { Item, Tag } from '../../types';
 import { ListContainer } from '../ListLayout/ListLayout.styled';
+import { Wrapper } from './TagLayout.styled';
 import ListItem from '../../components/ListLayout/ListItem/ListItem';
 import { completeItem, deleteItem } from '../../firebase/ListFunctions';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -13,6 +13,7 @@ import { hiddenListContext } from '../../context/hiddenListContext';
 
 const TagLayout: React.FC<Props> = (props) => {
     const {
+        adding,
         listUpdate,
         currentList,
         currentTag,
@@ -20,11 +21,14 @@ const TagLayout: React.FC<Props> = (props) => {
         onSelectingItem,
         onSelectingItemEmpty,
         selectedItem,
+        selected,
         tags
     } = props;
 
     const [showCompleted, setShowCompleted] = useState(false);
     const [showNotCompleted, setShowNotCompleted] = useState(false);
+
+    const topRef = useRef(null);
 
     let arrayCompleted = tags[currentTag.name].items.filter(
         (element) => element.completed === true
@@ -51,8 +55,6 @@ const TagLayout: React.FC<Props> = (props) => {
             }
         }
     }, [currentTag]);
-
-    // TODO: Finish tags - completing/deleting tasks synced with certain lists
 
     let keyCompleted = `lists.${currentList}.listItems.completed`;
     let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
@@ -125,19 +127,25 @@ const TagLayout: React.FC<Props> = (props) => {
             ));
     };
     return (
-        <Wrapper>
-            <ListContainer>
+        <Wrapper selected={selected} ref={topRef} adding={adding}>
+            <ListContainer adding={adding}>
                 {showNotCompleted ? (
                     <Heading3>Tasks not completed</Heading3>
                 ) : null}
                 <TransitionGroup className={'list'}>
-                    {currentTag.items
-                        ? mapHandler(arrayNotCompleted, false)
-                        : null}
+                    {!currentTag.items
+                        ? null
+                        : hidden
+                        ? null
+                        : mapHandler(arrayNotCompleted, false)}
                 </TransitionGroup>
                 {showCompleted ? <Heading3>Completed tasks</Heading3> : null}
-                <TransitionGroup>
-                    {currentTag.items ? mapHandler(arrayCompleted, true) : null}
+                <TransitionGroup className={'list'}>
+                    {!currentTag.items
+                        ? null
+                        : hidden
+                        ? null
+                        : mapHandler(arrayCompleted, true)}
                 </TransitionGroup>
             </ListContainer>
         </Wrapper>
@@ -173,6 +181,10 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type Props = PropsFromRedux & { selected: boolean; listUpdate(): void };
+type Props = PropsFromRedux & {
+    adding: boolean;
+    selected: boolean;
+    listUpdate(): void;
+};
 
 export default connector(React.memo(TagLayout));
