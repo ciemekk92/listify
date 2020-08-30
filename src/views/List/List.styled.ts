@@ -66,5 +66,5 @@ export const Placeholder = styled.div`
     font-size: 3rem;
     grid-column: 1 / 3;
     grid-row: 2 / 4;
-    margin-bottom: 15%;
+    margin: auto 0;
 `;

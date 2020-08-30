@@ -64,6 +64,10 @@ const Sidebar: React.FC<Props> = (props) => {
     const [areListsShown, setAreListsShown] = useState(true);
     const [areTagsShown, setAreTagsShown] = useState(false);
 
+    let listsArray = Object.keys(lists).sort();
+    let tagsArray = Object.values(tags);
+    let tagNamesArray = Object.keys(tags);
+
     const listInputChangedHandler = (
         event: React.ChangeEvent,
         list: typeof newList
@@ -113,7 +117,13 @@ const Sidebar: React.FC<Props> = (props) => {
     };
 
     const newListHandler = async (list: List) => {
-        if (newList.name !== '') {
+        if (listsArray.includes(newList.name)) {
+            setWarning(
+                'List with this name already exists, choose another one!'
+            );
+        } else if (newList.name === '') {
+            setWarning('Name of the list must not be empty!');
+        } else {
             setAdding(false);
             const uid: any = localStorage.getItem('currentUser');
             const docRef = await firestore.collection('users').doc(uid);
@@ -141,8 +151,6 @@ const Sidebar: React.FC<Props> = (props) => {
                         error
                 );
             }
-        } else {
-            setWarning('Name of the list must not be empty!');
         }
     };
 
@@ -206,14 +214,18 @@ const Sidebar: React.FC<Props> = (props) => {
         }
     };
 
-    let tagsArray = Object.values(tags);
-
     const newTagHandler = async (tag: {
         name: string;
         color: string;
         items: never[];
     }) => {
-        if (newTag.name !== '') {
+        if (tagNamesArray.includes(newTag.name)) {
+            setWarning(
+                'Tag with this name already exists, choose another one!'
+            );
+        } else if (newTag.name === '') {
+            setWarning('Name of the tag must not be empty!');
+        } else {
             setAdding(false);
             const uid: any = localStorage.getItem('currentUser');
             const docRef = await firestore.collection('users').doc(uid);
@@ -242,8 +254,6 @@ const Sidebar: React.FC<Props> = (props) => {
                         error
                 );
             }
-        } else {
-            setWarning('Name of the tag must not be empty!');
         }
     };
 
@@ -319,8 +329,6 @@ const Sidebar: React.FC<Props> = (props) => {
     useOutsideClick(wrapperRefDeleting, () => {
         setDeletingList(false);
     });
-
-    let listsArray = Object.keys(lists).sort();
 
     useDidMountEffect(() => {
         onSettingCurrentList(listsArray[0]);

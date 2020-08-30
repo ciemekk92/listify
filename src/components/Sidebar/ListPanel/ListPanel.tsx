@@ -31,7 +31,6 @@ const ListPanel: React.FC<Props> = (props) => {
 
     const deleteHandler = (event: React.SyntheticEvent) => {
         clickedDelete();
-        event.stopPropagation();
     };
 
     const mobileHandler = () => {

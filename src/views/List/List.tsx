@@ -234,16 +234,20 @@ const List: React.FC<PropsFromRedux> = (props) => {
             <Wrapper>
                 <ListWrapper>
                     <Row>
-                        <Heading2
-                            color={currentTag.id !== '' ? currentTag.color : ''}
-                        >
-                            Your tasks -{' '}
-                            {currentList
-                                ? currentList
-                                : currentTag.id !== ''
-                                ? currentTag.name
-                                : null}
-                        </Heading2>
+                        {currentList || currentTag.id !== '' ? (
+                            <Heading2
+                                color={
+                                    currentTag.id !== '' ? currentTag.color : ''
+                                }
+                            >
+                                Your tasks -{' '}
+                                {currentList
+                                    ? currentList
+                                    : currentTag.id !== ''
+                                    ? currentTag.name
+                                    : null}
+                            </Heading2>
+                        ) : null}
                         {currentList || currentTag.id !== '' ? (
                             <AddingTaskToggle onClick={toggleAddingTask}>
                                 <Plus
