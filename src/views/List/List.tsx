@@ -39,7 +39,6 @@ import FieldButton from '../../components/ListLayout/FieldButton/FieldButton';
 const { Provider } = hiddenListContext;
 
 const List: React.FC<PropsFromRedux> = (props) => {
-    // TODO: Display button only on certain layout (not placeholder) and make dynamic heading - list/tag name & color for tags
     const {
         date,
         lists,
@@ -235,124 +234,131 @@ const List: React.FC<PropsFromRedux> = (props) => {
             <Wrapper>
                 <ListWrapper>
                     <Row>
-                        <Heading2>Your tasks</Heading2>
-                        <AddingTaskToggle onClick={toggleAddingTask}>
-                            <Plus
-                                size={32}
-                                title={'Add new task'}
-                                color={'#fff'}
-                            />
-                        </AddingTaskToggle>
+                        <Heading2
+                            color={currentTag.id !== '' ? currentTag.color : ''}
+                        >
+                            Your tasks -{' '}
+                            {currentList
+                                ? currentList
+                                : currentTag.id !== ''
+                                ? currentTag.name
+                                : null}
+                        </Heading2>
+                        {currentList || currentTag.id !== '' ? (
+                            <AddingTaskToggle onClick={toggleAddingTask}>
+                                <Plus
+                                    size={32}
+                                    title={'Add new task'}
+                                    color={'#fff'}
+                                />
+                            </AddingTaskToggle>
+                        ) : null}
                     </Row>
-                    {/*<CSSTransition
-                        in={addingTask}
-                        mountOnEnter
-                        unmountOnExit
-                        timeout={400}
-                        classNames="add"
-                    >*/}
-                    <AddingTaskContainer adding={addingTask}>
-                        <AddingRow>
-                            <Description>Task name:</Description>
-                            <ListInput
-                                submit={() => submitHandler()}
-                                changed={inputChangedHandler}
-                                value={inputItem.value}
-                                editing={editing}
-                            />
-                        </AddingRow>
-                        <AddingRow>
-                            <Description>Date:</Description>
-                            <DatePicker type="layout" />
-                        </AddingRow>
-                        <AddingRow>
-                            <Description>List:</Description>
-                            <FieldButton
-                                clicked={listDisplayHandler}
-                                listValue={buttonList}
-                                listEnabled
-                            />
-                        </AddingRow>
-                        <AddingRow active={!showLists}>
-                            <CSSTransition
-                                in={showLists}
-                                timeout={400}
-                                mountOnEnter
-                                unmountOnExit
-                                classNames="move"
-                            >
-                                <FieldContainer list>
-                                    {listsArray.map((element) => (
+                    {currentList || currentTag.id !== '' ? (
+                        <AddingTaskContainer adding={addingTask}>
+                            <AddingRow>
+                                <Description>Task name:</Description>
+                                <ListInput
+                                    submit={() => submitHandler()}
+                                    changed={inputChangedHandler}
+                                    value={inputItem.value}
+                                    editing={editing}
+                                />
+                            </AddingRow>
+                            <AddingRow>
+                                <Description>Date:</Description>
+                                <DatePicker type="layout" />
+                            </AddingRow>
+                            <AddingRow>
+                                <Description>List:</Description>
+                                <FieldButton
+                                    clicked={listDisplayHandler}
+                                    listValue={buttonList}
+                                    listEnabled
+                                />
+                            </AddingRow>
+                            <AddingRow active={!showLists}>
+                                <CSSTransition
+                                    in={showLists}
+                                    timeout={400}
+                                    mountOnEnter
+                                    unmountOnExit
+                                    classNames="move"
+                                >
+                                    <FieldContainer list>
+                                        {listsArray.map((element) => (
+                                            <Field
+                                                key={uuidv4()}
+                                                onClick={() =>
+                                                    listSelectHandler(element)
+                                                }
+                                            >
+                                                {element}
+                                            </Field>
+                                        ))}
+                                    </FieldContainer>
+                                </CSSTransition>
+                            </AddingRow>
+                            <AddingRow>
+                                <Description>Tag:</Description>
+                                <FieldButton
+                                    clicked={tagDisplayHandler}
+                                    tagValue={buttonTag}
+                                />
+                            </AddingRow>
+                            <AddingRow active={!showTags}>
+                                <CSSTransition
+                                    in={showTags}
+                                    timeout={400}
+                                    mountOnEnter
+                                    unmountOnExit
+                                    classNames="move"
+                                >
+                                    <FieldContainer>
                                         <Field
-                                            key={uuidv4()}
-                                            onClick={() =>
-                                                listSelectHandler(element)
-                                            }
-                                        >
-                                            {element}
-                                        </Field>
-                                    ))}
-                                </FieldContainer>
-                            </CSSTransition>
-                        </AddingRow>
-                        <AddingRow>
-                            <Description>Tag:</Description>
-                            <FieldButton
-                                clicked={tagDisplayHandler}
-                                tagValue={buttonTag}
-                            />
-                        </AddingRow>
-                        <AddingRow active={!showTags}>
-                            <CSSTransition
-                                in={showTags}
-                                timeout={400}
-                                mountOnEnter
-                                unmountOnExit
-                                classNames="move"
-                            >
-                                <FieldContainer>
-                                    <Field
-                                        onClick={() =>
-                                            tagSelectHandler({
-                                                name: '',
-                                                id: '',
-                                                color: ''
-                                            })
-                                        }
-                                    >
-                                        None
-                                    </Field>
-                                    {tagsArray.map((element) => (
-                                        <Field
-                                            key={element.id}
-                                            color={element.color}
                                             onClick={() =>
                                                 tagSelectHandler({
-                                                    name: element.name,
-                                                    id: element.id,
-                                                    color: element.color
+                                                    name: '',
+                                                    id: '',
+                                                    color: ''
                                                 })
                                             }
                                         >
-                                            {element.name}
+                                            None
                                         </Field>
-                                    ))}
-                                </FieldContainer>
-                            </CSSTransition>
-                        </AddingRow>
-                        <AddingRow active={warning === ''}>
-                            <Warning>{warning !== '' ? warning : null}</Warning>
-                        </AddingRow>
-                        <AddingRow>
-                            <SubmitButton
-                                selected={!!selectedItem.id}
-                                clicked={submitHandler}
-                            >
-                                Add new list item
-                            </SubmitButton>
-                        </AddingRow>
-                    </AddingTaskContainer>
-                    {/*</CSSTransition>*/}
+                                        {tagsArray.map((element) => (
+                                            <Field
+                                                key={element.id}
+                                                color={element.color}
+                                                onClick={() =>
+                                                    tagSelectHandler({
+                                                        name: element.name,
+                                                        id: element.id,
+                                                        color: element.color
+                                                    })
+                                                }
+                                            >
+                                                {element.name}
+                                            </Field>
+                                        ))}
+                                    </FieldContainer>
+                                </CSSTransition>
+                            </AddingRow>
+                            <AddingRow active={warning === ''}>
+                                <Warning>
+                                    {warning !== '' ? warning : null}
+                                </Warning>
+                            </AddingRow>
+                            <AddingRow>
+                                <SubmitButton
+                                    selected={!!selectedItem.id}
+                                    clicked={submitHandler}
+                                >
+                                    Add new list item
+                                </SubmitButton>
+                            </AddingRow>
+                        </AddingTaskContainer>
+                    ) : null}
                     {currentList ? (
                         <ListLayout
                             adding={addingTask}

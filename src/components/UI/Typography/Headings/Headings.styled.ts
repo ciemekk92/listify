@@ -12,7 +12,7 @@ export const Heading2 = styled.h2<TypographyProps>`
     cursor: default;
     color: #112d4e;
     ${(props) =>
-        props.color ? 'border-bottom: 3px solid ' + props.color : null};
+        props.color !== '' ? 'border-bottom: 3px solid ' + props.color : null};
 `;
 
 export const Heading3 = styled.h3`
