@@ -338,7 +338,12 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                                     })
                                                 }
                                             >
-                                                {element.name}
+                                                {element.name.length < 20
+                                                    ? element.name
+                                                    : element.name.substring(
+                                                          0,
+                                                          20
+                                                      ) + '...'}
                                             </Field>
                                         ))}
                                     </FieldContainer>

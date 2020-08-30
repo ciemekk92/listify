@@ -29,6 +29,11 @@ const ListPanel: React.FC<Props> = (props) => {
     } = props;
     const [isShown, setIsShown] = useState(false);
 
+    const deleteHandler = (event: React.SyntheticEvent) => {
+        clickedDelete();
+        event.stopPropagation();
+    };
+
     const mobileHandler = () => {
         setIsShown(true);
     };
@@ -41,7 +46,14 @@ const ListPanel: React.FC<Props> = (props) => {
     return (
         <Panel
             active={active}
-            onClick={mobile ? mobileHandler : clicked}
+            onClick={
+                mobile
+                    ? mobileHandler
+                    : (event) => {
+                          event.stopPropagation();
+                          clicked();
+                      }
+            }
             onMouseEnter={() => setIsShown(true)}
             onMouseLeave={() => setIsShown(false)}
         >
@@ -64,7 +76,7 @@ const ListPanel: React.FC<Props> = (props) => {
                     <EditButton
                         title={'Delete list'}
                         type="delete"
-                        clicked={clickedDelete}
+                        clicked={deleteHandler}
                         size={20}
                     />
                 </ButtonContainer>

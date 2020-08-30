@@ -85,6 +85,13 @@ export const completeItem = async (
                         'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
                             error
                     )
+                )
+                .then(() => updateCb())
+                .catch((error) =>
+                    alert(
+                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                            error
+                    )
                 );
         }
     } catch (error) {
@@ -144,6 +151,68 @@ export const deleteItem = async (
                     )
                 );
         }
+    } catch (error) {
+        alert(
+            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                error
+        );
+    }
+};
+
+export const clearItemsTag = async (
+    list: string,
+    id: string,
+    completed: boolean,
+    props: {
+        lists: any;
+    }
+) => {
+    const uid: any = localStorage.getItem('currentUser');
+    const docRef = await firestore.collection('users').doc(uid);
+
+    const itemToRemove = completed
+        ? props.lists[list].listItems.completed.filter(
+              (item: Item) => item.id === id
+          )
+        : props.lists[list].listItems.notCompleted.filter(
+              (item: Item) => item.id === id
+          );
+    const updatedObject = updateObject(itemToRemove[0], {
+        tag: {
+            name: '',
+            id: '',
+            color: '',
+            items: []
+        }
+    });
+
+    let key = `lists.${list}.listItems.${
+        completed ? 'completed' : 'notCompleted'
+    }`;
+
+    try {
+        await docRef
+            .update({
+                [key]: firebase.firestore.FieldValue.arrayRemove(
+                    itemToRemove[0]
+                )
+            })
+            .catch((error) =>
+                alert(
+                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                        error
+                )
+            );
+        await docRef
+            .update({
+                [key]: firebase.firestore.FieldValue.arrayUnion(updatedObject)
+            })
+            .catch((error) =>
+                alert(
+                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                        error
+                )
+            );
     } catch (error) {
         alert(
             'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +

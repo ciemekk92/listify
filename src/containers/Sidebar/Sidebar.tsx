@@ -21,6 +21,7 @@ import './Sidebar.css';
 import TagPanel from '../../components/Sidebar/TagPanel/TagPanel';
 import ColorPicker from '../../components/Sidebar/NewList/ColorPicker/ColorPicker';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
+import { clearItemsTag, deleteItem } from '../../firebase/ListFunctions';
 
 const Sidebar: React.FC<Props> = (props) => {
     const {
@@ -246,6 +247,54 @@ const Sidebar: React.FC<Props> = (props) => {
         }
     };
 
+    const tagDeleteHandler = async (tag: Tag) => {
+        const uid: any = localStorage.getItem('currentUser');
+        const docRef = await firestore.collection('users').doc(uid);
+
+        let key = `tags.${tag.name}`;
+
+        if (currentTag.name === tag.name) {
+            onSettingCurrentTag({ name: '', id: '', color: '', items: [] });
+        }
+
+        try {
+            await docRef
+                .update({
+                    [key]: firebase.firestore.FieldValue.delete()
+                })
+                .catch((error) =>
+                    alert(
+                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                            error
+                    )
+                );
+        } catch (error) {
+            alert(
+                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                    error
+            );
+        }
+        try {
+            for (const element of tags[tag.name].items) {
+                await clearItemsTag(
+                    element.list,
+                    element.id,
+                    element.completed,
+                    {
+                        lists: lists
+                    }
+                );
+            }
+        } catch (error) {
+            alert(
+                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                    error
+            );
+        } finally {
+            onGettingUserInfo();
+        }
+    };
+
     const currentTagHandler = (tag: Tag) => {
         if (tag.id !== currentTag.id) {
             onSettingCurrentTag(tag);
@@ -260,10 +309,14 @@ const Sidebar: React.FC<Props> = (props) => {
         setAreTagsShown(!areTagsShown);
     };
 
-    const wrapperRef: React.Ref<HTMLDivElement> = useRef(null);
+    const wrapperRefAdding: React.Ref<HTMLDivElement> = useRef(null);
+    const wrapperRefDeleting: React.Ref<HTMLDivElement> = useRef(null);
 
-    useOutsideClick(wrapperRef, () => {
+    useOutsideClick(wrapperRefAdding, () => {
         setAdding(false);
+    });
+
+    useOutsideClick(wrapperRefDeleting, () => {
         setDeletingList(false);
     });
 
@@ -273,9 +326,15 @@ const Sidebar: React.FC<Props> = (props) => {
         onSettingCurrentList(listsArray[0]);
     }, [listsArray.length]);
 
+    // TODO: prevent adding list with the same name (also tag)
+
     return (
         <Bar open={open}>
-            <SidebarModal open={adding} warning={warning} ref={wrapperRef}>
+            <SidebarModal
+                open={adding}
+                warning={warning}
+                ref={wrapperRefAdding}
+            >
                 {addingWhat === 'list' ? (
                     <>
                         Enter new list name below.
@@ -331,7 +390,7 @@ const Sidebar: React.FC<Props> = (props) => {
                     </>
                 )}
             </SidebarModal>
-            <SidebarModal open={deletingList}>
+            <SidebarModal open={deletingList} ref={wrapperRefDeleting}>
                 This will delete ALL tasks saved in the list. <br /> Are you
                 sure?
                 <ButtonsContainer>
@@ -436,15 +495,31 @@ const Sidebar: React.FC<Props> = (props) => {
                 unmountOnExit
             >
                 <PanelContainer>
-                    {tagsArray.map((element) => (
-                        <TagPanel
-                            color={element.color}
-                            key={element.id}
-                            active={currentTag.id === element.id}
-                            clicked={() => currentTagHandler(element)}
-                            name={element.name}
-                        />
-                    ))}
+                    {tagsArray
+                        .slice()
+                        .sort((a: Tag, b: Tag) => {
+                            // sort alphabetically, ignoring upper and lower case
+                            const nameA = a.name.toUpperCase();
+                            const nameB = b.name.toUpperCase();
+                            if (nameA < nameB) {
+                                return -1;
+                            }
+                            if (nameA > nameB) {
+                                return 1;
+                            }
+                            return 0;
+                        })
+                        .map((element) => (
+                            <TagPanel
+                                color={element.color}
+                                key={element.id}
+                                active={currentTag.id === element.id}
+                                clicked={() => currentTagHandler(element)}
+                                clickedDelete={() => tagDeleteHandler(element)}
+                                name={element.name}
+                                mobileClicked={() => setOpen()}
+                            />
+                        ))}
                     <AddNewList
                         type={'tag'}
                         clicked={
@@ -487,7 +562,9 @@ const mapStateToProps = (state: {
     user: {
         userInfo: {
             lists: any;
-            tags: Tag[];
+            tags: {
+                [name: string]: Tag;
+            };
         };
     };
     list: {

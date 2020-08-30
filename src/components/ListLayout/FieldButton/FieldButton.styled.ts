@@ -8,7 +8,7 @@ interface ButtonProps {
 export const Button = styled.button<ButtonProps>`
     display: flex;
     justify-content: center;
-    width: 8rem;
+    width: max-content;
     height: max-content;
     font-size: 1.6rem;
     grid-row: 1 / 2;

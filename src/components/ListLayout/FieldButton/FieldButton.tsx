@@ -24,8 +24,14 @@ const FieldButton: React.FC<ButtonProps> = (props) => {
             {tagValue
                 ? tagValue.name === ''
                     ? 'None'
-                    : tagValue.name
-                : listValue}
+                    : tagValue.name.length < 16
+                    ? tagValue.name
+                    : tagValue.name.substring(0, 16) + '...'
+                : listValue
+                ? listValue.length < 16
+                    ? listValue
+                    : listValue.substring(0, 16) + '...'
+                : null}
         </Button>
     );
 };

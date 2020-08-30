@@ -4,7 +4,7 @@ import { Button } from './EditButton.styled';
 import { Cancel, Confirm, Edit, Delete } from '../../Icons';
 
 type ButtonProps = {
-    clicked(arg0: any): void;
+    clicked(arg0?: any): void;
     title: string;
     type: string;
     size: number;
@@ -27,8 +27,18 @@ const EditButton: React.FC<Props> = (props) => {
         <Delete title={title} color={'#fff'} size={size} mobile={mobile} />
     );
 
+    const clickHandler = (event: React.SyntheticEvent) => {
+        event.stopPropagation();
+        clicked();
+    };
+
     return (
-        <Button type={type} onClick={clicked} size={size} mobile={mobile}>
+        <Button
+            type={type}
+            onClick={(event) => clickHandler(event)}
+            size={size}
+            mobile={mobile}
+        >
             {type === 'edit'
                 ? editButton
                 : type === 'confirm'

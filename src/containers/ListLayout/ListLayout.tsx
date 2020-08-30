@@ -189,7 +189,10 @@ const ListLayout = forwardRef(
 );
 
 const mapStateToProps = (state: {
-    user: { userInfo: { lists: any; tags: Tag[] }; mobile: boolean };
+    user: {
+        userInfo: { lists: any; tags: { [name: string]: Tag } };
+        mobile: boolean;
+    };
     list: { currentList: string; selectedItem: Item };
 }) => {
     return {

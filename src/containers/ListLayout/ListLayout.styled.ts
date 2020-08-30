@@ -77,7 +77,8 @@ export const Description = styled.p`
 `;
 
 export const FieldContainer = styled.div<AddingProps>`
-    width: 100%;
+    width: 90%;
+    margin-left: 2.6rem;
     grid-row: ${(props) => (props.list ? '4 / 5' : '5 / 6')};
     grid-column: 1 / 3;
     display: flex;
