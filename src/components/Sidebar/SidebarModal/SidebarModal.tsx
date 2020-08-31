@@ -1,6 +1,5 @@
-import React, { forwardRef, MutableRefObject } from 'react';
+import React, { forwardRef } from 'react';
 import { Area, Warning } from './SidebarModal.styled';
-import Backdrop from '../../UI/Backdrop/Backdrop';
 
 type ModalProps = {
     open: boolean;

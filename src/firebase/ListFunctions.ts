@@ -1,6 +1,6 @@
 import { firestore } from './firebase';
 import { Item } from '../types';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { updateObject } from '../shared/utility';
 
 export const completeItem = async (

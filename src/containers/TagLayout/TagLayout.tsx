@@ -54,7 +54,7 @@ const TagLayout: React.FC<Props> = (props) => {
                 setShowNotCompleted(false);
             }
         }
-    }, [currentTag]);
+    }, [currentTag, arrayCompleted.length, arrayNotCompleted.length]);
 
     let keyCompleted = `lists.${currentList}.listItems.completed`;
     let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;

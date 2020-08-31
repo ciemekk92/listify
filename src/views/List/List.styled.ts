@@ -46,7 +46,6 @@ export const Row = styled.div`
     height: max-content;
     display: flex;
     justify-content: space-between;
-    grid-column: 1 / 3;
     align-items: center;
 `;
 
@@ -64,7 +63,5 @@ export const AddingRow = styled.div<RowProps>`
 export const Placeholder = styled.div`
     text-align: center;
     font-size: 3rem;
-    grid-column: 1 / 3;
-    grid-row: 2 / 4;
     margin: auto 0;
 `;

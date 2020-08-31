@@ -7,7 +7,7 @@ const NewListInput = (props: {
     value: string;
     type: string;
 }) => {
-    const { changed, submit, value, type } = props;
+    const { changed, submit, type } = props;
     return (
         <Input
             onChange={changed}

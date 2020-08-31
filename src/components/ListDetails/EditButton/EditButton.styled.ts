@@ -9,10 +9,10 @@ interface ButtonProps {
 export const Button = styled.div<ButtonProps>`
     width: 2.4rem;
     height: 2.4rem;
-    margin: 0 3%;
+    margin: 0 1.5rem;
     border-radius: 50%;
     background-color: #3f72af;
-    grid-area: button;
+    grid-column: ${(props) => (props.type === 'edit' ? '3 / 4' : '2 / 3')};
     place-self: center;
     display: flex;
     flex-direction: column;

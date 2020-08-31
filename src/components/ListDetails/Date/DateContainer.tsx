@@ -4,7 +4,7 @@ import { CSSTransition } from 'react-transition-group';
 import { saveEditedItem } from '../../../firebase/firebase';
 import { updateObject } from '../../../shared/utility';
 import { Value, Confirm, Container, Placeholder } from './DateContainer.styled';
-import { Wrapper, Label } from '../Shared.styled';
+import { Wrapper } from '../Shared.styled';
 import EditButton from '../EditButton/EditButton';
 import DatePicker from '../../../containers/DatePicker/DatePicker';
 import './DateContainer.css';
@@ -47,8 +47,6 @@ const DateContainer: React.FC<Props> = (props) => {
 
     return (
         <Wrapper>
-            <Label>Date</Label>
-
             <EditButton
                 clicked={clickHandler}
                 title={'Edit date'}

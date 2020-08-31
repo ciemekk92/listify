@@ -51,20 +51,22 @@ const ListLayout = forwardRef(
             };
         });
 
+        const list = lists[currentList];
+
         useEffect(() => {
             if (lists[currentList]) {
-                if (lists[currentList].listItems.completed.length > 0) {
+                if (list.listItems.completed.length > 0) {
                     setShowCompleted(true);
                 } else {
                     setShowCompleted(false);
                 }
-                if (lists[currentList].listItems.notCompleted.length > 0) {
+                if (list.listItems.notCompleted.length > 0) {
                     setShowNotCompleted(true);
                 } else {
                     setShowNotCompleted(false);
                 }
             }
-        }, [lists[currentList]]);
+        }, [list, lists, currentList]);
 
         const { hidden } = useContext(hiddenListContext);
 

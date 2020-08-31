@@ -1,32 +1,25 @@
 import styled from 'styled-components';
 import { device } from '../../../templates/MediaQueries/MediaQueries';
 
-export const Wrapper = styled.div`
-    height: 20%;
-    display: grid;
-    grid-template-columns: 0.15fr 1fr 0.15fr;
-    grid-template-rows: 1.8em 3fr;
-    gap: 1px 1px;
-    place-self: center;
-    grid-template-areas: 'label . button' 'value value value';
+interface NameProps {
+    readonly editing: boolean;
+}
 
-    @media only screen and ${device.mobileM} {
-        grid-template-rows: 1em 1fr;
-    }
-`;
-
-export const Container = styled.div`
+export const Wrapper = styled.div<NameProps>`
     width: 100%;
     height: 100%;
-    display: grid;
-    grid-area: value;
-    place-self: center;
-    grid-template-columns: 1fr;
-    grid-template-rows: 0.4fr 1fr 0.8fr;
-    grid-template-areas: 'warning' 'input' 'confirm';
+    max-height: ${(props) => (props.editing ? '7rem' : '0')};
+    opacity: ${(props) => (props.editing ? '1' : '0')};
+    margin: ${(props) => (!props.editing ? '-0.5rem 0' : '0')};
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s ease;
+    overflow: hidden;
+    justify-content: space-evenly;
+    align-items: center;
 
     @media only screen and ${device.mobileM} {
-        grid-template-rows: 0.3fr 0.8fr 0.6fr;
+        grid-template-rows: 1fr;
     }
 `;
 
@@ -36,30 +29,38 @@ export const Confirm = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    grid-area: confirm;
 `;
 
 export const Warning = styled.div`
     place-self: center;
-    grid-area: warning;
     text-align: center;
     color: red;
     font-size: 0.8rem;
 `;
 
 export const Input = styled.input`
-    width: 80%;
-    height: 1.6rem;
-    border-radius: 15px;
+    background-color: transparent;
+    width: 50%;
+    height: 3rem;
+    outline: none;
     font-family: 'Open Sans Condensed', sans-serif;
-    font-size: 1rem;
+    font-size: 1.6rem;
     text-align: center;
-    margin: 2% 0;
-    grid-area: input;
-    place-self: center;
+    border: none;
+    border-bottom: 2px solid #3f72af;
+    transition: all 0.2s ease;
 
+    &:hover,
     &:focus {
-        outline: none;
+        transform: translateY(-0.2rem);
+    }
+
+    @media only screen and ${device.laptop} {
+        font-size: 1.6rem;
+    }
+
+    @media only screen and ${device.mobileL} {
+        font-size: 1.4rem;
     }
 `;
 
@@ -68,8 +69,9 @@ export const Value = styled.div`
     font-size: 2rem;
     place-self: center;
     cursor: default;
-    grid-area: value;
-    margin-bottom: 5%;
+    margin-bottom: 1rem;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
 
     @media only screen and ${device.mobileS} {
         font-size: 1.4rem;

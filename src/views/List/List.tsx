@@ -33,7 +33,7 @@ import SubmitButton from '../../components/ListLayout/SubmitButton/SubmitButton'
 import { updateObject } from '../../shared/utility';
 import { firestore } from '../../firebase/firebase';
 import { v4 as uuidv4 } from 'uuid';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import FieldButton from '../../components/ListLayout/FieldButton/FieldButton';
 
 const { Provider } = hiddenListContext;
@@ -126,14 +126,19 @@ const List: React.FC<PropsFromRedux> = (props) => {
         };
     });
 
+    const updateList = () => {
+        const updatedItem = updateObject(inputItem, {
+            list: currentList
+        });
+        setInputItem(updatedItem);
+    };
+
     useEffect(() => {
         if (currentList) {
             setButtonList(currentList);
-            const updatedItem = updateObject(inputItem, {
-                list: currentList
-            });
-            setInputItem(updatedItem);
+            updateList();
         }
+        // eslint-disable-next-line
     }, [currentList]);
 
     const submitHandler = () => {

@@ -10,7 +10,7 @@ export const Wrapper = styled.div<DetailsProps>`
     width: 45%;
     height: 85vh;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     place-self: center;
     color: black;
     display: flex;
@@ -27,9 +27,27 @@ export const Wrapper = styled.div<DetailsProps>`
 
     & > div {
         background-color: #dbe2ef;
-        border-radius: 30px;
+        border-radius: 0.5rem;
         width: 95%;
-        margin: 1% 0;
-        padding: 1% 0;
     }
+`;
+
+export const Row = styled.div`
+    width: 90%;
+    height: max-content;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 20% 70% 10%;
+    margin: 1rem 0;
+`;
+
+export const Value = styled.p`
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    color: #000;
+    font-weight: 700;
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+    margin-left: 5rem;
+    justify-self: flex-start;
 `;

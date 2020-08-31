@@ -14,7 +14,6 @@ import {
     Confirm,
     Warning
 } from './Notes.styled';
-import { Label } from '../Shared.styled';
 import EditButton from '../EditButton/EditButton';
 import NotePanel from './NotePanel/NotePanel';
 import { updateObject } from '../../../shared/utility';
@@ -134,7 +133,6 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
 
     return (
         <Wrapper editing={editing}>
-            <Label>Notes</Label>
             <EditButton
                 clicked={() => setEditing(!editing)}
                 title={'Add new notes'}

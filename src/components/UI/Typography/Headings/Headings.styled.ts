@@ -13,6 +13,7 @@ export const Heading2 = styled.h2<TypographyProps>`
     color: #112d4e;
     ${(props) =>
         props.color !== '' ? 'border-bottom: 3px solid ' + props.color : null};
+    align-self: start;
 `;
 
 export const Heading3 = styled.h3`

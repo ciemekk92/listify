@@ -21,7 +21,7 @@ import './Sidebar.css';
 import TagPanel from '../../components/Sidebar/TagPanel/TagPanel';
 import ColorPicker from '../../components/Sidebar/NewList/ColorPicker/ColorPicker';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
-import { clearItemsTag, deleteItem } from '../../firebase/ListFunctions';
+import { clearItemsTag } from '../../firebase/ListFunctions';
 
 const Sidebar: React.FC<Props> = (props) => {
     const {
@@ -159,6 +159,31 @@ const Sidebar: React.FC<Props> = (props) => {
         const docRef = await firestore.collection('users').doc(uid);
 
         let key = `lists.${list}`;
+
+        try {
+            for (const element of lists[list].listItems.completed.concat(
+                lists[list].listItems.notCompleted
+            )) {
+                let tagKey = `tags.${element.tag.name}.items`;
+                await docRef
+                    .update({
+                        [tagKey]: firebase.firestore.FieldValue.arrayRemove(
+                            element
+                        )
+                    })
+                    .catch((error) =>
+                        alert(
+                            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                                error
+                        )
+                    );
+            }
+        } catch (error) {
+            alert(
+                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                    error
+            );
+        }
 
         try {
             await docRef
@@ -333,8 +358,6 @@ const Sidebar: React.FC<Props> = (props) => {
     useDidMountEffect(() => {
         onSettingCurrentList(listsArray[0]);
     }, [listsArray.length]);
-
-    // TODO: prevent adding list with the same name (also tag)
 
     return (
         <Bar open={open}>

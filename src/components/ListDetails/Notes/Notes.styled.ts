@@ -5,7 +5,7 @@ interface NotesProps {
 }
 
 export const Wrapper = styled.div<NotesProps>`
-    height: 35%;
+    height: max-content;
     display: grid;
     grid-template-columns: 0.15fr 1fr 0.15fr;
     grid-template-rows: 1.8rem 3fr;
