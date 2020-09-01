@@ -2,13 +2,14 @@ import React from 'react';
 import { SVG } from '../../types';
 
 export const CheckBoxChecked: React.FC<SVG> = (props) => {
-    const { size, title, color } = props;
+    const { size, title, color, style } = props;
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width={size}
             height={size}
             viewBox="0 0 512 512"
+            style={style}
         >
             <title>{title}</title>
             <polyline

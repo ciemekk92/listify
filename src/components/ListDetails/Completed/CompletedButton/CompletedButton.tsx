@@ -13,7 +13,7 @@ const CompletedButton: React.FC<ButtonProps> = (props) => {
     const { clicked, completed } = props;
 
     const checked = (
-        <CheckBoxChecked size={32} title={'Completed'} color={'#fff'} />
+        <CheckBoxChecked size={48} title={'Completed'} color={'#666'} />
     );
 
     const notChecked = <div />;

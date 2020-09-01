@@ -1,22 +1,22 @@
 import styled from 'styled-components';
 import { device } from '../../../templates/MediaQueries/MediaQueries';
 
-export const Value = styled.div`
-    font-family: 'Open Sans Condensed', sans-serif;
-    font-size: 2rem;
-    margin: auto 3%;
-    grid-area: value;
-    place-self: center;
-    cursor: default;
+interface DateProps {
+    readonly editing: boolean;
+}
 
-    @media only screen and ${device.mobileS} {
-        font-size: 1.4rem;
-    }
-
-    @media only screen and ${device.mobileL} {
-        font-size: 1.6rem;
-        margin-bottom: 2%;
-    }
+export const Wrapper = styled.div<DateProps>`
+    width: 100%;
+    height: 100%;
+    max-height: ${(props) => (props.editing ? '7rem' : '0')};
+    opacity: ${(props) => (props.editing ? '1' : '0')};
+    margin: ${(props) => (!props.editing ? '-0.5rem 0' : '0')};
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s ease;
+    overflow: hidden;
+    justify-content: space-evenly;
+    align-items: center;
 `;
 
 export const Confirm = styled.div`
@@ -41,9 +41,4 @@ export const Container = styled.div`
     @media only screen and ${device.mobileM} {
         grid-template-rows: 1fr 1fr;
     }
-`;
-
-export const Placeholder = styled.div`
-    margin: 0;
-    padding: 0;
 `;

@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { CSSTransition } from 'react-transition-group';
 import { saveEditedItem } from '../../../firebase/firebase';
 import { updateObject } from '../../../shared/utility';
-import { Value, Confirm, Container, Placeholder } from './DateContainer.styled';
-import { Wrapper } from '../Shared.styled';
+import { Wrapper, Confirm, Container } from './DateContainer.styled';
 import EditButton from '../EditButton/EditButton';
 import DatePicker from '../../../containers/DatePicker/DatePicker';
 import './DateContainer.css';
@@ -12,8 +10,8 @@ import { Item } from '../../../types';
 import * as actions from '../../../store/actions';
 
 const DateContainer: React.FC<Props> = (props) => {
-    const [editing, setEditing] = useState(false);
     const {
+        editing,
         selectedItem,
         changedDate,
         currentList,
@@ -21,9 +19,9 @@ const DateContainer: React.FC<Props> = (props) => {
         onSettingSelectedItem
     } = props;
 
-    const clickHandler = () => {
-        setEditing(!editing);
-    };
+    const clickHandler = () => {};
+
+    // Fix view
 
     const submitNewDateHandler = () => {
         const updatedItem = updateObject(selectedItem, {
@@ -33,7 +31,7 @@ const DateContainer: React.FC<Props> = (props) => {
             .then(() => {
                 onGettingUserInfo();
                 onSettingSelectedItem(updatedItem);
-                setEditing(!editing);
+                // setEditing(!editing);
             })
             .catch((error) =>
                 alert(
@@ -43,50 +41,25 @@ const DateContainer: React.FC<Props> = (props) => {
             );
     };
 
-    const emptyDate = <Placeholder />;
-
     return (
-        <Wrapper>
-            <EditButton
-                clicked={clickHandler}
-                title={'Edit date'}
-                type={'edit'}
-                size={16}
-            />
-            <CSSTransition
-                in={!editing}
-                timeout={400}
-                classNames={'picker'}
-                mountOnEnter
-                unmountOnExit
-            >
-                {editing ? emptyDate : <Value>{selectedItem.date}</Value>}
-            </CSSTransition>
-            <CSSTransition
-                in={editing}
-                timeout={400}
-                classNames={'picker'}
-                mountOnEnter
-                unmountOnExit
-            >
-                <Container>
-                    <DatePicker type="details" />
-                    <Confirm>
-                        <EditButton
-                            clicked={submitNewDateHandler}
-                            title={'Submit new date'}
-                            type={'confirm'}
-                            size={16}
-                        />
-                        <EditButton
-                            clicked={() => setEditing(!editing)}
-                            title={'Cancel'}
-                            type={'cancel'}
-                            size={16}
-                        />
-                    </Confirm>
-                </Container>
-            </CSSTransition>
+        <Wrapper editing={editing}>
+            <Container>
+                <DatePicker type="details" />
+                <Confirm>
+                    <EditButton
+                        clicked={submitNewDateHandler}
+                        title={'Submit new date'}
+                        type={'confirm'}
+                        size={16}
+                    />
+                    <EditButton
+                        clicked={() => {}}
+                        title={'Cancel'}
+                        type={'cancel'}
+                        size={16}
+                    />
+                </Confirm>
+            </Container>
         </Wrapper>
     );
 };
@@ -109,9 +82,7 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & {
-    selectedItem: Item;
-    changedDate: string;
-    currentList: string;
+    editing: boolean;
 };
 
 export default connector(React.memo(DateContainer));

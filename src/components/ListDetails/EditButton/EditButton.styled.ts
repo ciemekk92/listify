@@ -4,15 +4,23 @@ interface ButtonProps {
     readonly type: string;
     readonly size: number;
     readonly mobile: boolean;
+    readonly where?: boolean;
 }
 
 export const Button = styled.div<ButtonProps>`
     width: 2.4rem;
     height: 2.4rem;
-    margin: 0 1.5rem;
     border-radius: 50%;
     background-color: #3f72af;
-    grid-column: ${(props) => (props.type === 'edit' ? '3 / 4' : '2 / 3')};
+    grid-column: ${(props) =>
+        props.type === 'edit'
+            ? props.where
+                ? '4 / 5'
+                : '3 / 4'
+            : props.type === 'add'
+            ? '3 / 4'
+            : '2 / 3'};
+    grid-row: 1 / 2;
     place-self: center;
     display: flex;
     flex-direction: column;

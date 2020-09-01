@@ -36,10 +36,15 @@ const DatePicker = (props: Props) => {
         if (type === 'layout') {
             onSettingDate(date);
         }
-        if (type === 'details') {
+    }, [date, onSettingDate, type]);
+
+    useEffect(() => {
+        if (selectedItem.date !== null) {
+            setDate(selectedItem.date);
             onSettingChangedDate(date);
         }
-    }, [date, onSettingDate, onSettingChangedDate, type]);
+        // eslint-disable-next-line
+    }, [selectedItem.date]);
 
     return (
         <Wrapper details={type === 'details'}>

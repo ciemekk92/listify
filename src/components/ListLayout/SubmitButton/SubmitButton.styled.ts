@@ -21,6 +21,7 @@ export const Button = styled.button<SubmitProps>`
     cursor: pointer;
     place-self: center;
     backface-visibility: hidden;
+    transition: all 0.4s ease;
 
     @media only screen and ${device.laptop} {
         font-size: 1rem;
@@ -43,5 +44,6 @@ export const Button = styled.button<SubmitProps>`
 
     &:hover {
         transform: translateY(-0.2rem);
+        box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
     }
 `;

@@ -17,10 +17,6 @@ export const Wrapper = styled.div<NameProps>`
     overflow: hidden;
     justify-content: space-evenly;
     align-items: center;
-
-    @media only screen and ${device.mobileM} {
-        grid-template-rows: 1fr;
-    }
 `;
 
 export const Confirm = styled.div`
@@ -48,7 +44,7 @@ export const Input = styled.input`
     text-align: center;
     border: none;
     border-bottom: 2px solid #3f72af;
-    transition: all 0.2s ease;
+    transition: all 0.4s ease;
 
     &:hover,
     &:focus {

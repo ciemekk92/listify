@@ -60,7 +60,7 @@ export const AddingTaskContainer = styled.div<LayoutProps>`
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    transition: all 0.4s ease;
+    transition: all 0.7s ease;
     max-height: ${(props) => (props.adding ? '35rem' : '0')};
     opacity: ${(props) => (props.adding ? '1' : '0')};
     overflow: hidden;
@@ -74,6 +74,7 @@ export const Description = styled.p`
     grid-column: 1 / 2;
     grid-row: 1 / 2;
     justify-self: end;
+    padding: 0.3rem 0;
 `;
 
 export const FieldContainer = styled.div<AddingProps>`
@@ -102,6 +103,7 @@ export const Field = styled.div<LayoutProps>`
     &:hover {
         background-color: ${(props) =>
             darken(0.15, props.color ? props.color : '#3f72af')};
+        transform: translateY(-0.2rem);
     }
 `;
 

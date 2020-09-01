@@ -7,9 +7,11 @@ import Completed from '../../components/ListDetails/Completed/Completed';
 import Notes from '../../components/ListDetails/Notes/Notes';
 import { Item } from '../../types';
 import { Heading2 } from '../../components/UI/Typography/Headings/Headings.styled';
-import { Row } from './ListDetails.styled';
+import { Row, RowWithCompletion } from './ListDetails.styled';
 import { Description } from '../ListLayout/ListLayout.styled';
 import EditButton from '../../components/ListDetails/EditButton/EditButton';
+import { CSSTransition } from 'react-transition-group';
+import Tag from '../../components/ListDetails/Tag/Tag';
 
 const Details: React.FC<Props> = (props) => {
     const { selected, selectedItem } = props;
@@ -18,46 +20,127 @@ const Details: React.FC<Props> = (props) => {
 
     const [editingName, setEditingName] = useState(false);
     const [editingDate, setEditingDate] = useState(false);
-    const [editingCompleted, setEditingCompleted] = useState(false);
     const [editingNotes, setEditingNotes] = useState(false);
     const [editingTag, setEditingTag] = useState(false);
+
+    const [isNameEditShown, setIsNameEditShown] = useState(false);
+    const [isDateEditShown, setIsDateEditShown] = useState(false);
+    const [isTagEditShown, setIsTagEditShown] = useState(false);
+    const [isNotesEditShown, setIsNotesEditShown] = useState(false);
 
     const editNameHandler = () => {
         setEditingName(!editingName);
     };
 
-    // TODO: Rework this, completely
+    const editDateHandler = () => {
+        setEditingDate(!editingDate);
+    };
+
+    const editTagHandler = () => {
+        setEditingTag(!editingTag);
+    };
+
+    const editNotesHandler = () => {
+        setEditingNotes(!editingNotes);
+    };
+
+    // TODO: Basic look completed, next -> functionality, finish notes
+
     return (
         <Wrapper selected={selected}>
             <Heading2>Task details</Heading2>
-            <Row>
-                <Description>Task name:</Description>
-                <Value>{selectedItem.value}</Value>
-                <EditButton
-                    title={'Edit task name'}
-                    clicked={editNameHandler}
-                    type="edit"
-                    size={16}
-                />
-            </Row>
-            <Name editing={editingName} />
-            <Row>
+            <RowWithCompletion
+                onMouseEnter={() => setIsNameEditShown(true)}
+                onMouseLeave={() => setIsNameEditShown(false)}
+            >
+                <Description>Task:</Description>
+                <Value big>{selectedItem.value}</Value>
+                <Completed />
+                <CSSTransition
+                    in={isNameEditShown}
+                    timeout={500}
+                    classNames="move"
+                    mountOnEnter
+                    unmountOnExit
+                >
+                    <EditButton
+                        title={'Edit task name'}
+                        clicked={editNameHandler}
+                        type="edit"
+                        size={16}
+                        name
+                    />
+                </CSSTransition>
+            </RowWithCompletion>
+            <Name
+                editing={editingName}
+                clickedCancel={() => setEditingName(false)}
+            />
+            <Row
+                onMouseEnter={() => setIsDateEditShown(true)}
+                onMouseLeave={() => setIsDateEditShown(false)}
+            >
                 <Description>Date:</Description>
                 <Value>{selectedItem.date}</Value>
+                <CSSTransition
+                    in={isDateEditShown}
+                    timeout={500}
+                    classNames="move"
+                    mountOnEnter
+                    unmountOnExit
+                >
+                    <EditButton
+                        clicked={editDateHandler}
+                        title={'Edit date'}
+                        type={'edit'}
+                        size={16}
+                    />
+                </CSSTransition>
             </Row>
-            <DateContainer />
-            <Row>
-                <Description>Completed</Description>
-                <Value>{selectedItem.completed ? '+' : '-'}</Value>
+            <DateContainer editing={editingDate} />
+            <Row
+                onMouseEnter={() => setIsTagEditShown(true)}
+                onMouseLeave={() => setIsTagEditShown(false)}
+            >
+                <Description>Tag:</Description>
+                <Value>Tag will be placed here</Value>
+                <CSSTransition
+                    in={isTagEditShown}
+                    timeout={500}
+                    classNames="move"
+                    mountOnEnter
+                    unmountOnExit
+                >
+                    <EditButton
+                        clicked={editTagHandler}
+                        title={'Edit tasks tag'}
+                        type={'edit'}
+                        size={16}
+                    />
+                </CSSTransition>
             </Row>
-            <Completed />
-            <Row>
-                <Description>Task notes:</Description>
-                <Value>
-                    {selectedItem.notes.length > 0 ? 'some notes' : 'no notes'}
-                </Value>
+            <Tag editing={editingTag} />
+            <Row
+                onMouseEnter={() => setIsNotesEditShown(true)}
+                onMouseLeave={() => setIsNotesEditShown(false)}
+            >
+                <Description>Notes:</Description>
+                <CSSTransition
+                    in={isNotesEditShown}
+                    timeout={500}
+                    classNames="move"
+                    mountOnEnter
+                    unmountOnExit
+                >
+                    <EditButton
+                        clicked={editNotesHandler}
+                        title={'Add new note'}
+                        type={'add'}
+                        size={16}
+                    />
+                </CSSTransition>
             </Row>
-            <Notes />
+            <Notes editing={editingNotes} />
         </Wrapper>
     );
 };

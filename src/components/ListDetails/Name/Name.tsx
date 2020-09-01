@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import { saveEditedItem } from '../../../firebase/firebase';
-import { Wrapper, Input, Confirm, Placeholder, Warning } from './Name.styled';
+import { Wrapper, Input, Confirm, Warning } from './Name.styled';
 import EditButton from '../EditButton/EditButton';
-import { CSSTransition } from 'react-transition-group';
 import './Name.css';
 import { updateObject } from '../../../shared/utility';
 import { Item } from '../../../types';
 
 type NameProps = {
+    clickedCancel(): void;
     editing: boolean;
     selectedItem: Item;
     currentList: any;
@@ -19,6 +19,7 @@ type NameProps = {
 
 const Name: React.FC<NameProps> = (props) => {
     const {
+        clickedCancel,
         editing,
         selectedItem,
         currentList,
@@ -26,6 +27,7 @@ const Name: React.FC<NameProps> = (props) => {
         onSelectingItem
     } = props;
 
+    // TODO: Functionality, correct styling
     const [item, setItem] = useState(selectedItem);
     const [warning, setWarning] = useState('');
 
@@ -54,8 +56,6 @@ const Name: React.FC<NameProps> = (props) => {
         }
     };
 
-    const emptyName = <Placeholder />;
-
     return (
         <Wrapper editing={editing}>
             <Warning>{warning !== '' ? warning : null}</Warning>
@@ -78,7 +78,9 @@ const Name: React.FC<NameProps> = (props) => {
                     size={16}
                 />
                 <EditButton
-                    clicked={() => {}}
+                    clicked={() => {
+                        clickedCancel();
+                    }}
                     title="Cancel"
                     type="cancel"
                     size={16}

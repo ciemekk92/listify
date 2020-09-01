@@ -33,7 +33,9 @@ const ListItem = (props: {
 
     return (
         <Item completed={completed} onClick={clicked} selected={selected}>
-            <Name>{name}</Name>
+            <Name>
+                {name.length < 29 ? name : name.substring(0, 28) + '...'}
+            </Name>
             <Date>{date}</Date>
             {completed ? null : (
                 <ListItemButton

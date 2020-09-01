@@ -19,15 +19,15 @@ import NotePanel from './NotePanel/NotePanel';
 import { updateObject } from '../../../shared/utility';
 import firebase from 'firebase/app';
 
-const Notes: React.FC<PropsFromRedux> = (props) => {
+const Notes: React.FC<Props> = (props) => {
     const {
+        editing,
         selectedItem,
         currentList,
         onGettingUserInfo,
         onSelectingItem
     } = props;
 
-    const [editing, setEditing] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const [warning, setWarning] = useState('');
 
@@ -49,7 +49,7 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
             });
             saveEditedItem(currentList, selectedItem, updatedItem)
                 .then(() => {
-                    setEditing(!editing);
+                    // setEditing(!editing);
                     clearInput();
                     onGettingUserInfo();
                 })
@@ -114,31 +114,22 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
         await deleteNote(note).then(() => onGettingUserInfo());
     };
 
-    const notesMap =
-        selectedItem.notes.length !== 0 ? (
-            <Display>
-                {selectedItem.notes.map((element) => (
-                    <NotePanel
-                        value={element}
-                        clickedDelete={() => deleteNoteHandler(element)}
-                        key={uuidv4()}
-                    />
-                ))}
-            </Display>
-        ) : (
-            <Display>No notes saved yet!</Display>
-        );
+    const notesMap = (
+        <Display>
+            {selectedItem.notes.map((element) => (
+                <NotePanel
+                    value={element}
+                    clickedDelete={() => deleteNoteHandler(element)}
+                    key={uuidv4()}
+                />
+            ))}
+        </Display>
+    );
 
     const emptyNote = <p />;
 
     return (
         <Wrapper editing={editing}>
-            <EditButton
-                clicked={() => setEditing(!editing)}
-                title={'Add new notes'}
-                type={'edit'}
-                size={16}
-            />
             <CSSTransition
                 in={!editing}
                 timeout={400}
@@ -147,38 +138,31 @@ const Notes: React.FC<PropsFromRedux> = (props) => {
             >
                 {!editing ? notesMap : emptyNote}
             </CSSTransition>
-            <CSSTransition
-                in={editing}
-                timeout={400}
-                classNames={'input'}
-                mountOnEnter
-                unmountOnExit
-            >
-                <Container>
-                    <Warning>{warning !== '' ? warning : null}</Warning>
-                    <Input
-                        editing={editing}
-                        placeholder={'Enter new note here'}
-                        onChange={inputChangedHandler}
-                        onSubmit={submitHandler}
-                        value={inputValue}
+            <Container>
+                <Warning>{warning !== '' ? warning : null}</Warning>
+                <Input
+                    placeholder={'Enter new note here'}
+                    onChange={inputChangedHandler}
+                    onSubmit={submitHandler}
+                    value={inputValue}
+                />
+                <Confirm>
+                    <EditButton
+                        clicked={submitHandler}
+                        title="Confirm changes"
+                        type="confirm"
+                        size={16}
                     />
-                    <Confirm>
-                        <EditButton
-                            clicked={submitHandler}
-                            title="Confirm changes"
-                            type="confirm"
-                            size={16}
-                        />
-                        <EditButton
-                            clicked={() => setEditing(!editing)}
-                            title="Cancel"
-                            type="cancel"
-                            size={16}
-                        />
-                    </Confirm>
-                </Container>
-            </CSSTransition>
+                    <EditButton
+                        clicked={() => {
+                            /* handle closing editing view here */
+                        }}
+                        title="Cancel"
+                        type="cancel"
+                        size={16}
+                    />
+                </Confirm>
+            </Container>
         </Wrapper>
     );
 };
@@ -202,5 +186,6 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux & { editing: boolean };
 
 export default connector(Notes);

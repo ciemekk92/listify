@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Button } from './EditButton.styled';
-import { Cancel, Confirm, Edit, Delete } from '../../Icons';
+import { Cancel, Confirm, Edit, Delete, Plus } from '../../Icons';
 
 type ButtonProps = {
     clicked(arg0?: any): void;
@@ -9,10 +9,11 @@ type ButtonProps = {
     type: string;
     size: number;
     mobile: boolean;
+    name?: boolean;
 };
 
 const EditButton: React.FC<Props> = (props) => {
-    const { clicked, title, type, size, mobile } = props;
+    const { clicked, title, type, size, mobile, name } = props;
 
     const editButton = (
         <Edit title={title} color={'#fff'} size={size} mobile={mobile} />
@@ -26,6 +27,9 @@ const EditButton: React.FC<Props> = (props) => {
     const deleteButton = (
         <Delete title={title} color={'#fff'} size={size} mobile={mobile} />
     );
+    const addButton = (
+        <Plus title={title} color={'#fff'} size={size} mobile={mobile} />
+    );
 
     const clickHandler = (event: React.SyntheticEvent) => {
         event.stopPropagation();
@@ -38,6 +42,7 @@ const EditButton: React.FC<Props> = (props) => {
             onClick={(event) => clickHandler(event)}
             size={size}
             mobile={mobile}
+            where={name}
         >
             {type === 'edit'
                 ? editButton
@@ -45,6 +50,8 @@ const EditButton: React.FC<Props> = (props) => {
                 ? confirmButton
                 : type === 'delete'
                 ? deleteButton
+                : type === 'add'
+                ? addButton
                 : cancelButton}
         </Button>
     );

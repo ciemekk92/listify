@@ -5,6 +5,10 @@ interface DetailsProps {
     readonly selected: boolean;
 }
 
+interface ParagraphProps {
+    readonly big?: boolean;
+}
+
 export const Wrapper = styled.div<DetailsProps>`
     opacity: ${(props) => (props.selected ? 1 : 0)};
     width: 45%;
@@ -27,8 +31,7 @@ export const Wrapper = styled.div<DetailsProps>`
 
     & > div {
         background-color: #dbe2ef;
-        border-radius: 0.5rem;
-        width: 95%;
+        width: 100%;
     }
 `;
 
@@ -39,15 +42,22 @@ export const Row = styled.div`
     grid-template-rows: 1fr;
     grid-template-columns: 20% 70% 10%;
     margin: 1rem 0;
+    padding: 0.5rem 0;
+    align-items: center;
 `;
 
-export const Value = styled.p`
-    font-size: 1.6rem;
+export const RowWithCompletion = styled(Row)`
+    grid-template-columns: 20% 60% 10% 10%;
+`;
+
+export const Value = styled.p<ParagraphProps>`
+    font-size: ${(props) => (props.big ? '3.2rem' : '1.6rem')};
+    padding: 0.3rem 0;
     text-transform: uppercase;
     color: #000;
     font-weight: 700;
     grid-row: 1 / 2;
     grid-column: 2 / 3;
-    margin-left: 5rem;
+    margin-left: 2.4rem;
     justify-self: flex-start;
 `;
