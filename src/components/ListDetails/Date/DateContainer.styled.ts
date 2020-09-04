@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 interface DateProps {
     readonly editing: boolean;
@@ -7,8 +6,8 @@ interface DateProps {
 
 export const Wrapper = styled.div<DateProps>`
     width: 100%;
-    height: 100%;
-    max-height: ${(props) => (props.editing ? '7rem' : '0')};
+    height: max-content;
+    max-height: ${(props) => (props.editing ? '25rem' : '0')};
     opacity: ${(props) => (props.editing ? '1' : '0')};
     margin: ${(props) => (!props.editing ? '-0.5rem 0' : '0')};
     display: flex;
@@ -22,23 +21,9 @@ export const Wrapper = styled.div<DateProps>`
 export const Confirm = styled.div`
     width: 100%;
     display: flex;
+    margin: 0.5rem 0;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     grid-area: confirm;
-`;
-
-export const Container = styled.div`
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-area: input;
-    place-self: center;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas: 'input' 'confirm';
-
-    @media only screen and ${device.mobileM} {
-        grid-template-rows: 1fr 1fr;
-    }
 `;

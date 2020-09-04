@@ -19,7 +19,7 @@ const NotePanel: React.FC<NotePanelProps> = (props) => {
         >
             <Name>{value}</Name>
             <CSSTransition
-                timeout={500}
+                timeout={400}
                 classNames="move"
                 mountOnEnter
                 unmountOnExit

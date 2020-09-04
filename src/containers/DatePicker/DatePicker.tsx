@@ -22,11 +22,13 @@ const DatePicker = (props: Props) => {
         setShowDatePicker(false);
         setShowCalendar(true);
     };
+
     const handleSelectDate = (date: Date) => {
         setDate(date);
         setShowDatePicker(true);
         setShowCalendar(false);
     };
+
     const closeCalendar = () => {
         setShowDatePicker(true);
         setShowCalendar(false);
@@ -47,12 +49,13 @@ const DatePicker = (props: Props) => {
     }, [selectedItem.date]);
 
     return (
-        <Wrapper details={type === 'details'}>
+        <Wrapper details={type === 'details'} calendarToggled={showCalendar}>
             {showDatepicker && (
                 <Picker date={date} handleSelect={toggleCalendar} />
             )}
             {showCalendar && (
                 <Calendar
+                    details={type === 'details'}
                     date={date}
                     handleSelectDate={handleSelectDate}
                     closeCalendar={closeCalendar}

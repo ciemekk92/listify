@@ -10,8 +10,8 @@ interface ParagraphProps {
 }
 
 export const Wrapper = styled.div<DetailsProps>`
-    opacity: ${(props) => (props.selected ? 1 : 0)};
     width: 45%;
+    opacity: ${(props) => (props.selected ? 1 : 0)};
     height: 85vh;
     align-items: center;
     justify-content: flex-start;

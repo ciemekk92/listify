@@ -3,6 +3,7 @@ import { Wrapper } from './Tag.styled';
 
 type TagProps = {
     editing: boolean;
+    clickedCancel(): void;
 };
 
 const Tag: React.FC<TagProps> = (props) => {

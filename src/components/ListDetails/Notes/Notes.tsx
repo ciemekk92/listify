@@ -3,16 +3,15 @@ import { v4 as uuidv4 } from 'uuid';
 import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../../store/actions';
 import { firestore, saveEditedItem } from '../../../firebase/firebase';
-import { CSSTransition } from 'react-transition-group';
 import './Notes.css';
 import { Item } from '../../../types';
 import {
-    Wrapper,
+    AddWrapper,
     Input,
     Display,
-    Container,
     Confirm,
-    Warning
+    Warning,
+    Wrapper
 } from './Notes.styled';
 import EditButton from '../EditButton/EditButton';
 import NotePanel from './NotePanel/NotePanel';
@@ -22,6 +21,7 @@ import firebase from 'firebase/app';
 const Notes: React.FC<Props> = (props) => {
     const {
         editing,
+        clickedCancel,
         selectedItem,
         currentList,
         onGettingUserInfo,
@@ -129,21 +129,18 @@ const Notes: React.FC<Props> = (props) => {
     const emptyNote = <p />;
 
     return (
-        <Wrapper editing={editing}>
-            <CSSTransition
-                in={!editing}
-                timeout={400}
-                classNames={'input'}
-                mountOnEnter
-            >
-                {!editing ? notesMap : emptyNote}
-            </CSSTransition>
-            <Container>
+        <Wrapper>
+            <AddWrapper editing={editing}>
                 <Warning>{warning !== '' ? warning : null}</Warning>
                 <Input
                     placeholder={'Enter new note here'}
                     onChange={inputChangedHandler}
                     onSubmit={submitHandler}
+                    onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                            submitHandler();
+                        }
+                    }}
                     value={inputValue}
                 />
                 <Confirm>
@@ -154,15 +151,14 @@ const Notes: React.FC<Props> = (props) => {
                         size={16}
                     />
                     <EditButton
-                        clicked={() => {
-                            /* handle closing editing view here */
-                        }}
+                        clicked={() => clickedCancel()}
                         title="Cancel"
                         type="cancel"
                         size={16}
                     />
                 </Confirm>
-            </Container>
+            </AddWrapper>
+            {notesMap}
         </Wrapper>
     );
 };
@@ -186,6 +182,6 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type Props = PropsFromRedux & { editing: boolean };
+type Props = PropsFromRedux & { editing: boolean; clickedCancel(): void };
 
 export default connector(Notes);

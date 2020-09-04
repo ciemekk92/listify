@@ -44,7 +44,7 @@ const Details: React.FC<Props> = (props) => {
         setEditingNotes(!editingNotes);
     };
 
-    // TODO: Basic look completed, next -> functionality, finish notes
+    // TODO: functionality
 
     return (
         <Wrapper selected={selected}>
@@ -97,7 +97,10 @@ const Details: React.FC<Props> = (props) => {
                     />
                 </CSSTransition>
             </Row>
-            <DateContainer editing={editingDate} />
+            <DateContainer
+                editing={editingDate}
+                clickedCancel={() => setEditingDate(false)}
+            />
             <Row
                 onMouseEnter={() => setIsTagEditShown(true)}
                 onMouseLeave={() => setIsTagEditShown(false)}
@@ -119,7 +122,10 @@ const Details: React.FC<Props> = (props) => {
                     />
                 </CSSTransition>
             </Row>
-            <Tag editing={editingTag} />
+            <Tag
+                editing={editingTag}
+                clickedCancel={() => setEditingTag(false)}
+            />
             <Row
                 onMouseEnter={() => setIsNotesEditShown(true)}
                 onMouseLeave={() => setIsNotesEditShown(false)}
@@ -140,7 +146,10 @@ const Details: React.FC<Props> = (props) => {
                     />
                 </CSSTransition>
             </Row>
-            <Notes editing={editingNotes} />
+            <Notes
+                editing={editingNotes}
+                clickedCancel={() => setEditingNotes(false)}
+            />
         </Wrapper>
     );
 };

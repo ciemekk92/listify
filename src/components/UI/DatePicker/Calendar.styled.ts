@@ -1,9 +1,14 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
-    position: absolute;
-    top: -4.5rem;
-    left: -12.5rem;
+interface CalendarProps {
+    readonly details: boolean;
+}
+
+export const Wrapper = styled.div<CalendarProps>`
+    ${(props) =>
+        !props.details
+            ? 'position: absolute;\n    top: -4.5rem;\n    left: -12.5rem;'
+            : null};
     width: 30rem;
     display: flex;
     flex-direction: column;

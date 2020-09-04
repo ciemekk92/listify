@@ -4,9 +4,16 @@ interface NotesProps {
     readonly editing: boolean;
 }
 
-export const Wrapper = styled.div<NotesProps>`
+export const Wrapper = styled.div`
     width: 100%;
-    max-height: ${(props) => (props.editing ? '10rem' : '0')};
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+`;
+
+export const AddWrapper = styled.div<NotesProps>`
+    width: 100%;
+    max-height: ${(props) => (props.editing ? '15rem' : '0')};
     opacity: ${(props) => (props.editing ? '1' : '0')};
     margin: ${(props) => (!props.editing ? '-0.5rem 0' : '0')};
     display: flex;
@@ -22,6 +29,8 @@ export const Input = styled.input`
     background-color: transparent;
     width: 50%;
     height: 3rem;
+
+    margin: 1rem 0;
     outline: none;
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 1.6rem;
@@ -37,35 +46,20 @@ export const Input = styled.input`
 `;
 
 export const Display = styled.div`
-    width: 90%;
+    width: 100%;
     font-family: 'Open Sans Condensed', sans-serif;
-    font-size: 2rem;
-    margin: 0 0 10% 0;
-    grid-area: value;
-    place-self: center;
+    margin-bottom: 0.5rem;
     cursor: default;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 90%;
+    height: max-content;
     overflow: auto;
 
     &::-webkit-scrollbar {
         display: none;
     }
-`;
-
-export const Container = styled.div`
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 0.4fr 1fr 0.6fr;
-    grid-area: value;
-    place-self: center;
-    margin-bottom: 5%;
-    grid-template-areas: 'warning' 'input' 'confirm';
 `;
 
 export const Confirm = styled.div`

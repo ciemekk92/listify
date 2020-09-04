@@ -8,8 +8,9 @@ interface ButtonProps {
 }
 
 export const Button = styled.div<ButtonProps>`
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 2.6rem;
+    height: 2.6rem;
+    margin: 0 1rem;
     border-radius: 50%;
     background-color: #3f72af;
     grid-column: ${(props) =>
@@ -26,14 +27,14 @@ export const Button = styled.div<ButtonProps>`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: all 0.2s ease;
+    transition: all 0.4s ease;
     cursor: pointer;
     z-index: 100;
     ${(props) => (props.type === 'delete' ? 'z-index: 5;' : null)};
 
     &:hover {
         background-color: #366296;
-        box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.4);
-        transform: translateY(-7%);
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+        transform: translateY(-0.2rem);
     }
 `;

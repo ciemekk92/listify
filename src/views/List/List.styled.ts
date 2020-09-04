@@ -65,3 +65,8 @@ export const Placeholder = styled.div`
     font-size: 3rem;
     margin: auto 0;
 `;
+
+export const PlaceholderList = styled.div`
+    width: 45%;
+    height: 85vh;
+`;

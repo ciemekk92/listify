@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { saveEditedItem } from '../../../firebase/firebase';
 import { updateObject } from '../../../shared/utility';
-import { Wrapper, Confirm, Container } from './DateContainer.styled';
+import { Wrapper, Confirm } from './DateContainer.styled';
 import EditButton from '../EditButton/EditButton';
 import DatePicker from '../../../containers/DatePicker/DatePicker';
 import './DateContainer.css';
@@ -11,6 +11,7 @@ import * as actions from '../../../store/actions';
 
 const DateContainer: React.FC<Props> = (props) => {
     const {
+        clickedCancel,
         editing,
         selectedItem,
         changedDate,
@@ -41,25 +42,25 @@ const DateContainer: React.FC<Props> = (props) => {
             );
     };
 
+    // TODO: fix positioning
+
     return (
         <Wrapper editing={editing}>
-            <Container>
-                <DatePicker type="details" />
-                <Confirm>
-                    <EditButton
-                        clicked={submitNewDateHandler}
-                        title={'Submit new date'}
-                        type={'confirm'}
-                        size={16}
-                    />
-                    <EditButton
-                        clicked={() => {}}
-                        title={'Cancel'}
-                        type={'cancel'}
-                        size={16}
-                    />
-                </Confirm>
-            </Container>
+            <DatePicker type="details" />
+            <Confirm>
+                <EditButton
+                    clicked={submitNewDateHandler}
+                    title={'Submit new date'}
+                    type={'confirm'}
+                    size={16}
+                />
+                <EditButton
+                    clicked={() => clickedCancel()}
+                    title={'Cancel'}
+                    type={'cancel'}
+                    size={16}
+                />
+            </Confirm>
         </Wrapper>
     );
 };
@@ -83,6 +84,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & {
     editing: boolean;
+    clickedCancel(): void;
 };
 
 export default connector(React.memo(DateContainer));
