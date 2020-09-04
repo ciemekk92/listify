@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Panel = styled.div`
     width: 65%;
-    margin: 1.5rem 0 0.5rem;
+    margin: 0.5rem 0;
     padding: 0.5rem 0;
     position: relative;
     font-family: 'Open Sans Condensed', sans-serif;
@@ -14,6 +14,10 @@ export const Panel = styled.div`
     transition: all 0.4s ease;
     display: flex;
     justify-content: space-between;
+
+    &:first-child {
+        margin-top: 0.5rem;
+    }
 
     &:hover {
         margin-bottom: 0.8rem;

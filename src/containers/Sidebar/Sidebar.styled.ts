@@ -44,7 +44,7 @@ export const ButtonsContainer = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-top: 5%;
+    margin-top: -0.5rem;
 `;
 
 export const LabelPanel = styled.div`

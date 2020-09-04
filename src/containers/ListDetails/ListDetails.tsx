@@ -16,8 +16,6 @@ import Tag from '../../components/ListDetails/Tag/Tag';
 const Details: React.FC<Props> = (props) => {
     const { selected, selectedItem } = props;
 
-    const [item, setItem] = useState(selectedItem);
-
     const [editingName, setEditingName] = useState(false);
     const [editingDate, setEditingDate] = useState(false);
     const [editingNotes, setEditingNotes] = useState(false);
@@ -44,7 +42,8 @@ const Details: React.FC<Props> = (props) => {
         setEditingNotes(!editingNotes);
     };
 
-    // TODO: functionality
+    // FIXME: handle editing data in tags as well
+    // TODO: switch regular transitions into react-transition-group (notes done)- it won't render components, when they're not needed
 
     return (
         <Wrapper selected={selected}>

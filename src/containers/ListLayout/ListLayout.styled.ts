@@ -69,12 +69,13 @@ export const AddingTaskContainer = styled.div<LayoutProps>`
 export const Description = styled.p`
     font-size: 1.6rem;
     text-transform: uppercase;
-    color: #666;
+    color: #8a8a8a;
     font-weight: 700;
     grid-column: 1 / 2;
     grid-row: 1 / 2;
     justify-self: end;
     padding: 0.3rem 0;
+    cursor: default;
 `;
 
 export const FieldContainer = styled.div<AddingProps>`

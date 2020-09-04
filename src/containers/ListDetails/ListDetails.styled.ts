@@ -30,7 +30,6 @@ export const Wrapper = styled.div<DetailsProps>`
     }
 
     & > div {
-        background-color: #dbe2ef;
         width: 100%;
     }
 `;

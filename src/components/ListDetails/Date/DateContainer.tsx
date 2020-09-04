@@ -22,12 +22,11 @@ const DateContainer: React.FC<Props> = (props) => {
 
     const clickHandler = () => {};
 
-    // Fix view
-
     const submitNewDateHandler = () => {
         const updatedItem = updateObject(selectedItem, {
             date: changedDate
         });
+        console.log(updatedItem);
         saveEditedItem(currentList, selectedItem, updatedItem)
             .then(() => {
                 onGettingUserInfo();
@@ -41,8 +40,6 @@ const DateContainer: React.FC<Props> = (props) => {
                 )
             );
     };
-
-    // TODO: fix positioning
 
     return (
         <Wrapper editing={editing}>

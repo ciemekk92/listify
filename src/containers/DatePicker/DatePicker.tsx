@@ -38,12 +38,17 @@ const DatePicker = (props: Props) => {
         if (type === 'layout') {
             onSettingDate(date);
         }
-    }, [date, onSettingDate, type]);
+        if (type === 'details') {
+            onSettingChangedDate(date);
+        }
+    }, [date, onSettingDate, onSettingChangedDate, type]);
 
     useEffect(() => {
         if (selectedItem.date !== null) {
-            setDate(selectedItem.date);
-            onSettingChangedDate(date);
+            if (type === 'details') {
+                setDate(selectedItem.date);
+                onSettingChangedDate(selectedItem.date.toString());
+            }
         }
         // eslint-disable-next-line
     }, [selectedItem.date]);

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../../store/actions';
 import { firestore, saveEditedItem } from '../../../firebase/firebase';
-import './Notes.css';
+import '../Transitions.css';
 import { Item } from '../../../types';
 import {
     AddWrapper,
@@ -11,12 +11,14 @@ import {
     Display,
     Confirm,
     Warning,
-    Wrapper
+    Wrapper,
+    Placeholder
 } from './Notes.styled';
 import EditButton from '../EditButton/EditButton';
 import NotePanel from './NotePanel/NotePanel';
 import { updateObject } from '../../../shared/utility';
 import firebase from 'firebase/app';
+import { CSSTransition } from 'react-transition-group';
 
 const Notes: React.FC<Props> = (props) => {
     const {
@@ -126,39 +128,49 @@ const Notes: React.FC<Props> = (props) => {
         </Display>
     );
 
-    const emptyNote = <p />;
-
     return (
         <Wrapper>
-            <AddWrapper editing={editing}>
-                <Warning>{warning !== '' ? warning : null}</Warning>
-                <Input
-                    placeholder={'Enter new note here'}
-                    onChange={inputChangedHandler}
-                    onSubmit={submitHandler}
-                    onKeyDown={(event) => {
-                        if (event.key === 'Enter') {
-                            submitHandler();
-                        }
-                    }}
-                    value={inputValue}
-                />
-                <Confirm>
-                    <EditButton
-                        clicked={submitHandler}
-                        title="Confirm changes"
-                        type="confirm"
-                        size={16}
+            <CSSTransition
+                in={editing}
+                timeout={400}
+                mountOnEnter
+                unmountOnExit
+                classNames="height"
+            >
+                <AddWrapper>
+                    <Warning>{warning !== '' ? warning : null}</Warning>
+                    <Input
+                        placeholder={'Enter new note here'}
+                        onChange={inputChangedHandler}
+                        onSubmit={submitHandler}
+                        onKeyDown={(event) => {
+                            if (event.key === 'Enter') {
+                                submitHandler();
+                            }
+                        }}
+                        value={inputValue}
                     />
-                    <EditButton
-                        clicked={() => clickedCancel()}
-                        title="Cancel"
-                        type="cancel"
-                        size={16}
-                    />
-                </Confirm>
-            </AddWrapper>
-            {notesMap}
+                    <Confirm>
+                        <EditButton
+                            clicked={submitHandler}
+                            title="Confirm changes"
+                            type="confirm"
+                            size={16}
+                        />
+                        <EditButton
+                            clicked={() => clickedCancel()}
+                            title="Cancel"
+                            type="cancel"
+                            size={16}
+                        />
+                    </Confirm>
+                </AddWrapper>
+            </CSSTransition>
+            {selectedItem.notes.length > 0 ? (
+                notesMap
+            ) : (
+                <Placeholder>No notes saved yet for this task!</Placeholder>
+            )}
         </Wrapper>
     );
 };

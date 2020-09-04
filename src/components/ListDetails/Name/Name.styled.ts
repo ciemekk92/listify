@@ -7,8 +7,8 @@ interface NameProps {
 
 export const Wrapper = styled.div<NameProps>`
     width: 100%;
-    height: 100%;
-    max-height: ${(props) => (props.editing ? '7rem' : '0')};
+    height: max-content;
+    max-height: ${(props) => (props.editing ? '8rem' : '0')};
     opacity: ${(props) => (props.editing ? '1' : '0')};
     margin: ${(props) => (!props.editing ? '-0.5rem 0' : '0')};
     display: flex;
@@ -20,6 +20,7 @@ export const Wrapper = styled.div<NameProps>`
 `;
 
 export const Confirm = styled.div`
+    margin: 0.5rem 0;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -31,7 +32,7 @@ export const Warning = styled.div`
     place-self: center;
     text-align: center;
     color: red;
-    font-size: 0.8rem;
+    font-size: 1.4rem;
 `;
 
 export const Input = styled.input`

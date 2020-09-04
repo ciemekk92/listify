@@ -27,7 +27,6 @@ const Name: React.FC<NameProps> = (props) => {
         onSelectingItem
     } = props;
 
-    // TODO: Functionality, correct styling
     const [item, setItem] = useState(selectedItem);
     const [warning, setWarning] = useState('');
 
@@ -49,7 +48,8 @@ const Name: React.FC<NameProps> = (props) => {
         } else {
             saveEditedItem(currentList, selectedItem, item)
                 .then(() => {
-                    //setEditing(!editing);
+                    setWarning('');
+                    clickedCancel();
                     onGettingUserInfo();
                 })
                 .then(() => onSelectingItem(item));
