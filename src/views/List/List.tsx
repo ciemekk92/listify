@@ -11,6 +11,7 @@ import {
     AddingRow,
     ListWrapper,
     Placeholder,
+    PlaceholderList,
     Row,
     Wrapper
 } from './List.styled';
@@ -229,6 +230,16 @@ const List: React.FC<PropsFromRedux> = (props) => {
         }
     };
 
+    const [showPlaceholder, setShowPlaceholder] = useState(false);
+
+    useEffect(() => {
+        if (!selectedItem.id) {
+            setTimeout(() => setShowPlaceholder(true), 400);
+        } else {
+            setShowPlaceholder(false)
+        }
+    }, [selectedItem.id]);
+
     let tagsArray = Object.values(tags);
     let listsArray = Object.keys(lists).sort();
 
@@ -391,7 +402,11 @@ const List: React.FC<PropsFromRedux> = (props) => {
                         </Placeholder>
                     )}
                 </ListWrapper>
-                <ListDetails selected={!!selectedItem.id} />
+                <ListDetails
+                    showingPlaceholder={showPlaceholder}
+                    selected={!!selectedItem.id}
+                />
+                {showPlaceholder ? <PlaceholderList /> : null}
             </Wrapper>
         </Provider>
     );

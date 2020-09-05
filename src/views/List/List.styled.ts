@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
     min-height: 100%;
     height: 100%;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
 
     @media only screen and ${device.tablet} {
         flex-direction: column;
@@ -23,6 +23,7 @@ export const Wrapper = styled.div`
 export const ListWrapper = styled.div`
     width: 45%;
     height: 85vh;
+    margin-left: 4rem;
     background-color: #f9f7f7;
     color: black;
     display: flex;
@@ -69,4 +70,7 @@ export const Placeholder = styled.div`
 export const PlaceholderList = styled.div`
     width: 45%;
     height: 85vh;
+    opacity: 0;
+    z-index: 1000;
+    position: relative;
 `;

@@ -3,6 +3,7 @@ import { device } from '../../templates/MediaQueries/MediaQueries';
 
 interface DetailsProps {
     readonly selected: boolean;
+    readonly showingPlaceholder: boolean;
 }
 
 interface ParagraphProps {
@@ -10,20 +11,22 @@ interface ParagraphProps {
 }
 
 export const Wrapper = styled.div<DetailsProps>`
-    width: 45%;
+    width: ${(props) => (props.showingPlaceholder ? 0 : '45%')};
     opacity: ${(props) => (props.selected ? 1 : 0)};
+    margin-right: 4rem;
     height: 85vh;
     align-items: center;
     justify-content: flex-start;
     place-self: center;
     color: black;
-    display: flex;
     flex-direction: column;
     overflow: hidden;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
     border-radius: 0.5rem;
     background-color: #f9f7f7;
-    transition: all 0.4s ease;
+    transition: opacity 0.4s ease;
+    position: relative;
+    z-index: 1;
 
     @media only screen and ${device.tablet} {
         margin: 1%;
@@ -41,7 +44,6 @@ export const Row = styled.div`
     grid-template-rows: 1fr;
     grid-template-columns: 20% 70% 10%;
     margin: 1rem 0;
-    padding: 0.5rem 0;
     align-items: center;
 `;
 

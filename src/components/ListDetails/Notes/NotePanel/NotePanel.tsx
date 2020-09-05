@@ -36,4 +36,4 @@ const NotePanel: React.FC<NotePanelProps> = (props) => {
     );
 };
 
-export default NotePanel;
+export default React.memo(NotePanel);

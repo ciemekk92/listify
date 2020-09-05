@@ -9,7 +9,6 @@ export const Wrapper = styled.div<DateProps>`
     height: max-content;
     max-height: ${(props) => (props.editing ? '25rem' : '0')};
     opacity: ${(props) => (props.editing ? '1' : '0')};
-    margin: ${(props) => (!props.editing ? '-0.5rem 0' : '0')};
     display: flex;
     flex-direction: column;
     transition: all 0.4s ease;

@@ -4,9 +4,9 @@ import * as actions from '../../../store/actions';
 import { saveEditedItem } from '../../../firebase/firebase';
 import { Wrapper, Input, Confirm, Warning } from './Name.styled';
 import EditButton from '../EditButton/EditButton';
-import './Name.css';
 import { updateObject } from '../../../shared/utility';
 import { Item } from '../../../types';
+import { CSSTransition } from 'react-transition-group';
 
 type NameProps = {
     clickedCancel(): void;
@@ -57,36 +57,44 @@ const Name: React.FC<NameProps> = (props) => {
     };
 
     return (
-        <Wrapper editing={editing}>
-            <Warning>{warning !== '' ? warning : null}</Warning>
-            <Input
-                placeholder={item.value}
-                onChange={inputChangedHandler}
-                onKeyDown={(event) => {
-                    if (event.key === 'Enter') {
-                        submitHandler();
-                    }
-                }}
-                onSubmit={submitHandler}
-                value={item.value}
-            />
-            <Confirm>
-                <EditButton
-                    clicked={submitHandler}
-                    title="Confirm changes"
-                    type="confirm"
-                    size={16}
-                />
-                <EditButton
-                    clicked={() => {
-                        clickedCancel();
+        <CSSTransition
+            in={editing}
+            timeout={400}
+            mountOnEnter
+            unmountOnExit
+            classNames="height"
+        >
+            <Wrapper>
+                <Warning>{warning !== '' ? warning : null}</Warning>
+                <Input
+                    placeholder={item.value}
+                    onChange={inputChangedHandler}
+                    onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                            submitHandler();
+                        }
                     }}
-                    title="Cancel"
-                    type="cancel"
-                    size={16}
+                    onSubmit={submitHandler}
+                    value={item.value}
                 />
-            </Confirm>
-        </Wrapper>
+                <Confirm>
+                    <EditButton
+                        clicked={submitHandler}
+                        title="Confirm changes"
+                        type="confirm"
+                        size={16}
+                    />
+                    <EditButton
+                        clicked={() => {
+                            clickedCancel();
+                        }}
+                        title="Cancel"
+                        type="cancel"
+                        size={16}
+                    />
+                </Confirm>
+            </Wrapper>
+        </CSSTransition>
     );
 };
 

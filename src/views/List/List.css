@@ -5,6 +5,11 @@
     align-items: center;
 }
 
+.details {
+    width: 45%;
+    height: 85vh;
+}
+
 .layout-enter {
     opacity: 0;
 }

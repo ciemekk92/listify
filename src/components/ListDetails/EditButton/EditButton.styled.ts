@@ -10,7 +10,7 @@ interface ButtonProps {
 export const Button = styled.div<ButtonProps>`
     width: 2.6rem;
     height: 2.6rem;
-    margin: -0.2rem 1rem;
+    margin: 0 1rem -0.2rem 0;
     border-radius: 50%;
     background-color: #3f72af;
     grid-column: ${(props) =>

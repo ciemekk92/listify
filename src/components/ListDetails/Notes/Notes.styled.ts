@@ -12,7 +12,6 @@ export const AddWrapper = styled.div`
     height: max-content;
     display: flex;
     flex-direction: column;
-    transition: all 0.4s ease;
     justify-content: space-evenly;
     align-items: center;
 `;

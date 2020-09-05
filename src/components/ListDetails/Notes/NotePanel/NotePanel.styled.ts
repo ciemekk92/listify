@@ -12,8 +12,9 @@ export const Panel = styled.div`
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
     height: max-content;
     transition: all 0.4s ease;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 90% 10%;
 
     &:first-child {
         margin-top: 0.5rem;
@@ -47,4 +48,6 @@ export const Name = styled.p`
     margin: 0.3rem 0 0 1rem;
     cursor: default;
     color: black;
+    grid-column: 1 / 2;
+    justify-self: start;
 `;

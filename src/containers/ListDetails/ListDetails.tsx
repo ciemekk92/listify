@@ -14,7 +14,7 @@ import { CSSTransition } from 'react-transition-group';
 import Tag from '../../components/ListDetails/Tag/Tag';
 
 const Details: React.FC<Props> = (props) => {
-    const { selected, selectedItem } = props;
+    const { showingPlaceholder, selected, selectedItem } = props;
 
     const [editingName, setEditingName] = useState(false);
     const [editingDate, setEditingDate] = useState(false);
@@ -46,7 +46,7 @@ const Details: React.FC<Props> = (props) => {
     // TODO: switch regular transitions into react-transition-group (notes done)- it won't render components, when they're not needed
 
     return (
-        <Wrapper selected={selected}>
+        <Wrapper selected={selected} showingPlaceholder={showingPlaceholder}>
             <Heading2>Task details</Heading2>
             <RowWithCompletion
                 onMouseEnter={() => setIsNameEditShown(true)}
@@ -165,6 +165,9 @@ const mapStateToProps = (state: {
 
 const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type Props = PropsFromRedux & { selected: boolean };
+type Props = PropsFromRedux & {
+    selected: boolean;
+    showingPlaceholder: boolean;
+};
 
 export default connector(React.memo(Details));
