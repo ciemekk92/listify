@@ -4,7 +4,7 @@ import * as actions from '../../../store/actions';
 import { connect, ConnectedProps } from 'react-redux';
 import { Item } from '../../../types';
 import { firestore } from '../../../firebase/firebase';
-import { updateObject } from '../../../shared/utility';
+import { alertError, updateObject } from '../../../shared/utility';
 import firebase from 'firebase/app';
 import CompletedButton from './CompletedButton/CompletedButton';
 
@@ -48,17 +48,11 @@ const Completed: React.FC<PropsFromRedux> = (props) => {
                 .then(() => {
                     updateHandler(editedCompletion);
                 })
-                .catch((error) =>
-                    alert(
-                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                            error
-                    )
-                );
+                .catch((error) => {
+                    alertError(error);
+                });
         } catch (error) {
-            alert(
-                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                    error
-            );
+            alertError(error);
         }
     };
 

@@ -10,16 +10,18 @@ type ButtonProps = {
     };
     listValue?: string;
     listEnabled?: boolean;
+    details?: boolean;
 };
 
 const FieldButton: React.FC<ButtonProps> = (props) => {
-    const { clicked, tagValue, listValue, listEnabled } = props;
+    const { clicked, tagValue, listValue, listEnabled, details } = props;
 
     return (
         <Button
             listEnabled={listEnabled}
             color={tagValue ? tagValue.color : '#3f72af'}
             onClick={clicked}
+            details={details}
         >
             {tagValue
                 ? tagValue.name === ''

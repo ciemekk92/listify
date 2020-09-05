@@ -16,6 +16,7 @@ import {
     Wrapper
 } from './List.styled';
 import './List.css';
+import '../../containers/ListLayout/ListLayout.css';
 import Burger from '../../components/Sidebar/Burger/Burger';
 import { Heading2 } from '../../components/UI/Typography/Headings/Headings.styled';
 import {
@@ -31,7 +32,7 @@ import { CSSTransition } from 'react-transition-group';
 import ListInput from '../../components/ListLayout/ListInput/ListInput';
 import DatePicker from '../../containers/DatePicker/DatePicker';
 import SubmitButton from '../../components/ListLayout/SubmitButton/SubmitButton';
-import { updateObject } from '../../shared/utility';
+import { alertError, updateObject } from '../../shared/utility';
 import { firestore } from '../../firebase/firebase';
 import { v4 as uuidv4 } from 'uuid';
 import firebase from 'firebase/app';
@@ -202,12 +203,9 @@ const List: React.FC<PropsFromRedux> = (props) => {
                         newItemWithDate
                     )
                 })
-                .catch((error) =>
-                    alert(
-                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                            error
-                    )
-                );
+                .catch((error) => {
+                    alertError(error);
+                });
             if (newItem.tag.name !== '') {
                 await docRef
                     .update({
@@ -215,18 +213,12 @@ const List: React.FC<PropsFromRedux> = (props) => {
                             newItemWithDate
                         )
                     })
-                    .catch((error) =>
-                        alert(
-                            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                                error
-                        )
-                    );
+                    .catch((error) => {
+                        alertError(error);
+                    });
             }
         } catch (error) {
-            alert(
-                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                    error
-            );
+            alertError(error);
         }
     };
 
@@ -236,7 +228,7 @@ const List: React.FC<PropsFromRedux> = (props) => {
         if (!selectedItem.id) {
             setTimeout(() => setShowPlaceholder(true), 400);
         } else {
-            setShowPlaceholder(false)
+            setShowPlaceholder(false);
         }
     }, [selectedItem.id]);
 
@@ -274,133 +266,151 @@ const List: React.FC<PropsFromRedux> = (props) => {
                             </AddingTaskToggle>
                         ) : null}
                     </Row>
-                    {currentList || currentTag.id !== '' ? (
-                        <AddingTaskContainer adding={addingTask}>
-                            <AddingRow>
-                                <Description>Task name:</Description>
-                                <ListInput
-                                    submit={() => submitHandler()}
-                                    changed={inputChangedHandler}
-                                    value={inputItem.value}
-                                    editing={editing}
-                                />
-                            </AddingRow>
-                            <AddingRow>
-                                <Description>Date:</Description>
-                                <DatePicker type="layout" />
-                            </AddingRow>
-                            <AddingRow>
-                                <Description>List:</Description>
-                                <FieldButton
-                                    clicked={listDisplayHandler}
-                                    listValue={buttonList}
-                                    listEnabled
-                                />
-                            </AddingRow>
-                            <AddingRow active={!showLists}>
-                                <CSSTransition
-                                    in={showLists}
-                                    timeout={400}
-                                    mountOnEnter
-                                    unmountOnExit
-                                    classNames="move"
-                                >
-                                    <FieldContainer list>
-                                        {listsArray.map((element) => (
-                                            <Field
-                                                key={uuidv4()}
-                                                onClick={() =>
-                                                    listSelectHandler(element)
-                                                }
-                                            >
-                                                {element}
-                                            </Field>
-                                        ))}
-                                    </FieldContainer>
-                                </CSSTransition>
-                            </AddingRow>
-                            <AddingRow>
-                                <Description>Tag:</Description>
-                                <FieldButton
-                                    clicked={tagDisplayHandler}
-                                    tagValue={buttonTag}
-                                />
-                            </AddingRow>
-                            <AddingRow active={!showTags}>
-                                <CSSTransition
-                                    in={showTags}
-                                    timeout={400}
-                                    mountOnEnter
-                                    unmountOnExit
-                                    classNames="move"
-                                >
-                                    <FieldContainer>
-                                        <Field
-                                            onClick={() =>
-                                                tagSelectHandler({
-                                                    name: '',
-                                                    id: '',
-                                                    color: ''
-                                                })
-                                            }
+                    <Row noMargin>
+                        {currentList || currentTag.id !== '' ? (
+                            <CSSTransition
+                                in={addingTask}
+                                timeout={400}
+                                mountOnEnter
+                                unmountOnExit
+                                classNames="container-height"
+                            >
+                                <AddingTaskContainer adding={addingTask}>
+                                    <AddingRow>
+                                        <Description>Task name:</Description>
+                                        <ListInput
+                                            submit={() => submitHandler()}
+                                            changed={inputChangedHandler}
+                                            value={inputItem.value}
+                                            editing={editing}
+                                        />
+                                    </AddingRow>
+                                    <AddingRow>
+                                        <Description>Date:</Description>
+                                        <DatePicker type="layout" />
+                                    </AddingRow>
+                                    <AddingRow>
+                                        <Description>List:</Description>
+                                        <FieldButton
+                                            clicked={listDisplayHandler}
+                                            listValue={buttonList}
+                                            listEnabled
+                                        />
+                                    </AddingRow>
+                                    <AddingRow active={!showLists}>
+                                        <CSSTransition
+                                            in={showLists}
+                                            timeout={400}
+                                            mountOnEnter
+                                            unmountOnExit
+                                            classNames="move"
                                         >
-                                            None
-                                        </Field>
-                                        {tagsArray.map((element) => (
-                                            <Field
-                                                key={element.id}
-                                                color={element.color}
-                                                onClick={() =>
-                                                    tagSelectHandler({
-                                                        name: element.name,
-                                                        id: element.id,
-                                                        color: element.color
-                                                    })
-                                                }
-                                            >
-                                                {element.name.length < 20
-                                                    ? element.name
-                                                    : element.name.substring(
-                                                          0,
-                                                          20
-                                                      ) + '...'}
-                                            </Field>
-                                        ))}
-                                    </FieldContainer>
-                                </CSSTransition>
-                            </AddingRow>
-                            <AddingRow active={warning === ''}>
-                                <Warning>
-                                    {warning !== '' ? warning : null}
-                                </Warning>
-                            </AddingRow>
-                            <AddingRow>
-                                <SubmitButton
-                                    selected={!!selectedItem.id}
-                                    clicked={submitHandler}
-                                >
-                                    Add new list item
-                                </SubmitButton>
-                            </AddingRow>
-                        </AddingTaskContainer>
-                    ) : null}
-                    {currentList ? (
-                        <ListLayout
-                            adding={addingTask}
-                            listUpdate={listUpdateHandler}
-                            selected={!!selectedItem.id}
-                        />
-                    ) : currentTag.id !== '' ? (
-                        <TagLayout
-                            adding={addingTask}
-                            listUpdate={listUpdateHandler}
-                            selected={!!selectedItem.id}
-                        />
-                    ) : (
-                        <Placeholder>
-                            Select a list or a tag in the sidebar on the left.
-                        </Placeholder>
-                    )}
+                                            <FieldContainer list>
+                                                {listsArray.map((element) => (
+                                                    <Field
+                                                        key={uuidv4()}
+                                                        onClick={() =>
+                                                            listSelectHandler(
+                                                                element
+                                                            )
+                                                        }
+                                                    >
+                                                        {element}
+                                                    </Field>
+                                                ))}
+                                            </FieldContainer>
+                                        </CSSTransition>
+                                    </AddingRow>
+                                    <AddingRow>
+                                        <Description>Tag:</Description>
+                                        <FieldButton
+                                            clicked={tagDisplayHandler}
+                                            tagValue={buttonTag}
+                                        />
+                                    </AddingRow>
+                                    <AddingRow active={!showTags}>
+                                        <CSSTransition
+                                            in={showTags}
+                                            timeout={400}
+                                            mountOnEnter
+                                            unmountOnExit
+                                            classNames="move"
+                                        >
+                                            <FieldContainer>
+                                                <Field
+                                                    onClick={() =>
+                                                        tagSelectHandler({
+                                                            name: '',
+                                                            id: '',
+                                                            color: ''
+                                                        })
+                                                    }
+                                                >
+                                                    None
+                                                </Field>
+                                                {tagsArray.map((element) => (
+                                                    <Field
+                                                        key={element.id}
+                                                        color={element.color}
+                                                        onClick={() =>
+                                                            tagSelectHandler({
+                                                                name:
+                                                                    element.name,
+                                                                id: element.id,
+                                                                color:
+                                                                    element.color
+                                                            })
+                                                        }
+                                                    >
+                                                        {element.name.length <
+                                                        20
+                                                            ? element.name
+                                                            : element.name.substring(
+                                                                  0,
+                                                                  20
+                                                              ) + '...'}
+                                                    </Field>
+                                                ))}
+                                            </FieldContainer>
+                                        </CSSTransition>
+                                    </AddingRow>
+                                    <AddingRow active={warning === ''}>
+                                        <Warning>
+                                            {warning !== '' ? warning : null}
+                                        </Warning>
+                                    </AddingRow>
+                                    <AddingRow>
+                                        <SubmitButton
+                                            selected={!!selectedItem.id}
+                                            clicked={submitHandler}
+                                        >
+                                            Add new list item
+                                        </SubmitButton>
+                                    </AddingRow>
+                                </AddingTaskContainer>
+                            </CSSTransition>
+                        ) : null}
+                    </Row>
+                    <Row noMargin>
+                        {currentList ? (
+                            <ListLayout
+                                adding={addingTask}
+                                listUpdate={listUpdateHandler}
+                                selected={!!selectedItem.id}
+                            />
+                        ) : currentTag.id !== '' ? (
+                            <TagLayout
+                                adding={addingTask}
+                                listUpdate={listUpdateHandler}
+                                selected={!!selectedItem.id}
+                            />
+                        ) : (
+                            <Placeholder>
+                                Select a list or a tag in the sidebar on the
+                                left.
+                            </Placeholder>
+                        )}
+                    </Row>
                 </ListWrapper>
                 <ListDetails
                     showingPlaceholder={showPlaceholder}

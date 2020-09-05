@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import { Item } from '../types';
+import { alertError } from '../shared/utility';
 
 // Edit firebaseConfig with your Firebase configuration, if you cloned the repository from GitHub
 const firebaseConfig = {
@@ -26,16 +27,14 @@ export const getUserDoc = async (uid: any) => {
         const userDoc = await firestore.collection('users').doc(uid).get();
         return { uid, ...userDoc.data() };
     } catch (error) {
-        alert(
-            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                error
-        );
+        alertError(error);
     }
 };
 
 export const createUserDoc = async (user: any, userName: string) => {
     const userRef = await firestore.doc(`users/${user.uid}`);
     const snapshot = await userRef.get();
+
     if (!snapshot.exists) {
         const { uid, email } = user;
         const createdAt = new Date();
@@ -49,10 +48,7 @@ export const createUserDoc = async (user: any, userName: string) => {
                 tags: []
             });
         } catch (error) {
-            alert(
-                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                    error
-            );
+            alertError(error);
         }
     }
     return getUserDoc(user.uid);
@@ -78,12 +74,9 @@ export const saveEditedItem = async (
                     selectedItem
                 )
             })
-            .catch((error) =>
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                )
-            );
+            .catch((error) => {
+                alertError(error);
+            });
         await docRef
             .update({
                 [editedItem.completed
@@ -92,16 +85,10 @@ export const saveEditedItem = async (
                     editedItem
                 )
             })
-            .catch((error) =>
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                )
-            );
+            .catch((error) => {
+                alertError(error);
+            });
     } catch (error) {
-        alert(
-            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                error
-        );
+        alertError(error);
     }
 };

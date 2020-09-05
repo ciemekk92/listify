@@ -3,6 +3,7 @@ import { device } from '../../templates/MediaQueries/MediaQueries';
 
 interface RowProps {
     readonly active?: boolean;
+    readonly noMargin?: boolean;
 }
 
 export const Wrapper = styled.div`
@@ -16,7 +17,6 @@ export const Wrapper = styled.div`
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin-top: 5%;
     }
 `;
 
@@ -30,10 +30,14 @@ export const ListWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    overflow: hidden;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
     z-index: 0;
     border-radius: 0.5rem;
+    overflow: scroll;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     @media only screen and ${device.tablet} {
         margin: 1%;
@@ -42,12 +46,13 @@ export const ListWrapper = styled.div`
     }
 `;
 
-export const Row = styled.div`
+export const Row = styled.div<RowProps>`
     width: 100%;
     height: max-content;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: ${(props) => (props.noMargin ? '0' : '1rem 0')};
 `;
 
 export const AddingRow = styled.div<RowProps>`

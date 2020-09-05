@@ -12,6 +12,7 @@ import { routes } from '../../routes/routes';
 import Layout from '../../templates/Layout/Layout';
 import { auth } from '../../firebase/firebase';
 import { User } from 'firebase';
+import { alertError } from '../../shared/utility';
 
 const Landing = lazy(() => import('../Landing/Landing'));
 const List = lazy(() => import('../List/List'));
@@ -39,10 +40,7 @@ const App = (props: PropsFromRedux) => {
                     await onGettingUserInfo();
                 }
             } catch (error) {
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                );
+                alertError(error);
             }
         };
         fetchInfo();

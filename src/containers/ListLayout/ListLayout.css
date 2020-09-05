@@ -47,3 +47,28 @@
     opacity: 0;
     transition: all 400ms ease-out;
 }
+
+/*noinspection CssUnusedSymbol*/
+.container-height-enter {
+    max-height: 0;
+    opacity: 0;
+}
+
+/*noinspection CssUnusedSymbol*/
+.container-height-enter-active {
+    max-height: 25rem;
+    opacity: 1;
+    transition: all 400ms ease;
+}
+
+.container-height-exit {
+    max-height: 25rem;
+    opacity: 1;
+}
+
+/*noinspection CssUnusedSymbol*/
+.container-height-exit-active {
+    max-height: 0;
+    opacity: 0;
+    transition: all 400ms ease;
+}

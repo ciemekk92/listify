@@ -14,9 +14,9 @@ interface AddingProps {
 
 export const Wrapper = styled.div<LayoutProps>`
     width: 100%;
+    height: 100%;
     background-color: #f9f7f7;
     color: black;
-    overflow: hidden;
     grid-column: 1 / 3;
     z-index: 0;
     align-self: start;
@@ -51,19 +51,20 @@ export const AddingTaskToggle = styled.button`
     }
 `;
 
+/*
+margin: ${(props) => (props.adding ? '1rem 0 1rem 0' : '0')};
+    padding: ${(props) => (props.adding ? '5rem' : '0')};
+opacity: ${(props) => (props.adding ? '1' : '0')};
+max-height: ${(props) => (props.adding ? '25rem' : '0')};
+ */
+
 export const AddingTaskContainer = styled.div<LayoutProps>`
-    width: calc(100% - 5rem);
-    margin-left: -5rem;
-    padding: ${(props) => (props.adding ? '1.5rem' : '0')};
+    width: 100%;
     display: flex;
-    height: max-content;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
     transition: all 0.7s ease;
-    max-height: ${(props) => (props.adding ? '35rem' : '0')};
-    opacity: ${(props) => (props.adding ? '1' : '0')};
-    overflow: hidden;
 `;
 
 export const Description = styled.p`
@@ -111,14 +112,11 @@ export const Field = styled.div<LayoutProps>`
 export const ListContainer = styled.div<LayoutProps>`
     justify-content: center;
     width: 100%;
+    max-height: 100%;
+    height: max-content;
     display: flex;
     flex-direction: column;
     color: black;
-    overflow: auto;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
 `;
 
 export const Warning = styled.div`

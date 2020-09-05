@@ -34,3 +34,10 @@ export const selectItemHandler = (
         emptyCb();
     }
 };
+
+export const alertError = (error: any) => {
+    alert(
+        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+            error
+    );
+};

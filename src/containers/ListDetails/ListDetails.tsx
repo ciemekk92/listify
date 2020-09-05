@@ -12,6 +12,7 @@ import { Description } from '../ListLayout/ListLayout.styled';
 import EditButton from '../../components/ListDetails/EditButton/EditButton';
 import { CSSTransition } from 'react-transition-group';
 import Tag from '../../components/ListDetails/Tag/Tag';
+import FieldButton from '../../components/ListLayout/FieldButton/FieldButton';
 
 const Details: React.FC<Props> = (props) => {
     const { showingPlaceholder, selected, selectedItem } = props;
@@ -105,7 +106,11 @@ const Details: React.FC<Props> = (props) => {
                 onMouseLeave={() => setIsTagEditShown(false)}
             >
                 <Description>Tag:</Description>
-                <Value>Tag will be placed here</Value>
+                <FieldButton
+                    clicked={editTagHandler}
+                    tagValue={selectedItem.tag}
+                    details
+                />
                 <CSSTransition
                     in={isTagEditShown}
                     timeout={500}

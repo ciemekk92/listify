@@ -13,6 +13,7 @@ interface ParagraphProps {
 export const Wrapper = styled.div<DetailsProps>`
     width: ${(props) => (props.showingPlaceholder ? 0 : '45%')};
     opacity: ${(props) => (props.selected ? 1 : 0)};
+    display: flex;
     margin-right: 4rem;
     height: 85vh;
     align-items: center;
@@ -20,13 +21,17 @@ export const Wrapper = styled.div<DetailsProps>`
     place-self: center;
     color: black;
     flex-direction: column;
-    overflow: hidden;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
     border-radius: 0.5rem;
     background-color: #f9f7f7;
     transition: opacity 0.4s ease;
     position: relative;
     z-index: 1;
+    overflow: scroll;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     @media only screen and ${device.tablet} {
         margin: 1%;

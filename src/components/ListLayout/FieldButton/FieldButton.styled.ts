@@ -3,6 +3,7 @@ import styled from 'styled-components';
 interface ButtonProps {
     readonly color: string;
     readonly listEnabled?: boolean;
+    readonly details?: boolean;
 }
 
 export const Button = styled.button<ButtonProps>`
@@ -27,6 +28,7 @@ export const Button = styled.button<ButtonProps>`
     cursor: pointer;
     transition: all 0.2s ease;
     outline: none;
+    ${(props) => (props.details ? 'margin-left: 2.4rem' : null)};
 
     &:hover {
         transform: translateY(-0.2rem);

@@ -16,7 +16,7 @@ import {
 } from './Notes.styled';
 import EditButton from '../EditButton/EditButton';
 import NotePanel from './NotePanel/NotePanel';
-import { updateObject } from '../../../shared/utility';
+import { alertError, updateObject } from '../../../shared/utility';
 import firebase from 'firebase/app';
 import { CSSTransition } from 'react-transition-group';
 
@@ -83,12 +83,9 @@ const Notes: React.FC<Props> = (props) => {
                         selectedItem
                     )
                 })
-                .catch((error) =>
-                    alert(
-                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                            error
-                    )
-                );
+                .catch((error) => {
+                    alertError(error);
+                });
             await docRef
                 .update({
                     [updatedItem.completed
@@ -98,17 +95,11 @@ const Notes: React.FC<Props> = (props) => {
                     )
                 })
                 .then(() => onSelectingItem(updatedItem))
-                .catch((error) =>
-                    alert(
-                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                            error
-                    )
-                );
+                .catch((error) => {
+                    alertError(error);
+                });
         } catch (error) {
-            alert(
-                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                    error
-            );
+            alertError(error);
         }
     };
 

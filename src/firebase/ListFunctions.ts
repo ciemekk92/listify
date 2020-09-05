@@ -1,7 +1,7 @@
 import { firestore } from './firebase';
 import { Item } from '../types';
 import firebase from 'firebase/app';
-import { updateObject } from '../shared/utility';
+import { alertError, updateObject } from '../shared/utility';
 
 export const completeItem = async (
     id: string,
@@ -42,12 +42,9 @@ export const completeItem = async (
                         itemToRemove[0]
                     )
                 })
-                .catch((error) =>
-                    alert(
-                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                            error
-                    )
-                );
+                .catch((error) => {
+                    alertError(error);
+                });
         }
 
         if (props.selectedItem.id) {
@@ -59,19 +56,13 @@ export const completeItem = async (
                     updatedItem
                 )
             })
-            .catch((error) =>
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                )
-            )
+            .catch((error) => {
+                alertError(error);
+            })
             .then(() => updateCb())
-            .catch((error) =>
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                )
-            );
+            .catch((error) => {
+                alertError(error);
+            });
 
         if (props.tagName !== '') {
             await docRef
@@ -80,25 +71,16 @@ export const completeItem = async (
                         updatedItem
                     )
                 })
-                .catch((error) =>
-                    alert(
-                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                            error
-                    )
-                )
+                .catch((error) => {
+                    alertError(error);
+                })
                 .then(() => updateCb())
-                .catch((error) =>
-                    alert(
-                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                            error
-                    )
-                );
+                .catch((error) => {
+                    alertError(error);
+                });
         }
     } catch (error) {
-        alert(
-            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                error
-        );
+        alertError(error);
     }
 };
 
@@ -131,12 +113,9 @@ export const deleteItem = async (
                     itemToRemove[0]
                 )
             })
-            .catch((error) =>
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                )
-            );
+            .catch((error) => {
+                alertError(error);
+            });
         if (tagName !== '') {
             await docRef
                 .update({
@@ -144,18 +123,12 @@ export const deleteItem = async (
                         itemToRemove[0]
                     )
                 })
-                .catch((error) =>
-                    alert(
-                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                            error
-                    )
-                );
+                .catch((error) => {
+                    alertError(error);
+                });
         }
     } catch (error) {
-        alert(
-            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                error
-        );
+        alertError(error);
     }
 };
 
@@ -197,26 +170,17 @@ export const clearItemsTag = async (
                     itemToRemove[0]
                 )
             })
-            .catch((error) =>
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                )
-            );
+            .catch((error) => {
+                alertError(error);
+            });
         await docRef
             .update({
                 [key]: firebase.firestore.FieldValue.arrayUnion(updatedObject)
             })
-            .catch((error) =>
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                )
-            );
+            .catch((error) => {
+                alertError(error);
+            });
     } catch (error) {
-        alert(
-            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                error
-        );
+        alertError(error);
     }
 };

@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 import { getUserDoc } from '../../firebase/firebase';
 import { userInfo } from '../types/types';
+import { alertError } from '../../shared/utility';
 
 export const setUserInfo = (userInfo: userInfo) => {
     return {
@@ -45,9 +46,7 @@ export const initUserInfo = () => {
             })
             .catch((error) => {
                 dispatch(fetchUserInfoFailed(error));
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/'
-                );
+                alertError('');
                 dispatch(disableLoading());
             });
     };
