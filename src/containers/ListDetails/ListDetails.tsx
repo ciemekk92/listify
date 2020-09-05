@@ -11,7 +11,7 @@ import { Row, RowWithCompletion } from './ListDetails.styled';
 import { Description } from '../ListLayout/ListLayout.styled';
 import EditButton from '../../components/ListDetails/EditButton/EditButton';
 import { CSSTransition } from 'react-transition-group';
-import Tag from '../../components/ListDetails/Tag/Tag';
+import TagView from '../../components/ListDetails/TagView/TagView';
 import FieldButton from '../../components/ListLayout/FieldButton/FieldButton';
 
 const Details: React.FC<Props> = (props) => {
@@ -44,7 +44,6 @@ const Details: React.FC<Props> = (props) => {
     };
 
     // FIXME: handle editing data in tags as well
-    // TODO: switch regular transitions into react-transition-group (notes done)- it won't render components, when they're not needed
 
     return (
         <Wrapper selected={selected} showingPlaceholder={showingPlaceholder}>
@@ -126,7 +125,7 @@ const Details: React.FC<Props> = (props) => {
                     />
                 </CSSTransition>
             </Row>
-            <Tag
+            <TagView
                 editing={editingTag}
                 clickedCancel={() => setEditingTag(false)}
             />

@@ -8,7 +8,7 @@ export const Panel = styled.div`
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 1.4rem;
     background-color: #e7ebf4;
-    border-radius: 0.5rem;
+    border-radius: 0.3rem;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
     height: max-content;
     transition: all 0.4s ease;
@@ -26,7 +26,7 @@ export const Panel = styled.div`
 
     &::after {
         position: absolute;
-        border-radius: 0.5rem;
+        border-radius: 0.3rem;
         content: ' ';
         top: 0;
         right: 0;

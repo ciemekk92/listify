@@ -23,10 +23,12 @@ import {
     AddingTaskContainer,
     AddingTaskToggle,
     Description,
-    FieldContainer,
-    Field,
     Warning
 } from '../../containers/ListLayout/ListLayout.styled';
+import {
+    FieldContainer,
+    Field
+} from '../../components/UI/TagSelector/TagSelector.styled';
 import { Plus } from '../../components/Icons';
 import { CSSTransition } from 'react-transition-group';
 import ListInput from '../../components/ListLayout/ListInput/ListInput';
@@ -37,6 +39,7 @@ import { firestore } from '../../firebase/firebase';
 import { v4 as uuidv4 } from 'uuid';
 import firebase from 'firebase/app';
 import FieldButton from '../../components/ListLayout/FieldButton/FieldButton';
+import TagSelector from '../../components/UI/TagSelector/TagSelector';
 
 const { Provider } = hiddenListContext;
 
@@ -336,42 +339,10 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                             unmountOnExit
                                             classNames="move"
                                         >
-                                            <FieldContainer>
-                                                <Field
-                                                    onClick={() =>
-                                                        tagSelectHandler({
-                                                            name: '',
-                                                            id: '',
-                                                            color: ''
-                                                        })
-                                                    }
-                                                >
-                                                    None
-                                                </Field>
-                                                {tagsArray.map((element) => (
-                                                    <Field
-                                                        key={element.id}
-                                                        color={element.color}
-                                                        onClick={() =>
-                                                            tagSelectHandler({
-                                                                name:
-                                                                    element.name,
-                                                                id: element.id,
-                                                                color:
-                                                                    element.color
-                                                            })
-                                                        }
-                                                    >
-                                                        {element.name.length <
-                                                        20
-                                                            ? element.name
-                                                            : element.name.substring(
-                                                                  0,
-                                                                  20
-                                                              ) + '...'}
-                                                    </Field>
-                                                ))}
-                                            </FieldContainer>
+                                            <TagSelector
+                                                selectCb={tagSelectHandler}
+                                                tagsArray={tagsArray}
+                                            />
                                         </CSSTransition>
                                     </AddingRow>
                                     <AddingRow active={warning === ''}>
@@ -432,7 +403,7 @@ const mapStateToProps = (state: {
     user: {
         mobile: boolean;
         userInfo: {
-            tags: Tag[];
+            tags: { [name: string]: Tag };
             lists: any;
         };
     };

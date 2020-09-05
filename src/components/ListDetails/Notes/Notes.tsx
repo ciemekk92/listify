@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../../store/actions';
-import { firestore, saveEditedItem } from '../../../firebase/firebase';
+import { firestore } from '../../../firebase/firebase';
+import { saveEditedItem } from '../../../firebase/ListFunctions';
 import '../Transitions.css';
 import { Item } from '../../../types';
 import {

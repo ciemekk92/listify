@@ -3,6 +3,45 @@ import { Item } from '../types';
 import firebase from 'firebase/app';
 import { alertError, updateObject } from '../shared/utility';
 
+export const saveEditedItem = async (
+    currentList: string,
+    selectedItem: Item,
+    editedItem: Item
+) => {
+    let keyCompleted = `lists.${currentList}.listItems.completed`;
+    let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
+
+    const uid: any = localStorage.getItem('currentUser');
+    const docRef = await firestore.collection('users').doc(uid);
+
+    try {
+        await docRef
+            .update({
+                [selectedItem.completed
+                    ? keyCompleted
+                    : keyNotCompleted]: firebase.firestore.FieldValue.arrayRemove(
+                    selectedItem
+                )
+            })
+            .catch((error) => {
+                alertError(error);
+            });
+        await docRef
+            .update({
+                [editedItem.completed
+                    ? keyCompleted
+                    : keyNotCompleted]: firebase.firestore.FieldValue.arrayUnion(
+                    editedItem
+                )
+            })
+            .catch((error) => {
+                alertError(error);
+            });
+    } catch (error) {
+        alertError(error);
+    }
+};
+
 export const completeItem = async (
     id: string,
     updateCb: Function,
@@ -84,6 +123,20 @@ export const completeItem = async (
     }
 };
 
+const findItemToRemove = (
+    lists: any,
+    list: string,
+    comparedItem: { completed: boolean; id: string }
+) => {
+    return comparedItem.completed
+        ? lists[list].listItems.completed.filter(
+              (item: Item) => item.id === comparedItem.id
+          )
+        : lists[list].listItems.notCompleted.filter(
+              (item: Item) => item.id === comparedItem.id
+          );
+};
+
 export const deleteItem = async (
     list: string,
     id: string,
@@ -95,13 +148,11 @@ export const deleteItem = async (
 ) => {
     const uid: any = localStorage.getItem('currentUser');
     const docRef = await firestore.collection('users').doc(uid);
-    const itemToRemove = completed
-        ? props.lists[list].listItems.completed.filter(
-              (item: Item) => item.id === id
-          )
-        : props.lists[list].listItems.notCompleted.filter(
-              (item: Item) => item.id === id
-          );
+    const itemToRemove = findItemToRemove(props.lists, list, {
+        completed: completed,
+        id: id
+    });
+
     const deleteKey = completed
         ? `lists.${list}.listItems.completed`
         : `lists.${list}.listItems.notCompleted`;
@@ -132,6 +183,43 @@ export const deleteItem = async (
     }
 };
 
+export const updateTaggedItem = async (
+    oldItem: Item,
+    props: {
+        lists: any;
+    },
+    updatedProps: {
+        [name: string]: any;
+    }
+) => {
+    const uid: any = localStorage.getItem('currentUser');
+    const docRef = await firestore.collection('users').doc(uid);
+    const returnKey = (tagName: string) => `tags.${tagName}.items`;
+
+    const updatedItem = updateObject(oldItem, { ...updatedProps });
+    try {
+        await docRef
+            .update({
+                [returnKey(
+                    oldItem.tag.name
+                )]: firebase.firestore.FieldValue.arrayRemove(oldItem)
+            })
+            .catch((error) => alertError(error));
+
+        if (updatedItem.tag.name !== '') {
+            await docRef
+                .update({
+                    [returnKey(
+                        updatedItem.tag.name
+                    )]: firebase.firestore.FieldValue.arrayUnion(updatedItem)
+                })
+                .catch((error) => alertError(error));
+        }
+    } catch (error) {
+        alertError(error);
+    }
+};
+
 export const clearItemsTag = async (
     list: string,
     id: string,
@@ -143,13 +231,11 @@ export const clearItemsTag = async (
     const uid: any = localStorage.getItem('currentUser');
     const docRef = await firestore.collection('users').doc(uid);
 
-    const itemToRemove = completed
-        ? props.lists[list].listItems.completed.filter(
-              (item: Item) => item.id === id
-          )
-        : props.lists[list].listItems.notCompleted.filter(
-              (item: Item) => item.id === id
-          );
+    const itemToRemove = findItemToRemove(props.lists, list, {
+        completed: completed,
+        id: id
+    });
+
     const updatedObject = updateObject(itemToRemove[0], {
         tag: {
             name: '',

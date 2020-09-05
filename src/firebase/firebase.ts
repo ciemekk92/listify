@@ -1,7 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-import { Item } from '../types';
 import { alertError } from '../shared/utility';
 
 // Edit firebaseConfig with your Firebase configuration, if you cloned the repository from GitHub
@@ -52,43 +51,4 @@ export const createUserDoc = async (user: any, userName: string) => {
         }
     }
     return getUserDoc(user.uid);
-};
-
-export const saveEditedItem = async (
-    currentList: string,
-    selectedItem: Item,
-    editedItem: Item
-) => {
-    let keyCompleted = `lists.${currentList}.listItems.completed`;
-    let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
-
-    const uid: any = localStorage.getItem('currentUser');
-    const docRef = await firestore.collection('users').doc(uid);
-
-    try {
-        await docRef
-            .update({
-                [selectedItem.completed
-                    ? keyCompleted
-                    : keyNotCompleted]: firebase.firestore.FieldValue.arrayRemove(
-                    selectedItem
-                )
-            })
-            .catch((error) => {
-                alertError(error);
-            });
-        await docRef
-            .update({
-                [editedItem.completed
-                    ? keyCompleted
-                    : keyNotCompleted]: firebase.firestore.FieldValue.arrayUnion(
-                    editedItem
-                )
-            })
-            .catch((error) => {
-                alertError(error);
-            });
-    } catch (error) {
-        alertError(error);
-    }
 };

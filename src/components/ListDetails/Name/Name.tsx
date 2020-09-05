@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../../store/actions';
-import { saveEditedItem } from '../../../firebase/firebase';
+import { saveEditedItem } from '../../../firebase/ListFunctions';
 import { Wrapper, Input, Confirm, Warning } from './Name.styled';
 import EditButton from '../EditButton/EditButton';
 import { updateObject } from '../../../shared/utility';
@@ -17,7 +17,7 @@ type NameProps = {
     onSelectingItem(item: Item): void;
 };
 
-const Name: React.FC<NameProps> = (props) => {
+const Name: React.FC<Props> = (props) => {
     const {
         clickedCancel,
         editing,
@@ -115,4 +115,8 @@ const mapDispatchToProps = {
     onSelectingItem: (item: Item) => actions.setSelectedItem(item)
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Name));
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux & NameProps;
+
+export default connector(React.memo(Name));

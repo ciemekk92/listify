@@ -246,7 +246,7 @@ const Sidebar: React.FC<Props> = (props) => {
     }) => {
         if (tagNamesArray.includes(newTag.name)) {
             setWarning(
-                'Tag with this name already exists, choose another one!'
+                'TagView with this name already exists, choose another one!'
             );
         } else if (newTag.name === '') {
             setWarning('Name of the tag must not be empty!');

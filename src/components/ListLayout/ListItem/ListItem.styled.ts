@@ -27,7 +27,7 @@ export const Item = styled.div<ItemProps>`
     font-family: 'Open Sans Condensed', sans-serif;
     color: ${(props) => (props.completed ? 'white' : 'black')};
     margin: ${(props) => (props.selected ? '0.5rem 0' : '0.25rem 0')};
-    border-radius: 0.5rem;
+    border-radius: 0.3rem;
     display: grid;
     grid-template-columns: 50% 30% 10% 10%;
     cursor: default;
@@ -48,7 +48,7 @@ export const Item = styled.div<ItemProps>`
 
     &::after {
         position: absolute;
-        border-radius: 5px;
+        border-radius: 0.3rem;
         content: ' ';
         top: 0;
         right: 0;
