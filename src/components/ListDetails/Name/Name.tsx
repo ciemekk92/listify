@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../../store/actions';
-import { saveEditedItem } from '../../../firebase/ListFunctions';
+import {
+    saveEditedItem,
+    updateTaggedItem
+} from '../../../firebase/ListFunctions';
 import { Wrapper, Input, Confirm, Warning } from './Name.styled';
 import EditButton from '../EditButton/EditButton';
 import { updateObject } from '../../../shared/utility';
@@ -23,6 +26,7 @@ const Name: React.FC<Props> = (props) => {
         editing,
         selectedItem,
         currentList,
+        lists,
         onGettingUserInfo,
         onSelectingItem
     } = props;
@@ -46,13 +50,19 @@ const Name: React.FC<Props> = (props) => {
         if (item.value === '') {
             setWarning('The name field must not be empty!');
         } else {
-            saveEditedItem(currentList, selectedItem, item)
-                .then(() => {
-                    setWarning('');
-                    clickedCancel();
-                    onGettingUserInfo();
-                })
-                .then(() => onSelectingItem(item));
+            saveEditedItem(currentList, selectedItem, item).then(() =>
+                updateTaggedItem(
+                    selectedItem,
+                    { lists: lists },
+                    { value: item.value }
+                )
+                    .then(() => {
+                        setWarning('');
+                        clickedCancel();
+                        onGettingUserInfo();
+                    })
+                    .then(() => onSelectingItem(item))
+            );
         }
     };
 
@@ -103,10 +113,16 @@ const mapStateToProps = (state: {
         selectedItem: Item;
         currentList: any;
     };
+    user: {
+        userInfo: {
+            lists: { [name: string]: any };
+        };
+    };
 }) => {
     return {
         selectedItem: state.list.selectedItem,
-        currentList: state.list.currentList
+        currentList: state.list.currentList,
+        lists: state.user.userInfo.lists
     };
 };
 

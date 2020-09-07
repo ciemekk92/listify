@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { saveEditedItem } from '../../../firebase/ListFunctions';
-import { updateObject } from '../../../shared/utility';
+import {
+    saveEditedItem,
+    updateTaggedItem
+} from '../../../firebase/ListFunctions';
+import { alertError, updateObject } from '../../../shared/utility';
 import { Wrapper, Confirm } from './DateContainer.styled';
 import EditButton from '../EditButton/EditButton';
 import DatePicker from '../../../containers/DatePicker/DatePicker';
@@ -17,6 +20,7 @@ const DateContainer: React.FC<Props> = (props) => {
         selectedItem,
         changedDate,
         currentList,
+        lists,
         onGettingUserInfo,
         onSettingSelectedItem
     } = props;
@@ -25,18 +29,18 @@ const DateContainer: React.FC<Props> = (props) => {
         const updatedItem = updateObject(selectedItem, {
             date: changedDate
         });
-        console.log(updatedItem);
-        saveEditedItem(currentList, selectedItem, updatedItem)
-            .then(() => {
-                onGettingUserInfo();
-                onSettingSelectedItem(updatedItem);
-            })
-            .catch((error) =>
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                )
-            );
+        saveEditedItem(currentList, selectedItem, updatedItem).then(() => {
+            updateTaggedItem(
+                selectedItem,
+                { lists: lists },
+                { date: changedDate }
+            )
+                .then(() => {
+                    onGettingUserInfo();
+                    onSettingSelectedItem(updatedItem);
+                })
+                .catch((error) => alertError(error));
+        });
     };
 
     return (
@@ -70,11 +74,13 @@ const DateContainer: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state: {
     list: { currentList: string; changedDate: string; selectedItem: Item };
+    user: { userInfo: { lists: { [name: string]: any } } };
 }) => {
     return {
         currentList: state.list.currentList,
         changedDate: state.list.changedDate,
-        selectedItem: state.list.selectedItem
+        selectedItem: state.list.selectedItem,
+        lists: state.user.userInfo.lists
     };
 };
 

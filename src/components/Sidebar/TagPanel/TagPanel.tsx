@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Panel, Name, ButtonContainer, Color } from './TagPanel.styled';
+import { Panel, Name, ButtonContainer, Color, Count } from './TagPanel.styled';
 import EditButton from '../../ListDetails/EditButton/EditButton';
 import { CSSTransition } from 'react-transition-group';
 import { connect, ConnectedProps } from 'react-redux';
 
 type PanelProps = {
+    count: number;
     active: boolean;
     color: string;
     clicked(): void;
@@ -17,6 +18,7 @@ const TagPanel: React.FC<Props> = (props) => {
     const {
         active,
         color,
+        count,
         clicked,
         clickedDelete,
         name,
@@ -43,6 +45,7 @@ const TagPanel: React.FC<Props> = (props) => {
             <Name>
                 {name.length < 12 ? name : name.substring(0, 12) + '...'}
             </Name>
+            <Count>{count >= 100 ? '99+' : count}</Count>
             <CSSTransition
                 timeout={500}
                 classNames="move"

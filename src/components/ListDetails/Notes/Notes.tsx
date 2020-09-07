@@ -3,7 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../../store/actions';
 import { firestore } from '../../../firebase/firebase';
-import { saveEditedItem } from '../../../firebase/ListFunctions';
+import {
+    saveEditedItem,
+    updateTaggedItem
+} from '../../../firebase/ListFunctions';
 import '../Transitions.css';
 import { Item } from '../../../types';
 import {
@@ -26,7 +29,7 @@ const Notes: React.FC<Props> = (props) => {
         editing,
         clickedCancel,
         selectedItem,
-        currentList,
+        lists,
         onGettingUserInfo,
         onSelectingItem
     } = props;
@@ -47,16 +50,24 @@ const Notes: React.FC<Props> = (props) => {
         if (inputValue === '') {
             setWarning('This field must not be empty!');
         } else {
+            const updatedNotes = [inputValue, ...selectedItem.notes];
             const updatedItem = updateObject(selectedItem, {
-                notes: [inputValue, ...selectedItem.notes]
+                notes: updatedNotes
             });
-            saveEditedItem(currentList, selectedItem, updatedItem)
-                .then(() => {
-                    // setEditing(!editing);
-                    clearInput();
-                    onGettingUserInfo();
-                })
-                .then(() => onSelectingItem(updatedItem));
+            saveEditedItem(selectedItem.list, selectedItem, updatedItem).then(
+                () => {
+                    updateTaggedItem(
+                        selectedItem,
+                        { lists: lists },
+                        { notes: updatedNotes }
+                    )
+                        .then(() => {
+                            clearInput();
+                            onGettingUserInfo();
+                        })
+                        .then(() => onSelectingItem(updatedItem));
+                }
+            );
         }
     };
 
@@ -69,8 +80,8 @@ const Notes: React.FC<Props> = (props) => {
             notes: resultArray
         });
 
-        let keyCompleted = `lists.${currentList}.listItems.completed`;
-        let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
+        let keyCompleted = `lists.${selectedItem.list}.listItems.completed`;
+        let keyNotCompleted = `lists.${selectedItem.list}.listItems.notCompleted`;
 
         const uid: any = localStorage.getItem('currentUser');
         const docRef = await firestore.collection('users').doc(uid);
@@ -87,6 +98,27 @@ const Notes: React.FC<Props> = (props) => {
                 .catch((error) => {
                     alertError(error);
                 });
+
+            await docRef
+                .update({
+                    [`tags.${selectedItem.tag.name}.items`]: firebase.firestore.FieldValue.arrayRemove(
+                        selectedItem
+                    )
+                })
+                .catch((error) => {
+                    alertError(error);
+                });
+
+            await docRef
+                .update({
+                    [`tags.${selectedItem.tag.name}.items`]: firebase.firestore.FieldValue.arrayUnion(
+                        updatedItem
+                    )
+                })
+                .catch((error) => {
+                    alertError(error);
+                });
+
             await docRef
                 .update({
                     [updatedItem.completed
@@ -105,7 +137,9 @@ const Notes: React.FC<Props> = (props) => {
     };
 
     const deleteNoteHandler = async (note: string) => {
-        await deleteNote(note).then(() => onGettingUserInfo());
+        await deleteNote(note).then(() => {
+            onGettingUserInfo();
+        });
     };
 
     const notesMap = (
@@ -170,12 +204,18 @@ const Notes: React.FC<Props> = (props) => {
 const mapStateToProps = (state: {
     list: {
         selectedItem: Item;
-        currentList: any;
+    };
+    user: {
+        userInfo: {
+            lists: {
+                [name: string]: any;
+            };
+        };
     };
 }) => {
     return {
         selectedItem: state.list.selectedItem,
-        currentList: state.list.currentList
+        lists: state.user.userInfo.lists
     };
 };
 

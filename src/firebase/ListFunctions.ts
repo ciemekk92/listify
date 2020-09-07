@@ -197,14 +197,17 @@ export const updateTaggedItem = async (
     const returnKey = (tagName: string) => `tags.${tagName}.items`;
 
     const updatedItem = updateObject(oldItem, { ...updatedProps });
+
     try {
-        await docRef
-            .update({
-                [returnKey(
-                    oldItem.tag.name
-                )]: firebase.firestore.FieldValue.arrayRemove(oldItem)
-            })
-            .catch((error) => alertError(error));
+        if (oldItem.tag.name !== '') {
+            await docRef
+                .update({
+                    [returnKey(
+                        oldItem.tag.name
+                    )]: firebase.firestore.FieldValue.arrayRemove(oldItem)
+                })
+                .catch((error) => alertError(error));
+        }
 
         if (updatedItem.tag.name !== '') {
             await docRef

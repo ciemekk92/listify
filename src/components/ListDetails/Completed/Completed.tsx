@@ -17,13 +17,16 @@ const Completed: React.FC<PropsFromRedux> = (props) => {
         onSelectingItem
     } = props;
 
-    let keyCompleted = `lists.${currentList}.listItems.completed`;
-    let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
-
-    const editHandler = async (id: string, completed: boolean) => {
+    const editHandler = async (
+        id: string,
+        completed: boolean,
+        list: string
+    ) => {
         const uid: any = localStorage.getItem('currentUser');
+        let keyCompleted = `lists.${list}.listItems.completed`;
+        let keyNotCompleted = `lists.${list}.listItems.notCompleted`;
         const docRef = await firestore.collection('users').doc(uid);
-        const itemToRemove = lists[currentList].listItems[
+        const itemToRemove = lists[list].listItems[
             `${completed ? 'completed' : 'notCompleted'}`
         ].filter((item: Item) => item.id === id);
 
@@ -32,11 +35,32 @@ const Completed: React.FC<PropsFromRedux> = (props) => {
         });
 
         try {
-            await docRef.update({
-                [`${
-                    completed ? keyCompleted : keyNotCompleted
-                }`]: firebase.firestore.FieldValue.arrayRemove(itemToRemove[0])
-            });
+            await docRef
+                .update({
+                    [`${
+                        completed ? keyCompleted : keyNotCompleted
+                    }`]: firebase.firestore.FieldValue.arrayRemove(
+                        itemToRemove[0]
+                    )
+                })
+                .catch((error) => alertError(error));
+
+            await docRef
+                .update({
+                    [`tags.${selectedItem.tag.name}.items`]: firebase.firestore.FieldValue.arrayRemove(
+                        itemToRemove[0]
+                    )
+                })
+                .catch((error) => alertError(error));
+
+            await docRef
+                .update({
+                    [`tags.${selectedItem.tag.name}.items`]: firebase.firestore.FieldValue.arrayUnion(
+                        editedCompletion
+                    )
+                })
+                .catch((error) => alertError(error));
+
             await docRef
                 .update({
                     [`${
@@ -65,7 +89,11 @@ const Completed: React.FC<PropsFromRedux> = (props) => {
         <Wrapper>
             <CompletedButton
                 clicked={() =>
-                    editHandler(selectedItem.id, selectedItem.completed)
+                    editHandler(
+                        selectedItem.id,
+                        selectedItem.completed,
+                        selectedItem.list
+                    )
                 }
                 completed={selectedItem.completed}
             />

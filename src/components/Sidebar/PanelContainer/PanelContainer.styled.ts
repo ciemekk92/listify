@@ -8,6 +8,7 @@ export const Container = styled.div`
     overflow: auto;
     transition: all 0.4s ease;
     transform-origin: top;
+    height: max-content;
 
     &::-webkit-scrollbar {
         display: none;

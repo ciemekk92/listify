@@ -6,9 +6,9 @@ interface PanelProps {
 
 export const Panel = styled.div<PanelProps>`
     width: 100%;
-    height: max-content;
+    height: 3.6rem;
     display: grid;
-    grid-template-columns: 0.5fr 0.2fr 0.3fr;
+    grid-template-columns: 1fr 20% 20%;
     grid-template-rows: 1fr;
     gap: 1px 1px;
     font-weight: ${(props) => (props.active ? '700' : '300')};
@@ -47,8 +47,7 @@ export const Name = styled.p`
     font-size: 1.6rem;
     cursor: pointer;
     color: white;
-    margin-left: auto;
-    margin-right: 1rem;
+    margin-left: 5.5rem;
 `;
 
 export const ButtonContainer = styled.div`

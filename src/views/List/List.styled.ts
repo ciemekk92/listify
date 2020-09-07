@@ -69,7 +69,7 @@ export const AddingRow = styled.div<RowProps>`
 export const Placeholder = styled.div`
     text-align: center;
     font-size: 3rem;
-    margin: auto 0;
+    margin: 50% auto;
 `;
 
 export const PlaceholderList = styled.div`

@@ -17,7 +17,7 @@ import { Item, List, Tag } from '../../types';
 import EditButton from '../../components/ListDetails/EditButton/EditButton';
 import { Home, Unread, Github, Mail, Tags } from '../../components/Icons';
 import { CSSTransition } from 'react-transition-group';
-import './Sidebar.css';
+import '../../components/ListDetails/Transitions.css';
 import TagPanel from '../../components/Sidebar/TagPanel/TagPanel';
 import ColorPicker from '../../components/Sidebar/NewList/ColorPicker/ColorPicker';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
@@ -124,32 +124,34 @@ const Sidebar: React.FC<Props> = (props) => {
         } else if (newList.name === '') {
             setWarning('Name of the list must not be empty!');
         } else {
-            setAdding(false);
-            const uid: any = localStorage.getItem('currentUser');
-            const docRef = await firestore.collection('users').doc(uid);
-            const listWithTimestamp = updateObject(list, {
-                id: uuidv4(),
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            let key = `lists.${list.name}`;
+            if (newList.name !== null) {
+                setAdding(false);
+                const uid: any = localStorage.getItem('currentUser');
+                const docRef = await firestore.collection('users').doc(uid);
+                const listWithTimestamp = updateObject(list, {
+                    id: uuidv4(),
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                let key = `lists.${list.name}`;
 
-            try {
-                await docRef
-                    .update({
-                        [key]: listWithTimestamp
-                    })
-                    .then(() => onGettingUserInfo())
-                    .catch((error) =>
-                        alert(
-                            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                                error
-                        )
+                try {
+                    await docRef
+                        .update({
+                            [key]: listWithTimestamp
+                        })
+                        .then(() => onGettingUserInfo())
+                        .catch((error) =>
+                            alert(
+                                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                                    error
+                            )
+                        );
+                } catch (error) {
+                    alert(
+                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
+                            error
                     );
-            } catch (error) {
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                );
+                }
             }
         }
     };
@@ -246,7 +248,7 @@ const Sidebar: React.FC<Props> = (props) => {
     }) => {
         if (tagNamesArray.includes(newTag.name)) {
             setWarning(
-                'TagView with this name already exists, choose another one!'
+                'Tag with this name already exists, choose another one!'
             );
         } else if (newTag.name === '') {
             setWarning('Name of the tag must not be empty!');
@@ -333,6 +335,9 @@ const Sidebar: React.FC<Props> = (props) => {
     const currentTagHandler = (tag: Tag) => {
         if (tag.id !== currentTag.id) {
             onSettingCurrentTag(tag);
+        }
+        if (selectedItem.id) {
+            onSettingSelectedItemEmpty();
         }
     };
 
@@ -443,7 +448,7 @@ const Sidebar: React.FC<Props> = (props) => {
             <LabelPanel>
                 <Home
                     size={24}
-                    color={'#666'}
+                    color={'#3f72af'}
                     title={'Home'}
                     style={{ marginLeft: '2rem' }}
                 />
@@ -453,7 +458,7 @@ const Sidebar: React.FC<Props> = (props) => {
                 <Unread
                     size={24}
                     title={'My lists'}
-                    color={'#666'}
+                    color={'#3f72af'}
                     style={{ marginLeft: '2rem' }}
                 />
                 <p>My lists</p>
@@ -461,7 +466,7 @@ const Sidebar: React.FC<Props> = (props) => {
             <CSSTransition
                 in={areListsShown}
                 timeout={300}
-                classNames={'lists'}
+                classNames={'height'}
                 mountOnEnter
                 unmountOnExit
             >
@@ -513,7 +518,7 @@ const Sidebar: React.FC<Props> = (props) => {
                 <Tags
                     size={24}
                     title={'Tags'}
-                    color={'#666'}
+                    color={'#3f72af'}
                     style={{ marginLeft: '2rem' }}
                 />
                 <p>Tags</p>
@@ -521,7 +526,7 @@ const Sidebar: React.FC<Props> = (props) => {
             <CSSTransition
                 in={areTagsShown}
                 timeout={300}
-                classNames={'lists'}
+                classNames={'height'}
                 mountOnEnter
                 unmountOnExit
             >
@@ -542,6 +547,7 @@ const Sidebar: React.FC<Props> = (props) => {
                         })
                         .map((element) => (
                             <TagPanel
+                                count={element.items.length}
                                 color={element.color}
                                 key={element.id}
                                 active={currentTag.id === element.id}
@@ -563,7 +569,7 @@ const Sidebar: React.FC<Props> = (props) => {
                 <Github
                     size={24}
                     title={'Github'}
-                    color={'#666'}
+                    color={'#3f72af'}
                     style={{ marginLeft: '2rem' }}
                 />
                 <a
@@ -578,7 +584,7 @@ const Sidebar: React.FC<Props> = (props) => {
                 <Mail
                     size={24}
                     title={'Contact'}
-                    color={'#666'}
+                    color={'#3f72af'}
                     style={{ marginLeft: '2rem' }}
                 />
                 <a href="https://www.facebook.com/przemyslaw.reducha/">
