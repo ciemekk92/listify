@@ -300,15 +300,15 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                             listEnabled
                                         />
                                     </AddingRow>
-                                    <AddingRow active={!showLists}>
-                                        <CSSTransition
-                                            in={showLists}
-                                            timeout={400}
-                                            mountOnEnter
-                                            unmountOnExit
-                                            classNames="move"
-                                        >
-                                            <FieldContainer list>
+                                    <CSSTransition
+                                        in={showLists}
+                                        timeout={400}
+                                        mountOnEnter
+                                        unmountOnExit
+                                        classNames="height"
+                                    >
+                                        <AddingRow active={!showLists}>
+                                            {/*<FieldContainer list>
                                                 {listsArray.map((element) => (
                                                     <Field
                                                         key={uuidv4()}
@@ -321,9 +321,16 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                                         {element}
                                                     </Field>
                                                 ))}
-                                            </FieldContainer>
-                                        </CSSTransition>
-                                    </AddingRow>
+                                            </FieldContainer>*/}
+                                            <TagSelector
+                                                type="list"
+                                                selectCb={(element: string) =>
+                                                    listSelectHandler(element)
+                                                }
+                                                listArray={listsArray}
+                                            />
+                                        </AddingRow>
+                                    </CSSTransition>
                                     <AddingRow>
                                         <Description>Tag:</Description>
                                         <FieldButton
@@ -331,30 +338,28 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                             tagValue={buttonTag}
                                         />
                                     </AddingRow>
-                                    <AddingRow active={!showTags}>
-                                        <CSSTransition
-                                            in={showTags}
-                                            timeout={400}
-                                            mountOnEnter
-                                            unmountOnExit
-                                            classNames="move"
-                                        >
+                                    <CSSTransition
+                                        in={showTags}
+                                        timeout={400}
+                                        mountOnEnter
+                                        unmountOnExit
+                                        classNames="height"
+                                    >
+                                        <AddingRow active={!showTags}>
                                             <TagSelector
                                                 selectCb={tagSelectHandler}
-                                                tagsArray={tagsArray}
+                                                type="tag"
+                                                tagArray={tagsArray}
                                             />
-                                        </CSSTransition>
-                                    </AddingRow>
+                                        </AddingRow>
+                                    </CSSTransition>
                                     <AddingRow active={warning === ''}>
                                         <Warning>
                                             {warning !== '' ? warning : null}
                                         </Warning>
                                     </AddingRow>
                                     <AddingRow>
-                                        <SubmitButton
-                                            selected={!!selectedItem.id}
-                                            clicked={submitHandler}
-                                        >
+                                        <SubmitButton clicked={submitHandler}>
                                             Add new list item
                                         </SubmitButton>
                                     </AddingRow>

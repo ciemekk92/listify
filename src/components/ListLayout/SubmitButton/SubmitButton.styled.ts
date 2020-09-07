@@ -1,11 +1,7 @@
 import styled from 'styled-components';
 import { device } from '../../../templates/MediaQueries/MediaQueries';
 
-interface SubmitProps {
-    readonly selected: boolean;
-}
-
-export const Button = styled.button<SubmitProps>`
+export const Button = styled.button`
     width: 20rem;
     height: 3rem;
     background-color: transparent;

@@ -13,6 +13,7 @@ import EditButton from '../../components/ListDetails/EditButton/EditButton';
 import { CSSTransition } from 'react-transition-group';
 import TagView from '../../components/ListDetails/TagView/TagView';
 import FieldButton from '../../components/ListLayout/FieldButton/FieldButton';
+import ListView from '../../components/ListDetails/ListView/ListView';
 
 const Details: React.FC<Props> = (props) => {
     const { showingPlaceholder, selected, selectedItem } = props;
@@ -20,11 +21,11 @@ const Details: React.FC<Props> = (props) => {
     const [editingName, setEditingName] = useState(false);
     const [editingDate, setEditingDate] = useState(false);
     const [editingNotes, setEditingNotes] = useState(false);
+    const [editingList, setEditingList] = useState(false);
     const [editingTag, setEditingTag] = useState(false);
 
     const [isNameEditShown, setIsNameEditShown] = useState(false);
     const [isDateEditShown, setIsDateEditShown] = useState(false);
-    const [isTagEditShown, setIsTagEditShown] = useState(false);
     const [isNotesEditShown, setIsNotesEditShown] = useState(false);
 
     const editNameHandler = () => {
@@ -35,6 +36,10 @@ const Details: React.FC<Props> = (props) => {
         setEditingDate(!editingDate);
     };
 
+    const editListHandler = () => {
+        setEditingList(!editingList);
+    };
+
     const editTagHandler = () => {
         setEditingTag(!editingTag);
     };
@@ -42,8 +47,6 @@ const Details: React.FC<Props> = (props) => {
     const editNotesHandler = () => {
         setEditingNotes(!editingNotes);
     };
-
-    // FIXME: handle editing data in tags as well
 
     return (
         <Wrapper selected={selected} showingPlaceholder={showingPlaceholder}>
@@ -100,30 +103,23 @@ const Details: React.FC<Props> = (props) => {
                 editing={editingDate}
                 clickedCancel={() => setEditingDate(false)}
             />
-            <Row
-                onMouseEnter={() => setIsTagEditShown(true)}
-                onMouseLeave={() => setIsTagEditShown(false)}
-            >
+            <Row>
+                <Description>List:</Description>
+                <FieldButton
+                    clicked={editListHandler}
+                    listValue={selectedItem.list}
+                    listEnabled
+                    details
+                />
+            </Row>
+            <ListView clickedCancel={() => {}} editing={editingList} />
+            <Row>
                 <Description>Tag:</Description>
                 <FieldButton
                     clicked={editTagHandler}
                     tagValue={selectedItem.tag}
                     details
                 />
-                <CSSTransition
-                    in={isTagEditShown}
-                    timeout={500}
-                    classNames="move"
-                    mountOnEnter
-                    unmountOnExit
-                >
-                    <EditButton
-                        clicked={editTagHandler}
-                        title={'Edit tasks tag'}
-                        type={'edit'}
-                        size={16}
-                    />
-                </CSSTransition>
             </Row>
             <TagView
                 editing={editingTag}

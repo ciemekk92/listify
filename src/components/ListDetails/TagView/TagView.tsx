@@ -32,32 +32,36 @@ const TagView: React.FC<Props> = (props) => {
         id: string;
         color: string;
     }) => {
-        const updatedItem = updateObject(selectedItem, {
-            tag: {
-                name: tag.name,
-                id: tag.id,
-                color: tag.color
-            }
-        });
+        if (tag.name !== selectedItem.tag.name) {
+            const updatedItem = updateObject(selectedItem, {
+                tag: {
+                    name: tag.name,
+                    id: tag.id,
+                    color: tag.color
+                }
+            });
 
-        try {
-            saveEditedItem(selectedItem.list, selectedItem, updatedItem)
-                .then(() => {
-                    updateTaggedItem(
-                        selectedItem,
-                        { lists: lists },
-                        { tag: tag }
-                    )
-                        .then(() => {
-                            onGettingUserInfo();
-                            onSettingSelectedItem(updatedItem);
-                            clickedCancel();
-                        })
-                        .catch((error) => alertError(error));
-                })
-                .catch((error) => alertError(error));
-        } catch (error) {
-            alertError(error);
+            try {
+                saveEditedItem(selectedItem.list, selectedItem, updatedItem)
+                    .then(() => {
+                        updateTaggedItem(
+                            selectedItem,
+                            { lists: lists },
+                            { tag: tag }
+                        )
+                            .then(() => {
+                                onGettingUserInfo();
+                                onSettingSelectedItem(updatedItem);
+                                clickedCancel();
+                            })
+                            .catch((error) => alertError(error));
+                    })
+                    .catch((error) => alertError(error));
+            } catch (error) {
+                alertError(error);
+            }
+        } else {
+            clickedCancel();
         }
     };
 
@@ -72,7 +76,15 @@ const TagView: React.FC<Props> = (props) => {
             classNames="height"
         >
             <Wrapper editing={editing}>
-                <TagSelector selectCb={submitHandler} tagsArray={tagsArray} />
+                <TagSelector
+                    selectCb={(tag: {
+                        name: string;
+                        id: string;
+                        color: string;
+                    }) => submitHandler(tag)}
+                    type="tag"
+                    tagArray={tagsArray}
+                />
             </Wrapper>
         </CSSTransition>
     );

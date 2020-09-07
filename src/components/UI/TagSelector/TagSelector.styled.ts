@@ -15,7 +15,7 @@ export const FieldContainer = styled.div<AddingProps>`
     grid-row: ${(props) => (props.list ? '4 / 5' : '5 / 6')};
     grid-column: 1 / 3;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     flex-wrap: wrap;
 `;
 
@@ -30,7 +30,7 @@ export const Field = styled.div<LayoutProps>`
     border-radius: 0.3rem;
     cursor: pointer;
     transition: all 0.2s ease;
-    margin-top: 0.5rem;
+    margin: 0.5rem 0.8rem;
 
     &:hover {
         background-color: ${(props) =>

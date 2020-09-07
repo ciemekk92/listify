@@ -62,7 +62,7 @@ export const AddingRow = styled.div<RowProps>`
     grid-template-columns: 40% 60%;
     grid-template-rows: 1fr;
     align-items: center;
-    margin: ${(props) => (props.active ? '0' : '0.5rem 0')};
+    margin: 0.5rem 0;
     column-gap: 5rem;
 `;
 

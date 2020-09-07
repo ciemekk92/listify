@@ -7,7 +7,6 @@ React application that allows user to create and manage multiple to-do lists onl
 ## TODO
 
 -   ASAP: Redesign layout into more modern one, place correct media queries.
--   Tags (adding, deleting, display tasks by tag, color selection)
 -   Footer
 -   Rearrange project structure
 -   Clean up CSS
