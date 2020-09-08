@@ -112,7 +112,12 @@ const Details: React.FC<Props> = (props) => {
                     details
                 />
             </Row>
-            <ListView clickedCancel={() => {}} editing={editingList} />
+            <ListView
+                clickedCancel={() => {
+                    setEditingList(false);
+                }}
+                editing={editingList}
+            />
             <Row>
                 <Description>Tag:</Description>
                 <FieldButton

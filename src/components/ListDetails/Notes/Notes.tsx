@@ -29,7 +29,6 @@ const Notes: React.FC<Props> = (props) => {
         editing,
         clickedCancel,
         selectedItem,
-        lists,
         onGettingUserInfo,
         onSelectingItem
     } = props;
@@ -54,20 +53,14 @@ const Notes: React.FC<Props> = (props) => {
             const updatedItem = updateObject(selectedItem, {
                 notes: updatedNotes
             });
-            saveEditedItem(selectedItem.list, selectedItem, updatedItem).then(
-                () => {
-                    updateTaggedItem(
-                        selectedItem,
-                        { lists: lists },
-                        { notes: updatedNotes }
-                    )
-                        .then(() => {
-                            clearInput();
-                            onGettingUserInfo();
-                        })
-                        .then(() => onSelectingItem(updatedItem));
-                }
-            );
+            saveEditedItem(selectedItem, updatedItem).then(() => {
+                updateTaggedItem(selectedItem, { notes: updatedNotes })
+                    .then(() => {
+                        clearInput();
+                        onGettingUserInfo();
+                    })
+                    .then(() => onSelectingItem(updatedItem));
+            });
         }
     };
 
@@ -205,17 +198,9 @@ const mapStateToProps = (state: {
     list: {
         selectedItem: Item;
     };
-    user: {
-        userInfo: {
-            lists: {
-                [name: string]: any;
-            };
-        };
-    };
 }) => {
     return {
-        selectedItem: state.list.selectedItem,
-        lists: state.user.userInfo.lists
+        selectedItem: state.list.selectedItem
     };
 };
 

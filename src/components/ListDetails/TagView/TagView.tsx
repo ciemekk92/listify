@@ -22,7 +22,6 @@ const TagView: React.FC<Props> = (props) => {
         clickedCancel,
         selectedItem,
         tags,
-        lists,
         onGettingUserInfo,
         onSettingSelectedItem
     } = props;
@@ -42,13 +41,9 @@ const TagView: React.FC<Props> = (props) => {
             });
 
             try {
-                saveEditedItem(selectedItem.list, selectedItem, updatedItem)
+                saveEditedItem(selectedItem, updatedItem)
                     .then(() => {
-                        updateTaggedItem(
-                            selectedItem,
-                            { lists: lists },
-                            { tag: tag }
-                        )
+                        updateTaggedItem(selectedItem, { tag: tag })
                             .then(() => {
                                 onGettingUserInfo();
                                 onSettingSelectedItem(updatedItem);

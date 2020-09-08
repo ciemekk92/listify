@@ -20,7 +20,6 @@ const DateContainer: React.FC<Props> = (props) => {
         selectedItem,
         changedDate,
         currentList,
-        lists,
         onGettingUserInfo,
         onSettingSelectedItem
     } = props;
@@ -29,15 +28,12 @@ const DateContainer: React.FC<Props> = (props) => {
         const updatedItem = updateObject(selectedItem, {
             date: changedDate
         });
-        saveEditedItem(currentList, selectedItem, updatedItem).then(() => {
-            updateTaggedItem(
-                selectedItem,
-                { lists: lists },
-                { date: changedDate }
-            )
+        saveEditedItem(selectedItem, updatedItem).then(() => {
+            updateTaggedItem(selectedItem, { date: changedDate })
                 .then(() => {
                     onGettingUserInfo();
                     onSettingSelectedItem(updatedItem);
+                    clickedCancel();
                 })
                 .catch((error) => alertError(error));
         });

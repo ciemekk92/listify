@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../store/actions';
 import Sidebar from '../../containers/Sidebar/Sidebar';
@@ -25,21 +25,15 @@ import {
     Description,
     Warning
 } from '../../containers/ListLayout/ListLayout.styled';
-import {
-    FieldContainer,
-    Field
-} from '../../components/UI/TagSelector/TagSelector.styled';
 import { Plus } from '../../components/Icons';
 import { CSSTransition } from 'react-transition-group';
 import ListInput from '../../components/ListLayout/ListInput/ListInput';
 import DatePicker from '../../containers/DatePicker/DatePicker';
 import SubmitButton from '../../components/ListLayout/SubmitButton/SubmitButton';
-import { alertError, updateObject } from '../../shared/utility';
-import { firestore } from '../../firebase/firebase';
-import { v4 as uuidv4 } from 'uuid';
-import firebase from 'firebase/app';
+import { updateObject } from '../../shared/utility';
 import FieldButton from '../../components/ListLayout/FieldButton/FieldButton';
 import TagSelector from '../../components/UI/TagSelector/TagSelector';
+import { saveNewItem } from '../../firebase/ListFunctions';
 
 const { Provider } = hiddenListContext;
 
@@ -150,7 +144,7 @@ const List: React.FC<PropsFromRedux> = (props) => {
         if (inputItem.value === '') {
             setWarning('Name field must not be empty!');
         } else {
-            saveNewItem(inputItem).then(() => listUpdateHandler());
+            saveNewItem(inputItem, date).then(() => listUpdateHandler());
         }
     };
 
@@ -188,43 +182,6 @@ const List: React.FC<PropsFromRedux> = (props) => {
         setAddingTask(!addingTask);
     };
 
-    const saveNewItem = async (newItem: Item) => {
-        const uid: any = localStorage.getItem('currentUser');
-        const docRef = await firestore.collection('users').doc(uid);
-        const newItemWithDate = updateObject(newItem, {
-            date: date,
-            id: uuidv4()
-        });
-
-        let keyNotCompleted = `lists.${newItem.list}.listItems.notCompleted`;
-        let keyWithTag = `tags.${newItem.tag?.name}.items`;
-
-        try {
-            await docRef
-                .update({
-                    [keyNotCompleted]: firebase.firestore.FieldValue.arrayUnion(
-                        newItemWithDate
-                    )
-                })
-                .catch((error) => {
-                    alertError(error);
-                });
-            if (newItem.tag.name !== '') {
-                await docRef
-                    .update({
-                        [keyWithTag]: firebase.firestore.FieldValue.arrayUnion(
-                            newItemWithDate
-                        )
-                    })
-                    .catch((error) => {
-                        alertError(error);
-                    });
-            }
-        } catch (error) {
-            alertError(error);
-        }
-    };
-
     const [showPlaceholder, setShowPlaceholder] = useState(false);
 
     useEffect(() => {
@@ -246,18 +203,31 @@ const List: React.FC<PropsFromRedux> = (props) => {
                 <ListWrapper>
                     <Row>
                         {currentList || currentTag.id !== '' ? (
-                            <Heading2
-                                color={
-                                    currentTag.id !== '' ? currentTag.color : ''
-                                }
-                            >
-                                Your tasks -{' '}
-                                {currentList
-                                    ? currentList
-                                    : currentTag.id !== ''
-                                    ? currentTag.name
-                                    : null}
-                            </Heading2>
+                            <>
+                                <Heading2>Your tasks - </Heading2>
+                                <CSSTransition
+                                    in={!hidden}
+                                    timeout={400}
+                                    mountOnEnter
+                                    unmountOnExit
+                                    classNames="move"
+                                >
+                                    <Heading2
+                                        toLeft
+                                        color={
+                                            currentTag.id !== ''
+                                                ? currentTag.color
+                                                : ''
+                                        }
+                                    >
+                                        {currentList
+                                            ? currentList
+                                            : currentTag.id !== ''
+                                            ? currentTag.name
+                                            : null}
+                                    </Heading2>
+                                </CSSTransition>
+                            </>
                         ) : null}
                         {currentList || currentTag.id !== '' ? (
                             <AddingTaskToggle onClick={toggleAddingTask}>
@@ -269,6 +239,7 @@ const List: React.FC<PropsFromRedux> = (props) => {
                             </AddingTaskToggle>
                         ) : null}
                     </Row>
+
                     <Row noMargin>
                         {currentList || currentTag.id !== '' ? (
                             <CSSTransition
@@ -308,20 +279,6 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                         classNames="height"
                                     >
                                         <AddingRow active={!showLists}>
-                                            {/*<FieldContainer list>
-                                                {listsArray.map((element) => (
-                                                    <Field
-                                                        key={uuidv4()}
-                                                        onClick={() =>
-                                                            listSelectHandler(
-                                                                element
-                                                            )
-                                                        }
-                                                    >
-                                                        {element}
-                                                    </Field>
-                                                ))}
-                                            </FieldContainer>*/}
                                             <TagSelector
                                                 type="list"
                                                 selectCb={(element: string) =>

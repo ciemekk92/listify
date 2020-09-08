@@ -2,37 +2,72 @@ import { firestore } from './firebase';
 import { Item } from '../types';
 import firebase from 'firebase/app';
 import { alertError, updateObject } from '../shared/utility';
+import { v4 as uuidv4 } from 'uuid';
 
-export const saveEditedItem = async (
-    currentList: string,
-    selectedItem: Item,
-    editedItem: Item
-) => {
-    let keyCompleted = `lists.${currentList}.listItems.completed`;
-    let keyNotCompleted = `lists.${currentList}.listItems.notCompleted`;
+const returnListKey = (listName: string, item: Item) =>
+    `lists.${listName}.listItems.${
+        item.completed ? 'completed' : 'notCompleted'
+    }`;
+const returnTagKey = (item: Item) => `tags.${item.tag.name}.items`;
 
+export const saveNewItem = async (newItem: Item, currentDate: any) => {
+    const uid: any = localStorage.getItem('currentUser');
+    const docRef = await firestore.collection('users').doc(uid);
+    const newItemWithDate = updateObject(newItem, {
+        date: currentDate,
+        id: uuidv4()
+    });
+
+    try {
+        await docRef
+            .update({
+                [returnListKey(
+                    newItemWithDate.list,
+                    newItemWithDate
+                )]: firebase.firestore.FieldValue.arrayUnion(newItemWithDate)
+            })
+            .catch((error) => {
+                alertError(error);
+            });
+        if (newItem.tag.name !== '') {
+            await docRef
+                .update({
+                    [returnTagKey(
+                        newItem
+                    )]: firebase.firestore.FieldValue.arrayUnion(
+                        newItemWithDate
+                    )
+                })
+                .catch((error) => {
+                    alertError(error);
+                });
+        }
+    } catch (error) {
+        alertError(error);
+    }
+};
+
+export const saveEditedItem = async (selectedItem: Item, editedItem: Item) => {
     const uid: any = localStorage.getItem('currentUser');
     const docRef = await firestore.collection('users').doc(uid);
 
     try {
         await docRef
             .update({
-                [selectedItem.completed
-                    ? keyCompleted
-                    : keyNotCompleted]: firebase.firestore.FieldValue.arrayRemove(
+                [returnListKey(
+                    selectedItem.list,
                     selectedItem
-                )
+                )]: firebase.firestore.FieldValue.arrayRemove(selectedItem)
             })
             .catch((error) => {
                 alertError(error);
             });
         await docRef
             .update({
-                [editedItem.completed
-                    ? keyCompleted
-                    : keyNotCompleted]: firebase.firestore.FieldValue.arrayUnion(
+                [returnListKey(
+                    editedItem.list,
                     editedItem
-                )
+                )]: firebase.firestore.FieldValue.arrayUnion(editedItem)
             })
             .catch((error) => {
                 alertError(error);
@@ -185,9 +220,6 @@ export const deleteItem = async (
 
 export const updateTaggedItem = async (
     oldItem: Item,
-    props: {
-        lists: any;
-    },
     updatedProps: {
         [name: string]: any;
     }

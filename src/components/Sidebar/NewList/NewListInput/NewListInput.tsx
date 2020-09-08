@@ -17,8 +17,9 @@ const NewListInput = (props: {
                     submit();
                 }
             }}
+            onSubmit={submit}
         />
     );
 };
 
-export default NewListInput;
+export default React.memo(NewListInput);

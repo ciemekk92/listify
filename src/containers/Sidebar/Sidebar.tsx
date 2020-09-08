@@ -4,12 +4,17 @@ import firebase from 'firebase/app';
 import { firestore } from '../../firebase/firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { hiddenListContext } from '../../context/hiddenListContext';
-import { updateObject } from '../../shared/utility';
+import { alertError, updateObject } from '../../shared/utility';
 import * as actions from '../../store/actions';
 import useDidMountEffect from '../../hooks/useDidMountEffect';
-import { Bar, ButtonsContainer, PanelText, LabelPanel } from './Sidebar.styled';
+import {
+    Bar,
+    ButtonsContainer,
+    PanelText,
+    LabelPanel,
+    ModalInput
+} from './Sidebar.styled';
 import SidebarModal from '../../components/Sidebar/SidebarModal/SidebarModal';
-import NewListInput from '../../components/Sidebar/NewList/NewListInput/NewListInput';
 import PanelContainer from '../../components/Sidebar/PanelContainer/PanelContainer';
 import ListPanel from '../../components/Sidebar/ListPanel/ListPanel';
 import AddNewList from '../../components/Sidebar/NewList/AddNewList';
@@ -41,7 +46,7 @@ const Sidebar: React.FC<Props> = (props) => {
 
     const { handleClick } = useContext(hiddenListContext);
 
-    const [newList, setNewList] = useState({
+    const initialList = {
         name: '',
         id: '',
         timestamp: 0,
@@ -49,13 +54,17 @@ const Sidebar: React.FC<Props> = (props) => {
             completed: [],
             notCompleted: []
         }
-    });
-    const [newTag, setNewTag] = useState({
+    };
+
+    const initialTag = {
         id: '',
         name: '',
         color: '',
         items: []
-    });
+    };
+
+    const [newList, setNewList] = useState(initialList);
+    const [newTag, setNewTag] = useState(initialTag);
     const [adding, setAdding] = useState(false);
     const [addingWhat, setAddingWhat] = useState('');
     const [deletingList, setDeletingList] = useState(false);
@@ -116,8 +125,16 @@ const Sidebar: React.FC<Props> = (props) => {
         }
     };
 
+    const clearInput = (isList: boolean) => {
+        if (isList) {
+            setNewList(initialList);
+        } else {
+            setNewTag(initialTag);
+        }
+    };
+
     const newListHandler = async (list: List) => {
-        if (listsArray.includes(newList.name)) {
+        if (listsArray.includes(list.name)) {
             setWarning(
                 'List with this name already exists, choose another one!'
             );
@@ -139,18 +156,13 @@ const Sidebar: React.FC<Props> = (props) => {
                         .update({
                             [key]: listWithTimestamp
                         })
-                        .then(() => onGettingUserInfo())
-                        .catch((error) =>
-                            alert(
-                                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                                    error
-                            )
-                        );
+                        .then(() => {
+                            clearInput(true);
+                            onGettingUserInfo();
+                        })
+                        .catch((error) => alertError(error));
                 } catch (error) {
-                    alert(
-                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                            error
-                    );
+                    alertError(error);
                 }
             }
         }
@@ -173,18 +185,10 @@ const Sidebar: React.FC<Props> = (props) => {
                             element
                         )
                     })
-                    .catch((error) =>
-                        alert(
-                            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                                error
-                        )
-                    );
+                    .catch((error) => alertError(error));
             }
         } catch (error) {
-            alert(
-                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                    error
-            );
+            alertError(error);
         }
 
         try {
@@ -192,17 +196,9 @@ const Sidebar: React.FC<Props> = (props) => {
                 .update({
                     [key]: firebase.firestore.FieldValue.delete()
                 })
-                .catch((error) =>
-                    alert(
-                        'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                            error
-                    )
-                );
+                .catch((error) => alertError(error));
         } catch (error) {
-            alert(
-                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                    error
-            );
+            alertError(error);
         }
     };
 
@@ -219,10 +215,7 @@ const Sidebar: React.FC<Props> = (props) => {
                     onGettingUserInfo();
                 });
             } catch (error) {
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                );
+                alertError(error);
             }
         }
     };
@@ -234,10 +227,7 @@ const Sidebar: React.FC<Props> = (props) => {
                 onGettingUserInfo();
             });
         } catch (error) {
-            alert(
-                'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                    error
-            );
+            alertError(error);
         }
     };
 
@@ -268,18 +258,13 @@ const Sidebar: React.FC<Props> = (props) => {
                     .update({
                         [key]: updatedTag
                     })
-                    .then(() => onGettingUserInfo())
-                    .catch((error) =>
-                        alert(
-                            'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                                error
-                        )
-                    );
+                    .then(() => {
+                        clearInput(false);
+                        onGettingUserInfo();
+                    })
+                    .catch((error) => alertError(error));
             } catch (error) {
-                alert(
-                    'Something went wrong. Refresh the page and try again. If a problem persists message the author at https://www.facebook.com/przemyslaw.reducha/ ' +
-                        error
-                );
+                alertError(error);
             }
         }
     };
@@ -374,13 +359,18 @@ const Sidebar: React.FC<Props> = (props) => {
                 {addingWhat === 'list' ? (
                     <>
                         Enter new list name below.
-                        <NewListInput
-                            changed={(event) =>
+                        <ModalInput
+                            onChange={(event) =>
                                 listInputChangedHandler(event, newList)
                             }
                             value={newList.name}
-                            submit={() => newListHandler(newList)}
-                            type={'list'}
+                            placeholder={'New list name'}
+                            onSubmit={() => newListHandler(newList)}
+                            onKeyDown={(event) => {
+                                if (event.key === 'Enter') {
+                                    newListHandler(newList);
+                                }
+                            }}
                         />
                         <ButtonsContainer>
                             <EditButton
@@ -400,13 +390,18 @@ const Sidebar: React.FC<Props> = (props) => {
                 ) : (
                     <>
                         Enter new tag name below.
-                        <NewListInput
-                            changed={(event) =>
+                        <ModalInput
+                            onChange={(event) =>
                                 tagInputChangedHandler(event, newTag)
                             }
-                            value={newTag.name}
-                            submit={() => newTagHandler(newTag)}
-                            type={'tag'}
+                            value={newList.name}
+                            placeholder={'New list name'}
+                            onSubmit={() => newTagHandler(newTag)}
+                            onKeyDown={(event) => {
+                                if (event.key === 'Enter') {
+                                    newTagHandler(newTag);
+                                }
+                            }}
                         />
                         <ColorPicker />
                         <ButtonsContainer>

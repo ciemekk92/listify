@@ -50,12 +50,8 @@ const Name: React.FC<Props> = (props) => {
         if (item.value === '') {
             setWarning('The name field must not be empty!');
         } else {
-            saveEditedItem(currentList, selectedItem, item).then(() =>
-                updateTaggedItem(
-                    selectedItem,
-                    { lists: lists },
-                    { value: item.value }
-                )
+            saveEditedItem(selectedItem, item).then(() =>
+                updateTaggedItem(selectedItem, { value: item.value })
                     .then(() => {
                         setWarning('');
                         clickedCancel();

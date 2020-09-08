@@ -90,7 +90,7 @@ const ListLayout = forwardRef(
                     .map((element: Item) => (
                         <CSSTransition
                             key={element.id}
-                            timeout={600}
+                            timeout={400}
                             classNames="move"
                             mountOnEnter
                             unmountOnExit
@@ -154,9 +154,15 @@ const ListLayout = forwardRef(
         return (
             <Wrapper selected={selected} ref={topRef} adding={adding}>
                 <ListContainer adding={adding}>
-                    {showNotCompleted ? (
+                    <CSSTransition
+                        in={showNotCompleted && !hidden}
+                        timeout={400}
+                        classNames="move"
+                        mountOnEnter
+                        unmountOnExit
+                    >
                         <Heading3>Tasks not completed</Heading3>
-                    ) : null}
+                    </CSSTransition>
                     <TransitionGroup className={'list'}>
                         {!lists[currentList]
                             ? null
@@ -167,9 +173,15 @@ const ListLayout = forwardRef(
                                   false
                               )}
                     </TransitionGroup>
-                    {showCompleted ? (
+                    <CSSTransition
+                        in={showCompleted && !hidden}
+                        timeout={400}
+                        classNames="move"
+                        mountOnEnter
+                        unmountOnExit
+                    >
                         <Heading3>Completed tasks</Heading3>
-                    ) : null}
+                    </CSSTransition>
                     <TransitionGroup className={'list'}>
                         {!lists[currentList]
                             ? null

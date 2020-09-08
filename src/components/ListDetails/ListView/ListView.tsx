@@ -5,6 +5,11 @@ import TagSelector from '../../UI/TagSelector/TagSelector';
 import { connect, ConnectedProps } from 'react-redux';
 import { Item, Tag } from '../../../types';
 import * as actions from '../../../store/actions';
+import { alertError, updateObject } from '../../../shared/utility';
+import {
+    saveEditedItem,
+    updateTaggedItem
+} from '../../../firebase/ListFunctions';
 
 type ViewProps = {
     clickedCancel(): void;
@@ -12,12 +17,38 @@ type ViewProps = {
 };
 
 const ListView: React.FC<Props> = (props) => {
-    const { editing, clickedCancel, lists } = props;
+    const {
+        editing,
+        clickedCancel,
+        lists,
+        selectedItem,
+        onGettingUserInfo,
+        onSettingSelectedItem
+    } = props;
 
     let listsArray = Object.keys(lists).sort();
 
-    // TODO handle submitting edited data here
-    const submitHandler = (list: string) => {};
+    const submitHandler = (list: string) => {
+        if (list !== selectedItem.list) {
+            const updatedItem = updateObject(selectedItem, {
+                list: list
+            });
+
+            try {
+                saveEditedItem(selectedItem, updatedItem).then(() => {
+                    updateTaggedItem(selectedItem, { list: list }).then(() => {
+                        onGettingUserInfo();
+                        onSettingSelectedItem(updatedItem);
+                        clickedCancel();
+                    });
+                });
+            } catch (error) {
+                alertError(error);
+            }
+        } else {
+            clickedCancel();
+        }
+    };
 
     return (
         <CSSTransition
