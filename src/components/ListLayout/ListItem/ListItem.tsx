@@ -1,6 +1,6 @@
 import React from 'react';
 import { Item, Date, Name } from './ListItem.styled';
-import ListItemButton from '../ListItemButton/ListItemButton';
+import EditButton from '../../ListDetails/EditButton/EditButton';
 
 const ListItem = (props: {
     clicked(): void;
@@ -21,13 +21,11 @@ const ListItem = (props: {
         date
     } = props;
 
-    const completeHandler = (event: React.SyntheticEvent) => {
-        event.stopPropagation();
+    const completeHandler = () => {
         clickedComplete();
     };
 
-    const deleteHandler = (event: React.SyntheticEvent) => {
-        event.stopPropagation();
+    const deleteHandler = () => {
         clickedDelete();
     };
 
@@ -38,18 +36,20 @@ const ListItem = (props: {
             </Name>
             <Date>{date}</Date>
             {completed ? null : (
-                <ListItemButton
-                    complete={true}
-                    completed={completed}
-                    delete={false}
-                    clicked={(event) => completeHandler(event)}
+                <EditButton
+                    clicked={completeHandler}
+                    title={'Complete task'}
+                    type={'confirm'}
+                    size={16}
+                    item
                 />
             )}
-            <ListItemButton
-                complete={false}
-                completed={completed}
-                delete={true}
+            <EditButton
                 clicked={deleteHandler}
+                title={'Delete task'}
+                type={'delete'}
+                size={16}
+                item
             />
         </Item>
     );

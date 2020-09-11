@@ -42,7 +42,11 @@ const Landing: React.FC = () => {
                     important tasks
                 </ListItem>
                 <ListItem>
-                    Edit any task on a fly with simple user interface
+                    Add a tag to any task to keep your tasks organized
+                </ListItem>
+                <ListItem>
+                    Edit any aspect of a task on a fly with simple user
+                    interface
                 </ListItem>
             </UnorderedList>
             <StartContainer>

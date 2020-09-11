@@ -10,7 +10,7 @@ const AddNewList = (props: { clicked(): void; type: string }) => {
                 title={'Add new list'}
                 color={'#fff'}
                 size={24}
-                style={{ marginLeft: '3rem' }}
+                style={{ marginLeft: '1.6rem' }}
             />
             <p>Add new {type}</p>
         </NewList>

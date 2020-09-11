@@ -17,11 +17,16 @@ import logo from '../../assets/logo.png';
 
 type LayoutProps = {
     user: any;
+    children: any;
 };
 
 const Layout: React.FC<LayoutProps> = (props) => {
     const [openModal, setOpenModal] = useState(false);
     const [authType, setAuthType] = useState('login');
+
+    // TODO: Fix landing page, make it more friendly to the user
+    // TODO: Footer
+    // TODO: Mobile
 
     const { user } = props;
 
@@ -87,4 +92,4 @@ const Layout: React.FC<LayoutProps> = (props) => {
     );
 };
 
-export default Layout;
+export default React.memo(Layout);

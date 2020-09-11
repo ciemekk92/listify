@@ -7,7 +7,7 @@ export const NewList = styled.div`
     padding: 0.5rem 0;
     grid-row: 5 / 6;
     display: flex;
-    transition: all 0.2s ease;
+    transition: all 0.4s ease;
     flex-shrink: 1;
     margin-top: auto;
     font-size: 1.6rem;
@@ -19,7 +19,7 @@ export const NewList = styled.div`
     cursor: pointer;
 
     & > p {
-        margin-left: 1rem;
+        margin-left: 0.8rem;
     }
 
     &:hover {

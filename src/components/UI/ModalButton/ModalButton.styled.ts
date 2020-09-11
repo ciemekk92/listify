@@ -21,16 +21,10 @@ export const Button = styled.button`
     }
 
     @media only screen and (min-width: 2200px) {
-        font-size: 3.2rem;
-        height: 85%;
+        font-size: 2rem;
     }
 
     @media only screen and ${device.tablet} {
-        width: 40%;
         font-size: 1.4rem;
-    }
-
-    @media only screen and ${device.mobileM} {
-        width: 60%;
     }
 `;

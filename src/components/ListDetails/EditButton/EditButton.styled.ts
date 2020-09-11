@@ -5,12 +5,13 @@ interface ButtonProps {
     readonly size: number;
     readonly mobile: boolean;
     readonly where?: boolean;
+    readonly item?: boolean;
 }
 
 export const Button = styled.div<ButtonProps>`
     width: 2.6rem;
     height: 2.6rem;
-    margin: 0 1rem -0.2rem 0;
+    margin: 0 1rem ${(props) => (props.item ? '0' : '-0.2rem')} 0;
     border-radius: 50%;
     background-color: #3f72af;
     grid-column: ${(props) =>
@@ -20,6 +21,10 @@ export const Button = styled.div<ButtonProps>`
                 : '3 / 4'
             : props.type === 'add'
             ? '3 / 4'
+            : props.item
+            ? props.type === 'confirm'
+                ? '3 / 4'
+                : '4 / 5'
             : '2 / 3'};
     grid-row: 1 / 2;
     place-self: center;

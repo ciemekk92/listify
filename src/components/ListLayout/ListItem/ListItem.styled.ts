@@ -18,7 +18,7 @@ export const Item = styled.div<ItemProps>`
         props.completed
             ? props.selected
                 ? '#366296'
-                : '#3f72af'
+                : '#112d4e'
             : props.selected
             ? '#b7c6e0'
             : '#cfd9ea'};
@@ -31,20 +31,12 @@ export const Item = styled.div<ItemProps>`
     display: grid;
     grid-template-columns: 50% 30% 10% 10%;
     cursor: default;
-    box-shadow: 1px 1px ${(props) => (props.selected ? '5px' : '3px')} 0
+    box-shadow: 0 1px ${(props) => (props.selected ? '5px' : '3px')} 0
         rgba(0, 0, 0, ${(props) => (props.selected ? '1' : '0.5')});
     z-index: 0;
-    transition: all 0.2s ease;
+    transition: all 0.4s ease;
     position: relative;
     font-weight: ${(props) => (props.selected ? 700 : 300)};
-
-    @media only screen and ${device.laptop} {
-        font-size: 1rem;
-    }
-
-    @media only screen and ${device.mobileL} {
-        font-size: 0.8rem;
-    }
 
     &::after {
         position: absolute;
@@ -54,7 +46,7 @@ export const Item = styled.div<ItemProps>`
         right: 0;
         bottom: 0;
         left: 0;
-        box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.5);
         opacity: 0;
         transition: opacity 0.4s;
     }
@@ -65,7 +57,7 @@ export const Item = styled.div<ItemProps>`
 
     &:hover {
         background-color: ${(props) =>
-            props.completed ? '#366296' : '#b7c6e0'};
+            props.completed ? '#173d6a' : '#b7c6e0'};
         margin: 1% 0;
     }
 

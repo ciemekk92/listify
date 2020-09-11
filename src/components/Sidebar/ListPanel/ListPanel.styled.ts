@@ -8,7 +8,7 @@ export const Panel = styled.div<PanelProps>`
     width: 100%;
     height: 3.6rem;
     display: grid;
-    grid-template-columns: 1fr 20% 20%;
+    grid-template-columns: 1fr 15% 20%;
     grid-template-rows: 1fr;
     gap: 1px 1px;
     font-weight: ${(props) => (props.active ? '700' : '300')};
@@ -24,7 +24,7 @@ export const Panel = styled.div<PanelProps>`
     }
 
     &:hover {
-        background-color: #366296;
+        background-color: #173d6a;
     }
 `;
 
@@ -47,7 +47,7 @@ export const Name = styled.p`
     font-size: 1.6rem;
     cursor: pointer;
     color: white;
-    margin-left: 5.5rem;
+    margin-left: 1.4rem;
 `;
 
 export const ButtonContainer = styled.div`

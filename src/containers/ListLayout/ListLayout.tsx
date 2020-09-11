@@ -51,6 +51,13 @@ const ListLayout = forwardRef(
             };
         });
 
+        const deleteHandler = (id: string) => {
+            if (id === selectedItem.id) {
+                onSelectingItemEmpty();
+            }
+            listUpdate();
+        };
+
         const list = lists[currentList];
 
         useEffect(() => {
@@ -143,7 +150,9 @@ const ListLayout = forwardRef(
                                         {
                                             lists: lists
                                         }
-                                    ).then(() => listUpdate())
+                                    ).then(() => {
+                                        deleteHandler(element.id);
+                                    })
                                 }
                             />
                         </CSSTransition>

@@ -7,9 +7,9 @@ interface LayoutProps {
 
 export const Wrapper = styled.div<LayoutProps>`
     width: 100%;
-    height: 100vh;
+    height: max-content;
     overflow: hidden;
-    background-color: #e7ecf4;
+
     ${(props) =>
         props.loggedIn
             ? "display: grid;\n    grid-template-rows: 10vh;\n    grid-template-areas: 'header';"
@@ -65,6 +65,10 @@ export const Logo = styled.div`
     & > img {
         width: 30%;
 
+        @media only screen and (max-height: 601px) {
+            width: 20%;
+        }
+
         @media only screen and ${device.mobileL} {
             width: 50%;
         }
@@ -89,13 +93,11 @@ export const HeaderLogo = styled.div`
 `;
 
 export const MainNotLoggedIn = styled.main`
+    margin-top: 2rem;
     width: 100%;
-    display: grid;
     height: max-content;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1.5fr 8.5fr;
-    gap: 1px 1px;
-    grid-template-areas: 'header' 'main';
+    display: flex;
+    flex-direction: column;
 `;
 
 export const MainLoggedIn = styled.main<LayoutProps>`
@@ -120,4 +122,5 @@ export const LoginContainer = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin-top: 1rem;
 `;

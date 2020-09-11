@@ -14,6 +14,6 @@ export const Wrapper = styled.div`
 
 export const Warning = styled.div`
     color: red;
-    font-size: 0.9rem;
+    font-size: 1.6rem;
     text-align: center;
 `;

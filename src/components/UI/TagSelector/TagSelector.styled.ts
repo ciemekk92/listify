@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 
 interface AddingProps {
-    readonly list?: boolean;
+    readonly isList?: boolean;
 }
 
 interface LayoutProps {
@@ -12,7 +12,7 @@ interface LayoutProps {
 export const FieldContainer = styled.div<AddingProps>`
     width: 90%;
     margin-left: 2.6rem;
-    grid-row: ${(props) => (props.list ? '4 / 5' : '5 / 6')};
+    grid-row: ${(props) => (props.isList ? '4 / 5' : '5 / 6')};
     grid-column: 1 / 3;
     display: flex;
     justify-content: center;

@@ -10,10 +10,11 @@ type ButtonProps = {
     size: number;
     mobile: boolean;
     name?: boolean;
+    item?: boolean;
 };
 
 const EditButton: React.FC<Props> = (props) => {
-    const { clicked, title, type, size, mobile, name } = props;
+    const { clicked, title, type, size, mobile, name, item } = props;
 
     const editButton = (
         <Edit title={title} color={'#fff'} size={size} mobile={mobile} />
@@ -39,10 +40,11 @@ const EditButton: React.FC<Props> = (props) => {
     return (
         <Button
             type={type}
-            onClick={(event) => clickHandler(event)}
+            onClick={(event: React.SyntheticEvent) => clickHandler(event)}
             size={size}
             mobile={mobile}
             where={name}
+            item={item}
         >
             {type === 'edit'
                 ? editButton

@@ -44,6 +44,8 @@ const Sidebar: React.FC<Props> = (props) => {
         setOpen
     } = props;
 
+    // TODO animation when changing from list to tag view
+
     const { handleClick } = useContext(hiddenListContext);
 
     const initialList = {
@@ -394,8 +396,8 @@ const Sidebar: React.FC<Props> = (props) => {
                             onChange={(event) =>
                                 tagInputChangedHandler(event, newTag)
                             }
-                            value={newList.name}
-                            placeholder={'New list name'}
+                            value={newTag.name}
+                            placeholder={'New tag name'}
                             onSubmit={() => newTagHandler(newTag)}
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter') {

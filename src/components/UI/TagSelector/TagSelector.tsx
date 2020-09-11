@@ -14,7 +14,7 @@ const TagSelector: React.FC<SelectorProps> = (props) => {
     const { selectCb, type, tagArray, listArray } = props;
 
     return (
-        <FieldContainer list={type === 'list'}>
+        <FieldContainer isList={type === 'list'}>
             {type === 'tag' ? (
                 <>
                     <Field
