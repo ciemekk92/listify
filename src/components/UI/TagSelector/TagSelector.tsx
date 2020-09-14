@@ -50,7 +50,6 @@ const TagSelector: React.FC<SelectorProps> = (props) => {
                 </>
             ) : (
                 <>
-                    <Field onClick={() => selectCb('')}>None</Field>
                     {listArray
                         ? listArray.map((element: string) => (
                               <Field

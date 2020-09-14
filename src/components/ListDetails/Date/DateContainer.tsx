@@ -19,7 +19,6 @@ const DateContainer: React.FC<Props> = (props) => {
         editing,
         selectedItem,
         changedDate,
-        currentList,
         onGettingUserInfo,
         onSettingSelectedItem
     } = props;
@@ -69,11 +68,10 @@ const DateContainer: React.FC<Props> = (props) => {
 };
 
 const mapStateToProps = (state: {
-    list: { currentList: string; changedDate: string; selectedItem: Item };
+    list: { changedDate: string; selectedItem: Item };
     user: { userInfo: { lists: { [name: string]: any } } };
 }) => {
     return {
-        currentList: state.list.currentList,
         changedDate: state.list.changedDate,
         selectedItem: state.list.selectedItem,
         lists: state.user.userInfo.lists

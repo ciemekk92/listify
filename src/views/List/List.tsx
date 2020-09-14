@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../../store/actions';
 import Sidebar from '../../containers/Sidebar/Sidebar';
@@ -17,7 +17,6 @@ import {
 } from './List.styled';
 import './List.css';
 import '../../containers/ListLayout/ListLayout.css';
-import Burger from '../../components/Sidebar/Burger/Burger';
 import { Heading2 } from '../../components/UI/Typography/Headings/Headings.styled';
 import {
     AddingTaskContainer,
@@ -30,10 +29,12 @@ import { CSSTransition } from 'react-transition-group';
 import ListInput from '../../components/ListLayout/ListInput/ListInput';
 import DatePicker from '../../containers/DatePicker/DatePicker';
 import SubmitButton from '../../components/ListLayout/SubmitButton/SubmitButton';
-import { updateObject } from '../../shared/utility';
+import { scrollToRef, updateObject } from '../../shared/utility';
 import FieldButton from '../../components/ListLayout/FieldButton/FieldButton';
 import TagSelector from '../../components/UI/TagSelector/TagSelector';
 import { saveNewItem } from '../../firebase/ListFunctions';
+import { burgerContext } from '../../context/burgerContext';
+import BackToTopButton from '../../components/UI/BackToTopButton/BackToTopButton';
 
 const { Provider } = hiddenListContext;
 
@@ -65,7 +66,6 @@ const List: React.FC<PropsFromRedux> = (props) => {
     };
 
     const [hidden, setHidden] = useState(false);
-    const [open, setOpen] = useState(false);
     const [inputItem, setInputItem] = useState(initialItem);
     const [warning, setWarning] = useState('');
     const [editing, setEditing] = useState(false);
@@ -110,12 +110,8 @@ const List: React.FC<PropsFromRedux> = (props) => {
         setHidden(value);
     };
 
-    const openHandler = () => {
-        setOpen(!open);
-    };
-
     const updateMedia = () => {
-        onSettingMobile(window.innerWidth <= 768);
+        onSettingMobile(window.innerWidth <= 900);
     };
 
     useEffect(() => {
@@ -195,13 +191,15 @@ const List: React.FC<PropsFromRedux> = (props) => {
     let tagsArray = Object.values(tags);
     let listsArray = Object.keys(lists).sort();
 
+    const { openSidebar, handleSidebarOpen } = useContext(burgerContext);
+    const topRef = useRef(null);
+
     return (
         <Provider value={{ hidden, handleClick }}>
-            {mobile ? <Burger open={open} setOpen={openHandler} /> : null}
-            <Sidebar open={open} setOpen={openHandler} />
+            <Sidebar open={openSidebar} setOpen={handleSidebarOpen} />
             <Wrapper>
-                <ListWrapper>
-                    <Row>
+                <ListWrapper ref={topRef}>
+                    <Row shown={!currentList && currentTag.id === ''}>
                         {currentList || currentTag.id !== '' ? (
                             <>
                                 <Heading2>Your tasks - </Heading2>
@@ -325,6 +323,12 @@ const List: React.FC<PropsFromRedux> = (props) => {
                         ) : null}
                     </Row>
                     <Row noMargin>
+                        {!currentList && currentTag.id === '' && !mobile ? (
+                            <Placeholder>
+                                Select a list or a tag in the sidebar on the
+                                left.
+                            </Placeholder>
+                        ) : null}
                         {currentList ? (
                             <ListLayout
                                 adding={addingTask}
@@ -337,19 +341,22 @@ const List: React.FC<PropsFromRedux> = (props) => {
                                 listUpdate={listUpdateHandler}
                                 selected={!!selectedItem.id}
                             />
-                        ) : (
-                            <Placeholder>
-                                Select a list or a tag in the sidebar on the
-                                left.
-                            </Placeholder>
-                        )}
+                        ) : null}
                     </Row>
                 </ListWrapper>
+                {!currentList && currentTag.id === '' && mobile ? (
+                    <Placeholder>
+                        Select a list or a tag in the sidebar on the left.
+                    </Placeholder>
+                ) : null}
                 <ListDetails
                     showingPlaceholder={showPlaceholder}
                     selected={!!selectedItem.id}
                 />
                 {showPlaceholder ? <PlaceholderList /> : null}
+                {mobile ? (
+                    <BackToTopButton clicked={() => scrollToRef(topRef)} />
+                ) : null}
             </Wrapper>
         </Provider>
     );

@@ -31,10 +31,10 @@ export const Area = styled.div<ModalProps>`
         props.slide ? 'translateY(0)' : 'translateY(100vh)'};
 
     @media only screen and ${device.tablet} {
-        width: 50%;
-        height: 25%;
-        top: 40%;
-        left: 25%;
+        width: 75%;
+        height: max-content;
+        top: 25%;
+        left: 12.5%;
     }
 `;
 

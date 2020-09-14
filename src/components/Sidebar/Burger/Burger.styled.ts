@@ -5,9 +5,6 @@ interface BurgerProps {
 }
 
 export const StyledBurger = styled.button<BurgerProps>`
-    position: absolute;
-    top: 3%;
-    left: 1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -18,13 +15,15 @@ export const StyledBurger = styled.button<BurgerProps>`
     cursor: pointer;
     padding: 0;
     z-index: 105;
+    grid-row: 1 / -1;
+    grid-column: 1 / 2;
 
     &:focus {
         outline: none;
     }
 
     div {
-        width: 2rem;
+        width: 2.1rem;
         height: 0.25rem;
         background-color: #112d4e;
         border-radius: 10px;

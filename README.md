@@ -6,10 +6,7 @@ React application that allows user to create and manage multiple to-do lists onl
 
 ## TODO
 
--   ASAP: Redesign layout into more modern one, place correct media queries.
--   Footer
 -   Rearrange project structure
--   Clean up CSS
 -   Tests (Jest, Enzyme)
 
 ## Tech stack
@@ -25,7 +22,7 @@ React application that allows user to create and manage multiple to-do lists onl
 
 ## How to run:
 
-1. Try the live demo https://listify-react.firebaseapp.com/
+1. Try the live demo https://listify-react.firebaseapp.com/ - you can use mocked up address, like somethingsomething(at)test.com
 2. Download / clone the repository and run `npm install` in the downloaded directory to install all dependencies and then run `npm run start`.
 
 Note: Cloning the repository will require:

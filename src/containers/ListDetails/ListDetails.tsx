@@ -16,7 +16,9 @@ import FieldButton from '../../components/ListLayout/FieldButton/FieldButton';
 import ListView from '../../components/ListDetails/ListView/ListView';
 
 const Details: React.FC<Props> = (props) => {
-    const { showingPlaceholder, selected, selectedItem } = props;
+    const { mobile, showingPlaceholder, selected, selectedItem } = props;
+
+    // Editing buttons constantly showing when viewport is < 900 px, animating on mouse entrance when 900+ px
 
     const [editingName, setEditingName] = useState(false);
     const [editingDate, setEditingDate] = useState(false);
@@ -24,9 +26,9 @@ const Details: React.FC<Props> = (props) => {
     const [editingList, setEditingList] = useState(false);
     const [editingTag, setEditingTag] = useState(false);
 
-    const [isNameEditShown, setIsNameEditShown] = useState(false);
-    const [isDateEditShown, setIsDateEditShown] = useState(false);
-    const [isNotesEditShown, setIsNotesEditShown] = useState(false);
+    const [isNameEditShown, setIsNameEditShown] = useState(!!mobile);
+    const [isDateEditShown, setIsDateEditShown] = useState(!!mobile);
+    const [isNotesEditShown, setIsNotesEditShown] = useState(!!mobile);
 
     const editNameHandler = () => {
         setEditingName(!editingName);
@@ -52,8 +54,16 @@ const Details: React.FC<Props> = (props) => {
         <Wrapper selected={selected} showingPlaceholder={showingPlaceholder}>
             <Heading2>Task details</Heading2>
             <RowWithCompletion
-                onMouseEnter={() => setIsNameEditShown(true)}
-                onMouseLeave={() => setIsNameEditShown(false)}
+                onMouseEnter={() => {
+                    if (!mobile) {
+                        setIsNameEditShown(true);
+                    }
+                }}
+                onMouseLeave={() => {
+                    if (!mobile) {
+                        setIsNameEditShown(false);
+                    }
+                }}
             >
                 <Description>Task:</Description>
                 <Value big>{selectedItem.value}</Value>
@@ -79,8 +89,16 @@ const Details: React.FC<Props> = (props) => {
                 clickedCancel={() => setEditingName(false)}
             />
             <Row
-                onMouseEnter={() => setIsDateEditShown(true)}
-                onMouseLeave={() => setIsDateEditShown(false)}
+                onMouseEnter={() => {
+                    if (!mobile) {
+                        setIsDateEditShown(true);
+                    }
+                }}
+                onMouseLeave={() => {
+                    if (!mobile) {
+                        setIsDateEditShown(false);
+                    }
+                }}
             >
                 <Description>Date:</Description>
                 <Value>{selectedItem.date}</Value>
@@ -131,8 +149,16 @@ const Details: React.FC<Props> = (props) => {
                 clickedCancel={() => setEditingTag(false)}
             />
             <Row
-                onMouseEnter={() => setIsNotesEditShown(true)}
-                onMouseLeave={() => setIsNotesEditShown(false)}
+                onMouseEnter={() => {
+                    if (!mobile) {
+                        setIsNotesEditShown(true);
+                    }
+                }}
+                onMouseLeave={() => {
+                    if (!mobile) {
+                        setIsNotesEditShown(false);
+                    }
+                }}
             >
                 <Description>Notes:</Description>
                 <CSSTransition
@@ -162,9 +188,13 @@ const mapStateToProps = (state: {
     list: {
         selectedItem: Item;
     };
+    user: {
+        mobile: boolean;
+    };
 }) => {
     return {
-        selectedItem: state.list.selectedItem
+        selectedItem: state.list.selectedItem,
+        mobile: state.user.mobile
     };
 };
 

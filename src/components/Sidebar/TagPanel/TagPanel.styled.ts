@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { darken } from 'polished';
 
 interface PanelProps {
     readonly active?: boolean;
@@ -14,7 +13,7 @@ export const Panel = styled.div<PanelProps>`
     grid-template-rows: 1fr;
     gap: 1px 1px;
     font-weight: ${(props) => (props.active ? '700' : '300')};
-    background-color: #8eafd6;
+    background-color: ${(props) => (props.active ? '#112d4e' : '#8eafd6')};
     padding: 0.5rem 0;
     transition: all 0.4s ease-out;
     align-items: center;
@@ -26,7 +25,7 @@ export const Panel = styled.div<PanelProps>`
     }
 
     &:hover {
-        background-color: ${darken(0.05, '#8eafd6')};
+        background-color: #173d6a;
         color: #fff;
     }
 `;
@@ -71,4 +70,5 @@ export const Count = styled.div`
     grid-column: 3 / 4;
     font-size: 1.4rem;
     font-weight: 700;
+    justify-self: end;
 `;

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 export const Button = styled.button`
     width: 20rem;

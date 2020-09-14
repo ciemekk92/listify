@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 export const TextInput = styled.input`
     width: 80%;
@@ -14,9 +13,5 @@ export const TextInput = styled.input`
     @media only screen and (min-width: 2200px) {
         height: 4rem;
         font-size: 2rem;
-    }
-
-    @media only screen and ${device.mobileM} {
-        font-size: 0.9rem;
     }
 `;

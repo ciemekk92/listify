@@ -14,7 +14,7 @@ const initialState: userState = {
     error: null,
     loaded: false,
     loading: true,
-    mobile: window.innerWidth <= 768
+    mobile: window.innerWidth <= 900
 };
 
 const setUserInfo = (state: userState, action: any) => {

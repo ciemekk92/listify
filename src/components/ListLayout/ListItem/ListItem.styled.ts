@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 interface ItemProps {
     readonly completed: boolean;

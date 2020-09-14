@@ -8,6 +8,7 @@ const returnListKey = (listName: string, item: Item) =>
     `lists.${listName}.listItems.${
         item.completed ? 'completed' : 'notCompleted'
     }`;
+
 const returnTagKey = (item: Item) => `tags.${item.tag.name}.items`;
 
 export const saveNewItem = async (newItem: Item, currentDate: any) => {

@@ -15,7 +15,6 @@ type NameProps = {
     clickedCancel(): void;
     editing: boolean;
     selectedItem: Item;
-    currentList: any;
     onGettingUserInfo(): void;
     onSelectingItem(item: Item): void;
 };
@@ -25,8 +24,6 @@ const Name: React.FC<Props> = (props) => {
         clickedCancel,
         editing,
         selectedItem,
-        currentList,
-        lists,
         onGettingUserInfo,
         onSelectingItem
     } = props;
@@ -107,18 +104,10 @@ const Name: React.FC<Props> = (props) => {
 const mapStateToProps = (state: {
     list: {
         selectedItem: Item;
-        currentList: any;
-    };
-    user: {
-        userInfo: {
-            lists: { [name: string]: any };
-        };
     };
 }) => {
     return {
-        selectedItem: state.list.selectedItem,
-        currentList: state.list.currentList,
-        lists: state.user.userInfo.lists
+        selectedItem: state.list.selectedItem
     };
 };
 

@@ -40,6 +40,7 @@ export const Count = styled.div`
     grid-column: 2 / 3;
     font-size: 1.4rem;
     font-weight: 700;
+    justify-self: end;
 `;
 
 export const Name = styled.p`

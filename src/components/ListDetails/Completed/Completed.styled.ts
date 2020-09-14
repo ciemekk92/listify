@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 export const Wrapper = styled.div`
     height: max-content;
@@ -7,4 +8,8 @@ export const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
     grid-column: 3 / 4;
+
+    @media only screen and ${device.mobileM} {
+        margin-right: 1rem;
+    }
 `;

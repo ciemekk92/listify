@@ -29,7 +29,7 @@ const ListPanel: React.FC<Props> = (props) => {
     } = props;
     const [isShown, setIsShown] = useState(false);
 
-    const deleteHandler = (event: React.SyntheticEvent) => {
+    const deleteHandler = () => {
         clickedDelete();
     };
 

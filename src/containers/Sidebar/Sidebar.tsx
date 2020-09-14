@@ -20,7 +20,7 @@ import ListPanel from '../../components/Sidebar/ListPanel/ListPanel';
 import AddNewList from '../../components/Sidebar/NewList/AddNewList';
 import { Item, List, Tag } from '../../types';
 import EditButton from '../../components/ListDetails/EditButton/EditButton';
-import { Home, Unread, Github, Mail, Tags } from '../../components/Icons';
+import { Unread, Github, Mail, Tags } from '../../components/Icons';
 import { CSSTransition } from 'react-transition-group';
 import '../../components/ListDetails/Transitions.css';
 import TagPanel from '../../components/Sidebar/TagPanel/TagPanel';
@@ -43,8 +43,6 @@ const Sidebar: React.FC<Props> = (props) => {
         open,
         setOpen
     } = props;
-
-    // TODO animation when changing from list to tag view
 
     const { handleClick } = useContext(hiddenListContext);
 
@@ -123,7 +121,7 @@ const Sidebar: React.FC<Props> = (props) => {
             }
             setTimeout(() => {
                 handleClick(false);
-            }, 500);
+            }, 400);
         }
     };
 
@@ -321,10 +319,15 @@ const Sidebar: React.FC<Props> = (props) => {
 
     const currentTagHandler = (tag: Tag) => {
         if (tag.id !== currentTag.id) {
+            handleClick(true);
             onSettingCurrentTag(tag);
-        }
-        if (selectedItem.id) {
-            onSettingSelectedItemEmpty();
+
+            if (selectedItem.id) {
+                onSettingSelectedItemEmpty();
+            }
+            setTimeout(() => {
+                handleClick(false);
+            }, 400);
         }
     };
 
@@ -441,16 +444,6 @@ const Sidebar: React.FC<Props> = (props) => {
                     />
                 </ButtonsContainer>
             </SidebarModal>
-            {/*TODO: Set correct routing here */}
-            <LabelPanel>
-                <Home
-                    size={24}
-                    color={'#3f72af'}
-                    title={'Home'}
-                    style={{ marginLeft: '2rem' }}
-                />
-                <p>Home</p>
-            </LabelPanel>
             <LabelPanel onClick={handleListVisibility}>
                 <Unread
                     size={24}
@@ -574,7 +567,7 @@ const Sidebar: React.FC<Props> = (props) => {
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    <p>GitHub Repository</p>
+                    <p>GitHub</p>
                 </a>
             </LabelPanel>
             <LabelPanel>

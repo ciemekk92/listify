@@ -9,13 +9,7 @@ import firebase from 'firebase/app';
 import CompletedButton from './CompletedButton/CompletedButton';
 
 const Completed: React.FC<PropsFromRedux> = (props) => {
-    const {
-        selectedItem,
-        currentList,
-        lists,
-        onGettingUserInfo,
-        onSelectingItem
-    } = props;
+    const { selectedItem, lists, onGettingUserInfo, onSelectingItem } = props;
 
     const editHandler = async (
         id: string,
@@ -35,28 +29,30 @@ const Completed: React.FC<PropsFromRedux> = (props) => {
         });
 
         try {
+            if (selectedItem.tag.name !== '') {
+                await docRef
+                    .update({
+                        [`tags.${selectedItem.tag.name}.items`]: firebase.firestore.FieldValue.arrayRemove(
+                            itemToRemove[0]
+                        )
+                    })
+                    .catch((error) => alertError(error));
+
+                await docRef
+                    .update({
+                        [`tags.${selectedItem.tag.name}.items`]: firebase.firestore.FieldValue.arrayUnion(
+                            editedCompletion
+                        )
+                    })
+                    .catch((error) => alertError(error));
+            }
+
             await docRef
                 .update({
                     [`${
                         completed ? keyCompleted : keyNotCompleted
                     }`]: firebase.firestore.FieldValue.arrayRemove(
                         itemToRemove[0]
-                    )
-                })
-                .catch((error) => alertError(error));
-
-            await docRef
-                .update({
-                    [`tags.${selectedItem.tag.name}.items`]: firebase.firestore.FieldValue.arrayRemove(
-                        itemToRemove[0]
-                    )
-                })
-                .catch((error) => alertError(error));
-
-            await docRef
-                .update({
-                    [`tags.${selectedItem.tag.name}.items`]: firebase.firestore.FieldValue.arrayUnion(
-                        editedCompletion
                     )
                 })
                 .catch((error) => alertError(error));
@@ -102,12 +98,11 @@ const Completed: React.FC<PropsFromRedux> = (props) => {
 };
 
 const mapStateToProps = (state: {
-    list: { selectedItem: Item; currentList: string };
+    list: { selectedItem: Item };
     user: { userInfo: { lists: any } };
 }) => {
     return {
         selectedItem: state.list.selectedItem,
-        currentList: state.list.currentList,
         lists: state.user.userInfo.lists
     };
 };

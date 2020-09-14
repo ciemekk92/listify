@@ -13,6 +13,7 @@ import Layout from '../../templates/Layout/Layout';
 import { auth } from '../../firebase/firebase';
 import { User } from 'firebase';
 import { alertError } from '../../shared/utility';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 const Landing = lazy(() => import('../Landing/Landing'));
 const List = lazy(() => import('../List/List'));
@@ -50,7 +51,7 @@ const App = (props: PropsFromRedux) => {
     return (
         <Router>
             <Layout user={currentUser}>
-                <Suspense fallback={'Loading...'}>
+                <Suspense fallback={<Spinner />}>
                     <Switch>
                         <Route exact path={landing}>
                             {currentUser ? (

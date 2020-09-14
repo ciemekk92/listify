@@ -76,6 +76,7 @@ const TagLayout: React.FC<Props> = (props) => {
                     classNames="move"
                     mountOnEnter
                     unmountOnExit
+                    in={hidden}
                 >
                     <ListItem
                         name={element.value}
@@ -129,9 +130,16 @@ const TagLayout: React.FC<Props> = (props) => {
     return (
         <Wrapper selected={selected} ref={topRef} adding={adding}>
             <ListContainer adding={adding}>
-                {showNotCompleted ? (
+                <CSSTransition
+                    in={showNotCompleted && !hidden}
+                    timeout={400}
+                    classNames="move"
+                    mountOnEnter
+                    unmountOnExit
+                >
                     <Heading3>Tasks not completed</Heading3>
-                ) : null}
+                </CSSTransition>
+
                 <TransitionGroup className={'list'}>
                     {!currentTag.items
                         ? null
@@ -139,7 +147,15 @@ const TagLayout: React.FC<Props> = (props) => {
                         ? null
                         : mapHandler(arrayNotCompleted, false)}
                 </TransitionGroup>
-                {showCompleted ? <Heading3>Completed tasks</Heading3> : null}
+                <CSSTransition
+                    in={showCompleted && !hidden}
+                    timeout={400}
+                    classNames="move"
+                    mountOnEnter
+                    unmountOnExit
+                >
+                    <Heading3>Completed tasks</Heading3>
+                </CSSTransition>
                 <TransitionGroup className={'list'}>
                     {!currentTag.items
                         ? null
@@ -148,6 +164,7 @@ const TagLayout: React.FC<Props> = (props) => {
                         : mapHandler(arrayCompleted, true)}
                 </TransitionGroup>
             </ListContainer>
+            <div ref={bottomRef} />
         </Wrapper>
     );
 };

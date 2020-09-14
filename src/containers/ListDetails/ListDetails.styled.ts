@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { device } from '../../templates/MediaQueries/MediaQueries';
 
 interface DetailsProps {
     readonly selected: boolean;
@@ -33,8 +32,10 @@ export const Wrapper = styled.div<DetailsProps>`
         display: none;
     }
 
-    @media only screen and ${device.tablet} {
+    @media only screen and (max-width: 56.25em) {
         margin: 1%;
+        height: ${(props) => (props.showingPlaceholder ? 0 : 'max-content')};
+        width: ${(props) => (props.showingPlaceholder ? 0 : '80%')};
     }
 
     & > div {

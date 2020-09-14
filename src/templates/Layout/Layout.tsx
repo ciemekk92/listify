@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { auth } from '../../firebase/firebase';
 import {
     Header,
@@ -14,21 +15,22 @@ import Modal from '../../components/UI/Modal/Modal';
 import Login from '../../views/Login/Login';
 import logoLarge from '../../assets/logo_large.png';
 import logo from '../../assets/logo.png';
+import { burgerContext } from '../../context/burgerContext';
+import Burger from '../../components/Sidebar/Burger/Burger';
 
 type LayoutProps = {
     user: any;
     children: any;
 };
 
-const Layout: React.FC<LayoutProps> = (props) => {
+const { Provider } = burgerContext;
+
+const Layout: React.FC<Props> = (props) => {
     const [openModal, setOpenModal] = useState(false);
     const [authType, setAuthType] = useState('login');
+    const [openSidebar, setOpenSidebar] = useState(false);
 
-    // TODO: Fix landing page, make it more friendly to the user
-    // TODO: Footer
-    // TODO: Mobile
-
-    const { user } = props;
+    const { user, mobile } = props;
 
     const openLogin = () => {
         setOpenModal(true);
@@ -44,10 +46,17 @@ const Layout: React.FC<LayoutProps> = (props) => {
         setOpenModal(false);
     };
 
+    const handleSidebarOpen = () => {
+        setOpenSidebar(!openSidebar);
+    };
+
     const handleSignOut = () => auth.signOut();
 
     const header = (
         <Header loggedIn={!!user}>
+            {mobile && !!user ? (
+                <Burger open={openSidebar} setOpen={handleSidebarOpen} />
+            ) : null}
             {user ? (
                 <HeaderLogo>
                     <img src={logo} alt={'Logo'} />
@@ -78,18 +87,36 @@ const Layout: React.FC<LayoutProps> = (props) => {
     );
 
     return (
-        <Wrapper loggedIn={!!user}>
-            <Modal open={openModal} modalClosed={closeLogin}>
-                <Login type={authType} modalClosed={closeLogin} />
-            </Modal>
-            {header}
-            {user ? (
-                <MainLoggedIn loggedIn={!!user}>{props.children}</MainLoggedIn>
-            ) : (
-                <MainNotLoggedIn>{props.children}</MainNotLoggedIn>
-            )}
-        </Wrapper>
+        <Provider value={{ openSidebar, handleSidebarOpen }}>
+            <Wrapper loggedIn={!!user}>
+                <Modal open={openModal} modalClosed={closeLogin}>
+                    <Login type={authType} modalClosed={closeLogin} />
+                </Modal>
+                {header}
+                {user ? (
+                    <MainLoggedIn loggedIn={!!user}>
+                        {props.children}
+                    </MainLoggedIn>
+                ) : (
+                    <MainNotLoggedIn>{props.children}</MainNotLoggedIn>
+                )}
+            </Wrapper>
+        </Provider>
     );
 };
 
-export default React.memo(Layout);
+const mapStateToProps = (state: {
+    user: {
+        mobile: boolean;
+    };
+}) => {
+    return {
+        mobile: state.user.mobile
+    };
+};
+
+const connector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux & LayoutProps;
+
+export default connector(React.memo(Layout));

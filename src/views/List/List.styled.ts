@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { device } from '../../templates/MediaQueries/MediaQueries';
 
 interface RowProps {
     readonly active?: boolean;
     readonly noMargin?: boolean;
+    readonly shown?: boolean;
 }
 
 export const Wrapper = styled.div`
@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    @media only screen and ${device.tablet} {
+    @media only screen and (max-width: 56.25em) {
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -39,17 +39,18 @@ export const ListWrapper = styled.div`
         display: none;
     }
 
-    @media only screen and ${device.tablet} {
-        margin: 1%;
+    @media only screen and (max-width: 56.25em) {
+        margin: 2rem 1rem 1rem 1rem;
         width: 80%;
         overflow: auto;
+        height: 100%;
     }
 `;
 
 export const Row = styled.div<RowProps>`
     width: 100%;
     height: max-content;
-    display: flex;
+    display: ${(props) => (props.shown ? 'none' : 'flex')};
     justify-content: space-between;
     align-items: center;
     margin: ${(props) => (props.noMargin ? '0' : '1rem 0')};
@@ -74,7 +75,7 @@ export const Placeholder = styled.div`
 
 export const PlaceholderList = styled.div`
     width: 45%;
-    height: 85vh;
+    height: 0;
     opacity: 0;
     z-index: 1000;
     position: relative;

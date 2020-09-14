@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { device } from '../../templates/MediaQueries/MediaQueries';
 
 interface SidebarProps {
     readonly open: boolean;
@@ -32,10 +31,10 @@ export const Bar = styled.div<SidebarProps>`
     z-index: 5;
     box-shadow: 1px 0 5px rgba(0, 0, 0, 0.2);
 
-    @media only screen and ${device.tablet} {
+    @media only screen and (max-width: 56.25em) {
         position: absolute;
         height: 100vh;
-        top: 0;
+        top: 10%;
         left: 0;
         transition: transform 0.4s ease-out;
         transform: ${({ open }) =>
@@ -56,7 +55,7 @@ export const ButtonsContainer = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-top: -0.5rem;
+    margin-top: 1rem;
 `;
 
 export const LabelPanel = styled.div`

@@ -1,14 +1,9 @@
 import styled from 'styled-components';
-import { device } from '../../templates/MediaQueries/MediaQueries';
 
 interface LayoutProps {
     readonly selected?: boolean;
     readonly color?: string;
     readonly adding?: boolean;
-}
-
-interface AddingProps {
-    readonly list?: boolean;
 }
 
 export const Wrapper = styled.div<LayoutProps>`
@@ -20,9 +15,7 @@ export const Wrapper = styled.div<LayoutProps>`
     z-index: 0;
     align-self: start;
 
-    @media only screen and ${device.tablet} {
-        margin: 1%;
-        width: 80%;
+    @media only screen and (max-width: 56.25em) {
         overflow: auto;
     }
 `;
@@ -73,12 +66,17 @@ export const Description = styled.p`
 
 export const ListContainer = styled.div<LayoutProps>`
     justify-content: center;
+    align-items: center;
     width: 100%;
     max-height: 100%;
     height: max-content;
     display: flex;
     flex-direction: column;
     color: black;
+
+    @media only screen and (max-width: 56.25em) {
+        padding-bottom: 2rem;
+    }
 `;
 
 export const Warning = styled.div`

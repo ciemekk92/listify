@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 import { device } from '../../../templates/MediaQueries/MediaQueries';
 
-interface NameProps {
-    readonly editing: boolean;
-}
-
 export const Wrapper = styled.div`
     width: 100%;
     height: max-content;

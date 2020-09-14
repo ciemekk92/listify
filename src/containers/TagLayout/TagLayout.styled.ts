@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { device } from '../../templates/MediaQueries/MediaQueries';
 
 interface LayoutProps {
     readonly selected?: boolean;
@@ -15,9 +14,7 @@ export const Wrapper = styled.div<LayoutProps>`
     z-index: 0;
     align-self: start;
 
-    @media only screen and ${device.tablet} {
-        margin: 1%;
-        width: 80%;
+    @media only screen and (max-width: 56.25em) {
         overflow: auto;
     }
 `;
