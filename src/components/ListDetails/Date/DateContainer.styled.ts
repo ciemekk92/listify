@@ -7,7 +7,7 @@ interface DateProps {
 export const Wrapper = styled.div<DateProps>`
     width: 100%;
     height: max-content;
-
+    max-height: 30rem;
     display: flex;
     flex-direction: column;
     transition: all 0.4s ease;

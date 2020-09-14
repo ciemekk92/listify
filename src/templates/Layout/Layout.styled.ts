@@ -94,6 +94,12 @@ export const HeaderLogo = styled.div`
             width: 100%;
         }
     }
+
+    @media only screen and (max-height: 560px) {
+        & > img {
+            width: 55%;
+        }
+    }
 `;
 
 export const MainNotLoggedIn = styled.main`

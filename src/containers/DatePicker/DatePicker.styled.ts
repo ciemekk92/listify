@@ -23,8 +23,4 @@ export const Wrapper = styled.div<PickerProps>`
             ? 'grid-area: input'
             : 'grid-row: 1 / 2; grid-column: 2 / 3'};
     transition: all 0.4s ease;
-
-    @media only screen and ${device.tablet} {
-        height: 2rem;
-    }
 `;

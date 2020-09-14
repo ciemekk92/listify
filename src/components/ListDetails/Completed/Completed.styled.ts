@@ -10,6 +10,6 @@ export const Wrapper = styled.div`
     grid-column: 3 / 4;
 
     @media only screen and ${device.mobileM} {
-        margin-right: 1rem;
+        margin-right: 2rem;
     }
 `;
