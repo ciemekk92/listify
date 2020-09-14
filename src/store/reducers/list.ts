@@ -5,12 +5,26 @@ import { listState, ListActionTypes } from '../types/types';
 const initialState: listState = {
     date: null,
     currentList: null,
+    currentTag: {
+        name: '',
+        id: '',
+        color: '',
+        items: []
+    },
+    currentColor: '#2196F3',
     selectedItem: {
         id: null,
         value: '',
         date: null,
         completed: false,
-        notes: []
+        notes: [],
+        tag: {
+            name: '',
+            id: '',
+            color: '',
+            items: []
+        },
+        list: ''
     },
     changedDate: null
 };
@@ -23,7 +37,21 @@ const setSelectedDate = (state: listState, action: any) => {
 
 const setCurrentList = (state: listState, action: any) => {
     return updateObject(state, {
-        currentList: action.currentList
+        currentList: action.currentList,
+        currentTag: initialState.currentTag
+    });
+};
+
+const setCurrentTag = (state: listState, action: any) => {
+    return updateObject(state, {
+        currentList: null,
+        currentTag: action.currentTag
+    });
+};
+
+const setCurrentColor = (state: listState, action: any) => {
+    return updateObject(state, {
+        currentColor: action.currentColor
     });
 };
 
@@ -57,6 +85,10 @@ const reducer = (state = initialState, action: ListActionTypes) => {
             return setSelectedDate(state, action);
         case actionTypes.SET_CURRENT_LIST:
             return setCurrentList(state, action);
+        case actionTypes.SET_CURRENT_TAG:
+            return setCurrentTag(state, action);
+        case actionTypes.SET_CURRENT_COLOR:
+            return setCurrentColor(state, action);
         case actionTypes.SET_SELECTED_ITEM:
             return setSelectedItem(state, action);
         case actionTypes.SET_CHANGED_DATE:

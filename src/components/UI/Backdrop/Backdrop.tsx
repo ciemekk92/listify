@@ -13,7 +13,7 @@ const View = styled.div<BackdropProps>`
     left: 0;
     top: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    opacity: ${(props) => (props.show ? 1 : 0)};
+    opacity: ${(props) => (props.show ? '1' : '0')};
     transition: all 0.4s ease-out;
 `;
 

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { auth } from '../../firebase/firebase';
 import {
     Header,
+    HeaderLogo,
     LoginContainer,
     Logo,
     MainLoggedIn,
@@ -12,16 +14,23 @@ import LoginButton from '../../components/Login/LoginButton/LoginButton';
 import Modal from '../../components/UI/Modal/Modal';
 import Login from '../../views/Login/Login';
 import logoLarge from '../../assets/logo_large.png';
+import logo from '../../assets/logo.png';
+import { burgerContext } from '../../context/burgerContext';
+import Burger from '../../components/Sidebar/Burger/Burger';
 
 type LayoutProps = {
     user: any;
+    children: any;
 };
 
-const Layout: React.FC<LayoutProps> = (props) => {
+const { Provider } = burgerContext;
+
+const Layout: React.FC<Props> = (props) => {
     const [openModal, setOpenModal] = useState(false);
     const [authType, setAuthType] = useState('login');
+    const [openSidebar, setOpenSidebar] = useState(false);
 
-    const { user } = props;
+    const { user, mobile } = props;
 
     const openLogin = () => {
         setOpenModal(true);
@@ -37,52 +46,77 @@ const Layout: React.FC<LayoutProps> = (props) => {
         setOpenModal(false);
     };
 
+    const handleSidebarOpen = () => {
+        setOpenSidebar(!openSidebar);
+    };
+
     const handleSignOut = () => auth.signOut();
 
     const header = (
         <Header loggedIn={!!user}>
+            {mobile && !!user ? (
+                <Burger open={openSidebar} setOpen={handleSidebarOpen} />
+            ) : null}
             {user ? (
-                <LoginContainer>
+                <HeaderLogo>
+                    <img src={logo} alt={'Logo'} />
+                </HeaderLogo>
+            ) : null}
+            <LoginContainer>
+                {user ? (
                     <LoginButton login={false} clicked={handleSignOut}>
                         Logout
                     </LoginButton>
-                </LoginContainer>
-            ) : (
-                <>
-                    <LoginContainer>
+                ) : (
+                    <>
                         <LoginButton login clicked={openLogin}>
                             Login
                         </LoginButton>
                         <LoginButton login={false} clicked={openSignUp}>
                             Sign up
                         </LoginButton>
-                    </LoginContainer>
-                    <Logo>
-                        <img src={logoLarge} alt={'Logo'} />
-                    </Logo>
-                </>
+                    </>
+                )}
+            </LoginContainer>
+            {user ? null : (
+                <Logo>
+                    <img src={logoLarge} alt={'Logo'} />
+                </Logo>
             )}
         </Header>
     );
 
     return (
-        <Wrapper>
-            <Modal open={openModal} modalClosed={closeLogin}>
-                <Login type={authType} modalClosed={closeLogin} />
-            </Modal>
-            {user ? (
-                <MainLoggedIn loggedIn={!!user}>
-                    {header}
-                    {props.children}
-                </MainLoggedIn>
-            ) : (
-                <MainNotLoggedIn>
-                    {header}
-                    {props.children}
-                </MainNotLoggedIn>
-            )}
-        </Wrapper>
+        <Provider value={{ openSidebar, handleSidebarOpen }}>
+            <Wrapper loggedIn={!!user}>
+                <Modal open={openModal} modalClosed={closeLogin}>
+                    <Login type={authType} modalClosed={closeLogin} />
+                </Modal>
+                {header}
+                {user ? (
+                    <MainLoggedIn loggedIn={!!user}>
+                        {props.children}
+                    </MainLoggedIn>
+                ) : (
+                    <MainNotLoggedIn>{props.children}</MainNotLoggedIn>
+                )}
+            </Wrapper>
+        </Provider>
     );
 };
 
-export default Layout;
+const mapStateToProps = (state: {
+    user: {
+        mobile: boolean;
+    };
+}) => {
+    return {
+        mobile: state.user.mobile
+    };
+};
+
+const connector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux & LayoutProps;
+
+export default connector(React.memo(Layout));

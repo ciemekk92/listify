@@ -1,0 +1,23 @@
+.height-enter {
+    max-height: 0;
+    opacity: 0;
+}
+
+/*noinspection CssUnusedSymbol*/
+.height-enter-active {
+    max-height: 15rem;
+    opacity: 1;
+    transition: all 400ms ease;
+}
+
+.height-exit {
+    opacity: 1;
+    max-height: 15rem;
+}
+
+/*noinspection CssUnusedSymbol*/
+.height-exit-active {
+    opacity: 0;
+    max-height: 0;
+    transition: all 400ms ease;
+}

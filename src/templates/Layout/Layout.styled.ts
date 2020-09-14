@@ -5,28 +5,37 @@ interface LayoutProps {
     readonly loggedIn: boolean;
 }
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<LayoutProps>`
     width: 100%;
-    height: 100%;
+    height: max-content;
     overflow: hidden;
+
+    ${(props) =>
+        props.loggedIn
+            ? "display: grid;\n    grid-template-rows: 10vh;\n    grid-template-areas: 'header';"
+            : null}
 `;
 
 export const Header = styled.div<LayoutProps>`
     width: 100%;
-    margin: 1% 0;
     display: grid;
-    grid-template-rows: ${(props) => (props.loggedIn ? '100%' : '3fr 7fr')};
-    grid-template-columns: 20% auto 10% 10%;
-    grid-template-areas: '. . login login' '. logo . .';
+    grid-template-rows: 10vh;
+    grid-template-columns: 30% 1fr 15% 15%;
+    grid-template-areas: ${(props) =>
+        props.loggedIn
+            ? "'burger logo . login'"
+            : "'burger logo login login' "};
+    grid-area: header;
+    background-color: ${(props) =>
+        props.loggedIn ? '#f2f5fa' : 'transparent'};
+    ${(props) =>
+        props.loggedIn ? 'box-shadow: 0 0.3rem 2rem rgba(0, 0, 0, 0.2)' : null};
+    z-index: 10;
+    justify-items: center;
+    align-items: center;
 
     @media only screen and ${device.laptop} {
-        grid-template-columns: 20% auto 20% 20%;
-        grid-template-areas: '. . login login' 'logo logo logo logo';
-        row-gap: 10%;
-    }
-
-    @media only screen and ${device.tablet} {
-        row-gap: 15%;
+        grid-template-areas: 'burger . login login' 'logo logo logo logo';
     }
 `;
 
@@ -51,6 +60,11 @@ export const Logo = styled.div`
 
     & > img {
         width: 30%;
+        margin-top: 3rem;
+
+        @media only screen and (max-height: 601px) {
+            width: 20%;
+        }
 
         @media only screen and ${device.mobileL} {
             width: 50%;
@@ -58,28 +72,51 @@ export const Logo = styled.div`
     }
 `;
 
-export const MainNotLoggedIn = styled.main`
+export const HeaderLogo = styled.div`
+    grid-area: logo;
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+    place-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
     width: 100%;
-    height: 100vh;
-    background-color: #dbe2ef;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1.5fr 8.5fr;
-    gap: 1px 1px;
-    grid-template-areas: 'header' 'main';
+
+    @media only screen and ${device.tablet} {
+        & > img {
+            width: 80%;
+        }
+    }
+
+    @media only screen and ${device.mobileL} {
+        & > img {
+            width: 100%;
+        }
+    }
+`;
+
+export const MainNotLoggedIn = styled.main`
+    margin-top: 2rem;
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
 `;
 
 export const MainLoggedIn = styled.main<LayoutProps>`
-    min-height: 100vh;
+    min-height: 90vh;
     width: 85%;
     margin-left: 15%;
+    height: 90vh;
     background-color: #dbe2ef;
     display: flex;
     flex-direction: column;
 
-    @media only screen and ${device.tablet} {
+    @media only screen and (max-width: 56.25em) {
         width: 100%;
         margin: 0;
+        height: max-content;
     }
 `;
 

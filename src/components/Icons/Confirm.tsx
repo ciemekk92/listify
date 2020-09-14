@@ -1,5 +1,5 @@
 import React from 'react';
-import { SVG } from '../../types/SVG';
+import { SVG } from '../../types';
 
 export const Confirm: React.FC<SVG> = (props) => {
     const { size, title, color } = props;

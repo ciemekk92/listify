@@ -13,6 +13,7 @@ import {
 } from './Landing.styled';
 
 import book from '../../assets/book.png';
+import Footer from '../../components/Footer/Footer';
 
 const Landing: React.FC = () => {
     return (
@@ -42,7 +43,11 @@ const Landing: React.FC = () => {
                     important tasks
                 </ListItem>
                 <ListItem>
-                    Edit any task on a fly with simple user interface
+                    Add a tag to any task to keep your tasks organized
+                </ListItem>
+                <ListItem>
+                    Edit any aspect of a task on a fly with simple user
+                    interface
                 </ListItem>
             </UnorderedList>
             <StartContainer>
@@ -58,13 +63,18 @@ const Landing: React.FC = () => {
                             </span>{' '}
                             ){' '}
                         </ListItem>
-                        <ListItem>Create your account and enjoy!</ListItem>
+                        <ListItem>
+                            Create your account and enjoy! You can use
+                            'phoney'😉 address, like
+                            somethingsomething(at)test.com
+                        </ListItem>
                     </OrderedList>
                 </Text>
                 <ImageBox>
                     <Image src={book} alt={'Book image'} />
                 </ImageBox>
             </StartContainer>
+            <Footer />
         </Wrapper>
     );
 };

@@ -1,6 +1,5 @@
 .list {
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,7 +13,7 @@
 /*noinspection CssUnusedSymbol*/
 .move-enter-active {
     opacity: 1;
-    transition: all 600ms ease-out;
+    transition: all 400ms ease-out;
 }
 
 .move-exit {
@@ -24,5 +23,52 @@
 /*noinspection CssUnusedSymbol*/
 .move-exit-active {
     opacity: 0;
-    transition: all 600ms ease-out;
+    transition: all 400ms ease-out;
+}
+
+/*noinspection CssUnusedSymbol*/
+.add-enter {
+    opacity: 0;
+}
+
+/*noinspection CssUnusedSymbol*/
+.add-enter-active {
+    opacity: 1;
+    transition: all 400ms ease-out;
+}
+
+.add-exit {
+    opacity: 1;
+}
+
+/*noinspection CssUnusedSymbol*/
+.add-exit-active {
+    display: none;
+    opacity: 0;
+    transition: all 400ms ease-out;
+}
+
+/*noinspection CssUnusedSymbol*/
+.container-height-enter {
+    max-height: 0;
+    opacity: 0;
+}
+
+/*noinspection CssUnusedSymbol*/
+.container-height-enter-active {
+    max-height: 25rem;
+    opacity: 1;
+    transition: all 400ms ease;
+}
+
+.container-height-exit {
+    max-height: 25rem;
+    opacity: 1;
+}
+
+/*noinspection CssUnusedSymbol*/
+.container-height-exit-active {
+    max-height: 0;
+    opacity: 0;
+    transition: all 400ms ease;
 }

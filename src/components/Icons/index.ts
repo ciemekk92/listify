@@ -6,3 +6,8 @@ export { Delete } from './Delete';
 export { CheckBoxChecked } from './CheckBoxChecked';
 export { CheckBoxEmpty } from './CheckBoxEmpty';
 export { ArrowUp } from './ArrowUp';
+export { Home } from './Home';
+export { Unread } from './Unread';
+export { Mail } from './Mail';
+export { Github } from './Github';
+export { Tags } from './Tags';

@@ -2,11 +2,12 @@
 .cell {
     border: 1px solid black;
     border-radius: 3px;
-    height: 30px;
+    height: 1.8rem;
     font-family: arial, helvetica, sans-serif;
-    font-size: 16px;
+    font-size: 1.4rem;
     cursor: default;
-    transition: all 0.4s ease;
+    transition: all 0.2s ease;
+    outline: none;
 }
 
 /*noinspection ALL*/
@@ -30,10 +31,14 @@
     border-radius: 0 0 10px 10px;
     border: 1px solid black;
     border-spacing: 5px;
+    outline: none;
+}
+
+.week {
 }
 
 @media only screen and (max-width: 475px) {
     .cell {
-        font-size: 14px;
+        font-size: 1.4rem;
     }
 }

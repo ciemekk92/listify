@@ -4,7 +4,7 @@ import { auth, createUserDoc } from '../../firebase/firebase';
 import LoginInput from '../../components/Login/LoginInput/LoginInput';
 import ModalButton from '../../components/UI/ModalButton/ModalButton';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import { updateObject } from '../../shared/utility';
+import { alertError, updateObject } from '../../shared/utility';
 import { Warning, Wrapper } from './Login.styled';
 
 const Login = (props: { type: string; modalClosed(): void }) => {
@@ -53,9 +53,7 @@ const Login = (props: { type: string; modalClosed(): void }) => {
                 if (response.user) {
                     localStorage.setItem('currentUser', response.user.uid);
                 } else {
-                    alert(
-                        'Oops! Something went wrong! Try refreshing the page.'
-                    );
+                    alertError('');
                 }
                 setLoading(false);
                 modalClosed();
@@ -83,7 +81,7 @@ const Login = (props: { type: string; modalClosed(): void }) => {
                     `Your email or password is incorrect, please check your data, ${error}`
                 );
             });
-        await createUserDoc(user, email).then((response) => {
+        await createUserDoc(user, email).then(() => {
             setLoading(false);
             modalClosed();
             history.push('/list');

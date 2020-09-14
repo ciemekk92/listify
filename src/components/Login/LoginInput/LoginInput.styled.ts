@@ -1,22 +1,17 @@
 import styled from 'styled-components';
-import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 export const TextInput = styled.input`
     width: 80%;
-    height: 30px;
+    height: 3rem;
     outline: none;
-    border-radius: 5px;
     font-family: 'Open Sans Condensed', sans-serif;
-    font-size: 1rem;
+    font-size: 1.6rem;
     text-align: center;
-    margin: 0 auto 1% auto;
+    border: none;
+    border-bottom: 2px solid #3f72af;
 
     @media only screen and (min-width: 2200px) {
-        height: 40px;
+        height: 4rem;
         font-size: 2rem;
-    }
-
-    @media only screen and ${device.mobileM} {
-        font-size: 0.9rem;
     }
 `;

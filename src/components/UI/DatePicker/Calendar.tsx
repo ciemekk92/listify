@@ -41,8 +41,9 @@ const Calendar = (props: {
     date: string;
     handleSelectDate(date: Date | string): void;
     closeCalendar(): void;
+    details: boolean;
 }) => {
-    const { date, handleSelectDate, closeCalendar } = props;
+    const { details, date, handleSelectDate, closeCalendar } = props;
     const [selectedDate, setSelectedDate] = useState(new Date(date));
 
     const setPreviousMonth = () => {
@@ -169,7 +170,7 @@ const Calendar = (props: {
     useOutsideClick(wrapperRef, closeCalendar);
 
     return (
-        <Wrapper ref={wrapperRef}>
+        <Wrapper details={details} ref={wrapperRef}>
             <Title>
                 <Icons>
                     <IconContainer
