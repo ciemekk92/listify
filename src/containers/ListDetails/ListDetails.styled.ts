@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from '../../templates/MediaQueries/MediaQueries';
 
 interface DetailsProps {
     readonly selected: boolean;
@@ -33,7 +34,7 @@ export const Wrapper = styled.div<DetailsProps>`
     }
 
     @media only screen and (max-width: 56.25em) {
-        margin: 1%;
+        margin: 1rem 0 2rem 0;
         height: ${(props) => (props.showingPlaceholder ? 0 : 'max-content')};
         width: ${(props) => (props.showingPlaceholder ? 0 : '80%')};
     }
@@ -51,6 +52,10 @@ export const Row = styled.div`
     grid-template-columns: 20% 70% 10%;
     margin: 1rem 0;
     align-items: center;
+
+    @media only screen and ${device.tablet} {
+        margin: 1.5rem 0;
+    }
 `;
 
 export const RowWithCompletion = styled(Row)`

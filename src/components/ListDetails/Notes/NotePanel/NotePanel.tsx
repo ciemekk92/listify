@@ -29,7 +29,7 @@ const NotePanel: React.FC<NotePanelProps> = (props) => {
                     title={'Delete note'}
                     type="delete"
                     clicked={clickedDelete}
-                    size={20}
+                    size={16}
                 />
             </CSSTransition>
         </Panel>

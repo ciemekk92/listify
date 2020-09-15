@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 interface ItemProps {
     readonly completed: boolean;
@@ -37,6 +38,10 @@ export const Item = styled.div<ItemProps>`
     position: relative;
     font-weight: ${(props) => (props.selected ? 700 : 300)};
 
+    @media only screen and ${device.tablet} {
+        margin: ${(props) => (props.selected ? '1rem 0' : '0.5rem 0')};
+    }
+
     &::after {
         position: absolute;
         border-radius: 0.3rem;
@@ -57,11 +62,11 @@ export const Item = styled.div<ItemProps>`
     &:hover {
         background-color: ${(props) =>
             props.completed ? '#173d6a' : '#b7c6e0'};
-        margin: 1% 0;
+        margin: 1rem 0;
     }
 
     &:first-child:hover {
-        margin: 0.5% 0 1% 0;
+        margin: 0 0 1.5rem 0;
     }
 `;
 
