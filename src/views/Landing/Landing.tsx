@@ -60,13 +60,15 @@ const Landing: React.FC = () => {
                             default{' '}
                             <span role="img" aria-label="wink_emoji">
                                 😉
-                            </span>{' '}
+                            </span>
                             ){' '}
                         </ListItem>
                         <ListItem>
-                            Create your account and enjoy! You can use
-                            'phoney'😉 address, like
-                            somethingsomething(at)test.com
+                            Create your account and enjoy! You can use 'phoney'{' '}
+                            <span role="img" aria-label="wink_emoji">
+                                😉
+                            </span>{' '}
+                            address, like somethingsomething(at)test.com
                         </ListItem>
                     </OrderedList>
                 </Text>

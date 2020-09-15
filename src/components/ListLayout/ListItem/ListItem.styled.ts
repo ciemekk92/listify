@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { device } from '../../../templates/MediaQueries/MediaQueries';
 
 interface ItemProps {
     readonly completed: boolean;
@@ -37,10 +36,6 @@ export const Item = styled.div<ItemProps>`
     transition: all 0.4s ease;
     position: relative;
     font-weight: ${(props) => (props.selected ? 700 : 300)};
-
-    @media only screen and ${device.tablet} {
-        margin: ${(props) => (props.selected ? '1rem 0' : '0.5rem 0')};
-    }
 
     &::after {
         position: absolute;
